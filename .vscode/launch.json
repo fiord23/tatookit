@@ -1,0 +1,22 @@
+{
+
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "tatookit",
+                "type": "cortex-debug",
+                "request": "launch",
+                "cwd": "${workspaceRoot}",
+                "servertype": "openocd",
+                "executable": "./build/tatookit.elf",
+                "interface": "swd",
+                "svdFile": "STM32L4x1.svd",
+                "configFiles": [
+                    "interface/stlink.cfg",
+                    "target/stm32l4x.cfg"
+                ],
+                "preLaunchTask": "Build",
+            }
+        ]
+    }
+                                              

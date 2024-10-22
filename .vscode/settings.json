@@ -1,0 +1,8 @@
+{
+"isGitignoreExtActive": true,
+"cortex-debug.variableUseNaturalFormat": false,
+"files.associations": {
+    "stm32f103xb.h": "c",
+    "tim.h": "c"
+},
+}
