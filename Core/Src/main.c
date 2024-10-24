@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "display.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,6 +108,8 @@ int main(void)
    HAL_Delay(100);
   HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_SET);
   HAL_Delay(100);
+  uint8_t da = 0x55;
+  uint8_t co = 0xAA;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,10 +117,12 @@ int main(void)
   while (1)
   {
     
+    command(&da);
+    data(&co);
 
-    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), &regAddress, 1,  100);
-    HAL_I2C_Master_Receive(&hi2c3, (I2C_ADDRESS), &regData, 1,  100);
-    HAL_Delay(100);
+  //  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), &regAddress, 1,  100);
+  //  HAL_I2C_Master_Receive(&hi2c3, (I2C_ADDRESS), &regData, 1,  100);
+ //   HAL_Delay(100);
 
 
     /* USER CODE END WHILE */

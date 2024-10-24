@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccjlvQ20.s 			page 1
+ARM GAS  /tmp/cc0rWmr9.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
   28:Core/Src/spi.c **** 
   29:Core/Src/spi.c **** /* SPI1 init function */
   30:Core/Src/spi.c **** void MX_SPI1_Init(void)
-ARM GAS  /tmp/ccjlvQ20.s 			page 2
+ARM GAS  /tmp/cc0rWmr9.s 			page 2
 
 
   31:Core/Src/spi.c **** {
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
   66              		.loc 1 47 32 is_stmt 0 view .LVU16
   67 0022 2022     		movs	r2, #32
   68 0024 C261     		str	r2, [r0, #28]
-ARM GAS  /tmp/ccjlvQ20.s 			page 3
+ARM GAS  /tmp/cc0rWmr9.s 			page 3
 
 
   48:Core/Src/spi.c ****   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
  107 0044 00000000 		.word	hspi1
  108 0048 00300140 		.word	1073819648
  109              		.cfi_endproc
-ARM GAS  /tmp/ccjlvQ20.s 			page 4
+ARM GAS  /tmp/cc0rWmr9.s 			page 4
 
 
  110              	.LFE288:
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
   78:Core/Src/spi.c ****     PB3 (JTDO-TRACESWO)     ------> SPI1_SCK
   79:Core/Src/spi.c ****     PB5     ------> SPI1_MOSI
   80:Core/Src/spi.c ****     */
-ARM GAS  /tmp/ccjlvQ20.s 			page 5
+ARM GAS  /tmp/cc0rWmr9.s 			page 5
 
 
   81:Core/Src/spi.c ****     GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_5;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
  181              		.loc 1 76 5 view .LVU51
  182 0034 DA6C     		ldr	r2, [r3, #76]
  183 0036 42F00202 		orr	r2, r2, #2
-ARM GAS  /tmp/ccjlvQ20.s 			page 6
+ARM GAS  /tmp/cc0rWmr9.s 			page 6
 
 
  184 003a DA64     		str	r2, [r3, #76]
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
   90:Core/Src/spi.c ****   /* USER CODE BEGIN SPI1_MspInit 1 */
  223              		.loc 1 90 5 view .LVU67
  224 0068 2320     		movs	r0, #35
-ARM GAS  /tmp/ccjlvQ20.s 			page 7
+ARM GAS  /tmp/cc0rWmr9.s 			page 7
 
 
  225 006a FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
  111:Core/Src/spi.c ****     */
  112:Core/Src/spi.c ****     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_3|GPIO_PIN_5);
  113:Core/Src/spi.c **** 
-ARM GAS  /tmp/ccjlvQ20.s 			page 8
+ARM GAS  /tmp/cc0rWmr9.s 			page 8
 
 
  114:Core/Src/spi.c ****     /* SPI1 interrupt Deinit */
@@ -478,29 +478,29 @@ ARM GAS  /tmp/ccjlvQ20.s 			page 1
  308              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
  309              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
  310              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
-ARM GAS  /tmp/ccjlvQ20.s 			page 9
+ARM GAS  /tmp/cc0rWmr9.s 			page 9
 
 
  311              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
  312              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_cortex.h"
  313              		.file 9 "Core/Inc/spi.h"
  314              		.file 10 "Core/Inc/main.h"
-ARM GAS  /tmp/ccjlvQ20.s 			page 10
+ARM GAS  /tmp/cc0rWmr9.s 			page 10
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 spi.c
-     /tmp/ccjlvQ20.s:21     .text.MX_SPI1_Init:00000000 $t
-     /tmp/ccjlvQ20.s:27     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
-     /tmp/ccjlvQ20.s:107    .text.MX_SPI1_Init:00000044 $d
-     /tmp/ccjlvQ20.s:302    .bss.hspi1:00000000 hspi1
-     /tmp/ccjlvQ20.s:113    .text.HAL_SPI_MspInit:00000000 $t
-     /tmp/ccjlvQ20.s:119    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
-     /tmp/ccjlvQ20.s:232    .text.HAL_SPI_MspInit:00000070 $d
-     /tmp/ccjlvQ20.s:238    .text.HAL_SPI_MspDeInit:00000000 $t
-     /tmp/ccjlvQ20.s:244    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
-     /tmp/ccjlvQ20.s:291    .text.HAL_SPI_MspDeInit:00000028 $d
-     /tmp/ccjlvQ20.s:299    .bss.hspi1:00000000 $d
+     /tmp/cc0rWmr9.s:21     .text.MX_SPI1_Init:00000000 $t
+     /tmp/cc0rWmr9.s:27     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
+     /tmp/cc0rWmr9.s:107    .text.MX_SPI1_Init:00000044 $d
+     /tmp/cc0rWmr9.s:302    .bss.hspi1:00000000 hspi1
+     /tmp/cc0rWmr9.s:113    .text.HAL_SPI_MspInit:00000000 $t
+     /tmp/cc0rWmr9.s:119    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
+     /tmp/cc0rWmr9.s:232    .text.HAL_SPI_MspInit:00000070 $d
+     /tmp/cc0rWmr9.s:238    .text.HAL_SPI_MspDeInit:00000000 $t
+     /tmp/cc0rWmr9.s:244    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
+     /tmp/cc0rWmr9.s:291    .text.HAL_SPI_MspDeInit:00000028 $d
+     /tmp/cc0rWmr9.s:299    .bss.hspi1:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_SPI_Init

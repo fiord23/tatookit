@@ -41,6 +41,7 @@ Core/Src/gpio.c \
 Core/Src/adc.c \
 Core/Src/i2c.c \
 Core/Src/spi.c \
+Core/Src/display.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
