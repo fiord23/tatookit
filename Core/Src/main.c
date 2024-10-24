@@ -35,7 +35,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define I2C_ADDRESS    0x60
+#define I2C_ID_ADDRESS                                           0x0D
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,6 +47,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t data_config4[2] = {0x0D, 0x30};
+uint8_t data_config0[2] = {0x09, 0xE0};
+uint8_t regData = 0;
+uint8_t regAddress = I2C_ID_ADDRESS;
+uint8_t pmode = 0x30;
 
 /* USER CODE END PV */
 
@@ -93,13 +99,28 @@ int main(void)
   MX_I2C3_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_RESET);
+  HAL_Delay(100);
+  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config4, 2,  100);
+  HAL_Delay(100);
+  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0, 2,  100);
+   HAL_Delay(100);
+  HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_SET);
+  HAL_Delay(100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    
+
+    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), &regAddress, 1,  100);
+    HAL_I2C_Master_Receive(&hi2c3, (I2C_ADDRESS), &regData, 1,  100);
+    HAL_Delay(100);
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

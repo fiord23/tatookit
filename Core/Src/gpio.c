@@ -49,12 +49,13 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, POWER_ON_OFF_Pin|POWER_PWM_MODE_Pin|EN_IN1_Pin|PH_IN2_Pin
-                          |PB_CLR_Pin|POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, POWER_PWM_MODE_Pin|PH_IN2_Pin
+                          |POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
 
+  HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin | POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_SET);
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin
                            PAPin PAPin PAPin */
   GPIO_InitStruct.Pin = POWER_ON_OFF_Pin|POWER_PWM_MODE_Pin|EN_IN1_Pin|PH_IN2_Pin
