@@ -399,6 +399,8 @@ int main(void)
  // HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_SET);
   HAL_Delay(100);
   display_init();
+ // display_power_high();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

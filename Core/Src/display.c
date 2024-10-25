@@ -15,6 +15,16 @@ void command (uint8_t command)
 
 }
 
+void command_bi (uint8_t command1, uint8_t command2)
+{
+    uint8_t tcommand[] = {command1, command2};
+    display_command();
+    cs_low();
+    HAL_SPI_Transmit(&hspi1, tcommand, 2, 100);
+    cs_high(); 
+
+}
+
 void data (uint8_t data)
 {
     uint8_t tdata = data;
@@ -38,8 +48,7 @@ void display_init (void)
     display_power_high();
 
     command(0xae);//Set y Off
-    command(0xD5);//Set Display Clock Divide Ratio/Oscillator Frequency
-    command(0x11); 
+    command_bi(0xD5, 0x11);//Set Display Clock Divide Ratio/Oscillator Frequency
     command(0xA8);//Set Multiplex Ratio 
     command(0x47); 
     command(0xA2);//Set Display Start Line

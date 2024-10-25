@@ -17,6 +17,7 @@
 #define HEIGHT 72
 
 void command (uint8_t command);
+void command_bi (uint8_t command1, uint8_t command2);
 void data (uint8_t data);
 void display_init (void);
 void OLED_ColorTurn(uint8_t i);
