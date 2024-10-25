@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc1lck6D.s 			page 1
+ARM GAS  /tmp/ccWs3DXn.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
   28:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
   29:Core/Src/gpio.c **** /* Configure GPIO                                                             */
   30:Core/Src/gpio.c **** /*----------------------------------------------------------------------------*/
-ARM GAS  /tmp/cc1lck6D.s 			page 2
+ARM GAS  /tmp/ccWs3DXn.s 			page 2
 
 
   31:Core/Src/gpio.c **** /* USER CODE BEGIN 1 */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
   65 0022 019A     		ldr	r2, [sp, #4]
   66              	.LBE2:
   67              		.loc 1 48 3 view .LVU8
-ARM GAS  /tmp/cc1lck6D.s 			page 3
+ARM GAS  /tmp/ccWs3DXn.s 			page 3
 
 
   49:Core/Src/gpio.c ****   __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -142,11 +142,11 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
   52:Core/Src/gpio.c ****   HAL_GPIO_WritePin(GPIOA, POWER_PWM_MODE_Pin|PH_IN2_Pin
   83              		.loc 1 52 3 view .LVU15
   84 0036 2246     		mov	r2, r4
-  85 0038 40F20A71 		movw	r1, #1802
+  85 0038 40F20B71 		movw	r1, #1803
   86 003c 4FF09040 		mov	r0, #1207959552
   87 0040 FFF7FEFF 		bl	HAL_GPIO_WritePin
   88              	.LVL0:
-  53:Core/Src/gpio.c ****                           |POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin, GPIO_PIN_RESET);
+  53:Core/Src/gpio.c ****                           |POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin | POWER_ON_OFF_Pi
   54:Core/Src/gpio.c **** 
   55:Core/Src/gpio.c ****   /*Configure GPIO pin Output Level */
   56:Core/Src/gpio.c ****   HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
@@ -158,10 +158,10 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
   94 004c FFF7FEFF 		bl	HAL_GPIO_WritePin
   95              	.LVL1:
   57:Core/Src/gpio.c **** 
-  58:Core/Src/gpio.c ****   HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin | POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_SET);
+  58:Core/Src/gpio.c ****   HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin  |EN_IN1_Pin, GPIO_PIN_SET);
   96              		.loc 1 58 3 view .LVU17
   97 0050 0122     		movs	r2, #1
-  98 0052 1521     		movs	r1, #21
+  98 0052 1421     		movs	r1, #20
   99 0054 4FF09040 		mov	r0, #1207959552
  100 0058 FFF7FEFF 		bl	HAL_GPIO_WritePin
  101              	.LVL2:
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
  107              		.loc 1 63 24 is_stmt 0 view .LVU21
  108 0062 0127     		movs	r7, #1
  109 0064 0497     		str	r7, [sp, #16]
-ARM GAS  /tmp/cc1lck6D.s 			page 4
+ARM GAS  /tmp/ccWs3DXn.s 			page 4
 
 
   64:Core/Src/gpio.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
  149              		.loc 1 78 24 is_stmt 0 view .LVU41
  150 0094 0594     		str	r4, [sp, #20]
   79:Core/Src/gpio.c ****   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-ARM GAS  /tmp/cc1lck6D.s 			page 5
+ARM GAS  /tmp/ccWs3DXn.s 			page 5
 
 
  151              		.loc 1 79 3 is_stmt 1 view .LVU42
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
  190 00c2 09B0     		add	sp, sp, #36
  191              	.LCFI2:
  192              		.cfi_def_cfa_offset 20
-ARM GAS  /tmp/cc1lck6D.s 			page 6
+ARM GAS  /tmp/ccWs3DXn.s 			page 6
 
 
  193              		@ sp needed
@@ -315,14 +315,14 @@ ARM GAS  /tmp/cc1lck6D.s 			page 1
  205              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
  206              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
  207              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
-ARM GAS  /tmp/cc1lck6D.s 			page 7
+ARM GAS  /tmp/ccWs3DXn.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 gpio.c
-     /tmp/cc1lck6D.s:21     .text.MX_GPIO_Init:00000000 $t
-     /tmp/cc1lck6D.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-     /tmp/cc1lck6D.s:198    .text.MX_GPIO_Init:000000c8 $d
+     /tmp/ccWs3DXn.s:21     .text.MX_GPIO_Init:00000000 $t
+     /tmp/ccWs3DXn.s:27     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+     /tmp/ccWs3DXn.s:198    .text.MX_GPIO_Init:000000c8 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
