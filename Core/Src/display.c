@@ -8,8 +8,8 @@ extern SPI_HandleTypeDef hspi1;
 void command (uint8_t command)
 {
     uint8_t tcommand = command;
-    display_command();
     cs_low();
+    display_command();
     HAL_SPI_Transmit(&hspi1, &tcommand, 1, 100);
     cs_high(); 
 
@@ -28,8 +28,8 @@ void command_bi (uint8_t command1, uint8_t command2)
 void data (uint8_t data)
 {
     uint8_t tdata = data;
-    display_data();
     cs_low();
+    display_data();
     HAL_SPI_Transmit(&hspi1, &tdata, 1, 100);
     cs_high(); 
 
@@ -47,40 +47,58 @@ void display_init (void)
     HAL_Delay(10);
     display_power_high();
 
-    command(0xae);//Set y Off
-    command_bi(0xD5, 0x11);//Set Display Clock Divide Ratio/Oscillator Frequency
-    command(0xA8);//Set Multiplex Ratio 
-    command(0x47); 
-    command(0xA2);//Set Display Start Line
-    command(0x00); 
+    command(DISPLAYOFF);       // 0xAE - Display off
 
+    command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
+    command(0xC2);                     // 0xC2 - osc clock=0xC divide ratio = 0x2
 
-    command(0xD3);//Set Display Offset
-    command(0x74);
-    command(0xa1);//Set COM Output Scan Direction
-    command(0xC0); 
+    command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
+    command(0x1F);                     // 0x1F - 31
 
-    command(0xDA);//SetSEGPinsHardwareConfiguration
-    command(0x32);
-	
+    command(SETDISPLAYOFFSET); // 0xD3 - Display offset
+    command(0x60);                          // 0x60 - 96
 
-    command(0x81);//Set Contrast Control
-    command(0xdf);
+    command(SETSTARTLINE); // 0xA2 - Start line
+    command(0x00);                      // 0x00 - Line 0
 
-    command(0xD9);//SSet Pre-Charge Priod
-    command(0x72);
-    command(0xDB);//Set VCOMH Deselect Level 
-    command(0x20);
-	
-	
-    command(0xAD);//Set Internal IREF Enable
-    command(0x00);
-    command(0xBC);
-    command(0x1E); 
-	
-    command(0xA4);//Set Entire Display On/Off
-    command(0xA6);
-    command(0xaf);//Display on  
+    command(SETSEGREMAP);  // 0xA0 - Segment re-map
+
+    command(COMSCANINC); // 0xC0 - COM Output scan direction
+
+    command(SETCOMPINS); // 0xDA - seg pins hardware config
+    command(0x12);                       // 0x12 -
+
+    command(SETCONTRAST);    // 0x81 - Contrast control
+    command(0xFF);                       // 0x5A - value between 0x00 and 0xFF
+
+    command(SETPHASELENGTH); // 0xD9 - Pre-charge period
+    command(0x22);                       // 0x22
+
+    command(SETVCOMDESELECT);   // 0xDB - VCOMH Deselect level
+    command(0x30);                       // 0x30
+
+    command(SELECTIREF);     // 0xAD - Internal IREF Enable
+    command(0x10);                       // 0x10
+
+    command(MEMORYMODE); // 0x20 - Memory addressing mode
+    command(0x00);                        // 0x00 - Horizontal
+
+  // disable internal charge pump
+    command(SETCHARGEPMP1); // 0x8D - Internal charge pump
+    command(0x01);                           // 0x01
+    command(SETCHARGEPMP2); // 0xAC - Internal charge pump
+    command(0x00);                           // 0x00
+
+  // set entire display on/off
+  //  command(RESETALLON);      // 0xA4 - Display on
+
+  // set normal/inverse display
+    command(RESETINVERT);  // 0xA6 - Normal display (not inverted)
+
+  // display on
+    command(DISPLAYON);         // 0xAF - Display on
+    setColumnAddress(0);
+    setRowAddress(0);
 
 }
 
@@ -130,3 +148,16 @@ void er_oled_bitmap(const uint8_t * pBuf)
   }    	
 }
 
+void setColumnAddress(uint8_t address) {
+  command(SETCOLUMN); // Set column address
+  command(address); //Set start address
+  command(WIDTH - 1); //There are 160 pixels but each byte is 2 pixels. We want addresses 0 to 79.
+  return;
+}
+
+void setRowAddress(uint8_t address) {
+  command(SETROW); // Set row address
+  command(address); //Set start address
+  command(HEIGHT - 1); //Set end address: Display has 32 rows of pixels.
+  return;
+}

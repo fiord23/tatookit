@@ -13,6 +13,59 @@
 #define OLED_X_MAXPIXEL 128  //OLED width maximum memory 
 #define OLED_Y_MAXPIXEL  72 //OLED height maximum memory
 
+
+#define BLACK 0
+#define WHITE 1
+
+#define FONTHEADERSIZE    6
+
+#define NORM        0
+#define XOR         1
+
+#define CLEAR_ALL         0
+#define CLEAR_DISPLAY     1
+#define CLEAR_BUFFER      2
+
+#define MEMORYMODE          0x20
+#define SETCOLUMN           0x21
+#define SETROW              0x22
+#define SETPORTRAIT         0x25
+#define SETCONTRAST         0x81
+#define SETCHARGEPMP1       0x8D
+#define SETSEGREMAP         0xA0
+#define SETSTARTLINE        0xA2
+#define RESETALLON          0xA4
+#define DISPLAYALLON        0xA5
+#define RESETINVERT         0xA6
+#define INVERTDISPLAY       0xA7
+#define SETMULTIPLEX        0xA8
+#define SETCHARGEPMP2       0xAC
+#define SELECTIREF          0xAD
+#define DISPLAYOFF          0xAE
+#define DISPLAYON           0xAF
+#define SETPRECHARGE        0xBC
+#define SETGSTABLE          0xBE
+#define SETDEFAULTTABLE     0xBF
+#define COMSCANINC          0xC0
+#define COMSCANDEC          0xC8
+#define SETDISPLAYOFFSET    0xD3
+#define SETDISPLAYCLOCKDIV  0xD5
+#define SETPHASELENGTH      0xD9
+#define SETCOMPINS          0xDA
+#define SETVCOMDESELECT     0xDB
+#define SETCOMMANDLOCK      0xFD
+
+// Scroll - It's not documented in the SSD1320 doc but we
+// guessed at it from the SSD1306 doc (see MicroOLED product).
+#define ACTIVATESCROLL                0x2F
+#define DEACTIVATESCROLL              0x2E
+#define SETVERTICALSCROLLAREA         0xA3
+#define RIGHTHORIZONTALSCROLL         0x26
+#define LEFTHORIZONTALSCROLL          0x27
+#define VERTICALRIGHTHORIZONTALSCROLL 0x29
+#define VERTICALLEFTHORIZONTALSCROLL  0x2A
+
+
 #define WIDTH 128/2
 #define HEIGHT 72
 
@@ -24,5 +77,7 @@ void OLED_ColorTurn(uint8_t i);
 void er_oled_SetWindow(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend);
 void er_oled_clear(uint8_t a);
 void er_oled_bitmap(const uint8_t * pBuf);
+void setColumnAddress(uint8_t address);
+void setRowAddress(uint8_t address) ;
 
 #endif
