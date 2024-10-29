@@ -409,12 +409,12 @@ int main(void)
   {
     er_oled_clear(0x00); 
     er_oled_bitmap(PIC1);
-    HAL_Delay(3000); 
+    HAL_Delay(1000); 
     OLED_ColorTurn(0);
-    HAL_Delay(3000);   
+    HAL_Delay(1000);   
     OLED_ColorTurn(1); 
-    er_oled_clear(0xaa);
-    HAL_Delay(3000); 
+    er_oled_clear(0x55);
+    HAL_Delay(1000); 
 
 
   //  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), &regAddress, 1,  100);
