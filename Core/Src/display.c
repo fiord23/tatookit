@@ -50,7 +50,7 @@ void display_init (void)
     command(DISPLAYOFF);       // 0xAE - Display off
 
     command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
-    command(0xC2);                     // 0xC2 - osc clock=0xC divide ratio = 0x2
+    command(0xC4);                     // 0xC2 - osc clock=0xC divide ratio = 0x2
 
     command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
     command(0x1F);                     // 0x1F - 31
@@ -66,19 +66,19 @@ void display_init (void)
     command(COMSCANINC); // 0xC0 - COM Output scan direction
 
     command(SETCOMPINS); // 0xDA - seg pins hardware config
-    command(0x12);                       // 0x12 -
+    command(0x32);                       // 0x12 -
 
     command(SETCONTRAST);    // 0x81 - Contrast control
     command(0xFF);                       // 0x5A - value between 0x00 and 0xFF
 
     command(SETPHASELENGTH); // 0xD9 - Pre-charge period
-    command(0x22);                       // 0x22
+    command(0xFF);                       // 0x22
 
     command(SETVCOMDESELECT);   // 0xDB - VCOMH Deselect level
     command(0x30);                       // 0x30
 
     command(SELECTIREF);     // 0xAD - Internal IREF Enable
-    command(0x10);                       // 0x10
+    command(0x00);                       // 0x10
 
     command(MEMORYMODE); // 0x20 - Memory addressing mode
     command(0x00);                        // 0x00 - Horizontal
@@ -87,10 +87,36 @@ void display_init (void)
     command(SETCHARGEPMP1); // 0x8D - Internal charge pump
     command(0x01);                           // 0x01
     command(SETCHARGEPMP2); // 0xAC - Internal charge pump
-    command(0x00);                           // 0x00
+    command(0x00);                    
+           // 0x00
+     command(0xD8);      
+     command(0xF5);
+
+     command(0xBC);      
+     command(0xFF);
+
+     command(0xBF);      
+
+
+     command(0xBE);      
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
+     command(0x7F);
 
   // set entire display on/off
-  //  command(RESETALLON);      // 0xA4 - Display on
+    command(RESETALLON);      // 0xA4 - Display on
 
   // set normal/inverse display
     command(RESETINVERT);  // 0xA6 - Normal display (not inverted)
