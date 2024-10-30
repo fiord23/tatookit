@@ -79,5 +79,8 @@ void er_oled_clear(uint8_t a);
 void er_oled_bitmap(const uint8_t * pBuf);
 void setColumnAddress(uint8_t address);
 void setRowAddress(uint8_t address) ;
+void display_demo (void);
+
+
 
 #endif

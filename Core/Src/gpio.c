@@ -20,7 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
-
+#include "stm32l4xx.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -94,5 +94,13 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-
+void button_interrupt_init (void)
+{
+  SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI1_Pos); //PB1
+  SYSCFG->EXTICR[1] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI2_Pos ); //PB6
+  EXTI->IMR1  |= (EXTI_IMR1_IM1 | EXTI_IMR1_IM6 );
+  EXTI->FTSR1 |= (EXTI_FTSR1_FT1 | EXTI_FTSR1_FT6);
+  NVIC_EnableIRQ(EXTI1_IRQn);
+  NVIC_EnableIRQ(EXTI9_5_IRQn);
+}
 /* USER CODE END 2 */

@@ -3,6 +3,7 @@
 "cortex-debug.variableUseNaturalFormat": false,
 "files.associations": {
     "stm32f103xb.h": "c",
-    "tim.h": "c"
+    "tim.h": "c",
+    "stm32l4xx_hal_spi.h": "c"
 },
 }

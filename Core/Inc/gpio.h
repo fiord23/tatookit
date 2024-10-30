@@ -27,9 +27,9 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "stm32l431xx.h"
 /* USER CODE BEGIN Includes */
-
+void button_interrupt_init (void);
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
