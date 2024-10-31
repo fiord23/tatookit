@@ -16,6 +16,10 @@
                     "target/stm32l4x.cfg"
                 ],
                 "preLaunchTask": "Build",
+                "liveWatch": {
+                    "enabled": true,
+                    "samplesPerSecond": 4
+                }
             }
         ]
     }

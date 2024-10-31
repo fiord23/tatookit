@@ -49,7 +49,7 @@
 /* USER CODE BEGIN PV */
 uint8_t data_config4[2] = {0x0D, 0x30};
 uint8_t data_config0[2] = {0x09, 0xE1};
-uint8_t data_config2[2] = {0x10, 2};
+uint8_t data_config2[2] = {0x10, 5}; //speed motor
 uint8_t regData = 0;
 uint8_t regAddress = I2C_ID_ADDRESS;
 uint8_t pmode = 0x30;
@@ -134,9 +134,9 @@ int main(void)
     {
       speed = 63;
     }
-    if (speed < 2)
+    if (speed < 3)
     {
-      speed = 2;
+      speed = 3;
     }
 
     data_config2[1] = speed;
@@ -202,19 +202,25 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void  EXTI1_IRQHandler (void)
+void  EXTI1_IRQHandler (void)    //PB1 BUTTON - 
 {
   EXTI->PR1 |= EXTI_PR1_PIF1;
   speed--;
 
 }
 
-void EXTI9_5_IRQHandler (void)
+void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
 {
-  EXTI->PR1 |= EXTI_PR1_PIF6;
+  EXTI->PR1 |= EXTI_PR1_PIF6; 
   speed ++;
+}
+
+void EXTI15_10_IRQHandler (void)
+{
+  EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
 
 }
+
 /* USER CODE END 4 */
 
 /**
