@@ -127,6 +127,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     HAL_GPIO_Init(POWER_ADC_GPIO_Port, &GPIO_InitStruct);
 
     /* ADC1 interrupt Init */
+    ADC1->IER |= ADC_IER_EOCIE;
     HAL_NVIC_SetPriority(ADC1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(ADC1_IRQn);
   /* USER CODE BEGIN ADC1_MspInit 1 */
@@ -163,5 +164,49 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
+
+void adc_init (void)
+{
+    RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; 
+    RCC->CCIPR |= RCC_CCIPR_ADCSEL_0 | RCC_CCIPR_ADCSEL_1;
+    // Ждем, пока ADC1 будет готов
+
+    ADC1->CR &= ~ADC_CR_ADEN; // Отключаем ADC
+    while (ADC1->CR & ADC_CR_ADEN); // Ждем, пока ADC отключится
+
+    ADC1_COMMON->CCR |= 0xB << 18; //ADC Prescaler
+    // Калибровка ADC
+   // ADC1->CR |= ADC_CR_ADCAL; // Запускаем калибровку
+    //while (ADC1->CR & ADC_CR_ADCAL); // Ждем завершения калибровки
+    HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+    // Настройка разрешения и режима работы
+    ADC1->CFGR |= ADC_CFGR_CONT; // Режим непрерывного преобразования
+    ADC1->SMPR2 |= 7 << 15; // 640.5 ADC clock cycles
+  // Настройка канала
+    ADC1->SQR1 &= ~ADC_SQR1_L; // Устанавливаем количество последовательных преобразований в 1
+    ADC1->SQR1 |= (15 << ADC_SQR1_SQ1_Pos); // Устанавливаем 15 канал в SQ1
+
+    // Включаем прерывания
+    ADC1->IER |= ADC_IER_EOCIE; //enable interrupt bit
+    //NVIC_EnableIRQ(ADC1_IRQn); // Разрешаем прерывание для ADC1
+    NVIC_EnableIRQ(ADC1_IRQn); 
+    ADC1->ISR |= ADC_ISR_ADRDY;
+   // ADC1->CR &= ~ADC_CR_ADDIS; // Отключаем ADC, если он был включен
+    ADC1->CR &= ~ADC_CR_DEEPPWD;
+    ADC1->CFGR |= ADC_CFGR_JQDIS;
+
+    // Включаем ADC
+//Enable ADC
+  ADC1->ISR |= ADC_ISR_ADRDY;  //Clear the ADRDY bit in the ADC_ISR register by writing ‘1’
+  ADC1->CR |= ADC_CR_ADEN; //Enable ADC
+  while(ADC1->ISR & ADC_ISR_ADRDY)
+  ;
+  ADC1->ISR |= ADC_ISR_ADRDY;
+  ADC1->CR |= ADC_CR_ADVREGEN;
+  HAL_Delay(10);
+  ADC1->CR |= ADC_CR_ADSTART;
+  HAL_Delay(10);
+}
+
 
 /* USER CODE END 1 */

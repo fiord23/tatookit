@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccfqtAPT.s 			page 1
+ARM GAS  /tmp/cchevGpS.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
   28:Core/Src/stm32l4xx_it.c **** /* USER CODE BEGIN TD */
   29:Core/Src/stm32l4xx_it.c **** 
   30:Core/Src/stm32l4xx_it.c **** /* USER CODE END TD */
-ARM GAS  /tmp/ccfqtAPT.s 			page 2
+ARM GAS  /tmp/cchevGpS.s 			page 2
 
 
   31:Core/Src/stm32l4xx_it.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
   36              		.loc 1 77 4 view .LVU1
   78:Core/Src/stm32l4xx_it.c ****   {
   79:Core/Src/stm32l4xx_it.c ****   }
-ARM GAS  /tmp/ccfqtAPT.s 			page 3
+ARM GAS  /tmp/cchevGpS.s 			page 3
 
 
   37              		.loc 1 79 3 view .LVU2
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
   98:Core/Src/stm32l4xx_it.c **** /**
   99:Core/Src/stm32l4xx_it.c ****   * @brief This function handles Memory management fault.
  100:Core/Src/stm32l4xx_it.c ****   */
-ARM GAS  /tmp/ccfqtAPT.s 			page 4
+ARM GAS  /tmp/cchevGpS.s 			page 4
 
 
  101:Core/Src/stm32l4xx_it.c **** void MemManage_Handler(void)
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  125:Core/Src/stm32l4xx_it.c ****   }
  106              		.loc 1 125 3 view .LVU14
  121:Core/Src/stm32l4xx_it.c ****   {
-ARM GAS  /tmp/ccfqtAPT.s 			page 5
+ARM GAS  /tmp/cchevGpS.s 			page 5
 
 
  107              		.loc 1 121 9 view .LVU15
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  146:Core/Src/stm32l4xx_it.c **** void SVC_Handler(void)
  147:Core/Src/stm32l4xx_it.c **** {
  144              		.loc 1 147 1 view -0
-ARM GAS  /tmp/ccfqtAPT.s 			page 6
+ARM GAS  /tmp/cchevGpS.s 			page 6
 
 
  145              		.cfi_startproc
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  169:Core/Src/stm32l4xx_it.c **** /**
  170:Core/Src/stm32l4xx_it.c ****   * @brief This function handles Pendable request for system service.
  171:Core/Src/stm32l4xx_it.c ****   */
-ARM GAS  /tmp/ccfqtAPT.s 			page 7
+ARM GAS  /tmp/cchevGpS.s 			page 7
 
 
  172:Core/Src/stm32l4xx_it.c **** void PendSV_Handler(void)
@@ -417,16 +417,16 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  214 0006 08BD     		pop	{r3, pc}
  215              		.cfi_endproc
  216              	.LFE296:
- 218              		.section	.text.ADC1_IRQHandler,"ax",%progbits
-ARM GAS  /tmp/ccfqtAPT.s 			page 8
+ 218              		.section	.text.SPI1_IRQHandler,"ax",%progbits
+ARM GAS  /tmp/cchevGpS.s 			page 8
 
 
  219              		.align	1
- 220              		.global	ADC1_IRQHandler
+ 220              		.global	SPI1_IRQHandler
  221              		.syntax unified
  222              		.thumb
  223              		.thumb_func
- 225              	ADC1_IRQHandler:
+ 225              	SPI1_IRQHandler:
  226              	.LFB297:
  195:Core/Src/stm32l4xx_it.c **** 
  196:Core/Src/stm32l4xx_it.c **** /******************************************************************************/
@@ -439,9 +439,23 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  203:Core/Src/stm32l4xx_it.c **** /**
  204:Core/Src/stm32l4xx_it.c ****   * @brief This function handles ADC1 global interrupt.
  205:Core/Src/stm32l4xx_it.c ****   */
- 206:Core/Src/stm32l4xx_it.c **** void ADC1_IRQHandler(void)
- 207:Core/Src/stm32l4xx_it.c **** {
- 227              		.loc 1 207 1 is_stmt 1 view -0
+ 206:Core/Src/stm32l4xx_it.c **** //void ADC1_IRQHandler(void)
+ 207:Core/Src/stm32l4xx_it.c **** //{
+ 208:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN ADC1_IRQn 0 */
+ 209:Core/Src/stm32l4xx_it.c **** 
+ 210:Core/Src/stm32l4xx_it.c ****   /* USER CODE END ADC1_IRQn 0 */
+ 211:Core/Src/stm32l4xx_it.c ****  // HAL_ADC_IRQHandler(&hadc1);
+ 212:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN ADC1_IRQn 1 */
+ 213:Core/Src/stm32l4xx_it.c **** 
+ 214:Core/Src/stm32l4xx_it.c ****   /* USER CODE END ADC1_IRQn 1 */
+ 215:Core/Src/stm32l4xx_it.c **** //}
+ 216:Core/Src/stm32l4xx_it.c **** 
+ 217:Core/Src/stm32l4xx_it.c **** /**
+ 218:Core/Src/stm32l4xx_it.c ****   * @brief This function handles SPI1 global interrupt.
+ 219:Core/Src/stm32l4xx_it.c ****   */
+ 220:Core/Src/stm32l4xx_it.c **** void SPI1_IRQHandler(void)
+ 221:Core/Src/stm32l4xx_it.c **** {
+ 227              		.loc 1 221 1 is_stmt 1 view -0
  228              		.cfi_startproc
  229              		@ args = 0, pretend = 0, frame = 0
  230              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -450,44 +464,44 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  233              		.cfi_def_cfa_offset 8
  234              		.cfi_offset 3, -8
  235              		.cfi_offset 14, -4
- 208:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN ADC1_IRQn 0 */
- 209:Core/Src/stm32l4xx_it.c **** 
- 210:Core/Src/stm32l4xx_it.c ****   /* USER CODE END ADC1_IRQn 0 */
- 211:Core/Src/stm32l4xx_it.c ****   HAL_ADC_IRQHandler(&hadc1);
- 236              		.loc 1 211 3 view .LVU30
+ 222:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 0 */
+ 223:Core/Src/stm32l4xx_it.c **** 
+ 224:Core/Src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 0 */
+ 225:Core/Src/stm32l4xx_it.c ****   HAL_SPI_IRQHandler(&hspi1);
+ 236              		.loc 1 225 3 view .LVU30
  237 0002 0248     		ldr	r0, .L18
- 238 0004 FFF7FEFF 		bl	HAL_ADC_IRQHandler
+ 238 0004 FFF7FEFF 		bl	HAL_SPI_IRQHandler
  239              	.LVL1:
- 212:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN ADC1_IRQn 1 */
- 213:Core/Src/stm32l4xx_it.c **** 
- 214:Core/Src/stm32l4xx_it.c ****   /* USER CODE END ADC1_IRQn 1 */
- 215:Core/Src/stm32l4xx_it.c **** }
- 240              		.loc 1 215 1 is_stmt 0 view .LVU31
+ 226:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 1 */
+ 227:Core/Src/stm32l4xx_it.c **** 
+ 228:Core/Src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 1 */
+ 229:Core/Src/stm32l4xx_it.c **** }
+ 240              		.loc 1 229 1 is_stmt 0 view .LVU31
  241 0008 08BD     		pop	{r3, pc}
+ARM GAS  /tmp/cchevGpS.s 			page 9
+
+
  242              	.L19:
  243 000a 00BF     		.align	2
  244              	.L18:
- 245 000c 00000000 		.word	hadc1
+ 245 000c 00000000 		.word	hspi1
  246              		.cfi_endproc
  247              	.LFE297:
- 249              		.section	.text.SPI1_IRQHandler,"ax",%progbits
+ 249              		.section	.text.I2C3_EV_IRQHandler,"ax",%progbits
  250              		.align	1
- 251              		.global	SPI1_IRQHandler
+ 251              		.global	I2C3_EV_IRQHandler
  252              		.syntax unified
  253              		.thumb
  254              		.thumb_func
- 256              	SPI1_IRQHandler:
+ 256              	I2C3_EV_IRQHandler:
  257              	.LFB298:
-ARM GAS  /tmp/ccfqtAPT.s 			page 9
-
-
- 216:Core/Src/stm32l4xx_it.c **** 
- 217:Core/Src/stm32l4xx_it.c **** /**
- 218:Core/Src/stm32l4xx_it.c ****   * @brief This function handles SPI1 global interrupt.
- 219:Core/Src/stm32l4xx_it.c ****   */
- 220:Core/Src/stm32l4xx_it.c **** void SPI1_IRQHandler(void)
- 221:Core/Src/stm32l4xx_it.c **** {
- 258              		.loc 1 221 1 is_stmt 1 view -0
+ 230:Core/Src/stm32l4xx_it.c **** 
+ 231:Core/Src/stm32l4xx_it.c **** /**
+ 232:Core/Src/stm32l4xx_it.c ****   * @brief This function handles I2C3 event interrupt.
+ 233:Core/Src/stm32l4xx_it.c ****   */
+ 234:Core/Src/stm32l4xx_it.c **** void I2C3_EV_IRQHandler(void)
+ 235:Core/Src/stm32l4xx_it.c **** {
+ 258              		.loc 1 235 1 is_stmt 1 view -0
  259              		.cfi_startproc
  260              		@ args = 0, pretend = 0, frame = 0
  261              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -496,41 +510,44 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  264              		.cfi_def_cfa_offset 8
  265              		.cfi_offset 3, -8
  266              		.cfi_offset 14, -4
- 222:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 0 */
- 223:Core/Src/stm32l4xx_it.c **** 
- 224:Core/Src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 0 */
- 225:Core/Src/stm32l4xx_it.c ****   HAL_SPI_IRQHandler(&hspi1);
- 267              		.loc 1 225 3 view .LVU33
+ 236:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_EV_IRQn 0 */
+ 237:Core/Src/stm32l4xx_it.c **** 
+ 238:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_EV_IRQn 0 */
+ 239:Core/Src/stm32l4xx_it.c ****   HAL_I2C_EV_IRQHandler(&hi2c3);
+ 267              		.loc 1 239 3 view .LVU33
  268 0002 0248     		ldr	r0, .L22
- 269 0004 FFF7FEFF 		bl	HAL_SPI_IRQHandler
+ 269 0004 FFF7FEFF 		bl	HAL_I2C_EV_IRQHandler
  270              	.LVL2:
- 226:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN SPI1_IRQn 1 */
- 227:Core/Src/stm32l4xx_it.c **** 
- 228:Core/Src/stm32l4xx_it.c ****   /* USER CODE END SPI1_IRQn 1 */
- 229:Core/Src/stm32l4xx_it.c **** }
- 271              		.loc 1 229 1 is_stmt 0 view .LVU34
+ 240:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_EV_IRQn 1 */
+ 241:Core/Src/stm32l4xx_it.c **** 
+ 242:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_EV_IRQn 1 */
+ 243:Core/Src/stm32l4xx_it.c **** }
+ 271              		.loc 1 243 1 is_stmt 0 view .LVU34
  272 0008 08BD     		pop	{r3, pc}
  273              	.L23:
  274 000a 00BF     		.align	2
  275              	.L22:
- 276 000c 00000000 		.word	hspi1
+ 276 000c 00000000 		.word	hi2c3
  277              		.cfi_endproc
  278              	.LFE298:
- 280              		.section	.text.I2C3_EV_IRQHandler,"ax",%progbits
+ 280              		.section	.text.I2C3_ER_IRQHandler,"ax",%progbits
  281              		.align	1
- 282              		.global	I2C3_EV_IRQHandler
+ 282              		.global	I2C3_ER_IRQHandler
  283              		.syntax unified
  284              		.thumb
  285              		.thumb_func
- 287              	I2C3_EV_IRQHandler:
+ 287              	I2C3_ER_IRQHandler:
  288              	.LFB299:
- 230:Core/Src/stm32l4xx_it.c **** 
- 231:Core/Src/stm32l4xx_it.c **** /**
- 232:Core/Src/stm32l4xx_it.c ****   * @brief This function handles I2C3 event interrupt.
- 233:Core/Src/stm32l4xx_it.c ****   */
- 234:Core/Src/stm32l4xx_it.c **** void I2C3_EV_IRQHandler(void)
- 235:Core/Src/stm32l4xx_it.c **** {
- 289              		.loc 1 235 1 is_stmt 1 view -0
+ARM GAS  /tmp/cchevGpS.s 			page 10
+
+
+ 244:Core/Src/stm32l4xx_it.c **** 
+ 245:Core/Src/stm32l4xx_it.c **** /**
+ 246:Core/Src/stm32l4xx_it.c ****   * @brief This function handles I2C3 error interrupt.
+ 247:Core/Src/stm32l4xx_it.c ****   */
+ 248:Core/Src/stm32l4xx_it.c **** void I2C3_ER_IRQHandler(void)
+ 249:Core/Src/stm32l4xx_it.c **** {
+ 289              		.loc 1 249 1 is_stmt 1 view -0
  290              		.cfi_startproc
  291              		@ args = 0, pretend = 0, frame = 0
  292              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -538,23 +555,20 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  294              	.LCFI3:
  295              		.cfi_def_cfa_offset 8
  296              		.cfi_offset 3, -8
-ARM GAS  /tmp/ccfqtAPT.s 			page 10
-
-
  297              		.cfi_offset 14, -4
- 236:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_EV_IRQn 0 */
- 237:Core/Src/stm32l4xx_it.c **** 
- 238:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_EV_IRQn 0 */
- 239:Core/Src/stm32l4xx_it.c ****   HAL_I2C_EV_IRQHandler(&hi2c3);
- 298              		.loc 1 239 3 view .LVU36
+ 250:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_ER_IRQn 0 */
+ 251:Core/Src/stm32l4xx_it.c **** 
+ 252:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_ER_IRQn 0 */
+ 253:Core/Src/stm32l4xx_it.c ****   HAL_I2C_ER_IRQHandler(&hi2c3);
+ 298              		.loc 1 253 3 view .LVU36
  299 0002 0248     		ldr	r0, .L26
- 300 0004 FFF7FEFF 		bl	HAL_I2C_EV_IRQHandler
+ 300 0004 FFF7FEFF 		bl	HAL_I2C_ER_IRQHandler
  301              	.LVL3:
- 240:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_EV_IRQn 1 */
- 241:Core/Src/stm32l4xx_it.c **** 
- 242:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_EV_IRQn 1 */
- 243:Core/Src/stm32l4xx_it.c **** }
- 302              		.loc 1 243 1 is_stmt 0 view .LVU37
+ 254:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_ER_IRQn 1 */
+ 255:Core/Src/stm32l4xx_it.c **** 
+ 256:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_ER_IRQn 1 */
+ 257:Core/Src/stm32l4xx_it.c **** }
+ 302              		.loc 1 257 1 is_stmt 0 view .LVU37
  303 0008 08BD     		pop	{r3, pc}
  304              	.L27:
  305 000a 00BF     		.align	2
@@ -562,103 +576,50 @@ ARM GAS  /tmp/ccfqtAPT.s 			page 1
  307 000c 00000000 		.word	hi2c3
  308              		.cfi_endproc
  309              	.LFE299:
- 311              		.section	.text.I2C3_ER_IRQHandler,"ax",%progbits
- 312              		.align	1
- 313              		.global	I2C3_ER_IRQHandler
- 314              		.syntax unified
- 315              		.thumb
- 316              		.thumb_func
- 318              	I2C3_ER_IRQHandler:
- 319              	.LFB300:
- 244:Core/Src/stm32l4xx_it.c **** 
- 245:Core/Src/stm32l4xx_it.c **** /**
- 246:Core/Src/stm32l4xx_it.c ****   * @brief This function handles I2C3 error interrupt.
- 247:Core/Src/stm32l4xx_it.c ****   */
- 248:Core/Src/stm32l4xx_it.c **** void I2C3_ER_IRQHandler(void)
- 249:Core/Src/stm32l4xx_it.c **** {
- 320              		.loc 1 249 1 is_stmt 1 view -0
- 321              		.cfi_startproc
- 322              		@ args = 0, pretend = 0, frame = 0
- 323              		@ frame_needed = 0, uses_anonymous_args = 0
- 324 0000 08B5     		push	{r3, lr}
- 325              	.LCFI4:
- 326              		.cfi_def_cfa_offset 8
- 327              		.cfi_offset 3, -8
- 328              		.cfi_offset 14, -4
- 250:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_ER_IRQn 0 */
- 251:Core/Src/stm32l4xx_it.c **** 
- 252:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_ER_IRQn 0 */
- 253:Core/Src/stm32l4xx_it.c ****   HAL_I2C_ER_IRQHandler(&hi2c3);
- 329              		.loc 1 253 3 view .LVU39
- 330 0002 0248     		ldr	r0, .L30
- 331 0004 FFF7FEFF 		bl	HAL_I2C_ER_IRQHandler
- 332              	.LVL4:
- 254:Core/Src/stm32l4xx_it.c ****   /* USER CODE BEGIN I2C3_ER_IRQn 1 */
- 255:Core/Src/stm32l4xx_it.c **** 
- 256:Core/Src/stm32l4xx_it.c ****   /* USER CODE END I2C3_ER_IRQn 1 */
- 257:Core/Src/stm32l4xx_it.c **** }
- 333              		.loc 1 257 1 is_stmt 0 view .LVU40
-ARM GAS  /tmp/ccfqtAPT.s 			page 11
-
-
- 334 0008 08BD     		pop	{r3, pc}
- 335              	.L31:
- 336 000a 00BF     		.align	2
- 337              	.L30:
- 338 000c 00000000 		.word	hi2c3
- 339              		.cfi_endproc
- 340              	.LFE300:
- 342              		.text
- 343              	.Letext0:
- 344              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 345              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
- 346              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h"
- 347              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 348              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 349              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_adc.h"
- 350              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
- 351              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 352              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
-ARM GAS  /tmp/ccfqtAPT.s 			page 12
+ 311              		.text
+ 312              	.Letext0:
+ 313              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 314              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 315              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 316              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 317              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 318              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 319              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ARM GAS  /tmp/cchevGpS.s 			page 11
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 stm32l4xx_it.c
-     /tmp/ccfqtAPT.s:21     .text.NMI_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:27     .text.NMI_Handler:00000000 NMI_Handler
-     /tmp/ccfqtAPT.s:44     .text.HardFault_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:50     .text.HardFault_Handler:00000000 HardFault_Handler
-     /tmp/ccfqtAPT.s:67     .text.MemManage_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:73     .text.MemManage_Handler:00000000 MemManage_Handler
-     /tmp/ccfqtAPT.s:90     .text.BusFault_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:96     .text.BusFault_Handler:00000000 BusFault_Handler
-     /tmp/ccfqtAPT.s:113    .text.UsageFault_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:119    .text.UsageFault_Handler:00000000 UsageFault_Handler
-     /tmp/ccfqtAPT.s:136    .text.SVC_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:142    .text.SVC_Handler:00000000 SVC_Handler
-     /tmp/ccfqtAPT.s:155    .text.DebugMon_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:161    .text.DebugMon_Handler:00000000 DebugMon_Handler
-     /tmp/ccfqtAPT.s:174    .text.PendSV_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:180    .text.PendSV_Handler:00000000 PendSV_Handler
-     /tmp/ccfqtAPT.s:193    .text.SysTick_Handler:00000000 $t
-     /tmp/ccfqtAPT.s:199    .text.SysTick_Handler:00000000 SysTick_Handler
-     /tmp/ccfqtAPT.s:219    .text.ADC1_IRQHandler:00000000 $t
-     /tmp/ccfqtAPT.s:225    .text.ADC1_IRQHandler:00000000 ADC1_IRQHandler
-     /tmp/ccfqtAPT.s:245    .text.ADC1_IRQHandler:0000000c $d
-     /tmp/ccfqtAPT.s:250    .text.SPI1_IRQHandler:00000000 $t
-     /tmp/ccfqtAPT.s:256    .text.SPI1_IRQHandler:00000000 SPI1_IRQHandler
-     /tmp/ccfqtAPT.s:276    .text.SPI1_IRQHandler:0000000c $d
-     /tmp/ccfqtAPT.s:281    .text.I2C3_EV_IRQHandler:00000000 $t
-     /tmp/ccfqtAPT.s:287    .text.I2C3_EV_IRQHandler:00000000 I2C3_EV_IRQHandler
-     /tmp/ccfqtAPT.s:307    .text.I2C3_EV_IRQHandler:0000000c $d
-     /tmp/ccfqtAPT.s:312    .text.I2C3_ER_IRQHandler:00000000 $t
-     /tmp/ccfqtAPT.s:318    .text.I2C3_ER_IRQHandler:00000000 I2C3_ER_IRQHandler
-     /tmp/ccfqtAPT.s:338    .text.I2C3_ER_IRQHandler:0000000c $d
+     /tmp/cchevGpS.s:21     .text.NMI_Handler:00000000 $t
+     /tmp/cchevGpS.s:27     .text.NMI_Handler:00000000 NMI_Handler
+     /tmp/cchevGpS.s:44     .text.HardFault_Handler:00000000 $t
+     /tmp/cchevGpS.s:50     .text.HardFault_Handler:00000000 HardFault_Handler
+     /tmp/cchevGpS.s:67     .text.MemManage_Handler:00000000 $t
+     /tmp/cchevGpS.s:73     .text.MemManage_Handler:00000000 MemManage_Handler
+     /tmp/cchevGpS.s:90     .text.BusFault_Handler:00000000 $t
+     /tmp/cchevGpS.s:96     .text.BusFault_Handler:00000000 BusFault_Handler
+     /tmp/cchevGpS.s:113    .text.UsageFault_Handler:00000000 $t
+     /tmp/cchevGpS.s:119    .text.UsageFault_Handler:00000000 UsageFault_Handler
+     /tmp/cchevGpS.s:136    .text.SVC_Handler:00000000 $t
+     /tmp/cchevGpS.s:142    .text.SVC_Handler:00000000 SVC_Handler
+     /tmp/cchevGpS.s:155    .text.DebugMon_Handler:00000000 $t
+     /tmp/cchevGpS.s:161    .text.DebugMon_Handler:00000000 DebugMon_Handler
+     /tmp/cchevGpS.s:174    .text.PendSV_Handler:00000000 $t
+     /tmp/cchevGpS.s:180    .text.PendSV_Handler:00000000 PendSV_Handler
+     /tmp/cchevGpS.s:193    .text.SysTick_Handler:00000000 $t
+     /tmp/cchevGpS.s:199    .text.SysTick_Handler:00000000 SysTick_Handler
+     /tmp/cchevGpS.s:219    .text.SPI1_IRQHandler:00000000 $t
+     /tmp/cchevGpS.s:225    .text.SPI1_IRQHandler:00000000 SPI1_IRQHandler
+     /tmp/cchevGpS.s:245    .text.SPI1_IRQHandler:0000000c $d
+     /tmp/cchevGpS.s:250    .text.I2C3_EV_IRQHandler:00000000 $t
+     /tmp/cchevGpS.s:256    .text.I2C3_EV_IRQHandler:00000000 I2C3_EV_IRQHandler
+     /tmp/cchevGpS.s:276    .text.I2C3_EV_IRQHandler:0000000c $d
+     /tmp/cchevGpS.s:281    .text.I2C3_ER_IRQHandler:00000000 $t
+     /tmp/cchevGpS.s:287    .text.I2C3_ER_IRQHandler:00000000 I2C3_ER_IRQHandler
+     /tmp/cchevGpS.s:307    .text.I2C3_ER_IRQHandler:0000000c $d
 
 UNDEFINED SYMBOLS
 HAL_IncTick
-HAL_ADC_IRQHandler
-hadc1
 HAL_SPI_IRQHandler
 hspi1
 HAL_I2C_EV_IRQHandler

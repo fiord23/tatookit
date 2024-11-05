@@ -49,11 +49,13 @@
 /* USER CODE BEGIN PV */
 uint8_t data_config4[2] = {0x0D, 0x30};
 uint8_t data_config0[2] = {0x09, 0xE1};
-uint8_t data_config2[2] = {0x10, 5}; //speed motor
+uint8_t data_config2[2] = {0x10, 10}; //speed motor
 uint8_t regData = 0;
 uint8_t regAddress = I2C_ID_ADDRESS;
 uint8_t pmode = 0x30;
-
+uint16_t adc_value11 = 0;
+volatile uint16_t adc_value15 = 0;
+uint16_t adc_value16 = 0xFFFF;
  uint8_t speed = 2;
 
 
@@ -99,7 +101,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_ADC1_Init();
+  //MX_ADC1_Init();
+  adc_init();
   MX_I2C3_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
@@ -115,21 +118,36 @@ int main(void)
 
   HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0, 2,  100);
    HAL_Delay(100);
-       HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config2, 2,  100);
+  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config2, 2,  100);
   HAL_Delay(100);
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
   
    HAL_Delay(100);
   display_power_high();
+
+  
+
+ // HAL_ADC_Start(&hadc1);
+
+  void ADC_Select_Channel(uint32_t ch) 
+  {
+    ADC_ChannelConfTypeDef conf = {
+        .Channel = ch,
+        .Rank = 1,
+    };
+    if (HAL_ADC_ConfigChannel(&hadc1, &conf) != HAL_OK) {
+        Error_Handler();
+    }
+  }
   //display_init();
  // display_power_high();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     if (speed > 63)
     {
       speed = 63;
@@ -220,6 +238,19 @@ void EXTI15_10_IRQHandler (void)
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
 
 }
+void ADC1_IRQHandler(void)
+{
+    if (ADC1->ISR & ADC_ISR_EOC) { // Проверяем флаг конца преобразования
+        adc_value15 = ADC1->DR; // Читаем данные АЦП
+
+        // Обработка полученного значения adc_value
+
+        ADC1->ISR |= ADC_ISR_EOC; // Сбрасываем флаг конца преобразования
+        //ADC1->CR |= ADC_CR_ADSTART;
+
+    }
+}
+
 
 /* USER CODE END 4 */
 
