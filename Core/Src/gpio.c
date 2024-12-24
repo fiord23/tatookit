@@ -73,7 +73,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(PB_CLR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = BUTTON_POWER_Pin|PB_INT_Pin|NFAULT_Pin|RCOUT_Pin;
+  GPIO_InitStruct.Pin = PB_INT_Pin|NFAULT_Pin|RCOUT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
