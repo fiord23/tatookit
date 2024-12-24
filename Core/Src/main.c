@@ -49,14 +49,15 @@
 /* USER CODE BEGIN PV */
 uint8_t data_config4[2] = {0x0D, 0x30};
 uint8_t data_config0[2] = {0x09, 0xE1};
-uint8_t data_config2[2] = {0x10, 10}; //speed motor
+uint8_t data_config2[2] = {0x10, 40}; //speed motor
 uint8_t regData = 0;
 uint8_t regAddress = I2C_ID_ADDRESS;
 uint8_t pmode = 0x30;
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
 uint16_t adc_value16 = 0xFFFF;
- uint8_t speed = 2;
+uint8_t speed = 40;
+uint8_t flag_motor = 0;
 
 
 
@@ -124,23 +125,6 @@ int main(void)
   
    HAL_Delay(100);
   display_power_high();
-
-  
-
- // HAL_ADC_Start(&hadc1);
-
-  void ADC_Select_Channel(uint32_t ch) 
-  {
-    ADC_ChannelConfTypeDef conf = {
-        .Channel = ch,
-        .Rank = 1,
-    };
-    if (HAL_ADC_ConfigChannel(&hadc1, &conf) != HAL_OK) {
-        Error_Handler();
-    }
-  }
-  //display_init();
- // display_power_high();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -235,6 +219,20 @@ void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
 
 void EXTI15_10_IRQHandler (void)
 {
+  
+  if (flag_motor)
+  {
+    flag_motor = 0;
+    display_power_low();
+    
+  }
+  else
+  {
+    flag_motor = 1;
+    display_power_high();
+  }
+  //flag_motor++;
+
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
 
 }

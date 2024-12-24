@@ -168,7 +168,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 void adc_init (void)
 {
     RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN; 
-    RCC->CCIPR |= RCC_CCIPR_ADCSEL_0 | RCC_CCIPR_ADCSEL_1;
+    RCC->CCIPR |= RCC_CCIPR_ADCSEL_0 | RCC_CCIPR_ADCSEL_1; //CLOCK FROM SYSCLK
     // Ждем, пока ADC1 будет готов
 
     ADC1->CR &= ~ADC_CR_ADEN; // Отключаем ADC
