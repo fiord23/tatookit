@@ -5,6 +5,20 @@
 
 extern SPI_HandleTypeDef hspi1;
 
+/* SSD1306 data buffer */
+static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
+static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
+
+/* Private SSD1306 structure */
+typedef struct {
+	uint16_t CurrentX;
+	uint16_t CurrentY;
+	uint8_t Inverted;
+	uint8_t Initialized;
+} SSD1306_t;
+
+static SSD1306_t SSD1306;
+
 void command (uint8_t command)
 {
     uint8_t tcommand = command;
@@ -77,10 +91,162 @@ void display_init (void)
 
 
     command(DISPLAYON);         // 0xAF - Display on
-//    setColumnAddress(0);
- //   setRowAddress(0);
+
+      
+
+    	/* Clear screen */
+	  SSD1306_Fill(SSD1306_COLOR_WHITE);
+	
+	/* Update screen */
+	  SSD1306_UpdateScreen();
+	
+	/* Set default values */
+	  SSD1306.CurrentX = 0;
+	  SSD1306.CurrentY = 0;
+
+    SSD1306.Initialized = 1;
 
 }
+
+void SSD1306_UpdateScreen(void) {
+  unsigned char i,j,num=0;
+	for(i=0;i<0x04;i++)
+	{
+	Set_Page_Address(i);
+  Set_Column_Address(0x00);
+  for(j=0;j<0x80;j++)
+		{
+		  data(pixelBuffer[i*0x80+j]);
+		}
+	}
+}
+
+void SSD1306_ClearScreen()
+{
+  for (uint16_t i = 0; i < SSD1306_Buffer; i++)
+  {
+    pixelBuffer[i] = 0x00;
+  }
+  SSD1306_UpdateScreen();
+}
+
+void SSD1306_Fill(SSD1306_COLOR_t color) {
+	/* Set memory */
+  uint8_t i,j;
+  uint8_t fill;
+  if (color == SSD1306_COLOR_BLACK)
+  fill = 0x00;
+  else
+  fill = 0xFF;
+    for (uint16_t k = 0; k < SSD1306_BUFFER_SIZE; k++)
+  {
+    pixelBuffer[k] = fill;
+  }
+
+	for(i=0;i<0x04;i++)
+	{
+	Set_Page_Address(i);
+  Set_Column_Address(0x00);
+  for(j=0;j<0x80;j++)
+		{
+		  data(pixelBuffer[i*0x80+j]);
+		}
+	}
+
+
+}
+
+void SSD1306_ToggleInvert(void) {
+	uint16_t i;
+	
+	/* Toggle invert */
+	SSD1306.Inverted = !SSD1306.Inverted;
+	
+	/* Do memory toggle */
+	for (i = 0; i < sizeof(pixelBuffer); i++) {
+		pixelBuffer[i] = ~pixelBuffer[i];
+	}
+}
+
+void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color) {
+	if (
+		x >= SSD1306_WIDTH ||
+		y >= SSD1306_HEIGHT
+	) {
+		/* Error */
+		return;
+	}
+	
+	/* Check if pixels are inverted */
+	if (SSD1306.Inverted) {
+		color = (SSD1306_COLOR_t)!color;
+	}
+	
+	/* Set color */
+	if (color == SSD1306_COLOR_WHITE) {
+		pixelBuffer[x + (y / 8) * SSD1306_WIDTH] |= 1 << (y % 8);
+	} else {
+		pixelBuffer[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
+	}
+}
+
+void SSD1306_GotoXY(uint16_t x, uint16_t y) {
+	/* Set write pointers */
+	SSD1306.CurrentX = x;
+	SSD1306.CurrentY = y;
+}
+
+char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color) {
+	uint32_t i, b, j;
+	
+	/* Check available space in LCD */
+	if (
+		SSD1306_WIDTH <= (SSD1306.CurrentX + Font->FontWidth) ||
+		SSD1306_HEIGHT <= (SSD1306.CurrentY + Font->FontHeight)
+	) {
+		/* Error */
+		return 0;
+	}
+	
+	/* Go through font */
+	for (i = 0; i < Font->FontHeight; i++) {
+		b = Font->data[(ch - 32) * Font->FontHeight + i];
+		for (j = 0; j < Font->FontWidth; j++) {
+			if ((b << j) & 0x8000) {
+				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t) color);
+			} else {
+				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t)!color);
+			}
+		}
+	}
+	
+	/* Increase pointer */
+	SSD1306.CurrentX += Font->FontWidth;
+	
+	/* Return character written */
+	return ch;
+}
+
+
+char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
+	/* Write characters */
+	while (*str) {
+		/* Write character by character */
+		if (SSD1306_Putc(*str, Font, color) != *str) {
+			/* Return error */
+			return *str;
+		}
+		
+		/* Increase string pointer */
+		str++;
+	}
+	
+	/* Everything OK, zero should be returned */
+	return *str;
+}
+ 
+
+
 
 void Set_Page_Address(unsigned char add)
 {
@@ -158,3 +324,5 @@ void display_demo (void)
     command(0xa6);
 
 }
+
+

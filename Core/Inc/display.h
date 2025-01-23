@@ -2,6 +2,11 @@
 #define DISPLAY_H
 #include "main.h"
 #include "stm32l4xx_hal_spi.h"
+#include "fonts.h"
+
+#include "stdlib.h"
+#include "string.h"
+
 #define cs_low()                HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_RESET) //PA9 LOW
 #define cs_high()               HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_SET) //PA9 HIGH
 #define display_data()          HAL_GPIO_WritePin(GPIOA, DISPLAY_DC_Pin, GPIO_PIN_SET) //PA10 HIGH
@@ -32,8 +37,6 @@
 #define SETPORTRAIT         0x25
 #define SETCONTRAST         0x81
 #define SETCHARGEPMP1       0x8D
-//#define SETSEGREMAP         0xA0
-//#define SETSTARTLINE        0xA2
 #define SETSEGREMAP         0xA1
 #define SETSTARTLINE        0x40
 #define RESETALLON          0xA4
@@ -59,17 +62,29 @@
 
 // Scroll - It's not documented in the SSD1320 doc but we
 // guessed at it from the SSD1306 doc (see MicroOLED product).
-#define ACTIVATESCROLL                0x2F
-#define DEACTIVATESCROLL              0x2E
-#define SETVERTICALSCROLLAREA         0xA3
-#define RIGHTHORIZONTALSCROLL         0x26
-#define LEFTHORIZONTALSCROLL          0x27
-#define VERTICALRIGHTHORIZONTALSCROLL 0x29
-#define VERTICALLEFTHORIZONTALSCROLL  0x2A
+
+#ifndef SSD1306_WIDTH
+#define SSD1306_WIDTH            128
+#endif
+/* SSD1306 LCD height in pixels */
+#ifndef SSD1306_HEIGHT
+#define SSD1306_HEIGHT           32
+#endif
+
+#define SSD1306_X_SIZE           128
+#define SSD1306_Y_SIZE           32
+#define SSD1306_BUFFER_SIZE      (SSD1306_X_SIZE *  SSD1306_Y_SIZE) / 8
+
+/**
+ * @brief  SSD1306 color enumeration
+ */
+typedef enum {
+	SSD1306_COLOR_BLACK = 0x00, /*!< Black color, no pixel */
+	SSD1306_COLOR_WHITE = 0x01  /*!< Pixel is set. Color depends on LCD */
+} SSD1306_COLOR_t;
 
 
-#define WIDTH 128/2
-#define HEIGHT 72
+
 
 void command (uint8_t command);
 void data (uint8_t data);
@@ -77,4 +92,17 @@ void display_init (void);
 void Set_Page_Address(unsigned char add);
 void Set_Column_Address(unsigned char add);
 void Display_Picture(unsigned char pic[]);
+
+void display_demo();
+
+void SSD1306_UpdateScreen(void);
+void SSD1306_ClearScreen();
+void SSD1306_Fill(SSD1306_COLOR_t color); 
+void SSD1306_ToggleInvert(void);
+void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color);
+void SSD1306_GotoXY(uint16_t x, uint16_t y);
+char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color);
+char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color);
+
+
 #endif

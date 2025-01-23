@@ -27,6 +27,8 @@
 /* USER CODE BEGIN Includes */
 #include "display.h"
 #include "dac.h"
+//#include "ssd1306.h"
+#include "fonts.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -136,7 +138,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    display_demo();
+    //display_demo();
+SSD1306_Fill(SSD1306_COLOR_BLACK);
+SSD1306_GotoXY(0,0);
+SSD1306_Puts("Hello, Oleg!!", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_GotoXY(0,12);
+SSD1306_Puts("Tatookit", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_GotoXY(0,21);
+SSD1306_Puts("Minsk - Wroclaw", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_UpdateScreen();
+
 
     if (speed > 63)
     {
