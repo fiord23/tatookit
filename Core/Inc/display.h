@@ -8,7 +8,7 @@
 #define display_command()       HAL_GPIO_WritePin(GPIOA, DISPLAY_DC_Pin, GPIO_PIN_RESET) // PA10 LOW
 #define display_reset_low()     HAL_GPIO_WritePin(GPIOA, POWER_VOLTAGE_REMOTE_Pin, GPIO_PIN_RESET) // PA8 LOW
 #define display_reset_high()    HAL_GPIO_WritePin(GPIOA, POWER_VOLTAGE_REMOTE_Pin, GPIO_PIN_SET) // PA8 HIGH
-#define display_power_low()     HAL_GPIO_WritePin(GPIOA, POWER_ON_OFF_Pin, GPIO_PIN_RESET) // P0 LOW
+#define display_power_low()     HAL_GPIO_WritePin(GPIOA, POWER_ON_OFF_Pin, GPIO_PIN_RESET) // PA0 LOW
 #define display_power_high()    HAL_GPIO_WritePin(GPIOA, POWER_ON_OFF_Pin, GPIO_PIN_SET) // PA0 HIGH
 #define OLED_X_MAXPIXEL 128  //OLED width maximum memory 
 #define OLED_Y_MAXPIXEL  72 //OLED height maximum memory
@@ -32,8 +32,10 @@
 #define SETPORTRAIT         0x25
 #define SETCONTRAST         0x81
 #define SETCHARGEPMP1       0x8D
-#define SETSEGREMAP         0xA0
-#define SETSTARTLINE        0xA2
+//#define SETSEGREMAP         0xA0
+//#define SETSTARTLINE        0xA2
+#define SETSEGREMAP         0xA1
+#define SETSTARTLINE        0x40
 #define RESETALLON          0xA4
 #define DISPLAYALLON        0xA5
 #define RESETINVERT         0xA6
@@ -70,17 +72,9 @@
 #define HEIGHT 72
 
 void command (uint8_t command);
-void command_bi (uint8_t command1, uint8_t command2);
 void data (uint8_t data);
 void display_init (void);
-void OLED_ColorTurn(uint8_t i);
-void er_oled_SetWindow(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend);
-void er_oled_clear(uint8_t a);
-void er_oled_bitmap(const uint8_t * pBuf);
-void setColumnAddress(uint8_t address);
-void setRowAddress(uint8_t address) ;
-void display_demo (void);
-
-
-
+void Set_Page_Address(unsigned char add);
+void Set_Column_Address(unsigned char add);
+void Display_Picture(unsigned char pic[]);
 #endif

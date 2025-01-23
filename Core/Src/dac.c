@@ -3,6 +3,7 @@
 //#include "stm32l4xx_hal_spi.h"
 void dac_init (void)
 { 
+    //PA5 Pin
     GPIOA->MODER |= GPIO_MODER_MODE5_0 | GPIO_MODER_MODE5_1; //Analog Mode (reset state)
     GPIOA->OTYPER &= ~GPIO_OTYPER_OT5; //Push-Pull (reset state)
     RCC->APB1ENR1 |= RCC_APB1ENR1_DAC1EN;

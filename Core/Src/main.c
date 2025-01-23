@@ -127,13 +127,16 @@ int main(void)
   
    HAL_Delay(100);
   display_power_high();
+  dac_data_send(993);
+
+  display_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+    display_demo();
 
     if (speed > 63)
     {

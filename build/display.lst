@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccuhYuZD.s 			page 1
+ARM GAS  /tmp/ccZWBjKp.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccuhYuZD.s 			page 1
   45              		.loc 1 11 5 is_stmt 1 view .LVU4
   46 0008 0022     		movs	r2, #0
   47 000a 4FF40071 		mov	r1, #512
-ARM GAS  /tmp/ccuhYuZD.s 			page 2
+ARM GAS  /tmp/ccZWBjKp.s 			page 2
 
 
   48 000e 4FF09040 		mov	r0, #1207959552
@@ -102,23 +102,23 @@ ARM GAS  /tmp/ccuhYuZD.s 			page 1
   81 0048 00000000 		.word	hspi1
   82              		.cfi_endproc
   83              	.LFE288:
-  85              		.section	.text.command_bi,"ax",%progbits
+  85              		.section	.text.data,"ax",%progbits
   86              		.align	1
-  87              		.global	command_bi
+  87              		.global	data
   88              		.syntax unified
   89              		.thumb
   90              		.thumb_func
-  92              	command_bi:
+  92              	data:
   93              	.LVL6:
   94              	.LFB289:
   17:Core/Src/display.c **** 
-  18:Core/Src/display.c **** void command_bi (uint8_t command1, uint8_t command2)
+  18:Core/Src/display.c **** void data (uint8_t data)
   19:Core/Src/display.c **** {
   95              		.loc 1 19 1 is_stmt 1 view -0
   96              		.cfi_startproc
   97              		@ args = 0, pretend = 0, frame = 8
   98              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccuhYuZD.s 			page 3
+ARM GAS  /tmp/ccZWBjKp.s 			page 3
 
 
   99              		.loc 1 19 1 is_stmt 0 view .LVU11
@@ -129,2837 +129,785 @@ ARM GAS  /tmp/ccuhYuZD.s 			page 1
  104 0002 83B0     		sub	sp, sp, #12
  105              	.LCFI4:
  106              		.cfi_def_cfa_offset 16
-  20:Core/Src/display.c ****     uint8_t tcommand[] = {command1, command2};
+  20:Core/Src/display.c ****     uint8_t tdata = data;
  107              		.loc 1 20 5 is_stmt 1 view .LVU12
  108              		.loc 1 20 13 is_stmt 0 view .LVU13
- 109 0004 8DF80400 		strb	r0, [sp, #4]
- 110 0008 8DF80510 		strb	r1, [sp, #5]
-  21:Core/Src/display.c ****     display_command();
- 111              		.loc 1 21 5 is_stmt 1 view .LVU14
- 112 000c 0022     		movs	r2, #0
- 113 000e 4FF48061 		mov	r1, #1024
+ 109 0004 8DF80700 		strb	r0, [sp, #7]
+  21:Core/Src/display.c ****     cs_low();
+ 110              		.loc 1 21 5 is_stmt 1 view .LVU14
+ 111 0008 0022     		movs	r2, #0
+ 112 000a 4FF40071 		mov	r1, #512
+ 113 000e 4FF09040 		mov	r0, #1207959552
  114              	.LVL7:
  115              		.loc 1 21 5 is_stmt 0 view .LVU15
- 116 0012 4FF09040 		mov	r0, #1207959552
+ 116 0012 FFF7FEFF 		bl	HAL_GPIO_WritePin
  117              	.LVL8:
- 118              		.loc 1 21 5 view .LVU16
- 119 0016 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 120              	.LVL9:
-  22:Core/Src/display.c ****     cs_low();
- 121              		.loc 1 22 5 is_stmt 1 view .LVU17
- 122 001a 0022     		movs	r2, #0
- 123 001c 4FF40071 		mov	r1, #512
- 124 0020 4FF09040 		mov	r0, #1207959552
- 125 0024 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 126              	.LVL10:
-  23:Core/Src/display.c ****     HAL_SPI_Transmit(&hspi1, tcommand, 2, 100);
- 127              		.loc 1 23 5 view .LVU18
- 128 0028 6423     		movs	r3, #100
- 129 002a 0222     		movs	r2, #2
- 130 002c 01A9     		add	r1, sp, #4
- 131 002e 0648     		ldr	r0, .L7
- 132 0030 FFF7FEFF 		bl	HAL_SPI_Transmit
- 133              	.LVL11:
+  22:Core/Src/display.c ****     display_data();
+ 118              		.loc 1 22 5 is_stmt 1 view .LVU16
+ 119 0016 0122     		movs	r2, #1
+ 120 0018 4FF48061 		mov	r1, #1024
+ 121 001c 4FF09040 		mov	r0, #1207959552
+ 122 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 123              	.LVL9:
+  23:Core/Src/display.c ****     HAL_SPI_Transmit(&hspi1, &tdata, 1, 100);
+ 124              		.loc 1 23 5 view .LVU17
+ 125 0024 6423     		movs	r3, #100
+ 126 0026 0122     		movs	r2, #1
+ 127 0028 0DF10701 		add	r1, sp, #7
+ 128 002c 0648     		ldr	r0, .L7
+ 129 002e FFF7FEFF 		bl	HAL_SPI_Transmit
+ 130              	.LVL10:
   24:Core/Src/display.c ****     cs_high(); 
- 134              		.loc 1 24 5 view .LVU19
- 135 0034 0122     		movs	r2, #1
- 136 0036 4FF40071 		mov	r1, #512
- 137 003a 4FF09040 		mov	r0, #1207959552
- 138 003e FFF7FEFF 		bl	HAL_GPIO_WritePin
- 139              	.LVL12:
-  25:Core/Src/display.c **** 
-  26:Core/Src/display.c **** }
- 140              		.loc 1 26 1 is_stmt 0 view .LVU20
- 141 0042 03B0     		add	sp, sp, #12
- 142              	.LCFI5:
- 143              		.cfi_def_cfa_offset 4
- 144              		@ sp needed
- 145 0044 5DF804FB 		ldr	pc, [sp], #4
- 146              	.L8:
- 147              		.align	2
- 148              	.L7:
-ARM GAS  /tmp/ccuhYuZD.s 			page 4
+ 131              		.loc 1 24 5 view .LVU18
+ 132 0032 0122     		movs	r2, #1
+ 133 0034 4FF40071 		mov	r1, #512
+ 134 0038 4FF09040 		mov	r0, #1207959552
+ 135 003c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 136              	.LVL11:
+  25:Core/Src/display.c ****     
+  26:Core/Src/display.c **** 
+  27:Core/Src/display.c **** }
+ 137              		.loc 1 27 1 is_stmt 0 view .LVU19
+ 138 0040 03B0     		add	sp, sp, #12
+ 139              	.LCFI5:
+ 140              		.cfi_def_cfa_offset 4
+ 141              		@ sp needed
+ 142 0042 5DF804FB 		ldr	pc, [sp], #4
+ 143              	.L8:
+ 144 0046 00BF     		.align	2
+ 145              	.L7:
+ 146 0048 00000000 		.word	hspi1
+ 147              		.cfi_endproc
+ARM GAS  /tmp/ccZWBjKp.s 			page 4
 
 
- 149 0048 00000000 		.word	hspi1
- 150              		.cfi_endproc
- 151              	.LFE289:
- 153              		.section	.text.data,"ax",%progbits
- 154              		.align	1
- 155              		.global	data
- 156              		.syntax unified
- 157              		.thumb
- 158              		.thumb_func
- 160              	data:
- 161              	.LVL13:
- 162              	.LFB290:
-  27:Core/Src/display.c **** 
-  28:Core/Src/display.c **** void data (uint8_t data)
-  29:Core/Src/display.c **** {
- 163              		.loc 1 29 1 is_stmt 1 view -0
- 164              		.cfi_startproc
- 165              		@ args = 0, pretend = 0, frame = 8
- 166              		@ frame_needed = 0, uses_anonymous_args = 0
- 167              		.loc 1 29 1 is_stmt 0 view .LVU22
- 168 0000 00B5     		push	{lr}
- 169              	.LCFI6:
- 170              		.cfi_def_cfa_offset 4
- 171              		.cfi_offset 14, -4
- 172 0002 83B0     		sub	sp, sp, #12
- 173              	.LCFI7:
- 174              		.cfi_def_cfa_offset 16
-  30:Core/Src/display.c ****     uint8_t tdata = data;
- 175              		.loc 1 30 5 is_stmt 1 view .LVU23
- 176              		.loc 1 30 13 is_stmt 0 view .LVU24
- 177 0004 8DF80700 		strb	r0, [sp, #7]
-  31:Core/Src/display.c ****     cs_low();
- 178              		.loc 1 31 5 is_stmt 1 view .LVU25
- 179 0008 0022     		movs	r2, #0
- 180 000a 4FF40071 		mov	r1, #512
- 181 000e 4FF09040 		mov	r0, #1207959552
- 182              	.LVL14:
- 183              		.loc 1 31 5 is_stmt 0 view .LVU26
- 184 0012 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 185              	.LVL15:
-  32:Core/Src/display.c ****     display_data();
- 186              		.loc 1 32 5 is_stmt 1 view .LVU27
- 187 0016 0122     		movs	r2, #1
- 188 0018 4FF48061 		mov	r1, #1024
- 189 001c 4FF09040 		mov	r0, #1207959552
- 190 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 191              	.LVL16:
-  33:Core/Src/display.c ****     HAL_SPI_Transmit(&hspi1, &tdata, 1, 100);
- 192              		.loc 1 33 5 view .LVU28
- 193 0024 6423     		movs	r3, #100
- 194 0026 0122     		movs	r2, #1
- 195 0028 0DF10701 		add	r1, sp, #7
- 196 002c 0648     		ldr	r0, .L11
- 197 002e FFF7FEFF 		bl	HAL_SPI_Transmit
- 198              	.LVL17:
-  34:Core/Src/display.c ****     cs_high(); 
- 199              		.loc 1 34 5 view .LVU29
-ARM GAS  /tmp/ccuhYuZD.s 			page 5
+ 148              	.LFE289:
+ 150              		.section	.text.display_init,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	display_init
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 157              	display_init:
+ 158              	.LFB290:
+  28:Core/Src/display.c **** 
+  29:Core/Src/display.c **** void display_init (void)
+  30:Core/Src/display.c **** {
+ 159              		.loc 1 30 1 is_stmt 1 view -0
+ 160              		.cfi_startproc
+ 161              		@ args = 0, pretend = 0, frame = 0
+ 162              		@ frame_needed = 0, uses_anonymous_args = 0
+ 163 0000 08B5     		push	{r3, lr}
+ 164              	.LCFI6:
+ 165              		.cfi_def_cfa_offset 8
+ 166              		.cfi_offset 3, -8
+ 167              		.cfi_offset 14, -4
+  31:Core/Src/display.c ****     //display_power_low();
+  32:Core/Src/display.c ****     cs_low();
+ 168              		.loc 1 32 5 view .LVU21
+ 169 0002 0022     		movs	r2, #0
+ 170 0004 4FF40071 		mov	r1, #512
+ 171 0008 4FF09040 		mov	r0, #1207959552
+ 172 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 173              	.LVL12:
+  33:Core/Src/display.c ****     display_reset_high();
+ 174              		.loc 1 33 5 view .LVU22
+ 175 0010 0122     		movs	r2, #1
+ 176 0012 4FF48071 		mov	r1, #256
+ 177 0016 4FF09040 		mov	r0, #1207959552
+ 178 001a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 179              	.LVL13:
+  34:Core/Src/display.c ****     HAL_Delay(20);
+ 180              		.loc 1 34 5 view .LVU23
+ 181 001e 1420     		movs	r0, #20
+ 182 0020 FFF7FEFF 		bl	HAL_Delay
+ 183              	.LVL14:
+  35:Core/Src/display.c ****     display_reset_low();
+ 184              		.loc 1 35 5 view .LVU24
+ 185 0024 0022     		movs	r2, #0
+ 186 0026 4FF48071 		mov	r1, #256
+ 187 002a 4FF09040 		mov	r0, #1207959552
+ 188 002e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 189              	.LVL15:
+  36:Core/Src/display.c ****     HAL_Delay(20);
+ 190              		.loc 1 36 5 view .LVU25
+ 191 0032 1420     		movs	r0, #20
+ 192 0034 FFF7FEFF 		bl	HAL_Delay
+ 193              	.LVL16:
+  37:Core/Src/display.c ****     display_reset_high();
+ 194              		.loc 1 37 5 view .LVU26
+ 195 0038 0122     		movs	r2, #1
+ 196 003a 4FF48071 		mov	r1, #256
+ARM GAS  /tmp/ccZWBjKp.s 			page 5
 
 
- 200 0032 0122     		movs	r2, #1
- 201 0034 4FF40071 		mov	r1, #512
- 202 0038 4FF09040 		mov	r0, #1207959552
- 203 003c FFF7FEFF 		bl	HAL_GPIO_WritePin
- 204              	.LVL18:
-  35:Core/Src/display.c ****     
-  36:Core/Src/display.c **** 
-  37:Core/Src/display.c **** }
- 205              		.loc 1 37 1 is_stmt 0 view .LVU30
- 206 0040 03B0     		add	sp, sp, #12
- 207              	.LCFI8:
- 208              		.cfi_def_cfa_offset 4
- 209              		@ sp needed
- 210 0042 5DF804FB 		ldr	pc, [sp], #4
- 211              	.L12:
- 212 0046 00BF     		.align	2
- 213              	.L11:
- 214 0048 00000000 		.word	hspi1
- 215              		.cfi_endproc
- 216              	.LFE290:
- 218              		.section	.text.OLED_ColorTurn,"ax",%progbits
- 219              		.align	1
- 220              		.global	OLED_ColorTurn
- 221              		.syntax unified
- 222              		.thumb
- 223              		.thumb_func
- 225              	OLED_ColorTurn:
- 226              	.LVL19:
- 227              	.LFB292:
-  38:Core/Src/display.c **** 
-  39:Core/Src/display.c **** void display_init (void)
-  40:Core/Src/display.c **** {
-  41:Core/Src/display.c ****     display_power_low();
-  42:Core/Src/display.c ****     cs_low();
-  43:Core/Src/display.c ****     display_reset_high();
-  44:Core/Src/display.c ****     HAL_Delay(10);
-  45:Core/Src/display.c ****     display_reset_low();
-  46:Core/Src/display.c ****     HAL_Delay(10);
-  47:Core/Src/display.c ****     display_reset_high();
-  48:Core/Src/display.c ****     HAL_Delay(10);
-  49:Core/Src/display.c ****     display_power_high();
-  50:Core/Src/display.c ****     HAL_Delay(100);
-  51:Core/Src/display.c ****     command(DISPLAYOFF);       // 0xAE - Display off
+ 197 003e 4FF09040 		mov	r0, #1207959552
+ 198 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 199              	.LVL17:
+  38:Core/Src/display.c ****     HAL_Delay(20);
+ 200              		.loc 1 38 5 view .LVU27
+ 201 0046 1420     		movs	r0, #20
+ 202 0048 FFF7FEFF 		bl	HAL_Delay
+ 203              	.LVL18:
+  39:Core/Src/display.c ****     display_power_high();
+ 204              		.loc 1 39 5 view .LVU28
+ 205 004c 0122     		movs	r2, #1
+ 206 004e 1146     		mov	r1, r2
+ 207 0050 4FF09040 		mov	r0, #1207959552
+ 208 0054 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 209              	.LVL19:
+  40:Core/Src/display.c ****     HAL_Delay(100);
+ 210              		.loc 1 40 5 view .LVU29
+ 211 0058 6420     		movs	r0, #100
+ 212 005a FFF7FEFF 		bl	HAL_Delay
+ 213              	.LVL20:
+  41:Core/Src/display.c **** 
+  42:Core/Src/display.c ****     command(DISPLAYOFF); 
+ 214              		.loc 1 42 5 view .LVU30
+ 215 005e AE20     		movs	r0, #174
+ 216 0060 FFF7FEFF 		bl	command
+ 217              	.LVL21:
+  43:Core/Src/display.c **** 
+  44:Core/Src/display.c ****     command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
+ 218              		.loc 1 44 5 view .LVU31
+ 219 0064 D520     		movs	r0, #213
+ 220 0066 FFF7FEFF 		bl	command
+ 221              	.LVL22:
+  45:Core/Src/display.c ****     command(0x80);     
+ 222              		.loc 1 45 5 view .LVU32
+ 223 006a 8020     		movs	r0, #128
+ 224 006c FFF7FEFF 		bl	command
+ 225              	.LVL23:
+  46:Core/Src/display.c **** 
+  47:Core/Src/display.c ****     command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
+ 226              		.loc 1 47 5 view .LVU33
+ 227 0070 A820     		movs	r0, #168
+ 228 0072 FFF7FEFF 		bl	command
+ 229              	.LVL24:
+  48:Core/Src/display.c ****     command(0x1F);                     // 0x1F
+ 230              		.loc 1 48 5 view .LVU34
+ 231 0076 1F20     		movs	r0, #31
+ 232 0078 FFF7FEFF 		bl	command
+ 233              	.LVL25:
+  49:Core/Src/display.c **** 
+  50:Core/Src/display.c ****     command(SETDISPLAYOFFSET); // 0xD3 - Display offset
+ 234              		.loc 1 50 5 view .LVU35
+ 235 007c D320     		movs	r0, #211
+ 236 007e FFF7FEFF 		bl	command
+ 237              	.LVL26:
+  51:Core/Src/display.c ****     command(0x00);                          //No offset
+ 238              		.loc 1 51 5 view .LVU36
+ 239 0082 0020     		movs	r0, #0
+ARM GAS  /tmp/ccZWBjKp.s 			page 6
+
+
+ 240 0084 FFF7FEFF 		bl	command
+ 241              	.LVL27:
   52:Core/Src/display.c **** 
-  53:Core/Src/display.c ****     command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
-  54:Core/Src/display.c ****     command(0x23);                     // 0xC2 - osc clock=0xC divide ratio = 0x2
+  53:Core/Src/display.c ****     command(SETCHARGEPMP1); // 0x8D - Display offset
+ 242              		.loc 1 53 5 view .LVU37
+ 243 0088 8D20     		movs	r0, #141
+ 244 008a FFF7FEFF 		bl	command
+ 245              	.LVL28:
+  54:Core/Src/display.c ****     command(0x14);          //set(0x10) disable
+ 246              		.loc 1 54 5 view .LVU38
+ 247 008e 1420     		movs	r0, #20
+ 248 0090 FFF7FEFF 		bl	command
+ 249              	.LVL29:
   55:Core/Src/display.c **** 
-  56:Core/Src/display.c ****     command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
-  57:Core/Src/display.c ****     command(0x47);                     // 0x1F - 31
-  58:Core/Src/display.c **** 
-  59:Core/Src/display.c ****     command(SETDISPLAYOFFSET); // 0xD3 - Display offset
-  60:Core/Src/display.c ****     command(0x72);                          // 0x60 - 96
-  61:Core/Src/display.c **** 
-  62:Core/Src/display.c ****     command(SETSTARTLINE); // 0xA2 - Start line
-  63:Core/Src/display.c ****     command(0x00);                      // 0x00 - Line 0
-  64:Core/Src/display.c **** 
-  65:Core/Src/display.c ****     //command(SETSEGREMAP);  // 0xA0 - Segment re-map
-ARM GAS  /tmp/ccuhYuZD.s 			page 6
-
-
-  66:Core/Src/display.c **** 
-  67:Core/Src/display.c ****     command(COMSCANINC); // 0xC0 - COM Output scan direction
-  68:Core/Src/display.c **** 
-  69:Core/Src/display.c ****     command(SETCOMPINS); // 0xDA - seg pins hardware config
-  70:Core/Src/display.c ****     command(0x32);                       // 0x12 -
-  71:Core/Src/display.c **** 
-  72:Core/Src/display.c ****     command(SETCONTRAST);    // 0x81 - Contrast control
-  73:Core/Src/display.c ****     command(0xFF);                       // 0x5A - value between 0x00 and 0xFF
-  74:Core/Src/display.c **** 
-  75:Core/Src/display.c ****     command(SETPHASELENGTH); // 0xD9 - Pre-charge period
-  76:Core/Src/display.c ****     command(0x72);                       // 0x22
-  77:Core/Src/display.c **** 
-  78:Core/Src/display.c ****     command(SETVCOMDESELECT);   // 0xDB - VCOMH Deselect level
-  79:Core/Src/display.c ****     command(0x20);                       // 0x30
-  80:Core/Src/display.c **** 
-  81:Core/Src/display.c ****     command(SELECTIREF);     // 0xAD - Internal IREF Enable
-  82:Core/Src/display.c ****     command(0x00);                       // 0x10
-  83:Core/Src/display.c **** 
-  84:Core/Src/display.c ****     command(MEMORYMODE); // 0x20 - Memory addressing mode
-  85:Core/Src/display.c ****     command(0x00);                        // 0x00 - Horizontal
-  86:Core/Src/display.c **** 
-  87:Core/Src/display.c ****   // disable internal charge pump
-  88:Core/Src/display.c ****     command(SETCHARGEPMP1); // 0x8D - Internal charge pump
-  89:Core/Src/display.c ****     command(0xFF);                           // 0x01
-  90:Core/Src/display.c ****     command(SETCHARGEPMP2); // 0xAC - Internal charge pump
-  91:Core/Src/display.c ****     command(0xFF);                    
-  92:Core/Src/display.c ****            // 0x00
-  93:Core/Src/display.c ****     command(0xBC); // 0xAC - Internal charge pump
-  94:Core/Src/display.c ****     command(0x1E);         
-  95:Core/Src/display.c ****     
-  96:Core/Src/display.c **** 
-  97:Core/Src/display.c **** 
-  98:Core/Src/display.c **** 
-  99:Core/Src/display.c ****   // set entire display on/off
- 100:Core/Src/display.c ****     command(RESETALLON);      // 0xA4 - Display on
- 101:Core/Src/display.c **** 
- 102:Core/Src/display.c ****   // set normal/inverse display
- 103:Core/Src/display.c ****     command(RESETINVERT);  // 0xA6 - Normal display (not inverted)
- 104:Core/Src/display.c **** 
- 105:Core/Src/display.c ****   // display on
- 106:Core/Src/display.c ****     command(DISPLAYON);         // 0xAF - Display on
- 107:Core/Src/display.c ****     setColumnAddress(0);
- 108:Core/Src/display.c ****     setRowAddress(0);
- 109:Core/Src/display.c **** 
- 110:Core/Src/display.c **** }
- 111:Core/Src/display.c **** 
- 112:Core/Src/display.c **** void OLED_ColorTurn(uint8_t i)
- 113:Core/Src/display.c **** {
- 228              		.loc 1 113 1 is_stmt 1 view -0
- 229              		.cfi_startproc
- 230              		@ args = 0, pretend = 0, frame = 0
- 231              		@ frame_needed = 0, uses_anonymous_args = 0
- 232              		.loc 1 113 1 is_stmt 0 view .LVU32
- 233 0000 10B5     		push	{r4, lr}
- 234              	.LCFI9:
- 235              		.cfi_def_cfa_offset 8
- 236              		.cfi_offset 4, -8
-ARM GAS  /tmp/ccuhYuZD.s 			page 7
-
-
- 237              		.cfi_offset 14, -4
- 114:Core/Src/display.c **** 	if(i==0)
- 238              		.loc 1 114 2 is_stmt 1 view .LVU33
- 239              		.loc 1 114 4 is_stmt 0 view .LVU34
- 240 0002 0446     		mov	r4, r0
- 241 0004 10B1     		cbz	r0, .L17
- 242              	.LVL20:
- 243              	.L14:
- 115:Core/Src/display.c **** 		{
- 116:Core/Src/display.c **** 		command(0xA6);
- 117:Core/Src/display.c **** 		}
- 118:Core/Src/display.c **** 	if(i==1)
- 244              		.loc 1 118 2 is_stmt 1 view .LVU35
- 245              		.loc 1 118 4 is_stmt 0 view .LVU36
- 246 0006 012C     		cmp	r4, #1
- 247 0008 04D0     		beq	.L18
- 248              	.L13:
- 119:Core/Src/display.c **** 		{
- 120:Core/Src/display.c **** 		command(0xA7);
- 121:Core/Src/display.c **** 		}
- 122:Core/Src/display.c **** }
- 249              		.loc 1 122 1 view .LVU37
- 250 000a 10BD     		pop	{r4, pc}
- 251              	.LVL21:
- 252              	.L17:
- 116:Core/Src/display.c **** 		}
- 253              		.loc 1 116 3 is_stmt 1 view .LVU38
- 254 000c A620     		movs	r0, #166
- 255              	.LVL22:
- 116:Core/Src/display.c **** 		}
- 256              		.loc 1 116 3 is_stmt 0 view .LVU39
- 257 000e FFF7FEFF 		bl	command
- 258              	.LVL23:
- 259 0012 F8E7     		b	.L14
- 260              	.L18:
- 120:Core/Src/display.c **** 		}
- 261              		.loc 1 120 3 is_stmt 1 view .LVU40
- 262 0014 A720     		movs	r0, #167
- 263 0016 FFF7FEFF 		bl	command
- 264              	.LVL24:
- 265              		.loc 1 122 1 is_stmt 0 view .LVU41
- 266 001a F6E7     		b	.L13
- 267              		.cfi_endproc
- 268              	.LFE292:
- 270              		.section	.text.er_oled_SetWindow,"ax",%progbits
- 271              		.align	1
- 272              		.global	er_oled_SetWindow
- 273              		.syntax unified
- 274              		.thumb
- 275              		.thumb_func
- 277              	er_oled_SetWindow:
- 278              	.LVL25:
- 279              	.LFB293:
- 123:Core/Src/display.c **** 
- 124:Core/Src/display.c **** void er_oled_SetWindow(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend)
- 125:Core/Src/display.c **** { 
- 280              		.loc 1 125 1 is_stmt 1 view -0
-ARM GAS  /tmp/ccuhYuZD.s 			page 8
-
-
- 281              		.cfi_startproc
- 282              		@ args = 0, pretend = 0, frame = 0
- 283              		@ frame_needed = 0, uses_anonymous_args = 0
- 284              		.loc 1 125 1 is_stmt 0 view .LVU43
- 285 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
- 286              	.LCFI10:
- 287              		.cfi_def_cfa_offset 24
- 288              		.cfi_offset 3, -24
- 289              		.cfi_offset 4, -20
- 290              		.cfi_offset 5, -16
- 291              		.cfi_offset 6, -12
- 292              		.cfi_offset 7, -8
- 293              		.cfi_offset 14, -4
- 294 0002 0746     		mov	r7, r0
- 295 0004 0D46     		mov	r5, r1
- 296 0006 1646     		mov	r6, r2
- 297 0008 1C46     		mov	r4, r3
- 126:Core/Src/display.c ****   command(0x21);
- 298              		.loc 1 126 3 is_stmt 1 view .LVU44
- 299 000a 2120     		movs	r0, #33
- 300              	.LVL26:
- 301              		.loc 1 126 3 is_stmt 0 view .LVU45
- 302 000c FFF7FEFF 		bl	command
- 303              	.LVL27:
- 127:Core/Src/display.c ****   command(Xstart);
- 304              		.loc 1 127 3 is_stmt 1 view .LVU46
- 305 0010 3846     		mov	r0, r7
- 306 0012 FFF7FEFF 		bl	command
- 307              	.LVL28:
- 128:Core/Src/display.c ****   command(Xend);
- 308              		.loc 1 128 3 view .LVU47
- 309 0016 3046     		mov	r0, r6
- 310 0018 FFF7FEFF 		bl	command
- 311              	.LVL29:
- 129:Core/Src/display.c ****   command(0x22);
- 312              		.loc 1 129 3 view .LVU48
- 313 001c 2220     		movs	r0, #34
- 314 001e FFF7FEFF 		bl	command
- 315              	.LVL30:
- 130:Core/Src/display.c ****   command(Ystart);
- 316              		.loc 1 130 3 view .LVU49
- 317 0022 2846     		mov	r0, r5
- 318 0024 FFF7FEFF 		bl	command
- 319              	.LVL31:
- 131:Core/Src/display.c ****   command(Yend);
- 320              		.loc 1 131 3 view .LVU50
- 321 0028 2046     		mov	r0, r4
- 322 002a FFF7FEFF 		bl	command
- 323              	.LVL32:
- 132:Core/Src/display.c **** 
- 133:Core/Src/display.c **** }
- 324              		.loc 1 133 1 is_stmt 0 view .LVU51
- 325 002e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
- 326              		.loc 1 133 1 view .LVU52
- 327              		.cfi_endproc
- 328              	.LFE293:
- 330              		.section	.text.er_oled_clear,"ax",%progbits
-ARM GAS  /tmp/ccuhYuZD.s 			page 9
-
-
- 331              		.align	1
- 332              		.global	er_oled_clear
- 333              		.syntax unified
- 334              		.thumb
- 335              		.thumb_func
- 337              	er_oled_clear:
- 338              	.LVL33:
- 339              	.LFB294:
- 134:Core/Src/display.c **** 
- 135:Core/Src/display.c **** void er_oled_clear(uint8_t a)
- 136:Core/Src/display.c **** {int i,row;
- 340              		.loc 1 136 1 is_stmt 1 view -0
- 341              		.cfi_startproc
- 342              		@ args = 0, pretend = 0, frame = 0
- 343              		@ frame_needed = 0, uses_anonymous_args = 0
- 344              		.loc 1 136 1 is_stmt 0 view .LVU54
- 345 0000 70B5     		push	{r4, r5, r6, lr}
- 346              	.LCFI11:
- 347              		.cfi_def_cfa_offset 16
- 348              		.cfi_offset 4, -16
- 349              		.cfi_offset 5, -12
- 350              		.cfi_offset 6, -8
- 351              		.cfi_offset 14, -4
- 352 0002 0546     		mov	r5, r0
- 353              		.loc 1 136 2 is_stmt 1 view .LVU55
- 137:Core/Src/display.c ****   er_oled_SetWindow(0, 0, WIDTH-1, HEIGHT-1);
- 354              		.loc 1 137 3 view .LVU56
- 355 0004 4723     		movs	r3, #71
- 356 0006 3F22     		movs	r2, #63
- 357 0008 0021     		movs	r1, #0
- 358 000a 0846     		mov	r0, r1
- 359              	.LVL34:
- 360              		.loc 1 137 3 is_stmt 0 view .LVU57
- 361 000c FFF7FEFF 		bl	er_oled_SetWindow
- 362              	.LVL35:
- 138:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 363              		.loc 1 138 3 is_stmt 1 view .LVU58
- 364              		.loc 1 138 12 is_stmt 0 view .LVU59
- 365 0010 0026     		movs	r6, #0
- 366              		.loc 1 138 3 view .LVU60
- 367 0012 06E0     		b	.L22
- 368              	.LVL36:
- 369              	.L23:
- 139:Core/Src/display.c ****         for(i = 0; i< WIDTH; i++ ) {
- 140:Core/Src/display.c ****           data(a);// write data       
- 370              		.loc 1 140 11 is_stmt 1 view .LVU61
- 371 0014 2846     		mov	r0, r5
- 372 0016 FFF7FEFF 		bl	data
- 373              	.LVL37:
- 139:Core/Src/display.c ****         for(i = 0; i< WIDTH; i++ ) {
- 374              		.loc 1 139 31 discriminator 3 view .LVU62
- 375 001a 0134     		adds	r4, r4, #1
- 376              	.LVL38:
- 377              	.L24:
- 139:Core/Src/display.c ****         for(i = 0; i< WIDTH; i++ ) {
- 378              		.loc 1 139 21 discriminator 1 view .LVU63
- 379 001c 3F2C     		cmp	r4, #63
-ARM GAS  /tmp/ccuhYuZD.s 			page 10
-
-
- 380 001e F9DD     		ble	.L23
- 138:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 381              		.loc 1 138 34 discriminator 2 view .LVU64
- 382 0020 0136     		adds	r6, r6, #1
- 383              	.LVL39:
- 384              	.L22:
- 138:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 385              		.loc 1 138 21 discriminator 1 view .LVU65
- 386 0022 472E     		cmp	r6, #71
- 387 0024 01DC     		bgt	.L27
- 139:Core/Src/display.c ****         for(i = 0; i< WIDTH; i++ ) {
- 388              		.loc 1 139 15 is_stmt 0 view .LVU66
- 389 0026 0024     		movs	r4, #0
- 390 0028 F8E7     		b	.L24
- 391              	.L27:
- 141:Core/Src/display.c ****         }        
- 142:Core/Src/display.c ****   }
- 143:Core/Src/display.c **** }
- 392              		.loc 1 143 1 view .LVU67
- 393 002a 70BD     		pop	{r4, r5, r6, pc}
- 394              		.loc 1 143 1 view .LVU68
- 395              		.cfi_endproc
- 396              	.LFE294:
- 398              		.section	.text.er_oled_bitmap,"ax",%progbits
- 399              		.align	1
- 400              		.global	er_oled_bitmap
- 401              		.syntax unified
- 402              		.thumb
- 403              		.thumb_func
- 405              	er_oled_bitmap:
- 406              	.LVL40:
- 407              	.LFB295:
- 144:Core/Src/display.c **** 
- 145:Core/Src/display.c **** void er_oled_bitmap(const uint8_t * pBuf)
- 146:Core/Src/display.c **** {   
- 408              		.loc 1 146 1 is_stmt 1 view -0
- 409              		.cfi_startproc
- 410              		@ args = 0, pretend = 0, frame = 0
- 411              		@ frame_needed = 0, uses_anonymous_args = 0
- 412              		.loc 1 146 1 is_stmt 0 view .LVU70
- 413 0000 70B5     		push	{r4, r5, r6, lr}
- 414              	.LCFI12:
- 415              		.cfi_def_cfa_offset 16
- 416              		.cfi_offset 4, -16
- 417              		.cfi_offset 5, -12
- 418              		.cfi_offset 6, -8
- 419              		.cfi_offset 14, -4
- 420 0002 0546     		mov	r5, r0
- 147:Core/Src/display.c ****     uint8_t row,col; 
- 421              		.loc 1 147 5 is_stmt 1 view .LVU71
- 148:Core/Src/display.c ****   er_oled_SetWindow(0, 0, WIDTH-1, HEIGHT-1);
- 422              		.loc 1 148 3 view .LVU72
- 423 0004 4723     		movs	r3, #71
- 424 0006 3F22     		movs	r2, #63
- 425 0008 0021     		movs	r1, #0
- 426 000a 0846     		mov	r0, r1
- 427              	.LVL41:
-ARM GAS  /tmp/ccuhYuZD.s 			page 11
-
-
- 428              		.loc 1 148 3 is_stmt 0 view .LVU73
- 429 000c FFF7FEFF 		bl	er_oled_SetWindow
- 430              	.LVL42:
- 149:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 431              		.loc 1 149 3 is_stmt 1 view .LVU74
- 432              		.loc 1 149 12 is_stmt 0 view .LVU75
- 433 0010 0026     		movs	r6, #0
- 434              		.loc 1 149 3 view .LVU76
- 435 0012 09E0     		b	.L29
- 436              	.LVL43:
- 437              	.L30:
- 150:Core/Src/display.c ****         for(col = 0;col<WIDTH; col++ ) 
- 151:Core/Src/display.c ****         {
- 152:Core/Src/display.c ****         data(*pBuf);
- 438              		.loc 1 152 9 is_stmt 1 view .LVU77
- 439 0014 15F8010B 		ldrb	r0, [r5], #1	@ zero_extendqisi2
- 440              	.LVL44:
- 441              		.loc 1 152 9 is_stmt 0 view .LVU78
- 442 0018 FFF7FEFF 		bl	data
- 443              	.LVL45:
- 153:Core/Src/display.c ****         * pBuf++;
- 444              		.loc 1 153 9 is_stmt 1 view .LVU79
- 150:Core/Src/display.c ****         for(col = 0;col<WIDTH; col++ ) 
- 445              		.loc 1 150 35 discriminator 3 view .LVU80
- 446 001c 0134     		adds	r4, r4, #1
- 447              	.LVL46:
- 150:Core/Src/display.c ****         for(col = 0;col<WIDTH; col++ ) 
- 448              		.loc 1 150 35 is_stmt 0 discriminator 3 view .LVU81
- 449 001e E4B2     		uxtb	r4, r4
- 450              	.LVL47:
- 451              	.L31:
- 150:Core/Src/display.c ****         for(col = 0;col<WIDTH; col++ ) 
- 452              		.loc 1 150 24 is_stmt 1 discriminator 1 view .LVU82
- 453 0020 3F2C     		cmp	r4, #63
- 454 0022 F7D9     		bls	.L30
- 149:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 455              		.loc 1 149 34 discriminator 2 view .LVU83
- 456 0024 0136     		adds	r6, r6, #1
- 457              	.LVL48:
- 149:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 458              		.loc 1 149 34 is_stmt 0 discriminator 2 view .LVU84
- 459 0026 F6B2     		uxtb	r6, r6
- 460              	.LVL49:
- 461              	.L29:
- 149:Core/Src/display.c ****   for (row = 0; row < HEIGHT; row++) {              
- 462              		.loc 1 149 21 is_stmt 1 discriminator 1 view .LVU85
- 463 0028 472E     		cmp	r6, #71
- 464 002a 01D8     		bhi	.L34
- 150:Core/Src/display.c ****         for(col = 0;col<WIDTH; col++ ) 
- 465              		.loc 1 150 17 is_stmt 0 view .LVU86
- 466 002c 0024     		movs	r4, #0
- 467 002e F7E7     		b	.L31
- 468              	.L34:
- 154:Core/Src/display.c ****         }
- 155:Core/Src/display.c ****   }    	
- 156:Core/Src/display.c **** }
- 469              		.loc 1 156 1 view .LVU87
-ARM GAS  /tmp/ccuhYuZD.s 			page 12
-
-
- 470 0030 70BD     		pop	{r4, r5, r6, pc}
- 471              		.loc 1 156 1 view .LVU88
- 472              		.cfi_endproc
- 473              	.LFE295:
- 475              		.section	.text.setColumnAddress,"ax",%progbits
- 476              		.align	1
- 477              		.global	setColumnAddress
- 478              		.syntax unified
- 479              		.thumb
- 480              		.thumb_func
- 482              	setColumnAddress:
- 483              	.LVL50:
- 484              	.LFB296:
- 157:Core/Src/display.c **** 
- 158:Core/Src/display.c **** void setColumnAddress(uint8_t address) {
- 485              		.loc 1 158 40 is_stmt 1 view -0
- 486              		.cfi_startproc
- 487              		@ args = 0, pretend = 0, frame = 0
- 488              		@ frame_needed = 0, uses_anonymous_args = 0
- 489              		.loc 1 158 40 is_stmt 0 view .LVU90
- 490 0000 10B5     		push	{r4, lr}
- 491              	.LCFI13:
- 492              		.cfi_def_cfa_offset 8
- 493              		.cfi_offset 4, -8
- 494              		.cfi_offset 14, -4
- 495 0002 0446     		mov	r4, r0
- 159:Core/Src/display.c ****   command(SETCOLUMN); // Set column address
- 496              		.loc 1 159 3 is_stmt 1 view .LVU91
- 497 0004 2120     		movs	r0, #33
- 498              	.LVL51:
- 499              		.loc 1 159 3 is_stmt 0 view .LVU92
- 500 0006 FFF7FEFF 		bl	command
- 501              	.LVL52:
- 160:Core/Src/display.c ****   command(address); //Set start address
- 502              		.loc 1 160 3 is_stmt 1 view .LVU93
- 503 000a 2046     		mov	r0, r4
- 504 000c FFF7FEFF 		bl	command
- 505              	.LVL53:
- 161:Core/Src/display.c ****   command(WIDTH - 1); //There are 160 pixels but each byte is 2 pixels. We want addresses 0 to 79.
- 506              		.loc 1 161 3 view .LVU94
- 507 0010 3F20     		movs	r0, #63
- 508 0012 FFF7FEFF 		bl	command
- 509              	.LVL54:
- 162:Core/Src/display.c ****   return;
- 510              		.loc 1 162 3 view .LVU95
- 163:Core/Src/display.c **** }
- 511              		.loc 1 163 1 is_stmt 0 view .LVU96
- 512 0016 10BD     		pop	{r4, pc}
- 513              		.loc 1 163 1 view .LVU97
- 514              		.cfi_endproc
- 515              	.LFE296:
- 517              		.section	.text.setRowAddress,"ax",%progbits
- 518              		.align	1
- 519              		.global	setRowAddress
- 520              		.syntax unified
- 521              		.thumb
- 522              		.thumb_func
-ARM GAS  /tmp/ccuhYuZD.s 			page 13
-
-
- 524              	setRowAddress:
- 525              	.LVL55:
- 526              	.LFB297:
- 164:Core/Src/display.c **** 
- 165:Core/Src/display.c **** void setRowAddress(uint8_t address) {
- 527              		.loc 1 165 37 is_stmt 1 view -0
- 528              		.cfi_startproc
- 529              		@ args = 0, pretend = 0, frame = 0
- 530              		@ frame_needed = 0, uses_anonymous_args = 0
- 531              		.loc 1 165 37 is_stmt 0 view .LVU99
- 532 0000 10B5     		push	{r4, lr}
- 533              	.LCFI14:
- 534              		.cfi_def_cfa_offset 8
- 535              		.cfi_offset 4, -8
- 536              		.cfi_offset 14, -4
- 537 0002 0446     		mov	r4, r0
- 166:Core/Src/display.c ****   command(SETROW); // Set row address
- 538              		.loc 1 166 3 is_stmt 1 view .LVU100
- 539 0004 2220     		movs	r0, #34
- 540              	.LVL56:
- 541              		.loc 1 166 3 is_stmt 0 view .LVU101
- 542 0006 FFF7FEFF 		bl	command
- 543              	.LVL57:
- 167:Core/Src/display.c ****   command(address); //Set start address
- 544              		.loc 1 167 3 is_stmt 1 view .LVU102
- 545 000a 2046     		mov	r0, r4
- 546 000c FFF7FEFF 		bl	command
- 547              	.LVL58:
- 168:Core/Src/display.c ****   command(HEIGHT - 1); //Set end address: Display has 32 rows of pixels.
- 548              		.loc 1 168 3 view .LVU103
- 549 0010 4720     		movs	r0, #71
- 550 0012 FFF7FEFF 		bl	command
- 551              	.LVL59:
- 169:Core/Src/display.c ****   return;
- 552              		.loc 1 169 3 view .LVU104
- 170:Core/Src/display.c **** }
- 553              		.loc 1 170 1 is_stmt 0 view .LVU105
- 554 0016 10BD     		pop	{r4, pc}
- 555              		.loc 1 170 1 view .LVU106
- 556              		.cfi_endproc
- 557              	.LFE297:
- 559              		.section	.text.display_init,"ax",%progbits
- 560              		.align	1
- 561              		.global	display_init
- 562              		.syntax unified
- 563              		.thumb
- 564              		.thumb_func
- 566              	display_init:
- 567              	.LFB291:
-  40:Core/Src/display.c ****     display_power_low();
- 568              		.loc 1 40 1 is_stmt 1 view -0
- 569              		.cfi_startproc
- 570              		@ args = 0, pretend = 0, frame = 0
- 571              		@ frame_needed = 0, uses_anonymous_args = 0
- 572 0000 08B5     		push	{r3, lr}
- 573              	.LCFI15:
- 574              		.cfi_def_cfa_offset 8
-ARM GAS  /tmp/ccuhYuZD.s 			page 14
-
-
- 575              		.cfi_offset 3, -8
- 576              		.cfi_offset 14, -4
-  41:Core/Src/display.c ****     cs_low();
- 577              		.loc 1 41 5 view .LVU108
- 578 0002 0022     		movs	r2, #0
- 579 0004 0121     		movs	r1, #1
- 580 0006 4FF09040 		mov	r0, #1207959552
- 581 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
- 582              	.LVL60:
-  42:Core/Src/display.c ****     display_reset_high();
- 583              		.loc 1 42 5 view .LVU109
- 584 000e 0022     		movs	r2, #0
- 585 0010 4FF40071 		mov	r1, #512
- 586 0014 4FF09040 		mov	r0, #1207959552
- 587 0018 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 588              	.LVL61:
-  43:Core/Src/display.c ****     HAL_Delay(10);
- 589              		.loc 1 43 5 view .LVU110
- 590 001c 0122     		movs	r2, #1
- 591 001e 4FF48071 		mov	r1, #256
- 592 0022 4FF09040 		mov	r0, #1207959552
- 593 0026 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 594              	.LVL62:
-  44:Core/Src/display.c ****     display_reset_low();
- 595              		.loc 1 44 5 view .LVU111
- 596 002a 0A20     		movs	r0, #10
- 597 002c FFF7FEFF 		bl	HAL_Delay
- 598              	.LVL63:
-  45:Core/Src/display.c ****     HAL_Delay(10);
- 599              		.loc 1 45 5 view .LVU112
- 600 0030 0022     		movs	r2, #0
- 601 0032 4FF48071 		mov	r1, #256
- 602 0036 4FF09040 		mov	r0, #1207959552
- 603 003a FFF7FEFF 		bl	HAL_GPIO_WritePin
- 604              	.LVL64:
-  46:Core/Src/display.c ****     display_reset_high();
- 605              		.loc 1 46 5 view .LVU113
- 606 003e 0A20     		movs	r0, #10
- 607 0040 FFF7FEFF 		bl	HAL_Delay
- 608              	.LVL65:
-  47:Core/Src/display.c ****     HAL_Delay(10);
- 609              		.loc 1 47 5 view .LVU114
- 610 0044 0122     		movs	r2, #1
- 611 0046 4FF48071 		mov	r1, #256
- 612 004a 4FF09040 		mov	r0, #1207959552
- 613 004e FFF7FEFF 		bl	HAL_GPIO_WritePin
- 614              	.LVL66:
-  48:Core/Src/display.c ****     display_power_high();
- 615              		.loc 1 48 5 view .LVU115
- 616 0052 0A20     		movs	r0, #10
- 617 0054 FFF7FEFF 		bl	HAL_Delay
- 618              	.LVL67:
-  49:Core/Src/display.c ****     HAL_Delay(100);
- 619              		.loc 1 49 5 view .LVU116
- 620 0058 0122     		movs	r2, #1
- 621 005a 1146     		mov	r1, r2
- 622 005c 4FF09040 		mov	r0, #1207959552
-ARM GAS  /tmp/ccuhYuZD.s 			page 15
-
-
- 623 0060 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 624              	.LVL68:
-  50:Core/Src/display.c ****     command(DISPLAYOFF);       // 0xAE - Display off
- 625              		.loc 1 50 5 view .LVU117
- 626 0064 6420     		movs	r0, #100
- 627 0066 FFF7FEFF 		bl	HAL_Delay
- 628              	.LVL69:
-  51:Core/Src/display.c **** 
- 629              		.loc 1 51 5 view .LVU118
- 630 006a AE20     		movs	r0, #174
- 631 006c FFF7FEFF 		bl	command
- 632              	.LVL70:
-  53:Core/Src/display.c ****     command(0x23);                     // 0xC2 - osc clock=0xC divide ratio = 0x2
- 633              		.loc 1 53 5 view .LVU119
- 634 0070 D520     		movs	r0, #213
- 635 0072 FFF7FEFF 		bl	command
- 636              	.LVL71:
-  54:Core/Src/display.c **** 
- 637              		.loc 1 54 5 view .LVU120
- 638 0076 2320     		movs	r0, #35
- 639 0078 FFF7FEFF 		bl	command
- 640              	.LVL72:
-  56:Core/Src/display.c ****     command(0x47);                     // 0x1F - 31
- 641              		.loc 1 56 5 view .LVU121
- 642 007c A820     		movs	r0, #168
- 643 007e FFF7FEFF 		bl	command
- 644              	.LVL73:
+  56:Core/Src/display.c ****     command(SETSTARTLINE); // 0x40 - set start line address
+ 250              		.loc 1 56 5 view .LVU39
+ 251 0094 4020     		movs	r0, #64
+ 252 0096 FFF7FEFF 		bl	command
+ 253              	.LVL30:
   57:Core/Src/display.c **** 
- 645              		.loc 1 57 5 view .LVU122
- 646 0082 4720     		movs	r0, #71
- 647 0084 FFF7FEFF 		bl	command
- 648              	.LVL74:
-  59:Core/Src/display.c ****     command(0x72);                          // 0x60 - 96
- 649              		.loc 1 59 5 view .LVU123
- 650 0088 D320     		movs	r0, #211
- 651 008a FFF7FEFF 		bl	command
- 652              	.LVL75:
-  60:Core/Src/display.c **** 
- 653              		.loc 1 60 5 view .LVU124
- 654 008e 7220     		movs	r0, #114
- 655 0090 FFF7FEFF 		bl	command
- 656              	.LVL76:
-  62:Core/Src/display.c ****     command(0x00);                      // 0x00 - Line 0
- 657              		.loc 1 62 5 view .LVU125
- 658 0094 A220     		movs	r0, #162
- 659 0096 FFF7FEFF 		bl	command
- 660              	.LVL77:
+  58:Core/Src/display.c ****     command(RESETINVERT); // 0xA6 - set normal display
+ 254              		.loc 1 58 5 view .LVU40
+ 255 009a A620     		movs	r0, #166
+ 256 009c FFF7FEFF 		bl	command
+ 257              	.LVL31:
+  59:Core/Src/display.c **** 
+  60:Core/Src/display.c ****     command(RESETALLON); // 0xA4 - Disable Entire Display On
+ 258              		.loc 1 60 5 view .LVU41
+ 259 00a0 A420     		movs	r0, #164
+ 260 00a2 FFF7FEFF 		bl	command
+ 261              	.LVL32:
+  61:Core/Src/display.c **** 
+  62:Core/Src/display.c ****     command(SETSEGREMAP); // 0xA1 - set segment re-map 128 to 0  
+ 262              		.loc 1 62 5 view .LVU42
+ 263 00a6 A120     		movs	r0, #161
+ 264 00a8 FFF7FEFF 		bl	command
+ 265              	.LVL33:
   63:Core/Src/display.c **** 
- 661              		.loc 1 63 5 view .LVU126
- 662 009a 0020     		movs	r0, #0
- 663 009c FFF7FEFF 		bl	command
- 664              	.LVL78:
-  67:Core/Src/display.c **** 
- 665              		.loc 1 67 5 view .LVU127
- 666 00a0 C020     		movs	r0, #192
- 667 00a2 FFF7FEFF 		bl	command
- 668              	.LVL79:
-ARM GAS  /tmp/ccuhYuZD.s 			page 16
+  64:Core/Src/display.c ****     command(COMSCANDEC); // 0xC8 - Set COM Output Scan Direction 64 to 0
+ 266              		.loc 1 64 5 view .LVU43
+ 267 00ac C820     		movs	r0, #200
+ 268 00ae FFF7FEFF 		bl	command
+ 269              	.LVL34:
+  65:Core/Src/display.c **** 
+  66:Core/Src/display.c ****     command(SETCOMPINS); // 0xDA - seg pins hardware config
+ 270              		.loc 1 66 5 view .LVU44
+ 271 00b2 DA20     		movs	r0, #218
+ 272 00b4 FFF7FEFF 		bl	command
+ 273              	.LVL35:
+  67:Core/Src/display.c ****     command(0x42);                       // 0x12 -
+ 274              		.loc 1 67 5 view .LVU45
+ 275 00b8 4220     		movs	r0, #66
+ 276 00ba FFF7FEFF 		bl	command
+ 277              	.LVL36:
+  68:Core/Src/display.c **** 
+  69:Core/Src/display.c ****     command(SETCONTRAST);    // 0x81 - set contrast control register
+ 278              		.loc 1 69 5 view .LVU46
+ARM GAS  /tmp/ccZWBjKp.s 			page 7
 
 
-  69:Core/Src/display.c ****     command(0x32);                       // 0x12 -
- 669              		.loc 1 69 5 view .LVU128
- 670 00a6 DA20     		movs	r0, #218
- 671 00a8 FFF7FEFF 		bl	command
- 672              	.LVL80:
-  70:Core/Src/display.c **** 
- 673              		.loc 1 70 5 view .LVU129
- 674 00ac 3220     		movs	r0, #50
- 675 00ae FFF7FEFF 		bl	command
- 676              	.LVL81:
-  72:Core/Src/display.c ****     command(0xFF);                       // 0x5A - value between 0x00 and 0xFF
- 677              		.loc 1 72 5 view .LVU130
- 678 00b2 8120     		movs	r0, #129
- 679 00b4 FFF7FEFF 		bl	command
- 680              	.LVL82:
-  73:Core/Src/display.c **** 
- 681              		.loc 1 73 5 view .LVU131
- 682 00b8 FF20     		movs	r0, #255
- 683 00ba FFF7FEFF 		bl	command
- 684              	.LVL83:
-  75:Core/Src/display.c ****     command(0x72);                       // 0x22
- 685              		.loc 1 75 5 view .LVU132
- 686 00be D920     		movs	r0, #217
- 687 00c0 FFF7FEFF 		bl	command
- 688              	.LVL84:
-  76:Core/Src/display.c **** 
- 689              		.loc 1 76 5 view .LVU133
- 690 00c4 7220     		movs	r0, #114
- 691 00c6 FFF7FEFF 		bl	command
- 692              	.LVL85:
-  78:Core/Src/display.c ****     command(0x20);                       // 0x30
- 693              		.loc 1 78 5 view .LVU134
- 694 00ca DB20     		movs	r0, #219
- 695 00cc FFF7FEFF 		bl	command
- 696              	.LVL86:
-  79:Core/Src/display.c **** 
- 697              		.loc 1 79 5 view .LVU135
- 698 00d0 2020     		movs	r0, #32
- 699 00d2 FFF7FEFF 		bl	command
- 700              	.LVL87:
-  81:Core/Src/display.c ****     command(0x00);                       // 0x10
- 701              		.loc 1 81 5 view .LVU136
- 702 00d6 AD20     		movs	r0, #173
- 703 00d8 FFF7FEFF 		bl	command
- 704              	.LVL88:
+ 279 00be 8120     		movs	r0, #129
+ 280 00c0 FFF7FEFF 		bl	command
+ 281              	.LVL37:
+  70:Core/Src/display.c ****     command(0x80);           //
+ 282              		.loc 1 70 5 view .LVU47
+ 283 00c4 8020     		movs	r0, #128
+ 284 00c6 FFF7FEFF 		bl	command
+ 285              	.LVL38:
+  71:Core/Src/display.c **** 
+  72:Core/Src/display.c ****     command(SETPHASELENGTH); // 0xD9 - set pre-charge period
+ 286              		.loc 1 72 5 view .LVU48
+ 287 00ca D920     		movs	r0, #217
+ 288 00cc FFF7FEFF 		bl	command
+ 289              	.LVL39:
+  73:Core/Src/display.c ****     command(0xF1);            
+ 290              		.loc 1 73 5 view .LVU49
+ 291 00d0 F120     		movs	r0, #241
+ 292 00d2 FFF7FEFF 		bl	command
+ 293              	.LVL40:
+  74:Core/Src/display.c **** 
+  75:Core/Src/display.c ****     command(SETVCOMDESELECT);   // 0xDB - set vcomh
+ 294              		.loc 1 75 5 view .LVU50
+ 295 00d6 DB20     		movs	r0, #219
+ 296 00d8 FFF7FEFF 		bl	command
+ 297              	.LVL41:
+  76:Core/Src/display.c ****     command(0x40);                       // 0x30
+ 298              		.loc 1 76 5 view .LVU51
+ 299 00dc 4020     		movs	r0, #64
+ 300 00de FFF7FEFF 		bl	command
+ 301              	.LVL42:
+  77:Core/Src/display.c **** 
+  78:Core/Src/display.c **** 
+  79:Core/Src/display.c ****     command(DISPLAYON);         // 0xAF - Display on
+ 302              		.loc 1 79 5 view .LVU52
+ 303 00e2 AF20     		movs	r0, #175
+ 304 00e4 FFF7FEFF 		bl	command
+ 305              	.LVL43:
+  80:Core/Src/display.c **** //    setColumnAddress(0);
+  81:Core/Src/display.c ****  //   setRowAddress(0);
   82:Core/Src/display.c **** 
- 705              		.loc 1 82 5 view .LVU137
- 706 00dc 0020     		movs	r0, #0
- 707 00de FFF7FEFF 		bl	command
- 708              	.LVL89:
-  84:Core/Src/display.c ****     command(0x00);                        // 0x00 - Horizontal
- 709              		.loc 1 84 5 view .LVU138
- 710 00e2 2020     		movs	r0, #32
- 711 00e4 FFF7FEFF 		bl	command
- 712              	.LVL90:
-  85:Core/Src/display.c **** 
- 713              		.loc 1 85 5 view .LVU139
-ARM GAS  /tmp/ccuhYuZD.s 			page 17
-
-
- 714 00e8 0020     		movs	r0, #0
- 715 00ea FFF7FEFF 		bl	command
- 716              	.LVL91:
-  88:Core/Src/display.c ****     command(0xFF);                           // 0x01
- 717              		.loc 1 88 5 view .LVU140
- 718 00ee 8D20     		movs	r0, #141
- 719 00f0 FFF7FEFF 		bl	command
- 720              	.LVL92:
-  89:Core/Src/display.c ****     command(SETCHARGEPMP2); // 0xAC - Internal charge pump
- 721              		.loc 1 89 5 view .LVU141
- 722 00f4 FF20     		movs	r0, #255
- 723 00f6 FFF7FEFF 		bl	command
- 724              	.LVL93:
-  90:Core/Src/display.c ****     command(0xFF);                    
- 725              		.loc 1 90 5 view .LVU142
- 726 00fa AC20     		movs	r0, #172
- 727 00fc FFF7FEFF 		bl	command
- 728              	.LVL94:
-  91:Core/Src/display.c ****            // 0x00
- 729              		.loc 1 91 5 view .LVU143
- 730 0100 FF20     		movs	r0, #255
- 731 0102 FFF7FEFF 		bl	command
- 732              	.LVL95:
-  93:Core/Src/display.c ****     command(0x1E);         
- 733              		.loc 1 93 5 view .LVU144
- 734 0106 BC20     		movs	r0, #188
- 735 0108 FFF7FEFF 		bl	command
- 736              	.LVL96:
-  94:Core/Src/display.c ****     
- 737              		.loc 1 94 5 view .LVU145
- 738 010c 1E20     		movs	r0, #30
- 739 010e FFF7FEFF 		bl	command
- 740              	.LVL97:
- 100:Core/Src/display.c **** 
- 741              		.loc 1 100 5 view .LVU146
- 742 0112 A420     		movs	r0, #164
- 743 0114 FFF7FEFF 		bl	command
- 744              	.LVL98:
- 103:Core/Src/display.c **** 
- 745              		.loc 1 103 5 view .LVU147
- 746 0118 A620     		movs	r0, #166
- 747 011a FFF7FEFF 		bl	command
- 748              	.LVL99:
- 106:Core/Src/display.c ****     setColumnAddress(0);
- 749              		.loc 1 106 5 view .LVU148
- 750 011e AF20     		movs	r0, #175
- 751 0120 FFF7FEFF 		bl	command
- 752              	.LVL100:
- 107:Core/Src/display.c ****     setRowAddress(0);
- 753              		.loc 1 107 5 view .LVU149
- 754 0124 0020     		movs	r0, #0
- 755 0126 FFF7FEFF 		bl	setColumnAddress
- 756              	.LVL101:
- 108:Core/Src/display.c **** 
- 757              		.loc 1 108 5 view .LVU150
- 758 012a 0020     		movs	r0, #0
- 759 012c FFF7FEFF 		bl	setRowAddress
-ARM GAS  /tmp/ccuhYuZD.s 			page 18
-
-
- 760              	.LVL102:
- 110:Core/Src/display.c **** 
- 761              		.loc 1 110 1 is_stmt 0 view .LVU151
- 762 0130 08BD     		pop	{r3, pc}
- 763              		.cfi_endproc
- 764              	.LFE291:
- 766              		.section	.text.display_demo,"ax",%progbits
- 767              		.align	1
- 768              		.global	display_demo
- 769              		.syntax unified
- 770              		.thumb
- 771              		.thumb_func
- 773              	display_demo:
- 774              	.LFB298:
- 171:Core/Src/display.c **** 
- 172:Core/Src/display.c **** void display_demo (void)
- 173:Core/Src/display.c **** {
- 775              		.loc 1 173 1 is_stmt 1 view -0
- 776              		.cfi_startproc
- 777              		@ args = 0, pretend = 0, frame = 4616
- 778              		@ frame_needed = 0, uses_anonymous_args = 0
- 779 0000 00B5     		push	{lr}
- 780              	.LCFI16:
- 781              		.cfi_def_cfa_offset 4
- 782              		.cfi_offset 14, -4
- 783 0002 ADF5905D 		sub	sp, sp, #4608
- 784              	.LCFI17:
- 785              		.cfi_def_cfa_offset 4612
- 786 0006 83B0     		sub	sp, sp, #12
- 787              	.LCFI18:
- 788              		.cfi_def_cfa_offset 4624
- 174:Core/Src/display.c ****     const uint8_t PIC1[] = {  0X20,0X04,0X80,0X00,0X48,0X00,
- 789              		.loc 1 174 5 view .LVU153
- 790              		.loc 1 174 19 is_stmt 0 view .LVU154
- 791 0008 41F20622 		movw	r2, #4614
- 792 000c 1149     		ldr	r1, .L43
- 793 000e 6846     		mov	r0, sp
- 794 0010 FFF7FEFF 		bl	memcpy
- 795              	.LVL103:
- 175:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,
- 176:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 177:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 178:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 179:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,
- 180:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,
- 181:Core/Src/display.c **** 0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 182:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0XFF,0XFF,0XAA,0X00,0XF0,0X00,0XFF,0XFF,0X00,0X00,0X00,0X00,
- 183:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0XFF,0XF0,0XFF,0XFF,0X00,0X00,
- 184:Core/Src/display.c **** 0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,
- 185:Core/Src/display.c **** 0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 186:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0XFF,0XFF,0X0F,0XF0,0XFF,0XFF,0X0F,0XFF,0X00,0X00,0X00,0X00,
- 187:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0XFF,0X0F,0XF0,
- 188:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0X0F,
- 189:Core/Src/display.c **** 0XF0,0XFF,0XFF,0X00,0XFF,0X0F,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 190:Core/Src/display.c **** 0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X0F,0XFF,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 191:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0X00,0X10,0XF0,0X00,0X00,0X00,0XF0,0X0F,0XF0,
- 192:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,
-ARM GAS  /tmp/ccuhYuZD.s 			page 19
-
-
- 193:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 194:Core/Src/display.c **** 0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,
- 195:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,
- 196:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,
- 197:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 198:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XBB,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 199:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0X00,0XFF,
- 200:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,
- 201:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,
- 202:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X13,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 203:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0XFF,
- 204:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,
- 205:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 206:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 207:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,
- 208:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,
- 209:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 210:Core/Src/display.c **** 0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 211:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XFF,0XFF,0XFF,0X0F,0XF0,
- 212:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,
- 213:Core/Src/display.c **** 0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,
- 214:Core/Src/display.c **** 0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X0F,0X0F,0X00,0X00,
- 215:Core/Src/display.c **** 0X00,0XFF,0XFF,0X0F,0XF0,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0XFF,0XFF,0X00,0X00,
- 216:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,
- 217:Core/Src/display.c **** 0X00,0XFF,0X0F,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,
- 218:Core/Src/display.c **** 0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X0F,0X0F,0X00,0X00,
- 219:Core/Src/display.c **** 0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XFF,0XFF,0X0F,
- 220:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,
- 221:Core/Src/display.c **** 0XFF,0XF0,0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0XF0,0XFF,0XFF,0XFF,0X0F,0X00,0X00,
- 222:Core/Src/display.c **** 0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,
- 223:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XF0,0XFF,0XFF,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,
- 224:Core/Src/display.c **** 0X0F,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XF0,0XFF,0XF0,0XFF,0XFF,
- 225:Core/Src/display.c **** 0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XF0,0XFF,0XFF,0XFF,0X0F,0X00,0X00,
- 226:Core/Src/display.c **** 0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XF0,0X00,0X00,
- 227:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X14,0X00,0XF0,0XFF,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,
- 228:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0XF0,0XFF,0XFF,
- 229:Core/Src/display.c **** 0XFF,0XFF,0X0F,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 230:Core/Src/display.c **** 0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0XF0,0X00,0X00,
- 231:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0XF0,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0X00,0XFF,0XFF,
- 232:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0XF0,0XFF,0XFF,
- 233:Core/Src/display.c **** 0XFF,0XFF,0X0F,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,
- 234:Core/Src/display.c **** 0XF0,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0XF0,0X00,0X00,
- 235:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0XF0,0X0F,0X00,0X00,0XFF,
- 236:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0XF0,0XFF,
- 237:Core/Src/display.c **** 0XFF,0XFF,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,
- 238:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XF0,0X0F,0X00,
- 239:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0XFF,0X0F,0XF0,0X0F,0XF0,0X0F,0X00,0X00,0XFF,
- 240:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0XF0,0XFF,
- 241:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X0F,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,
- 242:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0X0F,0X0F,0X00,
- 243:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X0F,0XF0,0X00,0XFF,0X00,0XF0,
- 244:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0XF0,0XFF,0XFF,
- 245:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0XF0,
- 246:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X0F,0X00,
- 247:Core/Src/display.c **** 0X00,0XFF,0XFF,0XFF,0X00,0XFF,0XFF,0X0F,0X00,0X00,0X0F,0XF0,0XF0,0XF0,0X0F,0XF0,
- 248:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XF0,0XFF,0XFF,0XFF,
- 249:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0XF0,
-ARM GAS  /tmp/ccuhYuZD.s 			page 20
-
-
- 250:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0XFF,0X0F,0X00,
- 251:Core/Src/display.c **** 0X00,0XF0,0XFF,0XFF,0X00,0XFF,0XFF,0X00,0XFF,0XFF,0X00,0X00,0XF0,0X00,0X00,0XF0,
- 252:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,
- 253:Core/Src/display.c **** 0XFF,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X0F,
- 254:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0XFF,0X00,
- 255:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0X00,0X0F,0XF0,0X00,0X00,0X00,0X00,0X00,0XFF,
- 256:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0X0F,0X00,0XFF,0XF0,0XFF,0XFF,0X0F,0XF0,
- 257:Core/Src/display.c **** 0XFF,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X0F,
- 258:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XF0,0X0F,0XF0,0X00,
- 259:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,
- 260:Core/Src/display.c **** 0XFF,0X0F,0XFF,0XFF,0XFF,0X00,0X00,0XFF,0XFF,0X00,0XFF,0XFF,0XFF,0XFF,0XF0,0XFF,
- 261:Core/Src/display.c **** 0XFF,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0XF0,0X0F,0X00,0X00,0XF0,0X0F,
- 262:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XF0,0X0F,0XF0,0X00,
- 263:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0XFF,0XFF,
- 264:Core/Src/display.c **** 0XFF,0X00,0XFF,0XFF,0XFF,0X00,0XF0,0X0F,0XFF,0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,0XF0,
- 265:Core/Src/display.c **** 0X0F,0X00,0X00,0XFF,0X0F,0XF0,0XFF,0XFF,0X0F,0X00,0XF0,0X0F,0X00,0X00,0XF0,0X00,
- 266:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XF0,0X0F,0XF0,0X0F,
- 267:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0X0F,0X00,0XFF,0X00,0XFF,0X0F,0X00,0X00,0X00,
- 268:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0XF0,0X00,0XF0,0XFF,0X0F,0XFF,0XFF,0XFF,0X0F,0XF0,
- 269:Core/Src/display.c **** 0X0F,0X00,0X00,0XFF,0XFF,0XF0,0XFF,0XFF,0X0F,0X00,0XF0,0X00,0X00,0X00,0XF0,0X00,
- 270:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XF0,0X0F,0X00,0XFF,
- 271:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0XFF,0XFF,0X0F,0XF0,0XFF,0X0F,0X00,0X00,0X00,
- 272:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0XF0,0X00,0XF0,0XFF,0X0F,0XFF,0XFF,0XFF,0X00,0X0F,
- 273:Core/Src/display.c **** 0X00,0X00,0X00,0X0F,0XF0,0XF0,0XFF,0XFF,0XFF,0X00,0XF0,0X0F,0X00,0X00,0XFF,0X00,
- 274:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X0F,0X00,0X00,0XFF,
- 275:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0X00,0XF0,0X0F,0X00,
- 276:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0XF0,0X0F,0X00,0XFF,0X0F,0XFF,0XFF,0XFF,0XFF,0X0F,
- 277:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0XF0,0X0F,0X00,0XF0,0XFF,0X00,
- 278:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0XF0,
- 279:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0XF0,0X0F,0XF0,0X0F,0X00,
- 280:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0X00,0XFF,0X00,0XF0,0X0F,0XF0,0XFF,0XFF,0XFF,0XFF,
- 281:Core/Src/display.c **** 0X0F,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0XF0,0X0F,0X00,0XF0,0X0F,0X00,
- 282:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,
- 283:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,
- 284:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0X00,0XFF,0X0F,0XFF,0X0F,0X00,0XFF,0XFF,0X0F,0XFF,
- 285:Core/Src/display.c **** 0X0F,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0XF0,0X0F,0X00,0XF0,0X0F,0X00,
- 286:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,
- 287:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,
- 288:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XF0,
- 289:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0XF0,0X0F,0X00,0XF0,0X0F,0X00,
- 290:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X0F,
- 291:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 292:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,
- 293:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0XFF,0X00,
- 294:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X0F,
- 295:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 296:Core/Src/display.c **** 0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,0X00,
- 297:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0XF0,0X00,
- 298:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XF0,0X0F,
- 299:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 300:Core/Src/display.c **** 0X00,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X0F,0XFF,0X00,0X00,0XFF,0XFF,
- 301:Core/Src/display.c **** 0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0XF0,0X0F,
- 302:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0XFF,0X00,
- 303:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 304:Core/Src/display.c **** 0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0XFF,0XF0,0X0F,0X00,0XF0,0XFF,
- 305:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X0F,
- 306:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,
-ARM GAS  /tmp/ccuhYuZD.s 			page 21
-
-
- 307:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 308:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0XFF,0X00,0X00,0X00,
- 309:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,
- 310:Core/Src/display.c **** 0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,
- 311:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,
- 312:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XF0,0XFF,0X00,0X00,
- 313:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 314:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 315:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,
- 316:Core/Src/display.c **** 0X00,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0XF0,0XFF,0X00,
- 317:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 318:Core/Src/display.c **** 0X00,0XFF,0X00,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,
- 319:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,
- 320:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0XF0,0XFF,0XFF,
- 321:Core/Src/display.c **** 0XFF,0XFF,0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 322:Core/Src/display.c **** 0X00,0XF0,0XFF,0X0F,0XFF,0XFF,0XFF,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,
- 323:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,
- 324:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0XFF,0XFF,0X00,
- 325:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 326:Core/Src/display.c **** 0X00,0X00,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 327:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,
- 328:Core/Src/display.c **** 0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0X0F,0X00,
- 329:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X0F,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 330:Core/Src/display.c **** 0X00,0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0XF0,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,
- 331:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,
- 332:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0X00,0X00,
- 333:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 334:Core/Src/display.c **** 0X00,0X0F,0X0F,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,
- 335:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,
- 336:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,
- 337:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 338:Core/Src/display.c **** 0XF0,0XFF,0X0F,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,
- 339:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 340:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,
- 341:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 342:Core/Src/display.c **** 0XF0,0XFF,0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,
- 343:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 344:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,
- 345:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X0F,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 346:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 347:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 348:Core/Src/display.c **** 0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 349:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 350:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,
- 351:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,
- 352:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 353:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 354:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,
- 355:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,
- 356:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 357:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 358:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,
- 359:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 360:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 361:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,
- 362:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,
- 363:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
-ARM GAS  /tmp/ccuhYuZD.s 			page 22
-
-
- 364:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 365:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 366:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,
- 367:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 368:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 369:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 370:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,
- 371:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,
- 372:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 373:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 374:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,
- 375:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,
- 376:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 377:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 378:Core/Src/display.c **** 0XFF,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,
- 379:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 380:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 381:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 382:Core/Src/display.c **** 0XF0,0XFF,0XFF,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,
- 383:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 384:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 385:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 386:Core/Src/display.c **** 0X00,0XFF,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,
- 387:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 388:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,
- 389:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 390:Core/Src/display.c **** 0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,
- 391:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 392:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 393:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 394:Core/Src/display.c **** 0X00,0XF0,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,
- 395:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,
- 396:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 397:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 398:Core/Src/display.c **** 0X00,0XFF,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 399:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 400:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,
- 401:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 402:Core/Src/display.c **** 0X00,0X0F,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,
- 403:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,
- 404:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0XFF,
- 405:Core/Src/display.c **** 0XFF,0XFF,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 406:Core/Src/display.c **** 0X00,0X0F,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X0F,0X00,0X00,0X00,0X00,
- 407:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 408:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 409:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 410:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 411:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 412:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 413:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 414:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 415:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 416:Core/Src/display.c **** 0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,
- 417:Core/Src/display.c **** 0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 418:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 419:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 420:Core/Src/display.c **** 0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,
-ARM GAS  /tmp/ccuhYuZD.s 			page 23
-
-
- 421:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 422:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 423:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,
- 424:Core/Src/display.c **** 0XFF,0X00,0XF0,0XFF,0XFF,0X00,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0X00,0XFF,0XFF,0X0F,
- 425:Core/Src/display.c **** 0XFF,0X00,0XFF,0X0F,0XF0,0XFF,0XFF,0X00,0XFF,0X00,0XFF,0X0F,0XF0,0X0F,0XFF,0X00,
- 426:Core/Src/display.c **** 0X00,0XF0,0XFF,0X00,0XF0,0XFF,0X0F,0XF0,0XFF,0X0F,0XFF,0X0F,0X00,0X00,0X00,0X00,
- 427:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,
- 428:Core/Src/display.c **** 0XFF,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0XF0,0X0F,
- 429:Core/Src/display.c **** 0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0XF0,0X0F,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0XFF,0X00,
- 430:Core/Src/display.c **** 0X00,0XFF,0XF0,0X0F,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 431:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,
- 432:Core/Src/display.c **** 0XFF,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0XF0,0X0F,
- 433:Core/Src/display.c **** 0XFF,0XF0,0X0F,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0X00,0XFF,0XF0,0X0F,0XFF,0X00,
- 434:Core/Src/display.c **** 0X00,0XFF,0X00,0X00,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 435:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X0F,0XFF,0X0F,0X0F,0X0F,0XFF,0X0F,0X0F,0X0F,0XFF,0X0F,
- 436:Core/Src/display.c **** 0X0F,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0X00,0X0F,0X0F,0XF0,0X0F,0XF0,0X0F,
- 437:Core/Src/display.c **** 0XFF,0XF0,0XFF,0XFF,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0XFF,0X00,0X0F,0X0F,0X00,
- 438:Core/Src/display.c **** 0X00,0XFF,0X00,0X00,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 439:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,
- 440:Core/Src/display.c **** 0X0F,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0X00,0X0F,0X0F,0XF0,0X0F,0XF0,0X0F,
- 441:Core/Src/display.c **** 0XFF,0X00,0X00,0XFF,0XF0,0X0F,0XF0,0X0F,0XFF,0XF0,0X0F,0XFF,0X00,0X0F,0X0F,0X00,
- 442:Core/Src/display.c **** 0X00,0XFF,0X00,0X00,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 443:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,
- 444:Core/Src/display.c **** 0X0F,0X00,0XF0,0X0F,0XF0,0X0F,0XFF,0X00,0XFF,0X00,0XFF,0X0F,0XF0,0X0F,0XF0,0X0F,
- 445:Core/Src/display.c **** 0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0XF0,0X0F,0XFF,0XF0,0X0F,0XFF,0X00,0XFF,0X0F,0X00,
- 446:Core/Src/display.c **** 0X00,0XFF,0XF0,0X0F,0XFF,0X00,0XFF,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 447:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,0X0F,0XFF,
- 448:Core/Src/display.c **** 0X0F,0XFF,0XF0,0XFF,0XFF,0X00,0XF0,0XFF,0XFF,0X00,0XFF,0X0F,0X00,0XFF,0XFF,0X0F,
- 449:Core/Src/display.c **** 0XFF,0X00,0XFF,0X0F,0XF0,0XFF,0XFF,0X00,0XFF,0X00,0XFF,0XFF,0X00,0XFF,0X0F,0XF0,
- 450:Core/Src/display.c **** 0X0F,0XF0,0XFF,0X00,0XF0,0XFF,0X0F,0XF0,0X0F,0XFF,0XF0,0X0F,0X00,0X00,0X00,0X00,
- 451:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 452:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,0X00,0X00,0X00,
- 453:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X00,0X00,
- 454:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 455:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 456:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,0X00,0X00,0X00,
- 457:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XFF,0X00,0X00,
- 458:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 459:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 460:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,
- 461:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,0X00,0X00,0X00,0X00,0XF0,0X0F,0X00,0X00,
- 462:Core/Src/display.c **** 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,
- 463:Core/Src/display.c **** };
- 464:Core/Src/display.c ****     er_oled_clear(0x00); 
- 796              		.loc 1 464 5 is_stmt 1 view .LVU155
- 797 0014 0020     		movs	r0, #0
- 798 0016 FFF7FEFF 		bl	er_oled_clear
- 799              	.LVL104:
- 465:Core/Src/display.c ****     er_oled_bitmap(PIC1);
- 800              		.loc 1 465 5 view .LVU156
- 801 001a 6846     		mov	r0, sp
- 802 001c FFF7FEFF 		bl	er_oled_bitmap
- 803              	.LVL105:
- 466:Core/Src/display.c ****     HAL_Delay(1000); 
- 804              		.loc 1 466 5 view .LVU157
- 805 0020 4FF47A70 		mov	r0, #1000
- 806 0024 FFF7FEFF 		bl	HAL_Delay
-ARM GAS  /tmp/ccuhYuZD.s 			page 24
-
-
- 807              	.LVL106:
- 467:Core/Src/display.c ****     OLED_ColorTurn(0);
- 808              		.loc 1 467 5 view .LVU158
- 809 0028 0020     		movs	r0, #0
- 810 002a FFF7FEFF 		bl	OLED_ColorTurn
- 811              	.LVL107:
- 468:Core/Src/display.c ****     HAL_Delay(1000);   
- 812              		.loc 1 468 5 view .LVU159
- 813 002e 4FF47A70 		mov	r0, #1000
- 814 0032 FFF7FEFF 		bl	HAL_Delay
- 815              	.LVL108:
- 469:Core/Src/display.c ****     OLED_ColorTurn(1); 
- 816              		.loc 1 469 5 view .LVU160
- 817 0036 0120     		movs	r0, #1
- 818 0038 FFF7FEFF 		bl	OLED_ColorTurn
- 819              	.LVL109:
- 470:Core/Src/display.c ****     er_oled_clear(0x55);
- 820              		.loc 1 470 5 view .LVU161
- 821 003c 5520     		movs	r0, #85
- 822 003e FFF7FEFF 		bl	er_oled_clear
- 823              	.LVL110:
- 471:Core/Src/display.c ****     HAL_Delay(1000); 
- 824              		.loc 1 471 5 view .LVU162
- 825 0042 4FF47A70 		mov	r0, #1000
- 826 0046 FFF7FEFF 		bl	HAL_Delay
- 827              	.LVL111:
- 472:Core/Src/display.c **** }
- 828              		.loc 1 472 1 is_stmt 0 view .LVU163
- 829 004a 0DF5905D 		add	sp, sp, #4608
- 830 004e 03B0     		add	sp, sp, #12
- 831              	.LCFI19:
- 832              		.cfi_def_cfa_offset 4
- 833              		@ sp needed
- 834 0050 5DF804FB 		ldr	pc, [sp], #4
- 835              	.L44:
- 836              		.align	2
- 837              	.L43:
- 838 0054 00000000 		.word	.LC0
- 839              		.cfi_endproc
- 840              	.LFE298:
- 842              		.section	.rodata
- 843              		.align	2
- 844              	.LC0:
- 845 0000 20048000 		.ascii	" \004\200\000H\000\000\000\000\000\000\000\000\000\000"
- 845      48000000 
- 845      00000000 
- 845      000000
- 846 000f 0000F000 		.ascii	"\000\000\360\000\000\000\000\000\000\000\000\000\000"
- 846      00000000 
- 846      00000000 
- 846      00
- 847 001c 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 847      00000000 
- 847      00000000 
- 847      00
- 848 0029 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 848      00000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 25
-
-
- 848      00000000 
- 848      00
- 849 0036 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 849      00000000 
- 849      00000000 
- 849      00
- 850 0043 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 850      00000000 
- 850      00000000 
- 850      00
- 851 0050 F0FFFFFF 		.ascii	"\360\377\377\377\000\000\000\000\000\000\000\000\000"
- 851      00000000 
- 851      00000000 
- 851      00
- 852 005d 00000000 		.ascii	"\000\000\000\000\000\000\360\017\000\000\000\377\017"
- 852      0000F00F 
- 852      000000FF 
- 852      0F
- 853 006a 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 853      00000000 
- 853      00000000 
- 853      00
- 854 0077 0000F0FF 		.ascii	"\000\000\360\377\377\252\000\360\000\377\377\000\000"
- 854      FFAA00F0 
- 854      00FFFF00 
- 854      00
- 855 0084 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\377\000\377"
- 855      00000000 
- 855      00F0FF00 
- 855      FF
- 856 0091 F0FFFF00 		.ascii	"\360\377\377\000\000\377\377\000\000\000\000\000\000"
- 856      00FFFF00 
- 856      00000000 
- 856      00
- 857 009e 00000000 		.ascii	"\000\000\000\000\360\377\377\000\000\360\377\377\377"
- 857      F0FFFF00 
- 857      00F0FFFF 
- 857      FF
- 858 00ab FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\000\000\000\000\000\000"
- 858      00000000 
- 858      00000000 
- 858      00
- 859 00b8 00FFFFFF 		.ascii	"\000\377\377\377\017\360\377\377\017\377\000\000\000"
- 859      0FF0FFFF 
- 859      0FFF0000 
- 859      00
- 860 00c5 00000000 		.ascii	"\000\000\000\000\000\000\000\377\377\377\377\017\000"
- 860      000000FF 
- 860      FFFFFF0F 
- 860      00
- 861 00d2 00FF0FF0 		.ascii	"\000\377\017\360\377\377\377\377\377\000\000\000\000"
- 861      FFFFFFFF 
- 861      FF000000 
- 861      00
- 862 00df 000000FF 		.ascii	"\000\000\000\377\377\377\017\360\377\377\000\377\017"
- 862      FFFF0FF0 
- 862      FFFF00FF 
-ARM GAS  /tmp/ccuhYuZD.s 			page 26
-
-
- 862      0F
- 863 00ec F0FF0000 		.ascii	"\360\377\000\000\000\000\000\000\000\000\000\000\360"
- 863      00000000 
- 863      00000000 
- 863      F0
- 864 00f9 FFFFFF0F 		.ascii	"\377\377\377\017\377\000\000\360\017\000\000\000\000"
- 864      FF0000F0 
- 864      0F000000 
- 864      00
- 865 0106 00000000 		.ascii	"\000\000\000\000\000\377\377\000\020\360\000\000\000"
- 865      00FFFF00 
- 865      10F00000 
- 865      00
- 866 0113 F00FF0FF 		.ascii	"\360\017\360\377\377\377\377\377\000\000\000\000\000"
- 866      FFFFFFFF 
- 866      00000000 
- 866      00
- 867 0120 00F0FFFF 		.ascii	"\000\360\377\377\377\377\377\000\000\000\000\000\360"
- 867      FFFFFF00 
- 867      00000000 
- 867      F0
- 868 012d 0F000000 		.ascii	"\017\000\000\000\000\000\000\000\000\000\000\360\377"
- 868      00000000 
- 868      000000F0 
- 868      FF
- 869 013a FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\360\017\000\000\000\000"
- 869      000000F0 
- 869      0F000000 
- 869      00
- 870 0147 00000000 		.ascii	"\000\000\000\000\360\017\000\000\000\000\000\377\377"
- 870      F00F0000 
- 870      000000FF 
- 870      FF
- 871 0154 FFFFFFFF 		.ascii	"\377\377\377\377\377\377\377\000\000\000\000\000\000"
- 871      FFFFFF00 
- 871      00000000 
- 871      00
- 872 0161 FFFFFFFF 		.ascii	"\377\377\377\377\377\017\000\000\000\000\000\000\377"
- 872      FF0F0000 
- 872      00000000 
- 872      FF
- 873 016e 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\377\377\377"
- 873      00000000 
- 873      0000FFFF 
- 873      FF
- 874 017b FFFF00BB 		.ascii	"\377\377\000\273\000\000\000\377\000\000\000\000\000"
- 874      000000FF 
- 874      00000000 
- 874      00
- 875 0188 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\377\377\377\000"
- 875      0F000000 
- 875      00FFFFFF 
- 875      00
- 876 0195 FFFFFFFF 		.ascii	"\377\377\377\377\377\377\000\000\000\000\000\000\377"
- 876      FFFF0000 
- 876      00000000 
- 876      FF
-ARM GAS  /tmp/ccuhYuZD.s 			page 27
-
-
- 877 01a2 FFFFFFFF 		.ascii	"\377\377\377\377\377\000\000\000\000\000\000\377\017"
- 877      FF000000 
- 877      000000FF 
- 877      0F
- 878 01af 00F0FF0F 		.ascii	"\000\360\377\017\000\000\000\000\000\377\377\377\377"
- 878      00000000 
- 878      00FFFFFF 
- 878      FF
- 879 01bc FFFF1300 		.ascii	"\377\377\023\000\000\000\017\000\000\000\000\000\000"
- 879      00000F00 
- 879      00000000 
- 879      00
- 880 01c9 0000F00F 		.ascii	"\000\000\360\017\377\377\377\377\377\377\377\017\377"
- 880      FFFFFFFF 
- 880      FFFFFF0F 
- 880      FF
- 881 01d6 FFFFFFFF 		.ascii	"\377\377\377\377\377\017\000\000\000\000\360\377\377"
- 881      FF0F0000 
- 881      0000F0FF 
- 881      FF
- 882 01e3 FFFFFF0F 		.ascii	"\377\377\377\017\000\000\000\000\000\000\377\377\360"
- 882      00000000 
- 882      0000FFFF 
- 882      F0
- 883 01f0 FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\000\377\377\377\377\017"
- 883      00000000 
- 883      FFFFFFFF 
- 883      0F
- 884 01fd F0FFFFFF 		.ascii	"\360\377\377\377\377\377\000\000\000\000\000\000\000"
- 884      FFFF0000 
- 884      00000000 
- 884      00
- 885 020a 00F0FFFF 		.ascii	"\000\360\377\377\017\377\377\377\377\377\377\377\377"
- 885      0FFFFFFF 
- 885      FFFFFFFF 
- 885      FF
- 886 0217 FFFFFFFF 		.ascii	"\377\377\377\377\377\000\000\000\000\360\377\377\377"
- 886      FF000000 
- 886      00F0FFFF 
- 886      FF
- 887 0224 FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\000\000\377\377\377\377"
- 887      00000000 
- 887      00FFFFFF 
- 887      FF
- 888 0231 FFFF0000 		.ascii	"\377\377\000\000\000\000\000\360\377\377\377\000\000"
- 888      000000F0 
- 888      FFFFFF00 
- 888      00
- 889 023e F0FFFFFF 		.ascii	"\360\377\377\377\377\000\000\000\000\000\000\000\000"
- 889      FF000000 
- 889      00000000 
- 889      00
- 890 024b FFFFFFFF 		.ascii	"\377\377\377\377\377\000\377\377\377\017\360\377\377"
- 890      FF00FFFF 
- 890      FF0FF0FF 
- 890      FF
- 891 0258 FFFFFFFF 		.ascii	"\377\377\377\377\000\000\000\000\360\377\377\377\377"
-ARM GAS  /tmp/ccuhYuZD.s 			page 28
-
-
- 891      00000000 
- 891      F0FFFFFF 
- 891      FF
- 892 0265 FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\360\017\000\377\377\377"
- 892      000000F0 
- 892      0F00FFFF 
- 892      FF
- 893 0272 FF0F0000 		.ascii	"\377\017\000\000\000\000\360\377\377\017\000\000\360"
- 893      0000F0FF 
- 893      FF0F0000 
- 893      F0
- 894 027f FFFFFF0F 		.ascii	"\377\377\377\017\017\000\000\000\377\377\017\360\377"
- 894      0F000000 
- 894      FFFF0FF0 
- 894      FF
- 895 028c FFFFFF0F 		.ascii	"\377\377\377\017\000\000\377\377\000\000\377\377\377"
- 895      0000FFFF 
- 895      0000FFFF 
- 895      FF
- 896 0299 FFFFFF0F 		.ascii	"\377\377\377\017\000\000\000\000\377\377\377\377\017"
- 896      00000000 
- 896      FFFFFFFF 
- 896      0F
- 897 02a6 00FF0F00 		.ascii	"\000\377\017\000\377\377\377\377\017\377\377\377\377"
- 897      FFFFFFFF 
- 897      0FFFFFFF 
- 897      FF
- 898 02b3 0F000000 		.ascii	"\017\000\000\000\000\377\000\000\000\000\000\360\377"
- 898      00FF0000 
- 898      000000F0 
- 898      FF
- 899 02c0 FFFF0F0F 		.ascii	"\377\377\017\017\000\000\000\377\377\377\377\377\377"
- 899      000000FF 
- 899      FFFFFFFF 
- 899      FF
- 900 02cd FFFF0000 		.ascii	"\377\377\000\000\000\000\377\377\017\360\377\377\377"
- 900      0000FFFF 
- 900      0FF0FFFF 
- 900      FF
- 901 02da FFFF0F00 		.ascii	"\377\377\017\000\000\000\000\377\377\377\377\377\377"
- 901      000000FF 
- 901      FFFFFFFF 
- 901      FF
- 902 02e7 F0FFFFFF 		.ascii	"\360\377\377\377\377\000\360\377\360\377\377\377\017"
- 902      FF00F0FF 
- 902      F0FFFFFF 
- 902      0F
- 903 02f4 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\000\360\377\377"
- 903      0F000000 
- 903      0000F0FF 
- 903      FF
- 904 0301 FFFF0F00 		.ascii	"\377\377\017\000\000\377\377\377\377\377\360\377\377"
- 904      00FFFFFF 
- 904      FFFFF0FF 
- 904      FF
- 905 030e 00000000 		.ascii	"\000\000\000\000\377\377\377\377\017\377\377\377\377"
- 905      FFFFFFFF 
-ARM GAS  /tmp/ccuhYuZD.s 			page 29
-
-
- 905      0FFFFFFF 
- 905      FF
- 906 031b FF0F0000 		.ascii	"\377\017\000\000\000\000\360\377\360\377\377\377\017"
- 906      0000F0FF 
- 906      F0FFFFFF 
- 906      0F
- 907 0328 FFFFFFFF 		.ascii	"\377\377\377\377\377\377\377\360\377\377\377\017\000"
- 907      FFFFFFF0 
- 907      FFFFFF0F 
- 907      00
- 908 0335 0000FF00 		.ascii	"\000\000\377\000\000\000\000\000\000\000\377\377\377"
- 908      00000000 
- 908      0000FFFF 
- 908      FF
- 909 0342 FFF00000 		.ascii	"\377\360\000\000\377\377\377\377\377\024\000\360\377"
- 909      FFFFFFFF 
- 909      FF1400F0 
- 909      FF
- 910 034f 000000FF 		.ascii	"\000\000\000\377\377\377\377\377\377\377\377\377\377"
- 910      FFFFFFFF 
- 910      FFFFFFFF 
- 910      FF
- 911 035c 00000000 		.ascii	"\000\000\000\000\000\000\017\360\377\377\377\377\017"
- 911      00000FF0 
- 911      FFFFFFFF 
- 911      0F
- 912 0369 F0FFFFFF 		.ascii	"\360\377\377\377\377\377\000\377\377\377\000\000\000"
- 912      FFFF00FF 
- 912      FFFF0000 
- 912      00
- 913 0376 000F0000 		.ascii	"\000\017\000\000\000\000\000\000\000\360\377\377\017"
- 913      00000000 
- 913      00F0FFFF 
- 913      0F
- 914 0383 F00000FF 		.ascii	"\360\000\000\377\377\377\377\017\000\360\377\377\377"
- 914      FFFFFF0F 
- 914      00F0FFFF 
- 914      FF
- 915 0390 00F0FF00 		.ascii	"\000\360\377\000\377\377\377\377\377\377\377\377\000"
- 915      FFFFFFFF 
- 915      FFFFFFFF 
- 915      00
- 916 039d 00000000 		.ascii	"\000\000\000\000\000\017\360\377\377\377\377\017\360"
- 916      000FF0FF 
- 916      FFFFFF0F 
- 916      F0
- 917 03aa FFFFFFFF 		.ascii	"\377\377\377\377\377\000\360\377\377\000\000\000\360"
- 917      FF00F0FF 
- 917      FF000000 
- 917      F0
- 918 03b7 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\000\000\360"
- 918      00000000 
- 918      00F00000 
- 918      F0
- 919 03c4 0000FFFF 		.ascii	"\000\000\377\377\377\377\017\000\377\377\377\377\017"
- 919      FFFF0F00 
- 919      FFFFFFFF 
-ARM GAS  /tmp/ccuhYuZD.s 			page 30
-
-
- 919      0F
- 920 03d1 F00F0000 		.ascii	"\360\017\000\000\377\377\377\377\377\377\017\000\000"
- 920      FFFFFFFF 
- 920      FFFF0F00 
- 920      00
- 921 03de 000000F0 		.ascii	"\000\000\000\360\000\000\360\377\377\377\000\000\377"
- 921      0000F0FF 
- 921      FFFF0000 
- 921      FF
- 922 03eb FFFFFFFF 		.ascii	"\377\377\377\377\000\360\377\017\000\000\000\377\000"
- 922      00F0FF0F 
- 922      000000FF 
- 922      00
- 923 03f8 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\377\360\017"
- 923      00000000 
- 923      00F0FFF0 
- 923      0F
- 924 0405 00FFFFFF 		.ascii	"\000\377\377\377\377\000\360\377\377\017\360\017\360"
- 924      FF00F0FF 
- 924      FF0FF00F 
- 924      F0
- 925 0412 0F0000FF 		.ascii	"\017\000\000\377\377\377\377\377\377\017\000\000\000"
- 925      FFFFFFFF 
- 925      FF0F0000 
- 925      00
- 926 041f 0000FF00 		.ascii	"\000\000\377\000\000\360\377\377\000\000\000\360\377"
- 926      00F0FFFF 
- 926      000000F0 
- 926      FF
- 927 042c FFFF0F00 		.ascii	"\377\377\017\000\360\000\000\000\000\000\017\000\000"
- 927      F0000000 
- 927      00000F00 
- 927      00
- 928 0439 00000000 		.ascii	"\000\000\000\000\000\000\000\000\377\377\017\017\000"
- 928      00000000 
- 928      FFFF0F0F 
- 928      00
- 929 0446 FFFFFFFF 		.ascii	"\377\377\377\377\000\360\377\017\000\000\017\360\000"
- 929      00F0FF0F 
- 929      00000FF0 
- 929      00
- 930 0453 FF00F0FF 		.ascii	"\377\000\360\377\377\377\377\377\000\000\000\000\000"
- 930      FFFFFFFF 
- 930      00000000 
- 930      00
- 931 0460 000F00F0 		.ascii	"\000\017\000\360\377\377\017\000\000\000\000\000\377"
- 931      FFFF0F00 
- 931      00000000 
- 931      FF
- 932 046d 000000F0 		.ascii	"\000\000\000\360\000\000\000\000\360\017\000\000\000"
- 932      00000000 
- 932      F00F0000 
- 932      00
- 933 047a 00000000 		.ascii	"\000\000\000\000\000\000\360\377\377\017\017\000\000"
- 933      0000F0FF 
- 933      FF0F0F00 
- 933      00
-ARM GAS  /tmp/ccuhYuZD.s 			page 31
-
-
- 934 0487 FFFFFF00 		.ascii	"\377\377\377\000\377\377\017\000\000\017\360\360\360"
- 934      FFFF0F00 
- 934      000FF0F0 
- 934      F0
- 935 0494 0FF0FFFF 		.ascii	"\017\360\377\377\377\377\377\000\000\000\000\000\360"
- 935      FFFFFF00 
- 935      00000000 
- 935      F0
- 936 04a1 0FF0FFFF 		.ascii	"\017\360\377\377\377\377\000\000\000\360\377\000\000"
- 936      FFFF0000 
- 936      00F0FF00 
- 936      00
- 937 04ae 0000F00F 		.ascii	"\000\000\360\017\000\000\000\360\000\000\000\000\000"
- 937      000000F0 
- 937      00000000 
- 937      00
- 938 04bb 00000000 		.ascii	"\000\000\000\000\000\360\377\000\377\017\000\000\360"
- 938      00F0FF00 
- 938      FF0F0000 
- 938      F0
- 939 04c8 FFFF00FF 		.ascii	"\377\377\000\377\377\000\377\377\000\000\360\000\000"
- 939      FF00FFFF 
- 939      0000F000 
- 939      00
- 940 04d5 F0FFFFFF 		.ascii	"\360\377\377\377\377\377\000\000\360\377\377\377\017"
- 940      FFFF0000 
- 940      F0FFFFFF 
- 940      0F
- 941 04e2 FFFFFFFF 		.ascii	"\377\377\377\377\377\000\000\360\377\377\377\000\000"
- 941      FF0000F0 
- 941      FFFFFF00 
- 941      00
- 942 04ef 00F00F00 		.ascii	"\000\360\017\000\000\000\017\000\000\000\000\000\000"
- 942      00000F00 
- 942      00000000 
- 942      00
- 943 04fc 00000000 		.ascii	"\000\000\000\000\377\017\000\000\377\000\000\000\000"
- 943      FF0F0000 
- 943      FF000000 
- 943      00
- 944 0509 FF00FFFF 		.ascii	"\377\000\377\377\000\017\360\000\000\000\000\000\377"
- 944      000FF000 
- 944      00000000 
- 944      FF
- 945 0516 FFFFFFFF 		.ascii	"\377\377\377\377\377\000\000\360\017\000\377\360\377"
- 945      FF0000F0 
- 945      0F00FFF0 
- 945      FF
- 946 0523 FF0FF0FF 		.ascii	"\377\017\360\377\000\000\360\377\377\377\377\000\000"
- 946      0000F0FF 
- 946      FFFFFF00 
- 946      00
- 947 0530 F00F0000 		.ascii	"\360\017\000\000\000\017\000\000\000\000\000\000\000"
- 947      000F0000 
- 947      00000000 
- 947      00
- 948 053d 000000FF 		.ascii	"\000\000\000\377\017\360\017\360\000\000\000\000\377"
-ARM GAS  /tmp/ccuhYuZD.s 			page 32
-
-
- 948      0FF00FF0 
- 948      00000000 
- 948      FF
- 949 054a 00FFFF00 		.ascii	"\000\377\377\000\017\000\000\000\000\000\377\377\377"
- 949      0F000000 
- 949      0000FFFF 
- 949      FF
- 950 0557 0FFFFFFF 		.ascii	"\017\377\377\377\000\000\377\377\000\377\377\377\377"
- 950      0000FFFF 
- 950      00FFFFFF 
- 950      FF
- 951 0564 F0FFFF00 		.ascii	"\360\377\377\000\000\377\377\377\377\377\017\000\360"
- 951      00FFFFFF 
- 951      FFFF0F00 
- 951      F0
- 952 0571 0F0000F0 		.ascii	"\017\000\000\360\017\000\000\000\000\000\000\000\000"
- 952      0F000000 
- 952      00000000 
- 952      00
- 953 057e 0000FF0F 		.ascii	"\000\000\377\017\360\017\360\000\000\000\000\377\000"
- 953      F00FF000 
- 953      000000FF 
- 953      00
- 954 058b FFFF0000 		.ascii	"\377\377\000\000\360\000\000\000\000\377\377\377\000"
- 954      F0000000 
- 954      00FFFFFF 
- 954      00
- 955 0598 FFFFFF00 		.ascii	"\377\377\377\000\360\017\377\377\017\377\377\377\377"
- 955      F00FFFFF 
- 955      0FFFFFFF 
- 955      FF
- 956 05a5 F00F0000 		.ascii	"\360\017\000\000\377\017\360\377\377\017\000\360\017"
- 956      FF0FF0FF 
- 956      FF0F00F0 
- 956      0F
- 957 05b2 0000F000 		.ascii	"\000\000\360\000\000\000\000\000\000\000\000\000\000"
- 957      00000000 
- 957      00000000 
- 957      00
- 958 05bf 00F00FF0 		.ascii	"\000\360\017\360\017\360\017\000\000\000\377\000\377"
- 958      0FF00F00 
- 958      0000FF00 
- 958      FF
- 959 05cc FF0F00FF 		.ascii	"\377\017\000\377\000\377\017\000\000\000\000\000\377"
- 959      00FF0F00 
- 959      00000000 
- 959      FF
- 960 05d9 FFFF00F0 		.ascii	"\377\377\000\360\000\360\377\017\377\377\377\017\360"
- 960      00F0FF0F 
- 960      FFFFFF0F 
- 960      F0
- 961 05e6 0F0000FF 		.ascii	"\017\000\000\377\377\360\377\377\017\000\360\000\000"
- 961      FFF0FFFF 
- 961      0F00F000 
- 961      00
- 962 05f3 00F00000 		.ascii	"\000\360\000\000\000\000\000\000\000\000\000\000\000"
- 962      00000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 33
-
-
- 962      00000000 
- 962      00
- 963 0600 F0FFF00F 		.ascii	"\360\377\360\017\000\377\000\000\000\377\000\377\377"
- 963      00FF0000 
- 963      00FF00FF 
- 963      FF
- 964 060d FFFF0FF0 		.ascii	"\377\377\017\360\377\017\000\000\000\000\000\377\377"
- 964      FF0F0000 
- 964      000000FF 
- 964      FF
- 965 061a FF00F000 		.ascii	"\377\000\360\000\360\377\017\377\377\377\000\017\000"
- 965      F0FF0FFF 
- 965      FFFF000F 
- 965      00
- 966 0627 00000FF0 		.ascii	"\000\000\017\360\360\377\377\377\000\360\017\000\000"
- 966      F0FFFFFF 
- 966      00F00F00 
- 966      00
- 967 0634 FF000000 		.ascii	"\377\000\000\000\000\000\000\000\000\000\000\000\360"
- 967      00000000 
- 967      00000000 
- 967      F0
- 968 0641 FF0F0000 		.ascii	"\377\017\000\000\377\000\000\000\377\000\377\377\377"
- 968      FF000000 
- 968      FF00FFFF 
- 968      FF
- 969 064e FF0000F0 		.ascii	"\377\000\000\360\000\360\017\000\000\000\377\377\377"
- 969      00F00F00 
- 969      0000FFFF 
- 969      FF
- 970 065b 00F00F00 		.ascii	"\000\360\017\000\377\017\377\377\377\377\017\000\000"
- 970      FF0FFFFF 
- 970      FFFF0F00 
- 970      00
- 971 0668 000000F0 		.ascii	"\000\000\000\360\377\377\017\000\360\017\000\360\377"
- 971      FFFF0F00 
- 971      F00F00F0 
- 971      FF
- 972 0675 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\360"
- 972      00000000 
- 972      00000000 
- 972      F0
- 973 0682 0F0000F0 		.ascii	"\017\000\000\360\000\000\000\377\000\360\377\377\017"
- 973      000000FF 
- 973      00F0FFFF 
- 973      0F
- 974 068f 0000F00F 		.ascii	"\000\000\360\017\360\017\000\000\000\377\377\377\000"
- 974      F00F0000 
- 974      00FFFFFF 
- 974      00
- 975 069c 00FF00F0 		.ascii	"\000\377\000\360\017\360\377\377\377\377\017\000\000"
- 975      0FF0FFFF 
- 975      FFFF0F00 
- 975      00
- 976 06a9 F0FFFFFF 		.ascii	"\360\377\377\377\377\017\000\360\017\000\360\017\000"
- 976      FF0F00F0 
- 976      0F00F00F 
-ARM GAS  /tmp/ccuhYuZD.s 			page 34
-
-
- 976      00
- 977 06b6 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 977      00000000 
- 977      00000000 
- 977      00
- 978 06c3 0000F000 		.ascii	"\000\000\360\000\000\000\377\000\000\000\000\000\000"
- 978      0000FF00 
- 978      00000000 
- 978      00
- 979 06d0 FFFFFFFF 		.ascii	"\377\377\377\377\000\000\000\000\377\377\377\000\000"
- 979      00000000 
- 979      FFFFFF00 
- 979      00
- 980 06dd FF0FFF0F 		.ascii	"\377\017\377\017\000\377\377\017\377\017\000\000\360"
- 980      00FFFF0F 
- 980      FF0F0000 
- 980      F0
- 981 06ea FFFFFFFF 		.ascii	"\377\377\377\377\017\000\360\017\000\360\017\000\000"
- 981      0F00F00F 
- 981      00F00F00 
- 981      00
- 982 06f7 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 982      00000000 
- 982      00000000 
- 982      00
- 983 0704 00FF0000 		.ascii	"\000\377\000\000\000\377\000\000\000\000\000\000\377"
- 983      00FF0000 
- 983      00000000 
- 983      FF
- 984 0711 0F000000 		.ascii	"\017\000\000\000\000\000\000\377\377\377\000\000\360"
- 984      000000FF 
- 984      FFFF0000 
- 984      F0
- 985 071e FFFF0F00 		.ascii	"\377\377\017\000\000\000\000\360\000\000\000\000\360"
- 985      000000F0 
- 985      00000000 
- 985      F0
- 986 072b FFFFFF00 		.ascii	"\377\377\377\000\000\360\017\000\360\017\000\000\000"
- 986      00F00F00 
- 986      F00F0000 
- 986      00
- 987 0738 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\017"
- 987      00000000 
- 987      00000000 
- 987      0F
- 988 0745 0F000000 		.ascii	"\017\000\000\000\377\000\000\000\000\000\000\000\000"
- 988      FF000000 
- 988      00000000 
- 988      00
- 989 0752 00000000 		.ascii	"\000\000\000\000\000\000\377\377\377\000\000\000\000"
- 989      0000FFFF 
- 989      FF000000 
- 989      00
- 990 075f FFFF0000 		.ascii	"\377\377\000\000\000\000\000\000\000\000\000\000\360"
- 990      00000000 
- 990      00000000 
- 990      F0
-ARM GAS  /tmp/ccuhYuZD.s 			page 35
-
-
- 991 076c FF000000 		.ascii	"\377\000\000\000\377\000\000\000\377\000\000\000\000"
- 991      FF000000 
- 991      FF000000 
- 991      00
- 992 0779 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\360\017\017"
- 992      00000000 
- 992      0000F00F 
- 992      0F
- 993 0786 000000FF 		.ascii	"\000\000\000\377\000\000\000\000\000\000\000\000\000"
- 993      00000000 
- 993      00000000 
- 993      00
- 994 0793 00000000 		.ascii	"\000\000\000\000\360\377\377\377\000\000\000\000\360"
- 994      F0FFFFFF 
- 994      00000000 
- 994      F0
- 995 07a0 FF0F0000 		.ascii	"\377\017\000\000\000\000\000\000\000\000\000\000\000"
- 995      00000000 
- 995      00000000 
- 995      00
- 996 07ad 0000F0FF 		.ascii	"\000\000\360\377\000\000\000\360\000\000\000\000\000"
- 996      000000F0 
- 996      00000000 
- 996      00
- 997 07ba 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\360\017\000"
- 997      00000000 
- 997      00F0F00F 
- 997      00
- 998 07c7 0000FF00 		.ascii	"\000\000\377\000\000\000\000\000\000"
- 998      00000000 
- 998      00
- 999 07d0 00000000 		.ascii	"\000\000\000\000\000\000\000\360\377\377\377\000\000"
- 999      000000F0 
- 999      FFFFFF00 
- 999      00
- 1000 07dd 0000000F 		.ascii	"\000\000\000\017\377\000\000\377\377\377\017\000\000"
- 1000      FF0000FF 
- 1000      FFFF0F00 
- 1000      00
- 1001 07ea 00000000 		.ascii	"\000\000\000\000\000\360\017\000\000\000\360\017\000"
- 1001      00F00F00 
- 1001      0000F00F 
- 1001      00
- 1002 07f7 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\017"
- 1002      00000000 
- 1002      00000000 
- 1002      0F
- 1003 0804 FF000000 		.ascii	"\377\000\000\000\000\377\000\000\000\000\000\000\000"
- 1003      00FF0000 
- 1003      00000000 
- 1003      00
- 1004 0811 00000000 		.ascii	"\000\000\000\000\000\000\377\377\377\377\000\000\000"
- 1004      0000FFFF 
- 1004      FFFF0000 
- 1004      00
- 1005 081e 0000FFF0 		.ascii	"\000\000\377\360\017\000\360\377\377\000\000\000\000"
- 1005      0F00F0FF 
-ARM GAS  /tmp/ccuhYuZD.s 			page 36
-
-
- 1005      FF000000 
- 1005      00
- 1006 082b 00000000 		.ascii	"\000\000\000\000\377\000\000\000\000\000\017\000\000"
- 1006      FF000000 
- 1006      00000F00 
- 1006      00
- 1007 0838 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\360\017"
- 1007      00000000 
- 1007      000000F0 
- 1007      0F
- 1008 0845 00000000 		.ascii	"\000\000\000\000\360\017\000\000\000\000\000\000\000"
- 1008      F00F0000 
- 1008      00000000 
- 1008      00
- 1009 0852 00000000 		.ascii	"\000\000\000\000\360\377\377\377\017\000\000\000\000"
- 1009      F0FFFFFF 
- 1009      0F000000 
- 1009      00
- 1010 085f 00FF00FF 		.ascii	"\000\377\000\377\000\000\000\000\000\000\000\000\000"
- 1010      00000000 
- 1010      00000000 
- 1010      00
- 1011 086c 0000FF0F 		.ascii	"\000\000\377\017\000\000\000\000\000\360\017\000\000"
- 1011      00000000 
- 1011      00F00F00 
- 1011      00
- 1012 0879 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\377\000\000"
- 1012      00000000 
- 1012      00F0FF00 
- 1012      00
- 1013 0886 000000F0 		.ascii	"\000\000\000\360\377\000\000\000\000\000\000\000\000"
- 1013      FF000000 
- 1013      00000000 
- 1013      00
- 1014 0893 0000F0FF 		.ascii	"\000\000\360\377\377\377\377\017\000\000\000\000\000"
- 1014      FFFFFF0F 
- 1014      00000000 
- 1014      00
- 1015 08a0 F00FF0FF 		.ascii	"\360\017\360\377\000\000\000\000\000\000\000\000\000"
- 1015      00000000 
- 1015      00000000 
- 1015      00
- 1016 08ad F0FF0000 		.ascii	"\360\377\000\000\000\000\000\000\000\377\000\000\000"
- 1016      00000000 
- 1016      00FF0000 
- 1016      00
- 1017 08ba 00000000 		.ascii	"\000\000\000\000\000\000\000\000\377\000\000\000\000"
- 1017      00000000 
- 1017      FF000000 
- 1017      00
- 1018 08c7 000000FF 		.ascii	"\000\000\000\377\017\000\000\000\000\000\000\000\000"
- 1018      0F000000 
- 1018      00000000 
- 1018      00
- 1019 08d4 00FF00FF 		.ascii	"\000\377\000\377\377\377\017\000\000\000\000\000\360"
- 1019      FFFF0F00 
- 1019      00000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 37
-
-
- 1019      F0
- 1020 08e1 0F00F0FF 		.ascii	"\017\000\360\377\000\000\000\000\000\000\000\360\377"
- 1020      00000000 
- 1020      000000F0 
- 1020      FF
- 1021 08ee 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\377\000\000\360"
- 1021      00000000 
- 1021      00FF0000 
- 1021      F0
- 1022 08fb FF0F0000 		.ascii	"\377\017\000\000\000\000\377\017\000\000\000\000\000"
- 1022      0000FF0F 
- 1022      00000000 
- 1022      00
- 1023 0908 0000F0FF 		.ascii	"\000\000\360\377\377\000\000\000\000\000\000\000\377"
- 1023      FF000000 
- 1023      00000000 
- 1023      FF
- 1024 0915 000000FF 		.ascii	"\000\000\000\377\377\017\000\000\000\000\000\000\377"
- 1024      FF0F0000 
- 1024      00000000 
- 1024      FF
- 1025 0922 00F0FFFF 		.ascii	"\000\360\377\377\377\377\000\360\377\377\377\377\000"
- 1025      FFFF00F0 
- 1025      FFFFFFFF 
- 1025      00
- 1026 092f 00000000 		.ascii	"\000\000\000\000\000\000\000\000\360\377\017\377\377"
- 1026      00000000 
- 1026      F0FF0FFF 
- 1026      FF
- 1027 093c FF000000 		.ascii	"\377\000\000\000\377\017\000\000\000\000\000\000\000"
- 1027      FF0F0000 
- 1027      00000000 
- 1027      00
- 1028 0949 000000FF 		.ascii	"\000\000\000\377\377\377\377\377\377\377\000\000\000"
- 1028      FFFFFFFF 
- 1028      FFFF0000 
- 1028      00
- 1029 0956 000000FF 		.ascii	"\000\000\000\377\017\000\000\000\000\000\000\377\000"
- 1029      0F000000 
- 1029      000000FF 
- 1029      00
- 1030 0963 FFFF00F0 		.ascii	"\377\377\000\360\377\377\377\377\377\377\377\017\000"
- 1030      FFFFFFFF 
- 1030      FFFFFF0F 
- 1030      00
- 1031 0970 00000000 		.ascii	"\000\000\000\000\000\000\000\000\377\377\377\377\377"
- 1031      00000000 
- 1031      FFFFFFFF 
- 1031      FF
- 1032 097d 00F0FF0F 		.ascii	"\000\360\377\017\000\000\000\000\000\000\000\000\000"
- 1032      00000000 
- 1032      00000000 
- 1032      00
- 1033 098a 00000000 		.ascii	"\000\000\000\000\377\377\377\377\000\000\000\000\000"
- 1033      FFFFFFFF 
- 1033      00000000 
- 1033      00
-ARM GAS  /tmp/ccuhYuZD.s 			page 38
-
-
- 1034 0997 0000FF00 		.ascii	"\000\000\377\000\000\000\000\000\000\000\360\017\377"
- 1034      00000000 
- 1034      0000F00F 
- 1034      FF
- 1035 09a4 0F000000 		.ascii	"\017\000\000\000\000\000\377\017\377\377\017\000\000"
- 1035      0000FF0F 
- 1035      FFFF0F00 
- 1035      00
- 1036 09b1 00000000 		.ascii	"\000\000\000\000\000\000\360\377\377\377\377\377\017"
- 1036      0000F0FF 
- 1036      FFFFFFFF 
- 1036      0F
- 1037 09be F0F00F00 		.ascii	"\360\360\017\000\000\000\000\000\000\000\000\000\000"
- 1037      00000000 
- 1037      00000000 
- 1037      00
- 1038 09cb 000000F0 		.ascii	"\000\000\000\360\377\377\000\000\000\000\000\000\000"
- 1038      FFFF0000 
- 1038      00000000 
- 1038      00
- 1039 09d8 00F00000 		.ascii	"\000\360\000\000\000\000\000\000\000\360\017\377\000"
- 1039      00000000 
- 1039      00F00FFF 
- 1039      00
- 1040 09e5 00000000 		.ascii	"\000\000\000\000\000\377\000\360\377\017\000\000\000"
- 1040      00FF00F0 
- 1040      FF0F0000 
- 1040      00
- 1041 09f2 00000000 		.ascii	"\000\000\000\000\000\017\017\377\377\377\017\000\000"
- 1041      000F0FFF 
- 1041      FFFF0F00 
- 1041      00
- 1042 09ff 000F0000 		.ascii	"\000\017\000\000\000\000\000\000\000\000\000\000\000"
- 1042      00000000 
- 1042      00000000 
- 1042      00
- 1043 0a0c 0000FFFF 		.ascii	"\000\000\377\377\377\000\000\000\000\000\000\000\000"
- 1043      FF000000 
- 1043      00000000 
- 1043      00
- 1044 0a19 F0000000 		.ascii	"\360\000\000\000\000\000\000\000\000\377\017\000\000"
- 1044      00000000 
- 1044      00FF0F00 
- 1044      00
- 1045 0a26 00000000 		.ascii	"\000\000\000\000\377\000\000\377\017\000\000\000\000"
- 1045      FF0000FF 
- 1045      0F000000 
- 1045      00
- 1046 0a33 000000F0 		.ascii	"\000\000\000\360\377\017\377\377\377\017\000\000\000"
- 1046      FF0FFFFF 
- 1046      FF0F0000 
- 1046      00
- 1047 0a40 0F000000 		.ascii	"\017\000\000\000\000\000\000\000\000\000\000\000\000"
- 1047      00000000 
- 1047      00000000 
- 1047      00
- 1048 0a4d F0FFFF0F 		.ascii	"\360\377\377\017\000\000\000\000\000\000\000\000\360"
-ARM GAS  /tmp/ccuhYuZD.s 			page 39
-
-
- 1048      00000000 
- 1048      00000000 
- 1048      F0
- 1049 0a5a 0F000000 		.ascii	"\017\000\000\000\000\000\000\000\377\017\000\000\000"
- 1049      00000000 
- 1049      FF0F0000 
- 1049      00
- 1050 0a67 000000FF 		.ascii	"\000\000\000\377\000\000\360\017\000\000\000\000\000"
- 1050      0000F00F 
- 1050      00000000 
- 1050      00
- 1051 0a74 0000F0FF 		.ascii	"\000\000\360\377\360\377\377\377\000\000\000\000\377"
- 1051      F0FFFFFF 
- 1051      00000000 
- 1051      FF
- 1052 0a81 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\360"
- 1052      00000000 
- 1052      00000000 
- 1052      F0
- 1053 0a8e FFFF0F00 		.ascii	"\377\377\017\000\000\000\000\000\000\000\000\360\017"
- 1053      00000000 
- 1053      000000F0 
- 1053      0F
- 1054 0a9b 00000000 		.ascii	"\000\000\000\000\000\000\000\360\000\000\000\000\000"
- 1054      000000F0 
- 1054      00000000 
- 1054      00
- 1055 0aa8 0000FF0F 		.ascii	"\000\000\377\017\000\000\017\000\000\000\000\000\000"
- 1055      00000F00 
- 1055      00000000 
- 1055      00
- 1056 0ab5 00F0FFFF 		.ascii	"\000\360\377\377\377\377\377\000\000\000\000\360\017"
- 1056      FFFFFF00 
- 1056      000000F0 
- 1056      0F
- 1057 0ac2 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\377\377"
- 1057      00000000 
- 1057      000000FF 
- 1057      FF
- 1058 0acf FF0F0000 		.ascii	"\377\017\000\000\000\000\000\000\000\000\360\017\000"
- 1058      00000000 
- 1058      0000F00F 
- 1058      00
- 1059 0adc 00000000 		.ascii	"\000\000\000\000\000\000\377\000\000\000\000\000\000"
- 1059      0000FF00 
- 1059      00000000 
- 1059      00
- 1060 0ae9 0000FF00 		.ascii	"\000\000\377\000\000\377\000\000\000\000\000\000\000"
- 1060      00FF0000 
- 1060      00000000 
- 1060      00
- 1061 0af6 F0FFFFFF 		.ascii	"\360\377\377\377\377\017\000\000\000\000\360\377\377"
- 1061      FF0F0000 
- 1061      0000F0FF 
- 1061      FF
- 1062 0b03 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\377\377\377"
- 1062      00000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 40
-
-
- 1062      0000FFFF 
- 1062      FF
- 1063 0b10 FF000000 		.ascii	"\377\000\000\000\000\000\000\000\000\000\017\000\000"
- 1063      00000000 
- 1063      00000F00 
- 1063      00
- 1064 0b1d 00000000 		.ascii	"\000\000\000\000\000\377\000\000\000\000\000\000\000"
- 1064      00FF0000 
- 1064      00000000 
- 1064      00
- 1065 0b2a 00F00000 		.ascii	"\000\360\000\000\360\017\000\000\000\000\000\000\377"
- 1065      F00F0000 
- 1065      00000000 
- 1065      FF
- 1066 0b37 FFFFFFFF 		.ascii	"\377\377\377\377\017\000\000\000\000\360\377\377\017"
- 1066      0F000000 
- 1066      00F0FFFF 
- 1066      0F
- 1067 0b44 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\377\377\377\377"
- 1067      00000000 
- 1067      00FFFFFF 
- 1067      FF
- 1068 0b51 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\017\000\000\000"
- 1068      00000000 
- 1068      000F0000 
- 1068      00
- 1069 0b5e 00000000 		.ascii	"\000\000\000\000\377\000\000\000\000\000\000\000\000"
- 1069      FF000000 
- 1069      00000000 
- 1069      00
- 1070 0b6b F00F00F0 		.ascii	"\360\017\000\360\017\000\000\000\000\000\000\377\377"
- 1070      0F000000 
- 1070      000000FF 
- 1070      FF
- 1071 0b78 FFFFFF00 		.ascii	"\377\377\377\000\000\000\000\000\360\377\377\017\000"
- 1071      00000000 
- 1071      F0FFFF0F 
- 1071      00
- 1072 0b85 00000000 		.ascii	"\000\000\000\000\000\000\000\000\377\377\377\017\000"
- 1072      00000000 
- 1072      FFFFFF0F 
- 1072      00
- 1073 0b92 00000000 		.ascii	"\000\000\000\000\000\000\000\000\017\000\000\000\000"
- 1073      00000000 
- 1073      0F000000 
- 1073      00
- 1074 0b9f 0000000F 		.ascii	"\000\000\000\017\000\000\000\000\000\000\000\000\000"
- 1074      00000000 
- 1074      00000000 
- 1074      00
- 1075 0bac FF0000FF 		.ascii	"\377\000\000\377\000\000\000\000\000\000\377\377\377"
- 1075      00000000 
- 1075      0000FFFF 
- 1075      FF
- 1076 0bb9 FFFF0000 		.ascii	"\377\377\000\000\000\000\000\360\377\377\017\000\000"
- 1076      000000F0 
- 1076      FFFF0F00 
-ARM GAS  /tmp/ccuhYuZD.s 			page 41
-
-
- 1076      00
- 1077 0bc6 00000000 		.ascii	"\000\000\000\000\000\000\000\360\377\377\017\000\000"
- 1077      000000F0 
- 1077      FFFF0F00 
- 1077      00
- 1078 0bd3 00000000 		.ascii	"\000\000\000\000\000\000\000\017\000\000\000\000\000"
- 1078      0000000F 
- 1078      00000000 
- 1078      00
- 1079 0be0 00000F00 		.ascii	"\000\000\017\000\000\000\000\000\000\000\000\000\017"
- 1079      00000000 
- 1079      00000000 
- 1079      0F
- 1080 0bed 00000F00 		.ascii	"\000\000\017\000\000\000\000\000\000\377\377\377\377"
- 1080      00000000 
- 1080      00FFFFFF 
- 1080      FF
- 1081 0bfa 0F000000 		.ascii	"\017\000\000\000\000\000\360\377\377\017\000\000\000"
- 1081      0000F0FF 
- 1081      FF0F0000 
- 1081      00
- 1082 0c07 00000000 		.ascii	"\000\000\000\000\000\000\360\377\377\017\000\000\000"
- 1082      0000F0FF 
- 1082      FF0F0000 
- 1082      00
- 1083 0c14 00000000 		.ascii	"\000\000\000\000\000\000\017\000\000\000\000\000\000"
- 1083      00000F00 
- 1083      00000000 
- 1083      00
- 1084 0c21 000F0000 		.ascii	"\000\017\000\000\000\000\000\000\000\000\000\017\000"
- 1084      00000000 
- 1084      0000000F 
- 1084      00
- 1085 0c2e 000F0000 		.ascii	"\000\017\000\000\000\000\000\000\377\377\377\377\017"
- 1085      00000000 
- 1085      FFFFFFFF 
- 1085      0F
- 1086 0c3b 00000000 		.ascii	"\000\000\000\000\000\360\377\377\000\000\000\000\000"
- 1086      00F0FFFF 
- 1086      00000000 
- 1086      00
- 1087 0c48 00000000 		.ascii	"\000\000\000\000\000\000\377\377\017\000\000\000\000"
- 1087      0000FFFF 
- 1087      0F000000 
- 1087      00
- 1088 0c55 00000000 		.ascii	"\000\000\000\000\000\377\000\000\000\000\000\000\000"
- 1088      00FF0000 
- 1088      00000000 
- 1088      00
- 1089 0c62 0F000000 		.ascii	"\017\000\000\000\000\000\000\000\000\000\377\017\360"
- 1089      00000000 
- 1089      0000FF0F 
- 1089      F0
- 1090 0c6f 0F000000 		.ascii	"\017\000\000\000\000\000\000\377\377\377\377\017\000"
- 1090      000000FF 
- 1090      FFFFFF0F 
- 1090      00
-ARM GAS  /tmp/ccuhYuZD.s 			page 42
-
-
- 1091 0c7c 00000000 		.ascii	"\000\000\000\000\360\377\017\000\000\000\000\000\000"
- 1091      F0FF0F00 
- 1091      00000000 
- 1091      00
- 1092 0c89 00000000 		.ascii	"\000\000\000\000\000\360\377\000\000\000\000\000\000"
- 1092      00F0FF00 
- 1092      00000000 
- 1092      00
- 1093 0c96 00000000 		.ascii	"\000\000\000\000\377\000\000\000\000\000\000\000\017"
- 1093      FF000000 
- 1093      00000000 
- 1093      0F
- 1094 0ca3 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\360\377\377\000"
- 1094      00000000 
- 1094      00F0FFFF 
- 1094      00
- 1095 0cb0 00000000 		.ascii	"\000\000\000\000\000\000\377\377\377\377\000\000\000"
- 1095      0000FFFF 
- 1095      FFFF0000 
- 1095      00
- 1096 0cbd 000000F0 		.ascii	"\000\000\000\360\000\000\000\000\000\000\000\000\000"
- 1096      00000000 
- 1096      00000000 
- 1096      00
- 1097 0cca 00000000 		.ascii	"\000\000\000\000\000\017\000\000\000\000\000\000\000"
- 1097      000F0000 
- 1097      00000000 
- 1097      00
- 1098 0cd7 000000FF 		.ascii	"\000\000\000\377\000\000\000\000\000\000\000\017\000"
- 1098      00000000 
- 1098      0000000F 
- 1098      00
- 1099 0ce4 00000000 		.ascii	"\000\000\000\000\000\000\000\000\360\377\017\000\000"
- 1099      00000000 
- 1099      F0FF0F00 
- 1099      00
- 1100 0cf1 00000000 		.ascii	"\000\000\000\000\000\360\377\377\377\000\000\000\000"
- 1100      00F0FFFF 
- 1100      FF000000 
- 1100      00
- 1101 0cfe 0000F000 		.ascii	"\000\000\360\000\000\000\000\000\000\000\000\000\000"
- 1101      00000000 
- 1101      00000000 
- 1101      00
- 1102 0d0b 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\000\000\000\000"
- 1102      0F000000 
- 1102      00000000 
- 1102      00
- 1103 0d18 0000FF00 		.ascii	"\000\000\377\000\000\000\000\000\000\000\017\000\000"
- 1103      00000000 
- 1103      00000F00 
- 1103      00
- 1104 0d25 00000000 		.ascii	"\000\000\000\000\000\000\000\360\377\000\000\000\000"
- 1104      000000F0 
- 1104      FF000000 
- 1104      00
- 1105 0d32 00000000 		.ascii	"\000\000\000\000\000\377\017\000\000\000\000\000\000"
-ARM GAS  /tmp/ccuhYuZD.s 			page 43
-
-
- 1105      00FF0F00 
- 1105      00000000 
- 1105      00
- 1106 0d3f 00FF0000 		.ascii	"\000\377\000\000\000\000\000\000\000\000\000\000\000"
- 1106      00000000 
- 1106      00000000 
- 1106      00
- 1107 0d4c 0000F00F 		.ascii	"\000\000\360\017\000\000\000\000\000\000\000\000\000"
- 1107      00000000 
- 1107      00000000 
- 1107      00
- 1108 0d59 00FF0000 		.ascii	"\000\377\000\000\000\000\000\000\000\017\000\000\000"
- 1108      00000000 
- 1108      000F0000 
- 1108      00
- 1109 0d66 00000000 		.ascii	"\000\000\000\000\000\000\360\017\000\000\000\000\000"
- 1109      0000F00F 
- 1109      00000000 
- 1109      00
- 1110 0d73 00000000 		.ascii	"\000\000\000\000\360\017\000\000\000\000\000\000\000"
- 1110      F00F0000 
- 1110      00000000 
- 1110      00
- 1111 0d80 FF000000 		.ascii	"\377\000\000\000\000\000\000\000\000\000\000\000\000"
- 1111      00000000 
- 1111      00000000 
- 1111      00
- 1112 0d8d 00F00F00 		.ascii	"\000\360\017\000\000\000\000\000\000\000\000\000\000"
- 1112      00000000 
- 1112      00000000 
- 1112      00
- 1113 0d9a 0F000000 		.ascii	"\017\000\000\000\000\000\000\000\377\000\000\000\000"
- 1113      00000000 
- 1113      FF000000 
- 1113      00
- 1114 0da7 00000000 		.ascii	"\000\000\000\000\000\377\000\000\000\000\000\000\000"
- 1114      00FF0000 
- 1114      00000000 
- 1114      00
- 1115 0db4 000000F0 		.ascii	"\000\000\000\360\360\017\000\000\000\000\000\000\377"
- 1115      F00F0000 
- 1115      00000000 
- 1115      FF
- 1116 0dc1 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1116      00000000 
- 1116      00000000 
- 1116      00
- 1117 0dce F00F0000 		.ascii	"\360\017\000\000\000\000\000\000\000\000\000\000\017"
- 1117      00000000 
- 1117      00000000 
- 1117      0F
- 1118 0ddb 00000000 		.ascii	"\000\000\000\000\000\000\000\377\000\000\000\000\000"
- 1118      000000FF 
- 1118      00000000 
- 1118      00
- 1119 0de8 00000000 		.ascii	"\000\000\000\000\377\000\000\000\000\000\000\000\000"
- 1119      FF000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 44
-
-
- 1119      00000000 
- 1119      00
- 1120 0df5 0000FF00 		.ascii	"\000\000\377\000\017\000\000\000\000\000\000\360\017"
- 1120      0F000000 
- 1120      000000F0 
- 1120      0F
- 1121 0e02 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\360"
- 1121      00000000 
- 1121      00000000 
- 1121      F0
- 1122 0e0f 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\017\000"
- 1122      00000000 
- 1122      0000000F 
- 1122      00
- 1123 0e1c 00000000 		.ascii	"\000\000\000\000\000\000\377\000\000\000\000\000\000"
- 1123      0000FF00 
- 1123      00000000 
- 1123      00
- 1124 0e29 0000000F 		.ascii	"\000\000\000\017\000\000\000\000\000\000\000\000\000"
- 1124      00000000 
- 1124      00000000 
- 1124      00
- 1125 0e36 000F00FF 		.ascii	"\000\017\000\377\000\000\000\000\000\000\000\017\000"
- 1125      00000000 
- 1125      0000000F 
- 1125      00
- 1126 0e43 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\360\000"
- 1126      00000000 
- 1126      000000F0 
- 1126      00
- 1127 0e50 000000FF 		.ascii	"\000\000\000\377\000\000\000\000\000\000\017\000\000"
- 1127      00000000 
- 1127      00000F00 
- 1127      00
- 1128 0e5d 00000000 		.ascii	"\000\000\000\000\000\360\000\000\377\377\377\000\000"
- 1128      00F00000 
- 1128      FFFFFF00 
- 1128      00
- 1129 0e6a 00000F00 		.ascii	"\000\000\017\000\000\000\000\000\000\000\000\000\000"
- 1129      00000000 
- 1129      00000000 
- 1129      00
- 1130 0e77 0F00F00F 		.ascii	"\017\000\360\017\000\000\000\000\000\000\017\000\000"
- 1130      00000000 
- 1130      00000F00 
- 1130      00
- 1131 0e84 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1131      00000000 
- 1131      00000000 
- 1131      00
- 1132 0e91 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1132      00000000 
- 1132      00000000 
- 1132      00
- 1133 0e9e 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1133      00000000 
- 1133      00000000 
-ARM GAS  /tmp/ccuhYuZD.s 			page 45
-
-
- 1133      00
- 1134 0eab 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1134      00000000 
- 1134      00000000 
- 1134      00
- 1135 0eb8 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1135      00000000 
- 1135      00000000 
- 1135      00
- 1136 0ec5 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1136      00000000 
- 1136      00000000 
- 1136      00
- 1137 0ed2 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1137      00000000 
- 1137      00000000 
- 1137      00
- 1138 0edf 00000000 		.ascii	"\000\000\000\000\000\000\000\377\000\000\000\000\000"
- 1138      000000FF 
- 1138      00000000 
- 1138      00
- 1139 0eec 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1139      00000000 
- 1139      00000000 
- 1139      00
- 1140 0ef9 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1140      00000000 
- 1140      00000000 
- 1140      00
- 1141 0f06 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1141      00000000 
- 1141      00000000 
- 1141      00
- 1142 0f13 00000000 		.ascii	"\000\000\000\000\000\360\017\000\000\000\000\000\000"
- 1142      00F00F00 
- 1142      00000000 
- 1142      00
- 1143 0f20 00000000 		.ascii	"\000\000\000\000\360\017\377\000\000\000\000\000\000"
- 1143      F00FFF00 
- 1143      00000000 
- 1143      00
- 1144 0f2d 00FF0000 		.ascii	"\000\377\000\000\000\000\000\000\000\000\000\000\000"
- 1144      00000000 
- 1144      00000000 
- 1144      00
- 1145 0f3a 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1145      00000000 
- 1145      00000000 
- 1145      00
- 1146 0f47 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1146      00000000 
- 1146      00000000 
- 1146      00
- 1147 0f54 00000000 		.ascii	"\000\000\000\000\360\017\000\000\000\000\000\000\000"
- 1147      F00F0000 
- 1147      00000000 
- 1147      00
-ARM GAS  /tmp/ccuhYuZD.s 			page 46
-
-
- 1148 0f61 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\000\000\000\000"
- 1148      0F000000 
- 1148      00000000 
- 1148      00
- 1149 0f6e FF000000 		.ascii	"\377\000\000\000\000\000\000\000\000\000\000\000\000"
- 1149      00000000 
- 1149      00000000 
- 1149      00
- 1150 0f7b 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1150      00000000 
- 1150      00000000 
- 1150      00
- 1151 0f88 0000F00F 		.ascii	"\000\000\360\017\377\017\377\017\377\017\377\017\377"
- 1151      FF0FFF0F 
- 1151      FF0FFF0F 
- 1151      FF
- 1152 0f95 0FFF00F0 		.ascii	"\017\377\000\360\377\377\000\377\000\377\360"
- 1152      FFFF00FF 
- 1152      00FFF0
- 1153 0fa0 0FFF00FF 		.ascii	"\017\377\000\377\377\017\377\000\377\017\360\377\377"
- 1153      FF0FFF00 
- 1153      FF0FF0FF 
- 1153      FF
- 1154 0fad 00FF00FF 		.ascii	"\000\377\000\377\017\360\017\377\000\000\360\377\000"
- 1154      0FF00FFF 
- 1154      0000F0FF 
- 1154      00
- 1155 0fba F0FF0FF0 		.ascii	"\360\377\017\360\377\017\377\017\000\000\000\000\000"
- 1155      FF0FFF0F 
- 1155      00000000 
- 1155      00
- 1156 0fc7 000000F0 		.ascii	"\000\000\000\360\017\377\017\377\017\377\017\377\017"
- 1156      0FFF0FFF 
- 1156      0FFF0FFF 
- 1156      0F
- 1157 0fd4 FF0FFF00 		.ascii	"\377\017\377\000\360\017\360\017\377\000\377\360\017"
- 1157      F00FF00F 
- 1157      FF00FFF0 
- 1157      0F
- 1158 0fe1 FFF00FF0 		.ascii	"\377\360\017\360\017\377\360\017\377\360\017\360\017"
- 1158      0FFFF00F 
- 1158      FFF00FF0 
- 1158      0F
- 1159 0fee FFF00FFF 		.ascii	"\377\360\017\377\360\017\377\000\000\377\360\017\377"
- 1159      F00FFF00 
- 1159      00FFF00F 
- 1159      FF
- 1160 0ffb 00FFF00F 		.ascii	"\000\377\360\017\377\360\017\000\000\000\000\000\000"
- 1160      FFF00F00 
- 1160      00000000 
- 1160      00
- 1161 1008 0000F00F 		.ascii	"\000\000\360\017\377\017\377\017\377\017\377\017\377"
- 1161      FF0FFF0F 
- 1161      FF0FFF0F 
- 1161      FF
- 1162 1015 0FFF00F0 		.ascii	"\017\377\000\360\017\360\017\377\000\377\360\017\377"
- 1162      0FF00FFF 
-ARM GAS  /tmp/ccuhYuZD.s 			page 47
-
-
- 1162      00FFF00F 
- 1162      FF
- 1163 1022 F00FF00F 		.ascii	"\360\017\360\017\377\360\017\000\360\017\360\017\377"
- 1163      FFF00F00 
- 1163      F00FF00F 
- 1163      FF
- 1164 102f 0000FFF0 		.ascii	"\000\000\377\360\017\377\000\000\377\000\000\377\000"
- 1164      0FFF0000 
- 1164      FF0000FF 
- 1164      00
- 1165 103c FFF00FFF 		.ascii	"\377\360\017\377\360\017\000\000\000\000\000\000\000"
- 1165      F00F0000 
- 1165      00000000 
- 1165      00
- 1166 1049 00000FFF 		.ascii	"\000\000\017\377\017\017\017\377\017\017\017\377\017"
- 1166      0F0F0FFF 
- 1166      0F0F0FFF 
- 1166      0F
- 1167 1056 0F00F00F 		.ascii	"\017\000\360\017\360\017\377\000\377\000\017\017\360"
- 1167      F00FFF00 
- 1167      FF000F0F 
- 1167      F0
- 1168 1063 0FF00FFF 		.ascii	"\017\360\017\377\360\377\377\360\017\360\017\377\000"
- 1168      F0FFFFF0 
- 1168      0FF00FFF 
- 1168      00
- 1169 1070 FFFF000F 		.ascii	"\377\377\000\017\017\000\000\377\000\000\377\000\377"
- 1169      0F0000FF 
- 1169      0000FF00 
- 1169      FF
- 1170 107d F00FFFF0 		.ascii	"\360\017\377\360\017\000\000\000\000\000\000\000\000"
- 1170      0F000000 
- 1170      00000000 
- 1170      00
- 1171 108a 00FF0FFF 		.ascii	"\000\377\017\377\017\377\017\377\017\377\017\377\017"
- 1171      0FFF0FFF 
- 1171      0FFF0FFF 
- 1171      0F
- 1172 1097 00F00FF0 		.ascii	"\000\360\017\360\017\377\000\377\000\017\017\360\017"
- 1172      0FFF00FF 
- 1172      000F0FF0 
- 1172      0F
- 1173 10a4 F00FFF00 		.ascii	"\360\017\377\000\000\377\360\017\360\017\377\360\017"
- 1173      00FFF00F 
- 1173      F00FFFF0 
- 1173      0F
- 1174 10b1 FF000F0F 		.ascii	"\377\000\017\017\000\000\377\000\000\377\000\377\360"
- 1174      0000FF00 
- 1174      00FF00FF 
- 1174      F0
- 1175 10be 0FFFF00F 		.ascii	"\017\377\360\017\000\000\000\000\000\000\000\000\000"
- 1175      00000000 
- 1175      00000000 
- 1175      00
- 1176 10cb FF0FFF0F 		.ascii	"\377\017\377\017\377\017\377\017\377\017\377\017\000"
- 1176      FF0FFF0F 
- 1176      FF0FFF0F 
-ARM GAS  /tmp/ccuhYuZD.s 			page 48
-
-
- 1176      00
- 1177 10d8 F00FF00F 		.ascii	"\360\017\360\017\377\000\377\000\377\017\360\017\360"
- 1177      FF00FF00 
- 1177      FF0FF00F 
- 1177      F0
- 1178 10e5 0FFFF00F 		.ascii	"\017\377\360\017\377\360\017\360\017\377\360\017\377"
- 1178      FFF00FF0 
- 1178      0FFFF00F 
- 1178      FF
- 1179 10f2 00FF0F00 		.ascii	"\000\377\017\000\000\377\360\017\377\000\377\360\017"
- 1179      00FFF00F 
- 1179      FF00FFF0 
- 1179      0F
- 1180 10ff FFF00F00 		.ascii	"\377\360\017\000\000\000\000\000\000\000\000\000\377"
- 1180      00000000 
- 1180      00000000 
- 1180      FF
- 1181 110c 0FFF0FFF 		.ascii	"\017\377\017\377\017\377\017\377\017\377\017\377\360"
- 1181      0FFF0FFF 
- 1181      0FFF0FFF 
- 1181      F0
- 1182 1119 FFFF00F0 		.ascii	"\377\377\000\360\377\377\000\377\017\000\377\377\017"
- 1182      FFFF00FF 
- 1182      0F00FFFF 
- 1182      0F
- 1183 1126 FF00FF0F 		.ascii	"\377\000\377\017\360\377\377\000\377\000\377\377\000"
- 1183      F0FFFF00 
- 1183      FF00FFFF 
- 1183      00
- 1184 1133 FF0FF00F 		.ascii	"\377\017\360\017\360\377\000\360\377\017\360\017\377"
- 1184      F0FF00F0 
- 1184      FF0FF00F 
- 1184      FF
- 1185 1140 F00F0000 		.ascii	"\360\017\000\000\000\000\000\000\000\000\000\000\000"
- 1185      00000000 
- 1185      00000000 
- 1185      00
- 1186 114d 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1186      00000000 
- 1186      00000000 
- 1186      00
- 1187 115a 00000000 		.ascii	"\000\000\000\000\000\000\360\000\000\000\000\000\000"
- 1187      0000F000 
- 1187      00000000 
- 1187      00
- 1188 1167 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\000\000\000\360"
- 1188      0F000000 
- 1188      00000000 
- 1188      F0
- 1189 1174 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1189      00000000 
- 1189      00000000 
- 1189      00
- 1190 1181 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1190      00000000 
- 1190      00000000 
- 1190      00
-ARM GAS  /tmp/ccuhYuZD.s 			page 49
-
-
- 1191 118e 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1191      00000000 
- 1191      00000000 
- 1191      00
- 1192 119b 00000000 		.ascii	"\000\000\000\000\000\377\000\000\000\000\000\000\000"
- 1192      00FF0000 
- 1192      00000000 
- 1192      00
- 1193 11a8 0000F00F 		.ascii	"\000\000\360\017\000\000\000\000\000\000\000\377\000"
- 1193      00000000 
- 1193      000000FF 
- 1193      00
- 1194 11b5 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1194      00000000 
- 1194      00000000 
- 1194      00
- 1195 11c2 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1195      00000000 
- 1195      00000000 
- 1195      00
- 1196 11cf 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1196      00000000 
- 1196      00000000 
- 1196      00
- 1197 11dc 000000F0 		.ascii	"\000\000\000\360\017\000\000\000\000\000\000\000\000"
- 1197      0F000000 
- 1197      00000000 
- 1197      00
- 1198 11e9 00F00F00 		.ascii	"\000\360\017\000\000\000\000\000\000\360\017\000\000"
- 1198      00000000 
- 1198      00F00F00 
- 1198      00
- 1199 11f6 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1199      00000000 
- 1199      00000000 
- 1199      00
- 1200 1203 000000   		.ascii	"\000\000\000"
- 1201              		.text
- 1202              	.Letext0:
- 1203              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 1204              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
- 1205              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 1206              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
- 1207              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 1208              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 1209              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 1210              		.file 9 "<built-in>"
-ARM GAS  /tmp/ccuhYuZD.s 			page 50
+  83:Core/Src/display.c **** }
+ 306              		.loc 1 83 1 is_stmt 0 view .LVU53
+ 307 00e8 08BD     		pop	{r3, pc}
+ 308              		.cfi_endproc
+ 309              	.LFE290:
+ 311              		.section	.text.Set_Page_Address,"ax",%progbits
+ 312              		.align	1
+ 313              		.global	Set_Page_Address
+ 314              		.syntax unified
+ 315              		.thumb
+ 316              		.thumb_func
+ 318              	Set_Page_Address:
+ 319              	.LVL44:
+ 320              	.LFB291:
+  84:Core/Src/display.c **** 
+  85:Core/Src/display.c **** void Set_Page_Address(unsigned char add)
+  86:Core/Src/display.c **** {
+ARM GAS  /tmp/ccZWBjKp.s 			page 8
+
+
+ 321              		.loc 1 86 1 is_stmt 1 view -0
+ 322              		.cfi_startproc
+ 323              		@ args = 0, pretend = 0, frame = 0
+ 324              		@ frame_needed = 0, uses_anonymous_args = 0
+ 325              		.loc 1 86 1 is_stmt 0 view .LVU55
+ 326 0000 08B5     		push	{r3, lr}
+ 327              	.LCFI7:
+ 328              		.cfi_def_cfa_offset 8
+ 329              		.cfi_offset 3, -8
+ 330              		.cfi_offset 14, -4
+  87:Core/Src/display.c ****   add=0xb0|add;
+ 331              		.loc 1 87 3 is_stmt 1 view .LVU56
+ 332              	.LVL45:
+  88:Core/Src/display.c ****   command(add);
+ 333              		.loc 1 88 3 view .LVU57
+ 334 0002 40F0B000 		orr	r0, r0, #176
+ 335 0006 FFF7FEFF 		bl	command
+ 336              	.LVL46:
+  89:Core/Src/display.c **** 	return;
+ 337              		.loc 1 89 2 view .LVU58
+  90:Core/Src/display.c **** }
+ 338              		.loc 1 90 1 is_stmt 0 view .LVU59
+ 339 000a 08BD     		pop	{r3, pc}
+ 340              		.cfi_endproc
+ 341              	.LFE291:
+ 343              		.section	.text.Set_Column_Address,"ax",%progbits
+ 344              		.align	1
+ 345              		.global	Set_Column_Address
+ 346              		.syntax unified
+ 347              		.thumb
+ 348              		.thumb_func
+ 350              	Set_Column_Address:
+ 351              	.LVL47:
+ 352              	.LFB292:
+  91:Core/Src/display.c **** 
+  92:Core/Src/display.c **** void Set_Column_Address(unsigned char add)
+  93:Core/Src/display.c **** {
+ 353              		.loc 1 93 1 is_stmt 1 view -0
+ 354              		.cfi_startproc
+ 355              		@ args = 0, pretend = 0, frame = 0
+ 356              		@ frame_needed = 0, uses_anonymous_args = 0
+ 357              		.loc 1 93 1 is_stmt 0 view .LVU61
+ 358 0000 10B5     		push	{r4, lr}
+ 359              	.LCFI8:
+ 360              		.cfi_def_cfa_offset 8
+ 361              		.cfi_offset 4, -8
+ 362              		.cfi_offset 14, -4
+ 363 0002 0446     		mov	r4, r0
+  94:Core/Src/display.c ****   command((0x10|(add>>4)));
+ 364              		.loc 1 94 3 is_stmt 1 view .LVU62
+ 365 0004 0009     		lsrs	r0, r0, #4
+ 366              	.LVL48:
+ 367              		.loc 1 94 3 is_stmt 0 view .LVU63
+ 368 0006 40F01000 		orr	r0, r0, #16
+ 369 000a FFF7FEFF 		bl	command
+ 370              	.LVL49:
+  95:Core/Src/display.c **** 	command((0x0f&add));
+ARM GAS  /tmp/ccZWBjKp.s 			page 9
+
+
+ 371              		.loc 1 95 2 is_stmt 1 view .LVU64
+ 372 000e 04F00F00 		and	r0, r4, #15
+ 373 0012 FFF7FEFF 		bl	command
+ 374              	.LVL50:
+  96:Core/Src/display.c **** 	return;
+ 375              		.loc 1 96 2 view .LVU65
+  97:Core/Src/display.c **** }
+ 376              		.loc 1 97 1 is_stmt 0 view .LVU66
+ 377 0016 10BD     		pop	{r4, pc}
+ 378              		.loc 1 97 1 view .LVU67
+ 379              		.cfi_endproc
+ 380              	.LFE292:
+ 382              		.section	.text.Display_Picture,"ax",%progbits
+ 383              		.align	1
+ 384              		.global	Display_Picture
+ 385              		.syntax unified
+ 386              		.thumb
+ 387              		.thumb_func
+ 389              	Display_Picture:
+ 390              	.LVL51:
+ 391              	.LFB293:
+  98:Core/Src/display.c **** 
+  99:Core/Src/display.c **** void Display_Picture(unsigned char pic[])
+ 100:Core/Src/display.c **** {
+ 392              		.loc 1 100 1 is_stmt 1 view -0
+ 393              		.cfi_startproc
+ 394              		@ args = 0, pretend = 0, frame = 0
+ 395              		@ frame_needed = 0, uses_anonymous_args = 0
+ 396              		.loc 1 100 1 is_stmt 0 view .LVU69
+ 397 0000 70B5     		push	{r4, r5, r6, lr}
+ 398              	.LCFI9:
+ 399              		.cfi_def_cfa_offset 16
+ 400              		.cfi_offset 4, -16
+ 401              		.cfi_offset 5, -12
+ 402              		.cfi_offset 6, -8
+ 403              		.cfi_offset 14, -4
+ 404 0002 0646     		mov	r6, r0
+ 101:Core/Src/display.c ****   unsigned char i,j,num=0;
+ 405              		.loc 1 101 3 is_stmt 1 view .LVU70
+ 406              	.LVL52:
+ 102:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 407              		.loc 1 102 2 view .LVU71
+ 408              		.loc 1 102 7 is_stmt 0 view .LVU72
+ 409 0004 0025     		movs	r5, #0
+ 410              		.loc 1 102 2 view .LVU73
+ 411 0006 0BE0     		b	.L16
+ 412              	.LVL53:
+ 413              	.L18:
+ 103:Core/Src/display.c **** 	{
+ 104:Core/Src/display.c **** 	Set_Page_Address(i);
+ 105:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 106:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 107:Core/Src/display.c **** 		{
+ 108:Core/Src/display.c **** 		  data(pic[i*0x80+j]);
+ 414              		.loc 1 108 5 is_stmt 1 view .LVU74
+ 415              		.loc 1 108 20 is_stmt 0 view .LVU75
+ 416 0008 04EBC513 		add	r3, r4, r5, lsl #7
+ARM GAS  /tmp/ccZWBjKp.s 			page 10
+
+
+ 417              		.loc 1 108 5 view .LVU76
+ 418 000c F05C     		ldrb	r0, [r6, r3]	@ zero_extendqisi2
+ 419 000e FFF7FEFF 		bl	data
+ 420              	.LVL54:
+ 106:Core/Src/display.c **** 		{
+ 421              		.loc 1 106 19 is_stmt 1 discriminator 3 view .LVU77
+ 422 0012 0134     		adds	r4, r4, #1
+ 423              	.LVL55:
+ 106:Core/Src/display.c **** 		{
+ 424              		.loc 1 106 19 is_stmt 0 discriminator 3 view .LVU78
+ 425 0014 E4B2     		uxtb	r4, r4
+ 426              	.LVL56:
+ 427              	.L17:
+ 106:Core/Src/display.c **** 		{
+ 428              		.loc 1 106 12 is_stmt 1 discriminator 1 view .LVU79
+ 429 0016 14F0800F 		tst	r4, #128
+ 430 001a F5D0     		beq	.L18
+ 102:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 431              		.loc 1 102 18 discriminator 2 view .LVU80
+ 432 001c 0135     		adds	r5, r5, #1
+ 433              	.LVL57:
+ 102:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 434              		.loc 1 102 18 is_stmt 0 discriminator 2 view .LVU81
+ 435 001e EDB2     		uxtb	r5, r5
+ 436              	.LVL58:
+ 437              	.L16:
+ 102:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 438              		.loc 1 102 11 is_stmt 1 discriminator 1 view .LVU82
+ 439 0020 032D     		cmp	r5, #3
+ 440 0022 07D8     		bhi	.L21
+ 104:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 441              		.loc 1 104 2 view .LVU83
+ 442 0024 2846     		mov	r0, r5
+ 443 0026 FFF7FEFF 		bl	Set_Page_Address
+ 444              	.LVL59:
+ 105:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 445              		.loc 1 105 3 view .LVU84
+ 446 002a 0020     		movs	r0, #0
+ 447 002c FFF7FEFF 		bl	Set_Column_Address
+ 448              	.LVL60:
+ 106:Core/Src/display.c **** 		{
+ 449              		.loc 1 106 3 view .LVU85
+ 106:Core/Src/display.c **** 		{
+ 450              		.loc 1 106 8 is_stmt 0 view .LVU86
+ 451 0030 0024     		movs	r4, #0
+ 106:Core/Src/display.c **** 		{
+ 452              		.loc 1 106 3 view .LVU87
+ 453 0032 F0E7     		b	.L17
+ 454              	.LVL61:
+ 455              	.L21:
+ 109:Core/Src/display.c **** 		}
+ 110:Core/Src/display.c **** 	}
+ 111:Core/Src/display.c ****   return;
+ 112:Core/Src/display.c **** }
+ 456              		.loc 1 112 1 view .LVU88
+ 457 0034 70BD     		pop	{r4, r5, r6, pc}
+ 458              		.loc 1 112 1 view .LVU89
+ARM GAS  /tmp/ccZWBjKp.s 			page 11
+
+
+ 459              		.cfi_endproc
+ 460              	.LFE293:
+ 462              		.section	.text.display_demo,"ax",%progbits
+ 463              		.align	1
+ 464              		.global	display_demo
+ 465              		.syntax unified
+ 466              		.thumb
+ 467              		.thumb_func
+ 469              	display_demo:
+ 470              	.LFB294:
+ 113:Core/Src/display.c **** 
+ 114:Core/Src/display.c **** void display_demo (void)
+ 115:Core/Src/display.c **** {
+ 471              		.loc 1 115 1 is_stmt 1 view -0
+ 472              		.cfi_startproc
+ 473              		@ args = 0, pretend = 0, frame = 512
+ 474              		@ frame_needed = 0, uses_anonymous_args = 0
+ 475 0000 00B5     		push	{lr}
+ 476              	.LCFI10:
+ 477              		.cfi_def_cfa_offset 4
+ 478              		.cfi_offset 14, -4
+ 479 0002 ADF5017D 		sub	sp, sp, #516
+ 480              	.LCFI11:
+ 481              		.cfi_def_cfa_offset 520
+ 116:Core/Src/display.c **** 
+ 117:Core/Src/display.c ****     unsigned char pic[]= 
+ 482              		.loc 1 117 5 view .LVU91
+ 483              		.loc 1 117 19 is_stmt 0 view .LVU92
+ 484 0006 4FF40072 		mov	r2, #512
+ 485 000a 0C49     		ldr	r1, .L24
+ 486 000c 6846     		mov	r0, sp
+ 487 000e FFF7FEFF 		bl	memcpy
+ 488              	.LVL62:
+ 118:Core/Src/display.c **** 
+ 119:Core/Src/display.c **** /*--  ������һ��ͼ��E:\��ʾ��ͼƬ\ER-OLED091-3.bmp  --*/
+ 120:Core/Src/display.c **** /*--  ����x�߶�=128x32  --*/
+ 121:Core/Src/display.c **** { 0xFF,0x01,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xE1,0x59,0x45,0x59,0xE1,0x01,0x99,
+ 122:Core/Src/display.c **** 0x25,0x25,0xC9,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x25,0x25,0x65,0x99,0x01,
+ 123:Core/Src/display.c **** 0x01,0xFD,0x01,0x01,0x99,0x25,0x25,0xC9,0x01,0x01,0xFD,0x01,0x01,0xFD,0x19,0x21,
+ 124:Core/Src/display.c **** 0xC1,0xFD,0x01,0x01,0xF9,0x05,0x05,0x25,0xE9,0x01,0x01,0x01,0x01,0x05,0x05,0xFD,
+ 125:Core/Src/display.c **** 0x05,0x05,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,0x01,
+ 126:Core/Src/display.c **** 0xFD,0x21,0x21,0x21,0xFD,0x01,0x01,0x01,0x01,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,
+ 127:Core/Src/display.c **** 0x01,0xF9,0x05,0x05,0x05,0xF9,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0xFD,0x01,
+ 128:Core/Src/display.c **** 0x01,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x05,0x05,0x05,0xF9,0x01,0x01,0xFF,
+ 129:Core/Src/display.c **** 0xFF,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x01,0x00,
+ 130:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0xF1,0xF0,0x90,0x90,0x91,0x00,
+ 131:Core/Src/display.c **** 0xF0,0xF1,0x10,0x10,0xF0,0xE1,0x01,0x00,0x00,0x00,0x01,0xC0,0xE0,0x31,0x10,0x30,
+ 132:Core/Src/display.c **** 0xE0,0xC1,0x00,0xF0,0xF0,0x01,0x01,0x01,0x00,0x00,0xF0,0xF0,0x90,0x90,0x90,0x01,
+ 133:Core/Src/display.c **** 0xF0,0xF0,0x10,0x11,0xF1,0xE1,0x01,0xE1,0xF0,0x10,0xF1,0xE1,0x01,0xE0,0xF0,0x10,
+ 134:Core/Src/display.c **** 0xF1,0xE0,0x00,0xC0,0x61,0xF0,0xF0,0x01,0x00,0x00,0x00,0x01,0x01,0x21,0x30,0x90,
+ 135:Core/Src/display.c **** 0xF0,0x60,0x01,0x01,0x01,0x00,0x00,0x00,0x01,0x00,0x00,0x03,0x00,0x00,0x01,0x01,
+ 136:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0xFF,
+ 137:Core/Src/display.c **** 0xFF,0x00,0x00,0x80,0xC0,0xC0,0x00,0x00,0x80,0xC0,0x40,0xC0,0x80,0x00,0x80,0xC0,
+ 138:Core/Src/display.c **** 0x40,0xC0,0x80,0x00,0x80,0xC0,0x80,0x00,0x80,0xC0,0x4F,0xCF,0x88,0x08,0x88,0xC0,
+ 139:Core/Src/display.c **** 0x4F,0xCF,0x81,0x03,0x07,0x0C,0x08,0x02,0x02,0x02,0x00,0xC3,0xC7,0x0C,0x08,0x0C,
+ 140:Core/Src/display.c **** 0x07,0x03,0x00,0x0F,0x0F,0x88,0xC8,0x08,0x08,0x00,0x0F,0x0F,0x08,0x08,0x08,0x00,
+ 141:Core/Src/display.c **** 0x0F,0x0F,0x08,0x08,0x0F,0x07,0x80,0xC7,0x4F,0xC8,0x8F,0x07,0x00,0x04,0x0D,0x89,
+ARM GAS  /tmp/ccZWBjKp.s 			page 12
+
+
+ 142:Core/Src/display.c **** 0xCF,0x47,0xC0,0x80,0x00,0x0F,0x8F,0xC0,0xC0,0x02,0x42,0x42,0x00,0x04,0x0C,0x08,
+ 143:Core/Src/display.c **** 0x0F,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0xC0,0x00,0x00,0x00,0x00,
+ 144:Core/Src/display.c **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,
+ 145:Core/Src/display.c **** 0xFF,0x80,0x83,0x81,0xBF,0xBF,0x80,0x80,0xB0,0xB8,0xAC,0xA7,0xA3,0x80,0x9D,0xBF,
+ 146:Core/Src/display.c **** 0xA2,0xBF,0x9D,0x80,0x82,0x81,0x82,0x80,0x90,0xB0,0xA2,0xBF,0x9D,0x80,0xB0,0xB8,
+ 147:Core/Src/display.c **** 0xAC,0xA7,0xA3,0x80,0x80,0x80,0x80,0x9E,0xBF,0xA1,0xA1,0xBF,0xBF,0x80,0x9E,0xBF,
+ 148:Core/Src/display.c **** 0xA1,0xA1,0xBF,0x9E,0x81,0x9F,0xBF,0xA1,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,
+ 149:Core/Src/display.c **** 0x80,0x80,0x80,0x80,0x80,0x80,0x9F,0xBF,0xA0,0xBF,0x9F,0x80,0xB0,0xB0,0x80,0x93,
+ 150:Core/Src/display.c **** 0xB7,0xA4,0xBF,0x9F,0x80,0x83,0x81,0xBF,0xBF,0x80,0xBF,0xBF,0x80,0xBF,0xBF,0x81,
+ 151:Core/Src/display.c **** 0x81,0xBF,0xBE,0x80,0x9E,0xBF,0xA1,0xB3,0x92,0x80,0xBF,0xBF,0x81,0x81,0xBF,0xBE,
+ 152:Core/Src/display.c **** 0x80,0x9E,0xBF,0xA5,0xA5,0xB7,0x96,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,0xFF
+ 153:Core/Src/display.c **** };
+ 154:Core/Src/display.c ****     Display_Picture(pic);
+ 489              		.loc 1 154 5 is_stmt 1 view .LVU93
+ 490 0012 6846     		mov	r0, sp
+ 491 0014 FFF7FEFF 		bl	Display_Picture
+ 492              	.LVL63:
+ 155:Core/Src/display.c ****     HAL_Delay(1000);
+ 493              		.loc 1 155 5 view .LVU94
+ 494 0018 4FF47A70 		mov	r0, #1000
+ 495 001c FFF7FEFF 		bl	HAL_Delay
+ 496              	.LVL64:
+ 156:Core/Src/display.c ****     command(0xa7);
+ 497              		.loc 1 156 5 view .LVU95
+ 498 0020 A720     		movs	r0, #167
+ 499 0022 FFF7FEFF 		bl	command
+ 500              	.LVL65:
+ 157:Core/Src/display.c ****     HAL_Delay(1000);
+ 501              		.loc 1 157 5 view .LVU96
+ 502 0026 4FF47A70 		mov	r0, #1000
+ 503 002a FFF7FEFF 		bl	HAL_Delay
+ 504              	.LVL66:
+ 158:Core/Src/display.c ****     command(0xa6);
+ 505              		.loc 1 158 5 view .LVU97
+ 506 002e A620     		movs	r0, #166
+ 507 0030 FFF7FEFF 		bl	command
+ 508              	.LVL67:
+ 159:Core/Src/display.c **** 
+ 160:Core/Src/display.c **** }
+ 509              		.loc 1 160 1 is_stmt 0 view .LVU98
+ 510 0034 0DF5017D 		add	sp, sp, #516
+ 511              	.LCFI12:
+ 512              		.cfi_def_cfa_offset 4
+ 513              		@ sp needed
+ 514 0038 5DF804FB 		ldr	pc, [sp], #4
+ 515              	.L25:
+ 516              		.align	2
+ 517              	.L24:
+ 518 003c 00000000 		.word	.LANCHOR0
+ 519              		.cfi_endproc
+ 520              	.LFE294:
+ 522              		.section	.rodata
+ 523              		.align	2
+ 524              		.set	.LANCHOR0,. + 0
+ 525              	.LC0:
+ 526 0000 FF0101FD 		.ascii	"\377\001\001\375%%%%\001\341YEY\341\001\231%%\311\001"
+ 526      25252525 
+ARM GAS  /tmp/ccZWBjKp.s 			page 13
+
+
+ 526      01E15945 
+ 526      59E10199 
+ 526      2525C901 
+ 527 0014 0505FD05 		.ascii	"\005\005\375\005\005\001\375%%e\231\001\001\375\001"
+ 527      0501FD25 
+ 527      25659901 
+ 527      01FD01
+ 528 0023 01992525 		.ascii	"\001\231%%\311\001\001\375\001\001\375\031!\301\375"
+ 528      C90101FD 
+ 528      0101FD19 
+ 528      21C1FD
+ 529 0032 0101F905 		.ascii	"\001\001\371\005\005%\351\001\001\001\001\005\005\375"
+ 529      0525E901 
+ 529      01010105 
+ 529      05FD
+ 530 0040 050501FD 		.ascii	"\005\005\001\375%%%%\001\371\005\005\005\211\001\001"
+ 530      25252525 
+ 530      01F90505 
+ 530      05890101 
+ 531 0050 FD212121 		.ascii	"\375!!!\375\001\001\001\001\001\371\005\005\005\211"
+ 531      FD010101 
+ 531      0101F905 
+ 531      050589
+ 532 005f 0101F905 		.ascii	"\001\001\371\005\005\005\371\001\001\001\001\001\001"
+ 532      0505F901 
+ 532      01010101 
+ 532      01
+ 533 006c 0101FD01 		.ascii	"\001\001\375\001\001\001\005\005\375\005\005\001\375"
+ 533      01010505 
+ 533      FD050501 
+ 533      FD
+ 534 0079 050505F9 		.ascii	"\005\005\005\371\001\001\377\377\000\000\001\001\001"
+ 534      0101FFFF 
+ 534      00000101 
+ 534      01
+ 535 0086 01010100 		.ascii	"\001\001\001\000\000\000\000\000\001\000\001\001\000"
+ 535      00000000 
+ 535      01000101 
+ 535      00
+ 536 0093 00000001 		.ascii	"\000\000\000\001\000\000\000\361\360\220\220\221\000"
+ 536      000000F1 
+ 536      F0909091 
+ 536      00
+ 537 00a0 F0F11010 		.ascii	"\360\361\020\020\360\341\001\000\000\000\001\300\340"
+ 537      F0E10100 
+ 537      000001C0 
+ 537      E0
+ 538 00ad 311030E0 		.ascii	"1\0200\340\301\000\360\360\001\001\001\000\000\360\360"
+ 538      C100F0F0 
+ 538      01010100 
+ 538      00F0F0
+ 539 00bc 90909001 		.ascii	"\220\220\220\001\360\360\020\021\361\341\001\341\360"
+ 539      F0F01011 
+ 539      F1E101E1 
+ 539      F0
+ 540 00c9 10F1E101 		.ascii	"\020\361\341\001\340\360\020\361\340\000\300a\360\360"
+ 540      E0F010F1 
+ARM GAS  /tmp/ccZWBjKp.s 			page 14
+
+
+ 540      E000C061 
+ 540      F0F0
+ 541 00d7 01000000 		.ascii	"\001\000\000\000\001\001!0\220\360`\001\001\001\000"
+ 541      01012130 
+ 541      90F06001 
+ 541      010100
+ 542 00e6 00000100 		.ascii	"\000\000\001\000\000\003\000\000\001\001\001\001\000"
+ 542      00030000 
+ 542      01010101 
+ 542      00
+ 543 00f3 00010000 		.ascii	"\000\001\000\000\000\001\001\001\001\000\000\000\377"
+ 543      00010101 
+ 543      01000000 
+ 543      FF
+ 544 0100 FF000080 		.ascii	"\377\000\000\200\300\300\000\000\200\300@\300\200\000"
+ 544      C0C00000 
+ 544      80C040C0 
+ 544      8000
+ 545 010e 80C040C0 		.ascii	"\200\300@\300\200\000\200\300\200\000\200\300O\317\210"
+ 545      800080C0 
+ 545      800080C0 
+ 545      4FCF88
+ 546 011d 0888C04F 		.ascii	"\010\210\300O\317\201\003\007\014\010\002\002\002\000"
+ 546      CF810307 
+ 546      0C080202 
+ 546      0200
+ 547 012b C3C70C08 		.ascii	"\303\307\014\010\014\007\003\000\017\017\210\310\010"
+ 547      0C070300 
+ 547      0F0F88C8 
+ 547      08
+ 548 0138 08000F0F 		.ascii	"\010\000\017\017\010\010\010\000\017\017\010\010\017"
+ 548      08080800 
+ 548      0F0F0808 
+ 548      0F
+ 549 0145 0780C74F 		.ascii	"\007\200\307O\310\217\007\000\004\015\211\317G\300\200"
+ 549      C88F0700 
+ 549      040D89CF 
+ 549      47C080
+ 550 0154 000F8FC0 		.ascii	"\000\017\217\300\300\002BB\000\004\014\010\017\007\000"
+ 550      C0024242 
+ 550      00040C08 
+ 550      0F0700
+ 551 0163 00000000 		.ascii	"\000\000\000\000\000\000\000\300\300\000\000\000\000"
+ 551      000000C0 
+ 551      C0000000 
+ 551      00
+ 552 0170 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
+ 552      00000000 
+ 552      00000000 
+ 552      00
+ 553 017d 0000FFFF 		.ascii	"\000\000\377\377\200\203\201\277\277\200\200\260\270"
+ 553      808381BF 
+ 553      BF8080B0 
+ 553      B8
+ 554 018a ACA7A380 		.ascii	"\254\247\243\200\235\277\242\277\235\200\202\201\202"
+ 554      9DBFA2BF 
+ 554      9D808281 
+ARM GAS  /tmp/ccZWBjKp.s 			page 15
+
+
+ 554      82
+ 555 0197 8090B0A2 		.ascii	"\200\220\260\242\277\235\200\260\270\254\247\243\200"
+ 555      BF9D80B0 
+ 555      B8ACA7A3 
+ 555      80
+ 556 01a4 8080809E 		.ascii	"\200\200\200\236\277\241\241\277\277\200\236\277\241"
+ 556      BFA1A1BF 
+ 556      BF809EBF 
+ 556      A1
+ 557 01b1 A1BF9E81 		.ascii	"\241\277\236\201\237\277\241\200\226\267\255\255\273"
+ 557      9FBFA180 
+ 557      96B7ADAD 
+ 557      BB
+ 558 01be 9A808080 		.ascii	"\232\200\200\200\200\200\200\200\237\277\240\277\237"
+ 558      80808080 
+ 558      9FBFA0BF 
+ 558      9F
+ 559 01cb 80B0B080 		.ascii	"\200\260\260\200\223\267\244\277\237\200\203\201\277"
+ 559      93B7A4BF 
+ 559      9F808381 
+ 559      BF
+ 560 01d8 BF80BFBF 		.ascii	"\277\200\277\277\200\277\277\201\201\277\276\200\236"
+ 560      80BFBF81 
+ 560      81BFBE80 
+ 560      9E
+ 561 01e5 BFA1B392 		.ascii	"\277\241\263\222\200\277\277\201\201\277\276\200\236"
+ 561      80BFBF81 
+ 561      81BFBE80 
+ 561      9E
+ 562 01f2 BFA5A5B7 		.ascii	"\277\245\245\267\226\200\226\267\255\255\273\232\200"
+ 562      968096B7 
+ 562      ADADBB9A 
+ 562      80
+ 563 01ff FF       		.ascii	"\377"
+ 564              		.text
+ 565              	.Letext0:
+ 566              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 567              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 568              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 569              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 570              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 571              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 572              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 573              		.file 9 "<built-in>"
+ARM GAS  /tmp/ccZWBjKp.s 			page 16
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 display.c
-     /tmp/ccuhYuZD.s:21     .text.command:00000000 $t
-     /tmp/ccuhYuZD.s:27     .text.command:00000000 command
-     /tmp/ccuhYuZD.s:81     .text.command:00000048 $d
-     /tmp/ccuhYuZD.s:86     .text.command_bi:00000000 $t
-     /tmp/ccuhYuZD.s:92     .text.command_bi:00000000 command_bi
-     /tmp/ccuhYuZD.s:149    .text.command_bi:00000048 $d
-     /tmp/ccuhYuZD.s:154    .text.data:00000000 $t
-     /tmp/ccuhYuZD.s:160    .text.data:00000000 data
-     /tmp/ccuhYuZD.s:214    .text.data:00000048 $d
-     /tmp/ccuhYuZD.s:219    .text.OLED_ColorTurn:00000000 $t
-     /tmp/ccuhYuZD.s:225    .text.OLED_ColorTurn:00000000 OLED_ColorTurn
-     /tmp/ccuhYuZD.s:271    .text.er_oled_SetWindow:00000000 $t
-     /tmp/ccuhYuZD.s:277    .text.er_oled_SetWindow:00000000 er_oled_SetWindow
-     /tmp/ccuhYuZD.s:331    .text.er_oled_clear:00000000 $t
-     /tmp/ccuhYuZD.s:337    .text.er_oled_clear:00000000 er_oled_clear
-     /tmp/ccuhYuZD.s:399    .text.er_oled_bitmap:00000000 $t
-     /tmp/ccuhYuZD.s:405    .text.er_oled_bitmap:00000000 er_oled_bitmap
-     /tmp/ccuhYuZD.s:476    .text.setColumnAddress:00000000 $t
-     /tmp/ccuhYuZD.s:482    .text.setColumnAddress:00000000 setColumnAddress
-     /tmp/ccuhYuZD.s:518    .text.setRowAddress:00000000 $t
-     /tmp/ccuhYuZD.s:524    .text.setRowAddress:00000000 setRowAddress
-     /tmp/ccuhYuZD.s:560    .text.display_init:00000000 $t
-     /tmp/ccuhYuZD.s:566    .text.display_init:00000000 display_init
-     /tmp/ccuhYuZD.s:767    .text.display_demo:00000000 $t
-     /tmp/ccuhYuZD.s:773    .text.display_demo:00000000 display_demo
-     /tmp/ccuhYuZD.s:838    .text.display_demo:00000054 $d
-     /tmp/ccuhYuZD.s:843    .rodata:00000000 $d
+     /tmp/ccZWBjKp.s:21     .text.command:00000000 $t
+     /tmp/ccZWBjKp.s:27     .text.command:00000000 command
+     /tmp/ccZWBjKp.s:81     .text.command:00000048 $d
+     /tmp/ccZWBjKp.s:86     .text.data:00000000 $t
+     /tmp/ccZWBjKp.s:92     .text.data:00000000 data
+     /tmp/ccZWBjKp.s:146    .text.data:00000048 $d
+     /tmp/ccZWBjKp.s:151    .text.display_init:00000000 $t
+     /tmp/ccZWBjKp.s:157    .text.display_init:00000000 display_init
+     /tmp/ccZWBjKp.s:312    .text.Set_Page_Address:00000000 $t
+     /tmp/ccZWBjKp.s:318    .text.Set_Page_Address:00000000 Set_Page_Address
+     /tmp/ccZWBjKp.s:344    .text.Set_Column_Address:00000000 $t
+     /tmp/ccZWBjKp.s:350    .text.Set_Column_Address:00000000 Set_Column_Address
+     /tmp/ccZWBjKp.s:383    .text.Display_Picture:00000000 $t
+     /tmp/ccZWBjKp.s:389    .text.Display_Picture:00000000 Display_Picture
+     /tmp/ccZWBjKp.s:463    .text.display_demo:00000000 $t
+     /tmp/ccZWBjKp.s:469    .text.display_demo:00000000 display_demo
+     /tmp/ccZWBjKp.s:518    .text.display_demo:0000003c $d
+     /tmp/ccZWBjKp.s:523    .rodata:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
