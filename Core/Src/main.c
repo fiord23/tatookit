@@ -51,7 +51,9 @@
 
 /* USER CODE BEGIN PV */
 uint8_t data_config4[2] = {0x0D, 0x30};
-uint8_t data_config0[2] = {0x09, 0xE1};
+uint8_t data_config0[2] = {0x09, 0xE1}; //enable motor 7 bit - Hihg
+uint8_t data_config0_low[2] = {0x09, 0x61}; //enable motor 7 bit - Hihg
+
 uint8_t data_config2[2] = {0x10, 40}; //speed motor
 uint8_t regData = 0;
 uint8_t regAddress = I2C_ID_ADDRESS;
@@ -140,13 +142,19 @@ int main(void)
   {
     //display_demo();
 SSD1306_Fill(SSD1306_COLOR_BLACK);
-SSD1306_GotoXY(0,0);
-SSD1306_Puts("Hello, Oleg!!", &Font_7x10, SSD1306_COLOR_WHITE);
-SSD1306_GotoXY(0,12);
-SSD1306_Puts("Tatookit", &Font_7x10, SSD1306_COLOR_WHITE);
-SSD1306_GotoXY(0,21);
-SSD1306_Puts("Minsk - Wroclaw", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
+SSD1306_GotoXY(70,5);
+SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_GotoXY(70,21);
+SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
+SSD1306_GotoXY(0,5);
+SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
 SSD1306_UpdateScreen();
+
 
 
     if (speed > 63)
@@ -241,12 +249,15 @@ void EXTI15_10_IRQHandler (void)
   {
     flag_motor = 0;
     display_power_low();
+    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0_low, 2,  100);
+
     
   }
   else
   {
     flag_motor = 1;
     display_power_high();
+    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0, 2,  100);
   }
   //flag_motor++;
 

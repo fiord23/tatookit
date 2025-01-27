@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc7dSzUz.s 			page 1
+ARM GAS  /tmp/cci1iOPj.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
   33              		@ frame_needed = 0, uses_anonymous_args = 0
   34              		.loc 1 23 1 is_stmt 0 view .LVU1
   35 0000 00B5     		push	{lr}
-ARM GAS  /tmp/cc7dSzUz.s 			page 2
+ARM GAS  /tmp/cci1iOPj.s 			page 2
 
 
   36              	.LCFI0:
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
   83              	.LFE288:
   85              		.section	.text.data,"ax",%progbits
   86              		.align	1
-ARM GAS  /tmp/cc7dSzUz.s 			page 3
+ARM GAS  /tmp/cci1iOPj.s 			page 3
 
 
   87              		.global	data
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  134 0038 4FF09040 		mov	r0, #1207959552
  135 003c FFF7FEFF 		bl	HAL_GPIO_WritePin
  136              	.LVL11:
-ARM GAS  /tmp/cc7dSzUz.s 			page 4
+ARM GAS  /tmp/cci1iOPj.s 			page 4
 
 
   39:Core/Src/display.c ****     
@@ -220,8 +220,8 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
   55:Core/Src/display.c **** 
   56:Core/Src/display.c ****     command(DISPLAYOFF); 
   57:Core/Src/display.c **** 
-  58:Core/Src/display.c ****     command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
-  59:Core/Src/display.c ****     command(0x80);     
+  58:Core/Src/display.c ****     command(SETDISPLAYCLOCKDIV); // 0x80 - Clock divide ratio/osc. freq
+  59:Core/Src/display.c ****     command(0xF0);     
   60:Core/Src/display.c **** 
   61:Core/Src/display.c ****     command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
   62:Core/Src/display.c ****     command(0x1F);                     // 0x1F
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
   73:Core/Src/display.c **** 
   74:Core/Src/display.c ****     command(RESETALLON); // 0xA4 - Disable Entire Display On
   75:Core/Src/display.c **** 
-ARM GAS  /tmp/cc7dSzUz.s 			page 5
+ARM GAS  /tmp/cci1iOPj.s 			page 5
 
 
   76:Core/Src/display.c ****     command(SETSEGREMAP); // 0xA1 - set segment re-map 128 to 0  
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  130:Core/Src/display.c ****   SSD1306_UpdateScreen();
  131:Core/Src/display.c **** }
  132:Core/Src/display.c **** 
-ARM GAS  /tmp/cc7dSzUz.s 			page 6
+ARM GAS  /tmp/cci1iOPj.s 			page 6
 
 
  133:Core/Src/display.c **** void SSD1306_Fill(SSD1306_COLOR_t color) {
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  179 000e 05E0     		b	.L10
  180              	.LVL13:
  181              	.L11:
-ARM GAS  /tmp/cc7dSzUz.s 			page 7
+ARM GAS  /tmp/cci1iOPj.s 			page 7
 
 
  167:Core/Src/display.c **** 		pixelBuffer[i] = ~pixelBuffer[i];
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  228              		.loc 1 173 22 view .LVU39
  229 0004 1F29     		cmp	r1, #31
  230 0006 23D8     		bhi	.L19
-ARM GAS  /tmp/cc7dSzUz.s 			page 8
+ARM GAS  /tmp/cci1iOPj.s 			page 8
 
 
  171:Core/Src/display.c **** 	if (
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  268 002a 8B40     		lsls	r3, r3, r1
  269              		.loc 1 189 44 view .LVU54
  270 002c DB43     		mvns	r3, r3
-ARM GAS  /tmp/cc7dSzUz.s 			page 9
+ARM GAS  /tmp/cci1iOPj.s 			page 9
 
 
  271 002e 5BB2     		sxtb	r3, r3
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  316              		.cfi_endproc
  317              	.LFE295:
  319              		.section	.text.SSD1306_GotoXY,"ax",%progbits
-ARM GAS  /tmp/cc7dSzUz.s 			page 10
+ARM GAS  /tmp/cci1iOPj.s 			page 10
 
 
  320              		.align	1
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  369              		.cfi_offset 4, -28
  370              		.cfi_offset 5, -24
  371              		.cfi_offset 6, -20
-ARM GAS  /tmp/cc7dSzUz.s 			page 11
+ARM GAS  /tmp/cci1iOPj.s 			page 11
 
 
  372              		.cfi_offset 7, -16
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  217:Core/Src/display.c **** 			} else {
  218:Core/Src/display.c **** 				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t)!color);
  407              		.loc 1 218 5 is_stmt 1 view .LVU82
-ARM GAS  /tmp/cc7dSzUz.s 			page 12
+ARM GAS  /tmp/cci1iOPj.s 			page 12
 
 
  408              		.loc 1 218 30 is_stmt 0 view .LVU83
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  451 0060 FFF7FEFF 		bl	SSD1306_DrawPixel
  452              	.LVL33:
  453 0064 EBE7     		b	.L33
-ARM GAS  /tmp/cc7dSzUz.s 			page 13
+ARM GAS  /tmp/cci1iOPj.s 			page 13
 
 
  454              	.L39:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  490 0088 1380     		strh	r3, [r2]	@ movhi
  225:Core/Src/display.c **** 	
  226:Core/Src/display.c **** 	/* Return character written */
-ARM GAS  /tmp/cc7dSzUz.s 			page 14
+ARM GAS  /tmp/cci1iOPj.s 			page 14
 
 
  227:Core/Src/display.c **** 	return ch;
@@ -824,13 +824,12 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  527              	.LVL42:
  528              	.LFB298:
  229:Core/Src/display.c **** 
- 230:Core/Src/display.c **** 
- 231:Core/Src/display.c **** char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
- 529              		.loc 1 231 70 is_stmt 1 view -0
+ 230:Core/Src/display.c **** char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
+ 529              		.loc 1 230 70 is_stmt 1 view -0
  530              		.cfi_startproc
  531              		@ args = 0, pretend = 0, frame = 0
  532              		@ frame_needed = 0, uses_anonymous_args = 0
- 533              		.loc 1 231 70 is_stmt 0 view .LVU121
+ 533              		.loc 1 230 70 is_stmt 0 view .LVU121
  534 0000 70B5     		push	{r4, r5, r6, lr}
  535              	.LCFI11:
  536              		.cfi_def_cfa_offset 16
@@ -838,1191 +837,1985 @@ ARM GAS  /tmp/cc7dSzUz.s 			page 1
  538              		.cfi_offset 5, -12
  539              		.cfi_offset 6, -8
  540              		.cfi_offset 14, -4
-ARM GAS  /tmp/cc7dSzUz.s 			page 15
-
-
  541 0002 0446     		mov	r4, r0
+ARM GAS  /tmp/cci1iOPj.s 			page 15
+
+
  542 0004 0E46     		mov	r6, r1
  543 0006 1546     		mov	r5, r2
- 232:Core/Src/display.c **** 	/* Write characters */
- 233:Core/Src/display.c **** 	while (*str) {
- 544              		.loc 1 233 2 is_stmt 1 view .LVU122
- 545              		.loc 1 233 8 is_stmt 0 view .LVU123
+ 231:Core/Src/display.c **** 	/* Write characters */
+ 232:Core/Src/display.c **** 	while (*str) {
+ 544              		.loc 1 232 2 is_stmt 1 view .LVU122
+ 545              		.loc 1 232 8 is_stmt 0 view .LVU123
  546 0008 00E0     		b	.L44
  547              	.LVL43:
  548              	.L48:
- 234:Core/Src/display.c **** 		/* Write character by character */
- 235:Core/Src/display.c **** 		if (SSD1306_Putc(*str, Font, color) != *str) {
- 236:Core/Src/display.c **** 			/* Return error */
- 237:Core/Src/display.c **** 			return *str;
- 238:Core/Src/display.c **** 		}
- 239:Core/Src/display.c **** 		
- 240:Core/Src/display.c **** 		/* Increase string pointer */
- 241:Core/Src/display.c **** 		str++;
- 549              		.loc 1 241 3 is_stmt 1 view .LVU124
- 550              		.loc 1 241 6 is_stmt 0 view .LVU125
+ 233:Core/Src/display.c **** 		/* Write character by character */
+ 234:Core/Src/display.c **** 		if (SSD1306_Putc(*str, Font, color) != *str) {
+ 235:Core/Src/display.c **** 			/* Return error */
+ 236:Core/Src/display.c **** 			return *str;
+ 237:Core/Src/display.c **** 		}
+ 238:Core/Src/display.c **** 		
+ 239:Core/Src/display.c **** 		/* Increase string pointer */
+ 240:Core/Src/display.c **** 		str++;
+ 549              		.loc 1 240 3 is_stmt 1 view .LVU124
+ 550              		.loc 1 240 6 is_stmt 0 view .LVU125
  551 000a 0134     		adds	r4, r4, #1
  552              	.LVL44:
  553              	.L44:
- 233:Core/Src/display.c **** 		/* Write character by character */
- 554              		.loc 1 233 9 is_stmt 1 view .LVU126
+ 232:Core/Src/display.c **** 		/* Write character by character */
+ 554              		.loc 1 232 9 is_stmt 1 view .LVU126
  555 000c 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
  556 000e 38B1     		cbz	r0, .L45
- 235:Core/Src/display.c **** 			/* Return error */
- 557              		.loc 1 235 3 view .LVU127
- 235:Core/Src/display.c **** 			/* Return error */
- 558              		.loc 1 235 7 is_stmt 0 view .LVU128
+ 234:Core/Src/display.c **** 			/* Return error */
+ 557              		.loc 1 234 3 view .LVU127
+ 234:Core/Src/display.c **** 			/* Return error */
+ 558              		.loc 1 234 7 is_stmt 0 view .LVU128
  559 0010 2A46     		mov	r2, r5
  560 0012 3146     		mov	r1, r6
  561 0014 FFF7FEFF 		bl	SSD1306_Putc
  562              	.LVL45:
  563 0018 0346     		mov	r3, r0
- 235:Core/Src/display.c **** 			/* Return error */
- 564              		.loc 1 235 42 discriminator 1 view .LVU129
+ 234:Core/Src/display.c **** 			/* Return error */
+ 564              		.loc 1 234 42 discriminator 1 view .LVU129
  565 001a 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
- 235:Core/Src/display.c **** 			/* Return error */
- 566              		.loc 1 235 6 discriminator 1 view .LVU130
+ 234:Core/Src/display.c **** 			/* Return error */
+ 566              		.loc 1 234 6 discriminator 1 view .LVU130
  567 001c 8342     		cmp	r3, r0
  568 001e F4D0     		beq	.L48
  569              	.L45:
- 242:Core/Src/display.c **** 	}
- 243:Core/Src/display.c **** 	
- 244:Core/Src/display.c **** 	/* Everything OK, zero should be returned */
- 245:Core/Src/display.c **** 	return *str;
- 246:Core/Src/display.c **** }
- 570              		.loc 1 246 1 view .LVU131
+ 241:Core/Src/display.c **** 	}
+ 242:Core/Src/display.c **** 	
+ 243:Core/Src/display.c **** 	/* Everything OK, zero should be returned */
+ 244:Core/Src/display.c **** 	return *str;
+ 245:Core/Src/display.c **** }
+ 570              		.loc 1 245 1 view .LVU131
  571 0020 70BD     		pop	{r4, r5, r6, pc}
- 572              		.loc 1 246 1 view .LVU132
+ 572              		.loc 1 245 1 view .LVU132
  573              		.cfi_endproc
  574              	.LFE298:
- 576              		.section	.text.Set_Page_Address,"ax",%progbits
+ 576              		.section	.text.SSD1306_DrawLine,"ax",%progbits
  577              		.align	1
- 578              		.global	Set_Page_Address
-ARM GAS  /tmp/cc7dSzUz.s 			page 16
-
-
+ 578              		.global	SSD1306_DrawLine
  579              		.syntax unified
+ARM GAS  /tmp/cci1iOPj.s 			page 16
+
+
  580              		.thumb
  581              		.thumb_func
- 583              	Set_Page_Address:
+ 583              	SSD1306_DrawLine:
  584              	.LVL46:
  585              	.LFB299:
- 247:Core/Src/display.c ****  
- 248:Core/Src/display.c **** 
- 249:Core/Src/display.c **** 
- 250:Core/Src/display.c **** 
- 251:Core/Src/display.c **** void Set_Page_Address(unsigned char add)
- 252:Core/Src/display.c **** {
- 586              		.loc 1 252 1 is_stmt 1 view -0
+ 246:Core/Src/display.c ****  
+ 247:Core/Src/display.c **** void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD1306_COLOR_t c) {
+ 586              		.loc 1 247 94 is_stmt 1 view -0
  587              		.cfi_startproc
- 588              		@ args = 0, pretend = 0, frame = 0
+ 588              		@ args = 4, pretend = 0, frame = 8
  589              		@ frame_needed = 0, uses_anonymous_args = 0
- 590              		.loc 1 252 1 is_stmt 0 view .LVU134
- 591 0000 08B5     		push	{r3, lr}
+ 590              		.loc 1 247 94 is_stmt 0 view .LVU134
+ 591 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
  592              	.LCFI12:
- 593              		.cfi_def_cfa_offset 8
- 594              		.cfi_offset 3, -8
- 595              		.cfi_offset 14, -4
- 253:Core/Src/display.c ****   add=0xb0|add;
- 596              		.loc 1 253 3 is_stmt 1 view .LVU135
- 597              	.LVL47:
- 254:Core/Src/display.c ****   command(add);
- 598              		.loc 1 254 3 view .LVU136
- 599 0002 40F0B000 		orr	r0, r0, #176
- 600 0006 FFF7FEFF 		bl	command
- 601              	.LVL48:
- 255:Core/Src/display.c **** 	return;
- 602              		.loc 1 255 2 view .LVU137
- 256:Core/Src/display.c **** }
- 603              		.loc 1 256 1 is_stmt 0 view .LVU138
- 604 000a 08BD     		pop	{r3, pc}
- 605              		.cfi_endproc
- 606              	.LFE299:
- 608              		.section	.text.Set_Column_Address,"ax",%progbits
- 609              		.align	1
- 610              		.global	Set_Column_Address
- 611              		.syntax unified
- 612              		.thumb
- 613              		.thumb_func
- 615              	Set_Column_Address:
- 616              	.LVL49:
- 617              	.LFB300:
- 257:Core/Src/display.c **** 
- 258:Core/Src/display.c **** void Set_Column_Address(unsigned char add)
- 259:Core/Src/display.c **** {
- 618              		.loc 1 259 1 is_stmt 1 view -0
- 619              		.cfi_startproc
- 620              		@ args = 0, pretend = 0, frame = 0
- 621              		@ frame_needed = 0, uses_anonymous_args = 0
- 622              		.loc 1 259 1 is_stmt 0 view .LVU140
- 623 0000 10B5     		push	{r4, lr}
- 624              	.LCFI13:
- 625              		.cfi_def_cfa_offset 8
-ARM GAS  /tmp/cc7dSzUz.s 			page 17
+ 593              		.cfi_def_cfa_offset 36
+ 594              		.cfi_offset 4, -36
+ 595              		.cfi_offset 5, -32
+ 596              		.cfi_offset 6, -28
+ 597              		.cfi_offset 7, -24
+ 598              		.cfi_offset 8, -20
+ 599              		.cfi_offset 9, -16
+ 600              		.cfi_offset 10, -12
+ 601              		.cfi_offset 11, -8
+ 602              		.cfi_offset 14, -4
+ 603 0004 83B0     		sub	sp, sp, #12
+ 604              	.LCFI13:
+ 605              		.cfi_def_cfa_offset 48
+ 606 0006 0446     		mov	r4, r0
+ 607 0008 0E46     		mov	r6, r1
+ 608 000a 1746     		mov	r7, r2
+ 609 000c 9946     		mov	r9, r3
+ 610 000e 9DF83080 		ldrb	r8, [sp, #48]	@ zero_extendqisi2
+ 248:Core/Src/display.c **** 	int16_t dx, dy, sx, sy, err, e2, i, tmp; 
+ 611              		.loc 1 248 2 is_stmt 1 view .LVU135
+ 249:Core/Src/display.c **** 	
+ 250:Core/Src/display.c **** 	/* Check for overflow */
+ 251:Core/Src/display.c **** 	if (x0 >= SSD1306_WIDTH) {
+ 612              		.loc 1 251 2 view .LVU136
+ 613              		.loc 1 251 5 is_stmt 0 view .LVU137
+ 614 0012 7F28     		cmp	r0, #127
+ 615 0014 00D9     		bls	.L50
+ 252:Core/Src/display.c **** 		x0 = SSD1306_WIDTH - 1;
+ 616              		.loc 1 252 6 view .LVU138
+ 617 0016 7F24     		movs	r4, #127
+ 618              	.L50:
+ 619              	.LVL47:
+ 253:Core/Src/display.c **** 	}
+ 254:Core/Src/display.c **** 	if (x1 >= SSD1306_WIDTH) {
+ 620              		.loc 1 254 2 is_stmt 1 view .LVU139
+ 621              		.loc 1 254 5 is_stmt 0 view .LVU140
+ 622 0018 7F2F     		cmp	r7, #127
+ 623 001a 00D9     		bls	.L51
+ 255:Core/Src/display.c **** 		x1 = SSD1306_WIDTH - 1;
+ 624              		.loc 1 255 6 view .LVU141
+ 625 001c 7F27     		movs	r7, #127
+ 626              	.L51:
+ 627              	.LVL48:
+ARM GAS  /tmp/cci1iOPj.s 			page 17
 
 
- 626              		.cfi_offset 4, -8
- 627              		.cfi_offset 14, -4
- 628 0002 0446     		mov	r4, r0
- 260:Core/Src/display.c ****   command((0x10|(add>>4)));
- 629              		.loc 1 260 3 is_stmt 1 view .LVU141
- 630 0004 0009     		lsrs	r0, r0, #4
- 631              	.LVL50:
- 632              		.loc 1 260 3 is_stmt 0 view .LVU142
- 633 0006 40F01000 		orr	r0, r0, #16
- 634 000a FFF7FEFF 		bl	command
- 635              	.LVL51:
- 261:Core/Src/display.c **** 	command((0x0f&add));
- 636              		.loc 1 261 2 is_stmt 1 view .LVU143
- 637 000e 04F00F00 		and	r0, r4, #15
- 638 0012 FFF7FEFF 		bl	command
- 639              	.LVL52:
- 262:Core/Src/display.c **** 	return;
- 640              		.loc 1 262 2 view .LVU144
- 263:Core/Src/display.c **** }
- 641              		.loc 1 263 1 is_stmt 0 view .LVU145
- 642 0016 10BD     		pop	{r4, pc}
- 643              		.loc 1 263 1 view .LVU146
- 644              		.cfi_endproc
- 645              	.LFE300:
- 647              		.section	.text.SSD1306_UpdateScreen,"ax",%progbits
- 648              		.align	1
- 649              		.global	SSD1306_UpdateScreen
- 650              		.syntax unified
- 651              		.thumb
- 652              		.thumb_func
- 654              	SSD1306_UpdateScreen:
- 655              	.LFB291:
- 111:Core/Src/display.c ****   unsigned char i,j,num=0;
- 656              		.loc 1 111 33 is_stmt 1 view -0
- 657              		.cfi_startproc
- 658              		@ args = 0, pretend = 0, frame = 0
- 659              		@ frame_needed = 0, uses_anonymous_args = 0
- 660 0000 38B5     		push	{r3, r4, r5, lr}
- 661              	.LCFI14:
- 662              		.cfi_def_cfa_offset 16
- 663              		.cfi_offset 3, -16
- 664              		.cfi_offset 4, -12
- 665              		.cfi_offset 5, -8
- 666              		.cfi_offset 14, -4
- 112:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
- 667              		.loc 1 112 3 view .LVU148
- 668              	.LVL53:
- 113:Core/Src/display.c **** 	{
- 669              		.loc 1 113 2 view .LVU149
- 113:Core/Src/display.c **** 	{
- 670              		.loc 1 113 7 is_stmt 0 view .LVU150
- 671 0002 0025     		movs	r5, #0
- 113:Core/Src/display.c **** 	{
- 672              		.loc 1 113 2 view .LVU151
- 673 0004 0CE0     		b	.L54
- 674              	.LVL54:
- 675              	.L56:
-ARM GAS  /tmp/cc7dSzUz.s 			page 18
+ 256:Core/Src/display.c **** 	}
+ 257:Core/Src/display.c **** 	if (y0 >= SSD1306_HEIGHT) {
+ 628              		.loc 1 257 2 is_stmt 1 view .LVU142
+ 629              		.loc 1 257 5 is_stmt 0 view .LVU143
+ 630 001e 1F2E     		cmp	r6, #31
+ 631 0020 00D9     		bls	.L52
+ 258:Core/Src/display.c **** 		y0 = SSD1306_HEIGHT - 1;
+ 632              		.loc 1 258 6 view .LVU144
+ 633 0022 1F26     		movs	r6, #31
+ 634              	.L52:
+ 635              	.LVL49:
+ 259:Core/Src/display.c **** 	}
+ 260:Core/Src/display.c **** 	if (y1 >= SSD1306_HEIGHT) {
+ 636              		.loc 1 260 2 is_stmt 1 view .LVU145
+ 637              		.loc 1 260 5 is_stmt 0 view .LVU146
+ 638 0024 B9F11F0F 		cmp	r9, #31
+ 639 0028 01D9     		bls	.L53
+ 261:Core/Src/display.c **** 		y1 = SSD1306_HEIGHT - 1;
+ 640              		.loc 1 261 6 view .LVU147
+ 641 002a 4FF01F09 		mov	r9, #31
+ 642              	.L53:
+ 643              	.LVL50:
+ 262:Core/Src/display.c **** 	}
+ 263:Core/Src/display.c **** 	
+ 264:Core/Src/display.c **** 	dx = (x0 < x1) ? (x1 - x0) : (x0 - x1); 
+ 644              		.loc 1 264 2 is_stmt 1 view .LVU148
+ 645              		.loc 1 264 5 is_stmt 0 view .LVU149
+ 646 002e BC42     		cmp	r4, r7
+ 647 0030 1FD2     		bcs	.L54
+ 648              		.loc 1 264 23 discriminator 1 view .LVU150
+ 649 0032 A7EB040A 		sub	r10, r7, r4
+ 650              		.loc 1 264 5 discriminator 1 view .LVU151
+ 651 0036 0FFA8AFA 		sxth	r10, r10
+ 652              	.L55:
+ 653              	.LVL51:
+ 265:Core/Src/display.c **** 	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
+ 654              		.loc 1 265 2 is_stmt 1 view .LVU152
+ 655              		.loc 1 265 5 is_stmt 0 view .LVU153
+ 656 003a 4E45     		cmp	r6, r9
+ 657 003c 1ED2     		bcs	.L56
+ 658              		.loc 1 265 23 discriminator 1 view .LVU154
+ 659 003e A9EB060B 		sub	fp, r9, r6
+ 660              		.loc 1 265 5 discriminator 1 view .LVU155
+ 661 0042 0FFA8BFB 		sxth	fp, fp
+ 662              	.L57:
+ 663              	.LVL52:
+ 266:Core/Src/display.c **** 	sx = (x0 < x1) ? 1 : -1; 
+ 664              		.loc 1 266 2 is_stmt 1 view .LVU156
+ 665              		.loc 1 266 5 is_stmt 0 view .LVU157
+ 666 0046 BC42     		cmp	r4, r7
+ 667 0048 1DD2     		bcs	.L80
+ 668              		.loc 1 266 5 discriminator 1 view .LVU158
+ 669 004a 0122     		movs	r2, #1
+ 670              	.L58:
+ 671              	.LVL53:
+ 267:Core/Src/display.c **** 	sy = (y0 < y1) ? 1 : -1; 
+ 672              		.loc 1 267 2 is_stmt 1 view .LVU159
+ARM GAS  /tmp/cci1iOPj.s 			page 18
 
 
- 119:Core/Src/display.c **** 		}
- 676              		.loc 1 119 5 is_stmt 1 view .LVU152
- 119:Core/Src/display.c **** 		}
- 677              		.loc 1 119 28 is_stmt 0 view .LVU153
- 678 0006 04EBC513 		add	r3, r4, r5, lsl #7
- 119:Core/Src/display.c **** 		}
- 679              		.loc 1 119 5 view .LVU154
- 680 000a 0B4A     		ldr	r2, .L60
- 681 000c D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
- 682 000e FFF7FEFF 		bl	data
- 683              	.LVL55:
- 117:Core/Src/display.c **** 		{
- 684              		.loc 1 117 19 is_stmt 1 discriminator 3 view .LVU155
- 685 0012 0134     		adds	r4, r4, #1
- 686              	.LVL56:
- 117:Core/Src/display.c **** 		{
- 687              		.loc 1 117 19 is_stmt 0 discriminator 3 view .LVU156
- 688 0014 E4B2     		uxtb	r4, r4
- 689              	.LVL57:
- 690              	.L55:
- 117:Core/Src/display.c **** 		{
- 691              		.loc 1 117 12 is_stmt 1 discriminator 1 view .LVU157
- 692 0016 14F0800F 		tst	r4, #128
- 693 001a F4D0     		beq	.L56
- 113:Core/Src/display.c **** 	{
- 694              		.loc 1 113 18 discriminator 2 view .LVU158
- 695 001c 0135     		adds	r5, r5, #1
- 696              	.LVL58:
- 113:Core/Src/display.c **** 	{
- 697              		.loc 1 113 18 is_stmt 0 discriminator 2 view .LVU159
- 698 001e EDB2     		uxtb	r5, r5
- 699              	.LVL59:
- 700              	.L54:
- 113:Core/Src/display.c **** 	{
- 701              		.loc 1 113 11 is_stmt 1 discriminator 1 view .LVU160
- 702 0020 032D     		cmp	r5, #3
- 703 0022 07D8     		bhi	.L59
- 115:Core/Src/display.c ****   Set_Column_Address(0x00);
- 704              		.loc 1 115 2 view .LVU161
- 705 0024 2846     		mov	r0, r5
- 706 0026 FFF7FEFF 		bl	Set_Page_Address
- 707              	.LVL60:
- 116:Core/Src/display.c ****   for(j=0;j<0x80;j++)
- 708              		.loc 1 116 3 view .LVU162
- 709 002a 0020     		movs	r0, #0
- 710 002c FFF7FEFF 		bl	Set_Column_Address
- 711              	.LVL61:
- 117:Core/Src/display.c **** 		{
- 712              		.loc 1 117 3 view .LVU163
- 117:Core/Src/display.c **** 		{
- 713              		.loc 1 117 8 is_stmt 0 view .LVU164
- 714 0030 0024     		movs	r4, #0
- 117:Core/Src/display.c **** 		{
- 715              		.loc 1 117 3 view .LVU165
- 716 0032 F0E7     		b	.L55
- 717              	.LVL62:
- 718              	.L59:
-ARM GAS  /tmp/cc7dSzUz.s 			page 19
-
-
- 122:Core/Src/display.c **** 
- 719              		.loc 1 122 1 view .LVU166
- 720 0034 38BD     		pop	{r3, r4, r5, pc}
- 721              	.LVL63:
- 722              	.L61:
- 122:Core/Src/display.c **** 
- 723              		.loc 1 122 1 view .LVU167
- 724 0036 00BF     		.align	2
- 725              	.L60:
- 726 0038 00000000 		.word	pixelBuffer
- 727              		.cfi_endproc
- 728              	.LFE291:
- 730              		.section	.text.SSD1306_ClearScreen,"ax",%progbits
- 731              		.align	1
- 732              		.global	SSD1306_ClearScreen
- 733              		.syntax unified
- 734              		.thumb
- 735              		.thumb_func
- 737              	SSD1306_ClearScreen:
- 738              	.LFB292:
- 125:Core/Src/display.c ****   for (uint16_t i = 0; i < SSD1306_Buffer; i++)
- 739              		.loc 1 125 1 is_stmt 1 view -0
- 740              		.cfi_startproc
- 741              		@ args = 0, pretend = 0, frame = 0
- 742              		@ frame_needed = 0, uses_anonymous_args = 0
- 743 0000 08B5     		push	{r3, lr}
- 744              	.LCFI15:
- 745              		.cfi_def_cfa_offset 8
- 746              		.cfi_offset 3, -8
- 747              		.cfi_offset 14, -4
- 126:Core/Src/display.c ****   {
- 748              		.loc 1 126 3 view .LVU169
- 749              	.LBB2:
- 126:Core/Src/display.c ****   {
- 750              		.loc 1 126 8 view .LVU170
- 751              	.LVL64:
- 126:Core/Src/display.c ****   {
- 752              		.loc 1 126 17 is_stmt 0 view .LVU171
- 753 0002 0023     		movs	r3, #0
- 126:Core/Src/display.c ****   {
- 754              		.loc 1 126 3 view .LVU172
- 755 0004 04E0     		b	.L63
- 756              	.LVL65:
- 757              	.L64:
- 128:Core/Src/display.c ****   }
- 758              		.loc 1 128 5 is_stmt 1 view .LVU173
- 128:Core/Src/display.c ****   }
- 759              		.loc 1 128 20 is_stmt 0 view .LVU174
- 760 0006 054A     		ldr	r2, .L66
- 761 0008 0021     		movs	r1, #0
- 762 000a D154     		strb	r1, [r2, r3]
- 126:Core/Src/display.c ****   {
- 763              		.loc 1 126 45 is_stmt 1 discriminator 3 view .LVU175
- 764 000c 0133     		adds	r3, r3, #1
- 765              	.LVL66:
- 126:Core/Src/display.c ****   {
- 766              		.loc 1 126 45 is_stmt 0 discriminator 3 view .LVU176
-ARM GAS  /tmp/cc7dSzUz.s 			page 20
-
-
- 767 000e 9BB2     		uxth	r3, r3
- 768              	.LVL67:
- 769              	.L63:
- 126:Core/Src/display.c ****   {
- 770              		.loc 1 126 26 is_stmt 1 discriminator 1 view .LVU177
- 771 0010 034A     		ldr	r2, .L66+4
- 772 0012 9342     		cmp	r3, r2
- 773 0014 F7D3     		bcc	.L64
- 774              	.LBE2:
- 130:Core/Src/display.c **** }
- 775              		.loc 1 130 3 view .LVU178
- 776 0016 FFF7FEFF 		bl	SSD1306_UpdateScreen
- 777              	.LVL68:
- 131:Core/Src/display.c **** 
- 778              		.loc 1 131 1 is_stmt 0 view .LVU179
- 779 001a 08BD     		pop	{r3, pc}
- 780              	.L67:
- 781              		.align	2
- 782              	.L66:
- 783 001c 00000000 		.word	pixelBuffer
- 784 0020 00000000 		.word	SSD1306_Buffer
- 785              		.cfi_endproc
- 786              	.LFE292:
- 788              		.section	.text.SSD1306_Fill,"ax",%progbits
- 789              		.align	1
- 790              		.global	SSD1306_Fill
- 791              		.syntax unified
- 792              		.thumb
- 793              		.thumb_func
- 795              	SSD1306_Fill:
- 796              	.LVL69:
- 797              	.LFB293:
- 133:Core/Src/display.c **** 	/* Set memory */
- 798              		.loc 1 133 42 is_stmt 1 view -0
- 799              		.cfi_startproc
- 800              		@ args = 0, pretend = 0, frame = 0
- 801              		@ frame_needed = 0, uses_anonymous_args = 0
- 133:Core/Src/display.c **** 	/* Set memory */
- 802              		.loc 1 133 42 is_stmt 0 view .LVU181
- 803 0000 38B5     		push	{r3, r4, r5, lr}
- 804              	.LCFI16:
- 805              		.cfi_def_cfa_offset 16
- 806              		.cfi_offset 3, -16
- 807              		.cfi_offset 4, -12
- 808              		.cfi_offset 5, -8
- 809              		.cfi_offset 14, -4
- 135:Core/Src/display.c ****   uint8_t fill;
- 810              		.loc 1 135 3 is_stmt 1 view .LVU182
- 136:Core/Src/display.c ****   if (color == SSD1306_COLOR_BLACK)
- 811              		.loc 1 136 3 view .LVU183
- 137:Core/Src/display.c ****   fill = 0x00;
- 812              		.loc 1 137 3 view .LVU184
- 137:Core/Src/display.c ****   fill = 0x00;
- 813              		.loc 1 137 6 is_stmt 0 view .LVU185
- 814 0002 0146     		mov	r1, r0
- 815 0004 00B1     		cbz	r0, .L69
- 140:Core/Src/display.c ****     for (uint16_t k = 0; k < SSD1306_BUFFER_SIZE; k++)
-ARM GAS  /tmp/cc7dSzUz.s 			page 21
-
-
- 816              		.loc 1 140 8 view .LVU186
- 817 0006 FF21     		movs	r1, #255
- 818              	.L69:
- 819              	.LVL70:
- 141:Core/Src/display.c ****   {
- 820              		.loc 1 141 5 is_stmt 1 view .LVU187
- 821              	.LBB3:
- 141:Core/Src/display.c ****   {
- 822              		.loc 1 141 10 view .LVU188
- 141:Core/Src/display.c ****   {
- 823              		.loc 1 141 19 is_stmt 0 view .LVU189
- 824 0008 0023     		movs	r3, #0
- 141:Core/Src/display.c ****   {
- 825              		.loc 1 141 5 view .LVU190
- 826 000a 03E0     		b	.L70
- 827              	.LVL71:
- 828              	.L71:
- 143:Core/Src/display.c ****   }
- 829              		.loc 1 143 5 is_stmt 1 view .LVU191
- 143:Core/Src/display.c ****   }
- 830              		.loc 1 143 20 is_stmt 0 view .LVU192
- 831 000c 104A     		ldr	r2, .L79
- 832 000e D154     		strb	r1, [r2, r3]
- 141:Core/Src/display.c ****   {
- 833              		.loc 1 141 52 is_stmt 1 discriminator 3 view .LVU193
- 834 0010 0133     		adds	r3, r3, #1
- 835              	.LVL72:
- 141:Core/Src/display.c ****   {
- 836              		.loc 1 141 52 is_stmt 0 discriminator 3 view .LVU194
- 837 0012 9BB2     		uxth	r3, r3
- 838              	.LVL73:
- 839              	.L70:
- 141:Core/Src/display.c ****   {
- 840              		.loc 1 141 28 is_stmt 1 discriminator 1 view .LVU195
- 841 0014 B3F5007F 		cmp	r3, #512
- 842 0018 F8D3     		bcc	.L71
- 843              	.LBE3:
- 146:Core/Src/display.c **** 	{
- 844              		.loc 1 146 7 is_stmt 0 view .LVU196
- 845 001a 0025     		movs	r5, #0
- 846 001c 0CE0     		b	.L72
- 847              	.LVL74:
- 848              	.L74:
- 152:Core/Src/display.c **** 		}
- 849              		.loc 1 152 5 is_stmt 1 view .LVU197
- 152:Core/Src/display.c **** 		}
- 850              		.loc 1 152 28 is_stmt 0 view .LVU198
- 851 001e 04EBC513 		add	r3, r4, r5, lsl #7
- 152:Core/Src/display.c **** 		}
- 852              		.loc 1 152 5 view .LVU199
- 853 0022 0B4A     		ldr	r2, .L79
- 854 0024 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
- 855 0026 FFF7FEFF 		bl	data
- 856              	.LVL75:
- 150:Core/Src/display.c **** 		{
- 857              		.loc 1 150 19 is_stmt 1 discriminator 3 view .LVU200
- 858 002a 0134     		adds	r4, r4, #1
-ARM GAS  /tmp/cc7dSzUz.s 			page 22
-
-
- 859              	.LVL76:
- 150:Core/Src/display.c **** 		{
- 860              		.loc 1 150 19 is_stmt 0 discriminator 3 view .LVU201
- 861 002c E4B2     		uxtb	r4, r4
- 862              	.LVL77:
- 863              	.L73:
- 150:Core/Src/display.c **** 		{
- 864              		.loc 1 150 12 is_stmt 1 discriminator 1 view .LVU202
- 865 002e 14F0800F 		tst	r4, #128
- 866 0032 F4D0     		beq	.L74
- 146:Core/Src/display.c **** 	{
- 867              		.loc 1 146 18 discriminator 2 view .LVU203
- 868 0034 0135     		adds	r5, r5, #1
- 869              	.LVL78:
- 146:Core/Src/display.c **** 	{
- 870              		.loc 1 146 18 is_stmt 0 discriminator 2 view .LVU204
- 871 0036 EDB2     		uxtb	r5, r5
- 872              	.LVL79:
- 873              	.L72:
- 146:Core/Src/display.c **** 	{
- 874              		.loc 1 146 11 is_stmt 1 discriminator 1 view .LVU205
- 875 0038 032D     		cmp	r5, #3
- 876 003a 07D8     		bhi	.L78
- 148:Core/Src/display.c ****   Set_Column_Address(0x00);
- 877              		.loc 1 148 2 view .LVU206
- 878 003c 2846     		mov	r0, r5
- 879 003e FFF7FEFF 		bl	Set_Page_Address
- 880              	.LVL80:
- 149:Core/Src/display.c ****   for(j=0;j<0x80;j++)
- 881              		.loc 1 149 3 view .LVU207
- 882 0042 0020     		movs	r0, #0
- 883 0044 FFF7FEFF 		bl	Set_Column_Address
- 884              	.LVL81:
- 150:Core/Src/display.c **** 		{
- 885              		.loc 1 150 3 view .LVU208
- 150:Core/Src/display.c **** 		{
- 886              		.loc 1 150 8 is_stmt 0 view .LVU209
- 887 0048 0024     		movs	r4, #0
- 150:Core/Src/display.c **** 		{
- 888              		.loc 1 150 3 view .LVU210
- 889 004a F0E7     		b	.L73
- 890              	.LVL82:
- 891              	.L78:
- 157:Core/Src/display.c **** 
- 892              		.loc 1 157 1 view .LVU211
- 893 004c 38BD     		pop	{r3, r4, r5, pc}
- 894              	.LVL83:
- 895              	.L80:
- 157:Core/Src/display.c **** 
- 896              		.loc 1 157 1 view .LVU212
- 897 004e 00BF     		.align	2
- 898              	.L79:
- 899 0050 00000000 		.word	pixelBuffer
- 900              		.cfi_endproc
- 901              	.LFE293:
- 903              		.section	.text.display_init,"ax",%progbits
- 904              		.align	1
-ARM GAS  /tmp/cc7dSzUz.s 			page 23
-
-
- 905              		.global	display_init
- 906              		.syntax unified
- 907              		.thumb
- 908              		.thumb_func
- 910              	display_init:
- 911              	.LFB290:
-  44:Core/Src/display.c ****     //display_power_low();
- 912              		.loc 1 44 1 is_stmt 1 view -0
- 913              		.cfi_startproc
- 914              		@ args = 0, pretend = 0, frame = 0
- 915              		@ frame_needed = 0, uses_anonymous_args = 0
- 916 0000 08B5     		push	{r3, lr}
- 917              	.LCFI17:
- 918              		.cfi_def_cfa_offset 8
- 919              		.cfi_offset 3, -8
- 920              		.cfi_offset 14, -4
-  46:Core/Src/display.c ****     display_reset_high();
- 921              		.loc 1 46 5 view .LVU214
- 922 0002 0022     		movs	r2, #0
- 923 0004 4FF40071 		mov	r1, #512
- 924 0008 4FF09040 		mov	r0, #1207959552
- 925 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
- 926              	.LVL84:
-  47:Core/Src/display.c ****     HAL_Delay(20);
- 927              		.loc 1 47 5 view .LVU215
- 928 0010 0122     		movs	r2, #1
- 929 0012 4FF48071 		mov	r1, #256
- 930 0016 4FF09040 		mov	r0, #1207959552
- 931 001a FFF7FEFF 		bl	HAL_GPIO_WritePin
- 932              	.LVL85:
-  48:Core/Src/display.c ****     display_reset_low();
- 933              		.loc 1 48 5 view .LVU216
- 934 001e 1420     		movs	r0, #20
- 935 0020 FFF7FEFF 		bl	HAL_Delay
- 936              	.LVL86:
-  49:Core/Src/display.c ****     HAL_Delay(20);
- 937              		.loc 1 49 5 view .LVU217
- 938 0024 0022     		movs	r2, #0
- 939 0026 4FF48071 		mov	r1, #256
- 940 002a 4FF09040 		mov	r0, #1207959552
- 941 002e FFF7FEFF 		bl	HAL_GPIO_WritePin
- 942              	.LVL87:
-  50:Core/Src/display.c ****     display_reset_high();
- 943              		.loc 1 50 5 view .LVU218
- 944 0032 1420     		movs	r0, #20
- 945 0034 FFF7FEFF 		bl	HAL_Delay
- 946              	.LVL88:
-  51:Core/Src/display.c ****     HAL_Delay(20);
- 947              		.loc 1 51 5 view .LVU219
- 948 0038 0122     		movs	r2, #1
- 949 003a 4FF48071 		mov	r1, #256
- 950 003e 4FF09040 		mov	r0, #1207959552
- 951 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 952              	.LVL89:
-  52:Core/Src/display.c ****     display_power_high();
- 953              		.loc 1 52 5 view .LVU220
- 954 0046 1420     		movs	r0, #20
-ARM GAS  /tmp/cc7dSzUz.s 			page 24
-
-
- 955 0048 FFF7FEFF 		bl	HAL_Delay
- 956              	.LVL90:
-  53:Core/Src/display.c ****     HAL_Delay(100);
- 957              		.loc 1 53 5 view .LVU221
- 958 004c 0122     		movs	r2, #1
- 959 004e 1146     		mov	r1, r2
- 960 0050 4FF09040 		mov	r0, #1207959552
- 961 0054 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 962              	.LVL91:
-  54:Core/Src/display.c **** 
- 963              		.loc 1 54 5 view .LVU222
- 964 0058 6420     		movs	r0, #100
- 965 005a FFF7FEFF 		bl	HAL_Delay
- 966              	.LVL92:
-  56:Core/Src/display.c **** 
- 967              		.loc 1 56 5 view .LVU223
- 968 005e AE20     		movs	r0, #174
- 969 0060 FFF7FEFF 		bl	command
- 970              	.LVL93:
-  58:Core/Src/display.c ****     command(0x80);     
- 971              		.loc 1 58 5 view .LVU224
- 972 0064 D520     		movs	r0, #213
- 973 0066 FFF7FEFF 		bl	command
- 974              	.LVL94:
-  59:Core/Src/display.c **** 
- 975              		.loc 1 59 5 view .LVU225
- 976 006a 8020     		movs	r0, #128
- 977 006c FFF7FEFF 		bl	command
- 978              	.LVL95:
-  61:Core/Src/display.c ****     command(0x1F);                     // 0x1F
- 979              		.loc 1 61 5 view .LVU226
- 980 0070 A820     		movs	r0, #168
- 981 0072 FFF7FEFF 		bl	command
- 982              	.LVL96:
-  62:Core/Src/display.c **** 
- 983              		.loc 1 62 5 view .LVU227
- 984 0076 1F20     		movs	r0, #31
- 985 0078 FFF7FEFF 		bl	command
- 986              	.LVL97:
-  64:Core/Src/display.c ****     command(0x00);                          //No offset
- 987              		.loc 1 64 5 view .LVU228
- 988 007c D320     		movs	r0, #211
- 989 007e FFF7FEFF 		bl	command
- 990              	.LVL98:
-  65:Core/Src/display.c **** 
- 991              		.loc 1 65 5 view .LVU229
- 992 0082 0020     		movs	r0, #0
- 993 0084 FFF7FEFF 		bl	command
- 994              	.LVL99:
-  67:Core/Src/display.c ****     command(0x14);          //set(0x10) disable
- 995              		.loc 1 67 5 view .LVU230
- 996 0088 8D20     		movs	r0, #141
- 997 008a FFF7FEFF 		bl	command
- 998              	.LVL100:
-  68:Core/Src/display.c **** 
- 999              		.loc 1 68 5 view .LVU231
- 1000 008e 1420     		movs	r0, #20
-ARM GAS  /tmp/cc7dSzUz.s 			page 25
-
-
- 1001 0090 FFF7FEFF 		bl	command
- 1002              	.LVL101:
-  70:Core/Src/display.c **** 
- 1003              		.loc 1 70 5 view .LVU232
- 1004 0094 4020     		movs	r0, #64
- 1005 0096 FFF7FEFF 		bl	command
- 1006              	.LVL102:
-  72:Core/Src/display.c **** 
- 1007              		.loc 1 72 5 view .LVU233
- 1008 009a A620     		movs	r0, #166
- 1009 009c FFF7FEFF 		bl	command
- 1010              	.LVL103:
-  74:Core/Src/display.c **** 
- 1011              		.loc 1 74 5 view .LVU234
- 1012 00a0 A420     		movs	r0, #164
- 1013 00a2 FFF7FEFF 		bl	command
- 1014              	.LVL104:
-  76:Core/Src/display.c **** 
- 1015              		.loc 1 76 5 view .LVU235
- 1016 00a6 A120     		movs	r0, #161
- 1017 00a8 FFF7FEFF 		bl	command
- 1018              	.LVL105:
-  78:Core/Src/display.c **** 
- 1019              		.loc 1 78 5 view .LVU236
- 1020 00ac C820     		movs	r0, #200
- 1021 00ae FFF7FEFF 		bl	command
- 1022              	.LVL106:
-  80:Core/Src/display.c ****     command(0x42);                       // 0x12 -
- 1023              		.loc 1 80 5 view .LVU237
- 1024 00b2 DA20     		movs	r0, #218
- 1025 00b4 FFF7FEFF 		bl	command
- 1026              	.LVL107:
-  81:Core/Src/display.c **** 
- 1027              		.loc 1 81 5 view .LVU238
- 1028 00b8 4220     		movs	r0, #66
- 1029 00ba FFF7FEFF 		bl	command
- 1030              	.LVL108:
-  83:Core/Src/display.c ****     command(0x80);           //
- 1031              		.loc 1 83 5 view .LVU239
- 1032 00be 8120     		movs	r0, #129
- 1033 00c0 FFF7FEFF 		bl	command
- 1034              	.LVL109:
-  84:Core/Src/display.c **** 
- 1035              		.loc 1 84 5 view .LVU240
- 1036 00c4 8020     		movs	r0, #128
- 1037 00c6 FFF7FEFF 		bl	command
- 1038              	.LVL110:
-  86:Core/Src/display.c ****     command(0xF1);            
- 1039              		.loc 1 86 5 view .LVU241
- 1040 00ca D920     		movs	r0, #217
- 1041 00cc FFF7FEFF 		bl	command
- 1042              	.LVL111:
-  87:Core/Src/display.c **** 
- 1043              		.loc 1 87 5 view .LVU242
- 1044 00d0 F120     		movs	r0, #241
- 1045 00d2 FFF7FEFF 		bl	command
- 1046              	.LVL112:
-ARM GAS  /tmp/cc7dSzUz.s 			page 26
-
-
-  89:Core/Src/display.c ****     command(0x40);                       // 0x30
- 1047              		.loc 1 89 5 view .LVU243
- 1048 00d6 DB20     		movs	r0, #219
- 1049 00d8 FFF7FEFF 		bl	command
- 1050              	.LVL113:
-  90:Core/Src/display.c **** 
- 1051              		.loc 1 90 5 view .LVU244
- 1052 00dc 4020     		movs	r0, #64
- 1053 00de FFF7FEFF 		bl	command
- 1054              	.LVL114:
-  93:Core/Src/display.c **** 
- 1055              		.loc 1 93 5 view .LVU245
- 1056 00e2 AF20     		movs	r0, #175
- 1057 00e4 FFF7FEFF 		bl	command
- 1058              	.LVL115:
-  98:Core/Src/display.c **** 	
- 1059              		.loc 1 98 4 view .LVU246
- 1060 00e8 0120     		movs	r0, #1
- 1061 00ea FFF7FEFF 		bl	SSD1306_Fill
- 1062              	.LVL116:
- 101:Core/Src/display.c **** 	
- 1063              		.loc 1 101 4 view .LVU247
- 1064 00ee FFF7FEFF 		bl	SSD1306_UpdateScreen
- 1065              	.LVL117:
- 104:Core/Src/display.c **** 	  SSD1306.CurrentY = 0;
- 1066              		.loc 1 104 4 view .LVU248
- 104:Core/Src/display.c **** 	  SSD1306.CurrentY = 0;
- 1067              		.loc 1 104 21 is_stmt 0 view .LVU249
- 1068 00f2 034B     		ldr	r3, .L83
- 1069 00f4 0022     		movs	r2, #0
- 1070 00f6 1A80     		strh	r2, [r3]	@ movhi
- 105:Core/Src/display.c **** 
- 1071              		.loc 1 105 4 is_stmt 1 view .LVU250
- 105:Core/Src/display.c **** 
- 1072              		.loc 1 105 21 is_stmt 0 view .LVU251
- 1073 00f8 5A80     		strh	r2, [r3, #2]	@ movhi
- 107:Core/Src/display.c **** 
- 1074              		.loc 1 107 5 is_stmt 1 view .LVU252
- 107:Core/Src/display.c **** 
- 1075              		.loc 1 107 25 is_stmt 0 view .LVU253
- 1076 00fa 0122     		movs	r2, #1
- 1077 00fc 5A71     		strb	r2, [r3, #5]
- 109:Core/Src/display.c **** 
- 1078              		.loc 1 109 1 view .LVU254
- 1079 00fe 08BD     		pop	{r3, pc}
- 1080              	.L84:
- 1081              		.align	2
- 1082              	.L83:
- 1083 0100 00000000 		.word	SSD1306
- 1084              		.cfi_endproc
- 1085              	.LFE290:
- 1087              		.section	.text.Display_Picture,"ax",%progbits
- 1088              		.align	1
- 1089              		.global	Display_Picture
- 1090              		.syntax unified
- 1091              		.thumb
- 1092              		.thumb_func
-ARM GAS  /tmp/cc7dSzUz.s 			page 27
-
-
- 1094              	Display_Picture:
- 1095              	.LVL118:
- 1096              	.LFB301:
- 264:Core/Src/display.c **** 
- 265:Core/Src/display.c **** void Display_Picture(unsigned char pic[])
- 266:Core/Src/display.c **** {
- 1097              		.loc 1 266 1 is_stmt 1 view -0
- 1098              		.cfi_startproc
- 1099              		@ args = 0, pretend = 0, frame = 0
- 1100              		@ frame_needed = 0, uses_anonymous_args = 0
- 1101              		.loc 1 266 1 is_stmt 0 view .LVU256
- 1102 0000 70B5     		push	{r4, r5, r6, lr}
- 1103              	.LCFI18:
- 1104              		.cfi_def_cfa_offset 16
- 1105              		.cfi_offset 4, -16
- 1106              		.cfi_offset 5, -12
- 1107              		.cfi_offset 6, -8
- 1108              		.cfi_offset 14, -4
- 1109 0002 0646     		mov	r6, r0
- 267:Core/Src/display.c ****   unsigned char i,j,num=0;
- 1110              		.loc 1 267 3 is_stmt 1 view .LVU257
- 1111              	.LVL119:
- 268:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
- 1112              		.loc 1 268 2 view .LVU258
- 1113              		.loc 1 268 7 is_stmt 0 view .LVU259
- 1114 0004 0025     		movs	r5, #0
- 1115              		.loc 1 268 2 view .LVU260
- 1116 0006 0BE0     		b	.L86
- 1117              	.LVL120:
- 1118              	.L88:
- 269:Core/Src/display.c **** 	{
- 270:Core/Src/display.c **** 	Set_Page_Address(i);
- 271:Core/Src/display.c ****   Set_Column_Address(0x00);
- 272:Core/Src/display.c ****   for(j=0;j<0x80;j++)
- 273:Core/Src/display.c **** 		{
- 274:Core/Src/display.c **** 		  data(pic[i*0x80+j]);
- 1119              		.loc 1 274 5 is_stmt 1 view .LVU261
- 1120              		.loc 1 274 20 is_stmt 0 view .LVU262
- 1121 0008 04EBC513 		add	r3, r4, r5, lsl #7
- 1122              		.loc 1 274 5 view .LVU263
- 1123 000c F05C     		ldrb	r0, [r6, r3]	@ zero_extendqisi2
- 1124 000e FFF7FEFF 		bl	data
- 1125              	.LVL121:
- 272:Core/Src/display.c **** 		{
- 1126              		.loc 1 272 19 is_stmt 1 discriminator 3 view .LVU264
- 1127 0012 0134     		adds	r4, r4, #1
- 1128              	.LVL122:
- 272:Core/Src/display.c **** 		{
- 1129              		.loc 1 272 19 is_stmt 0 discriminator 3 view .LVU265
- 1130 0014 E4B2     		uxtb	r4, r4
- 1131              	.LVL123:
- 1132              	.L87:
- 272:Core/Src/display.c **** 		{
- 1133              		.loc 1 272 12 is_stmt 1 discriminator 1 view .LVU266
- 1134 0016 14F0800F 		tst	r4, #128
- 1135 001a F5D0     		beq	.L88
- 268:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
-ARM GAS  /tmp/cc7dSzUz.s 			page 28
-
-
- 1136              		.loc 1 268 18 discriminator 2 view .LVU267
- 1137 001c 0135     		adds	r5, r5, #1
- 1138              	.LVL124:
- 268:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
- 1139              		.loc 1 268 18 is_stmt 0 discriminator 2 view .LVU268
- 1140 001e EDB2     		uxtb	r5, r5
- 1141              	.LVL125:
- 1142              	.L86:
- 268:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
- 1143              		.loc 1 268 11 is_stmt 1 discriminator 1 view .LVU269
- 1144 0020 032D     		cmp	r5, #3
- 1145 0022 07D8     		bhi	.L91
- 270:Core/Src/display.c ****   Set_Column_Address(0x00);
- 1146              		.loc 1 270 2 view .LVU270
- 1147 0024 2846     		mov	r0, r5
- 1148 0026 FFF7FEFF 		bl	Set_Page_Address
- 1149              	.LVL126:
- 271:Core/Src/display.c ****   for(j=0;j<0x80;j++)
- 1150              		.loc 1 271 3 view .LVU271
- 1151 002a 0020     		movs	r0, #0
- 1152 002c FFF7FEFF 		bl	Set_Column_Address
- 1153              	.LVL127:
- 272:Core/Src/display.c **** 		{
- 1154              		.loc 1 272 3 view .LVU272
- 272:Core/Src/display.c **** 		{
- 1155              		.loc 1 272 8 is_stmt 0 view .LVU273
- 1156 0030 0024     		movs	r4, #0
- 272:Core/Src/display.c **** 		{
- 1157              		.loc 1 272 3 view .LVU274
- 1158 0032 F0E7     		b	.L87
- 1159              	.LVL128:
- 1160              	.L91:
+ 673              		.loc 1 267 5 is_stmt 0 view .LVU160
+ 674 004c 4E45     		cmp	r6, r9
+ 675 004e 1DD2     		bcs	.L81
+ 676              		.loc 1 267 5 discriminator 1 view .LVU161
+ 677 0050 0121     		movs	r1, #1
+ 678              	.L59:
+ 679              	.LVL54:
+ 268:Core/Src/display.c **** 	err = ((dx > dy) ? dx : -dy) / 2; 
+ 680              		.loc 1 268 2 is_stmt 1 view .LVU162
+ 681              		.loc 1 268 6 is_stmt 0 view .LVU163
+ 682 0052 DA45     		cmp	r10, fp
+ 683 0054 1DDD     		ble	.L60
+ 684              		.loc 1 268 6 discriminator 1 view .LVU164
+ 685 0056 0AEBDA75 		add	r5, r10, r10, lsr #31
+ 686 005a 6D10     		asrs	r5, r5, #1
+ 687              	.L61:
+ 688              	.LVL55:
+ 269:Core/Src/display.c **** 
+ 270:Core/Src/display.c **** 	if (dx == 0) {
+ 689              		.loc 1 270 2 is_stmt 1 view .LVU165
+ 690              		.loc 1 270 5 is_stmt 0 view .LVU166
+ 691 005c BAF1000F 		cmp	r10, #0
+ 692 0060 1DD0     		beq	.L85
+ 271:Core/Src/display.c **** 		if (y1 < y0) {
+ 272:Core/Src/display.c **** 			tmp = y1;
+ 273:Core/Src/display.c **** 			y1 = y0;
+ 274:Core/Src/display.c **** 			y0 = tmp;
  275:Core/Src/display.c **** 		}
- 276:Core/Src/display.c **** 	}
- 277:Core/Src/display.c ****   return;
- 278:Core/Src/display.c **** }
- 1161              		.loc 1 278 1 view .LVU275
- 1162 0034 70BD     		pop	{r4, r5, r6, pc}
- 1163              		.loc 1 278 1 view .LVU276
- 1164              		.cfi_endproc
- 1165              	.LFE301:
- 1167              		.section	.text.display_demo,"ax",%progbits
- 1168              		.align	1
- 1169              		.global	display_demo
- 1170              		.syntax unified
- 1171              		.thumb
- 1172              		.thumb_func
- 1174              	display_demo:
- 1175              	.LFB302:
- 279:Core/Src/display.c **** 
- 280:Core/Src/display.c **** void display_demo (void)
- 281:Core/Src/display.c **** {
- 1176              		.loc 1 281 1 is_stmt 1 view -0
- 1177              		.cfi_startproc
- 1178              		@ args = 0, pretend = 0, frame = 512
- 1179              		@ frame_needed = 0, uses_anonymous_args = 0
- 1180 0000 00B5     		push	{lr}
-ARM GAS  /tmp/cc7dSzUz.s 			page 29
+ 276:Core/Src/display.c **** 		
+ 277:Core/Src/display.c **** 		if (x1 < x0) {
+ 278:Core/Src/display.c **** 			tmp = x1;
+ 279:Core/Src/display.c **** 			x1 = x0;
+ 280:Core/Src/display.c **** 			x0 = tmp;
+ 281:Core/Src/display.c **** 		}
+ 282:Core/Src/display.c **** 		
+ 283:Core/Src/display.c **** 		/* Vertical line */
+ 284:Core/Src/display.c **** 		for (i = y0; i <= y1; i++) {
+ 285:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 286:Core/Src/display.c **** 		}
+ 287:Core/Src/display.c **** 		
+ 288:Core/Src/display.c **** 		/* Return from function */
+ 289:Core/Src/display.c **** 		return;
+ 290:Core/Src/display.c **** 	}
+ 291:Core/Src/display.c **** 	
+ 292:Core/Src/display.c **** 	if (dy == 0) {
+ 693              		.loc 1 292 2 is_stmt 1 view .LVU167
+ 694              		.loc 1 292 5 is_stmt 0 view .LVU168
+ 695 0062 BBF1000F 		cmp	fp, #0
+ 696 0066 33D0     		beq	.L86
+ 697 0068 0092     		str	r2, [sp]
+ 698 006a CDF80490 		str	r9, [sp, #4]
+ 699 006e 8946     		mov	r9, r1
+ 700              	.LVL56:
+ 701              		.loc 1 292 5 view .LVU169
+ 702 0070 51E0     		b	.L68
+ 703              	.LVL57:
+ 704              	.L54:
+ARM GAS  /tmp/cci1iOPj.s 			page 19
 
 
- 1181              	.LCFI19:
- 1182              		.cfi_def_cfa_offset 4
- 1183              		.cfi_offset 14, -4
- 1184 0002 ADF5017D 		sub	sp, sp, #516
- 1185              	.LCFI20:
- 1186              		.cfi_def_cfa_offset 520
- 282:Core/Src/display.c **** 
- 283:Core/Src/display.c ****     unsigned char pic[]= 
- 1187              		.loc 1 283 5 view .LVU278
- 1188              		.loc 1 283 19 is_stmt 0 view .LVU279
- 1189 0006 4FF40072 		mov	r2, #512
- 1190 000a 0C49     		ldr	r1, .L94
- 1191 000c 6846     		mov	r0, sp
- 1192 000e FFF7FEFF 		bl	memcpy
- 1193              	.LVL129:
- 284:Core/Src/display.c **** 
- 285:Core/Src/display.c **** /*--  ������һ��ͼ��E:\��ʾ��ͼƬ\ER-OLED091-3.bmp  --*/
- 286:Core/Src/display.c **** /*--  ����x�߶�=128x32  --*/
- 287:Core/Src/display.c **** { 0xFF,0x01,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xE1,0x59,0x45,0x59,0xE1,0x01,0x99,
- 288:Core/Src/display.c **** 0x25,0x25,0xC9,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x25,0x25,0x65,0x99,0x01,
- 289:Core/Src/display.c **** 0x01,0xFD,0x01,0x01,0x99,0x25,0x25,0xC9,0x01,0x01,0xFD,0x01,0x01,0xFD,0x19,0x21,
- 290:Core/Src/display.c **** 0xC1,0xFD,0x01,0x01,0xF9,0x05,0x05,0x25,0xE9,0x01,0x01,0x01,0x01,0x05,0x05,0xFD,
- 291:Core/Src/display.c **** 0x05,0x05,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,0x01,
- 292:Core/Src/display.c **** 0xFD,0x21,0x21,0x21,0xFD,0x01,0x01,0x01,0x01,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,
- 293:Core/Src/display.c **** 0x01,0xF9,0x05,0x05,0x05,0xF9,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0xFD,0x01,
- 294:Core/Src/display.c **** 0x01,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x05,0x05,0x05,0xF9,0x01,0x01,0xFF,
- 295:Core/Src/display.c **** 0xFF,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x01,0x00,
- 296:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0xF1,0xF0,0x90,0x90,0x91,0x00,
- 297:Core/Src/display.c **** 0xF0,0xF1,0x10,0x10,0xF0,0xE1,0x01,0x00,0x00,0x00,0x01,0xC0,0xE0,0x31,0x10,0x30,
- 298:Core/Src/display.c **** 0xE0,0xC1,0x00,0xF0,0xF0,0x01,0x01,0x01,0x00,0x00,0xF0,0xF0,0x90,0x90,0x90,0x01,
- 299:Core/Src/display.c **** 0xF0,0xF0,0x10,0x11,0xF1,0xE1,0x01,0xE1,0xF0,0x10,0xF1,0xE1,0x01,0xE0,0xF0,0x10,
- 300:Core/Src/display.c **** 0xF1,0xE0,0x00,0xC0,0x61,0xF0,0xF0,0x01,0x00,0x00,0x00,0x01,0x01,0x21,0x30,0x90,
- 301:Core/Src/display.c **** 0xF0,0x60,0x01,0x01,0x01,0x00,0x00,0x00,0x01,0x00,0x00,0x03,0x00,0x00,0x01,0x01,
- 302:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0xFF,
- 303:Core/Src/display.c **** 0xFF,0x00,0x00,0x80,0xC0,0xC0,0x00,0x00,0x80,0xC0,0x40,0xC0,0x80,0x00,0x80,0xC0,
- 304:Core/Src/display.c **** 0x40,0xC0,0x80,0x00,0x80,0xC0,0x80,0x00,0x80,0xC0,0x4F,0xCF,0x88,0x08,0x88,0xC0,
- 305:Core/Src/display.c **** 0x4F,0xCF,0x81,0x03,0x07,0x0C,0x08,0x02,0x02,0x02,0x00,0xC3,0xC7,0x0C,0x08,0x0C,
- 306:Core/Src/display.c **** 0x07,0x03,0x00,0x0F,0x0F,0x88,0xC8,0x08,0x08,0x00,0x0F,0x0F,0x08,0x08,0x08,0x00,
- 307:Core/Src/display.c **** 0x0F,0x0F,0x08,0x08,0x0F,0x07,0x80,0xC7,0x4F,0xC8,0x8F,0x07,0x00,0x04,0x0D,0x89,
- 308:Core/Src/display.c **** 0xCF,0x47,0xC0,0x80,0x00,0x0F,0x8F,0xC0,0xC0,0x02,0x42,0x42,0x00,0x04,0x0C,0x08,
- 309:Core/Src/display.c **** 0x0F,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0xC0,0x00,0x00,0x00,0x00,
- 310:Core/Src/display.c **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,
- 311:Core/Src/display.c **** 0xFF,0x80,0x83,0x81,0xBF,0xBF,0x80,0x80,0xB0,0xB8,0xAC,0xA7,0xA3,0x80,0x9D,0xBF,
- 312:Core/Src/display.c **** 0xA2,0xBF,0x9D,0x80,0x82,0x81,0x82,0x80,0x90,0xB0,0xA2,0xBF,0x9D,0x80,0xB0,0xB8,
- 313:Core/Src/display.c **** 0xAC,0xA7,0xA3,0x80,0x80,0x80,0x80,0x9E,0xBF,0xA1,0xA1,0xBF,0xBF,0x80,0x9E,0xBF,
- 314:Core/Src/display.c **** 0xA1,0xA1,0xBF,0x9E,0x81,0x9F,0xBF,0xA1,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,
- 315:Core/Src/display.c **** 0x80,0x80,0x80,0x80,0x80,0x80,0x9F,0xBF,0xA0,0xBF,0x9F,0x80,0xB0,0xB0,0x80,0x93,
- 316:Core/Src/display.c **** 0xB7,0xA4,0xBF,0x9F,0x80,0x83,0x81,0xBF,0xBF,0x80,0xBF,0xBF,0x80,0xBF,0xBF,0x81,
- 317:Core/Src/display.c **** 0x81,0xBF,0xBE,0x80,0x9E,0xBF,0xA1,0xB3,0x92,0x80,0xBF,0xBF,0x81,0x81,0xBF,0xBE,
- 318:Core/Src/display.c **** 0x80,0x9E,0xBF,0xA5,0xA5,0xB7,0x96,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,0xFF
- 319:Core/Src/display.c **** };
- 320:Core/Src/display.c ****     Display_Picture(pic);
- 1194              		.loc 1 320 5 is_stmt 1 view .LVU280
- 1195 0012 6846     		mov	r0, sp
- 1196 0014 FFF7FEFF 		bl	Display_Picture
- 1197              	.LVL130:
- 321:Core/Src/display.c ****     HAL_Delay(1000);
-ARM GAS  /tmp/cc7dSzUz.s 			page 30
+ 264:Core/Src/display.c **** 	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
+ 705              		.loc 1 264 35 discriminator 2 view .LVU170
+ 706 0072 A4EB070A 		sub	r10, r4, r7
+ 264:Core/Src/display.c **** 	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
+ 707              		.loc 1 264 5 discriminator 2 view .LVU171
+ 708 0076 0FFA8AFA 		sxth	r10, r10
+ 709 007a DEE7     		b	.L55
+ 710              	.LVL58:
+ 711              	.L56:
+ 265:Core/Src/display.c **** 	sx = (x0 < x1) ? 1 : -1; 
+ 712              		.loc 1 265 35 discriminator 2 view .LVU172
+ 713 007c A6EB090B 		sub	fp, r6, r9
+ 265:Core/Src/display.c **** 	sx = (x0 < x1) ? 1 : -1; 
+ 714              		.loc 1 265 5 discriminator 2 view .LVU173
+ 715 0080 0FFA8BFB 		sxth	fp, fp
+ 716 0084 DFE7     		b	.L57
+ 717              	.LVL59:
+ 718              	.L80:
+ 266:Core/Src/display.c **** 	sy = (y0 < y1) ? 1 : -1; 
+ 719              		.loc 1 266 5 discriminator 2 view .LVU174
+ 720 0086 4FF0FF32 		mov	r2, #-1
+ 721 008a DFE7     		b	.L58
+ 722              	.LVL60:
+ 723              	.L81:
+ 267:Core/Src/display.c **** 	err = ((dx > dy) ? dx : -dy) / 2; 
+ 724              		.loc 1 267 5 discriminator 2 view .LVU175
+ 725 008c 4FF0FF31 		mov	r1, #-1
+ 726 0090 DFE7     		b	.L59
+ 727              	.LVL61:
+ 728              	.L60:
+ 268:Core/Src/display.c **** 
+ 729              		.loc 1 268 6 discriminator 2 view .LVU176
+ 730 0092 0BEBDB75 		add	r5, fp, fp, lsr #31
+ 731 0096 6D10     		asrs	r5, r5, #1
+ 732 0098 6D42     		rsbs	r5, r5, #0
+ 733 009a 2DB2     		sxth	r5, r5
+ 734 009c DEE7     		b	.L61
+ 735              	.LVL62:
+ 736              	.L85:
+ 271:Core/Src/display.c **** 			tmp = y1;
+ 737              		.loc 1 271 3 is_stmt 1 view .LVU177
+ 271:Core/Src/display.c **** 			tmp = y1;
+ 738              		.loc 1 271 6 is_stmt 0 view .LVU178
+ 739 009e 4E45     		cmp	r6, r9
+ 740 00a0 02D8     		bhi	.L63
+ 741 00a2 4B46     		mov	r3, r9
+ 742 00a4 B146     		mov	r9, r6
+ 743              	.LVL63:
+ 271:Core/Src/display.c **** 			tmp = y1;
+ 744              		.loc 1 271 6 view .LVU179
+ 745 00a6 1E46     		mov	r6, r3
+ 746              	.LVL64:
+ 747              	.L63:
+ 277:Core/Src/display.c **** 			tmp = x1;
+ 748              		.loc 1 277 3 is_stmt 1 view .LVU180
+ 277:Core/Src/display.c **** 			tmp = x1;
+ 749              		.loc 1 277 6 is_stmt 0 view .LVU181
+ARM GAS  /tmp/cci1iOPj.s 			page 20
 
 
- 1198              		.loc 1 321 5 view .LVU281
- 1199 0018 4FF47A70 		mov	r0, #1000
- 1200 001c FFF7FEFF 		bl	HAL_Delay
- 1201              	.LVL131:
- 322:Core/Src/display.c ****     command(0xa7);
- 1202              		.loc 1 322 5 view .LVU282
- 1203 0020 A720     		movs	r0, #167
- 1204 0022 FFF7FEFF 		bl	command
- 1205              	.LVL132:
- 323:Core/Src/display.c ****     HAL_Delay(1000);
- 1206              		.loc 1 323 5 view .LVU283
- 1207 0026 4FF47A70 		mov	r0, #1000
- 1208 002a FFF7FEFF 		bl	HAL_Delay
- 1209              	.LVL133:
- 324:Core/Src/display.c ****     command(0xa6);
- 1210              		.loc 1 324 5 view .LVU284
- 1211 002e A620     		movs	r0, #166
- 1212 0030 FFF7FEFF 		bl	command
- 1213              	.LVL134:
- 325:Core/Src/display.c **** 
- 326:Core/Src/display.c **** }
- 1214              		.loc 1 326 1 is_stmt 0 view .LVU285
- 1215 0034 0DF5017D 		add	sp, sp, #516
- 1216              	.LCFI21:
- 1217              		.cfi_def_cfa_offset 4
- 1218              		@ sp needed
- 1219 0038 5DF804FB 		ldr	pc, [sp], #4
- 1220              	.L95:
- 1221              		.align	2
- 1222              	.L94:
- 1223 003c 00000000 		.word	.LANCHOR0
- 1224              		.cfi_endproc
- 1225              	.LFE302:
- 1227              		.section	.bss.SSD1306,"aw",%nobits
- 1228              		.align	2
- 1231              	SSD1306:
- 1232 0000 00000000 		.space	6
- 1232      0000
- 1233              		.section	.bss.pixelBuffer,"aw",%nobits
- 1234              		.align	2
- 1237              	pixelBuffer:
- 1238 0000 00000000 		.space	512
- 1238      00000000 
- 1238      00000000 
- 1238      00000000 
- 1238      00000000 
- 1239              		.section	.bss.SSD1306_Buffer,"aw",%nobits
- 1240              		.align	2
- 1243              	SSD1306_Buffer:
- 1244 0000 00000000 		.space	512
- 1244      00000000 
- 1244      00000000 
- 1244      00000000 
- 1244      00000000 
- 1245              		.section	.rodata
- 1246              		.align	2
- 1247              		.set	.LANCHOR0,. + 0
-ARM GAS  /tmp/cc7dSzUz.s 			page 31
+ 750 00a8 BC42     		cmp	r4, r7
+ 751 00aa 00D8     		bhi	.L64
+ 752 00ac 2746     		mov	r7, r4
+ 753              	.LVL65:
+ 754              	.L64:
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 755              		.loc 1 284 3 is_stmt 1 view .LVU182
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 756              		.loc 1 284 10 is_stmt 0 view .LVU183
+ 757 00ae 0FFA89F9 		sxth	r9, r9
+ 758              	.LVL66:
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 759              		.loc 1 284 3 view .LVU184
+ 760 00b2 0AE0     		b	.L65
+ 761              	.LVL67:
+ 762              	.L66:
+ 285:Core/Src/display.c **** 		}
+ 763              		.loc 1 285 4 is_stmt 1 view .LVU185
+ 764 00b4 1FFA89F9 		uxth	r9, r9
+ 285:Core/Src/display.c **** 		}
+ 765              		.loc 1 285 4 is_stmt 0 view .LVU186
+ 766 00b8 4246     		mov	r2, r8
+ 767 00ba 4946     		mov	r1, r9
+ 768 00bc 3846     		mov	r0, r7
+ 769 00be FFF7FEFF 		bl	SSD1306_DrawPixel
+ 770              	.LVL68:
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 771              		.loc 1 284 26 is_stmt 1 discriminator 3 view .LVU187
+ 772 00c2 09F10109 		add	r9, r9, #1
+ 773              	.LVL69:
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 774              		.loc 1 284 26 is_stmt 0 discriminator 3 view .LVU188
+ 775 00c6 0FFA89F9 		sxth	r9, r9
+ 776              	.LVL70:
+ 777              	.L65:
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 778              		.loc 1 284 18 is_stmt 1 discriminator 1 view .LVU189
+ 779 00ca B145     		cmp	r9, r6
+ 780 00cc F2DD     		ble	.L66
+ 284:Core/Src/display.c **** 			SSD1306_DrawPixel(x0, i, c);
+ 781              		.loc 1 284 18 is_stmt 0 discriminator 1 view .LVU190
+ 782 00ce 17E0     		b	.L49
+ 783              	.LVL71:
+ 784              	.L86:
+ 293:Core/Src/display.c **** 		if (y1 < y0) {
+ 785              		.loc 1 293 3 is_stmt 1 view .LVU191
+ 786              		.loc 1 293 6 is_stmt 0 view .LVU192
+ 787 00d0 4E45     		cmp	r6, r9
+ 788 00d2 00D8     		bhi	.L69
+ 789 00d4 B146     		mov	r9, r6
+ 790              	.LVL72:
+ 791              	.L69:
+ 294:Core/Src/display.c **** 			tmp = y1;
+ 295:Core/Src/display.c **** 			y1 = y0;
+ 296:Core/Src/display.c **** 			y0 = tmp;
+ 297:Core/Src/display.c **** 		}
+ 298:Core/Src/display.c **** 		
+ARM GAS  /tmp/cci1iOPj.s 			page 21
 
 
- 1248              	.LC0:
- 1249 0000 FF0101FD 		.ascii	"\377\001\001\375%%%%\001\341YEY\341\001\231%%\311\001"
- 1249      25252525 
- 1249      01E15945 
- 1249      59E10199 
- 1249      2525C901 
- 1250 0014 0505FD05 		.ascii	"\005\005\375\005\005\001\375%%e\231\001\001\375\001"
- 1250      0501FD25 
- 1250      25659901 
- 1250      01FD01
- 1251 0023 01992525 		.ascii	"\001\231%%\311\001\001\375\001\001\375\031!\301\375"
- 1251      C90101FD 
- 1251      0101FD19 
- 1251      21C1FD
- 1252 0032 0101F905 		.ascii	"\001\001\371\005\005%\351\001\001\001\001\005\005\375"
- 1252      0525E901 
- 1252      01010105 
- 1252      05FD
- 1253 0040 050501FD 		.ascii	"\005\005\001\375%%%%\001\371\005\005\005\211\001\001"
- 1253      25252525 
- 1253      01F90505 
- 1253      05890101 
- 1254 0050 FD212121 		.ascii	"\375!!!\375\001\001\001\001\001\371\005\005\005\211"
- 1254      FD010101 
- 1254      0101F905 
- 1254      050589
- 1255 005f 0101F905 		.ascii	"\001\001\371\005\005\005\371\001\001\001\001\001\001"
- 1255      0505F901 
- 1255      01010101 
- 1255      01
- 1256 006c 0101FD01 		.ascii	"\001\001\375\001\001\001\005\005\375\005\005\001\375"
- 1256      01010505 
- 1256      FD050501 
- 1256      FD
- 1257 0079 050505F9 		.ascii	"\005\005\005\371\001\001\377\377\000\000\001\001\001"
- 1257      0101FFFF 
- 1257      00000101 
- 1257      01
- 1258 0086 01010100 		.ascii	"\001\001\001\000\000\000\000\000\001\000\001\001\000"
- 1258      00000000 
- 1258      01000101 
- 1258      00
- 1259 0093 00000001 		.ascii	"\000\000\000\001\000\000\000\361\360\220\220\221\000"
- 1259      000000F1 
- 1259      F0909091 
- 1259      00
- 1260 00a0 F0F11010 		.ascii	"\360\361\020\020\360\341\001\000\000\000\001\300\340"
- 1260      F0E10100 
- 1260      000001C0 
- 1260      E0
- 1261 00ad 311030E0 		.ascii	"1\0200\340\301\000\360\360\001\001\001\000\000\360\360"
- 1261      C100F0F0 
- 1261      01010100 
- 1261      00F0F0
- 1262 00bc 90909001 		.ascii	"\220\220\220\001\360\360\020\021\361\341\001\341\360"
- 1262      F0F01011 
- 1262      F1E101E1 
-ARM GAS  /tmp/cc7dSzUz.s 			page 32
+ 299:Core/Src/display.c **** 		if (x1 < x0) {
+ 792              		.loc 1 299 3 is_stmt 1 view .LVU193
+ 793              		.loc 1 299 6 is_stmt 0 view .LVU194
+ 794 00d6 BC42     		cmp	r4, r7
+ 795 00d8 02D8     		bhi	.L70
+ 796 00da 3B46     		mov	r3, r7
+ 797 00dc 2746     		mov	r7, r4
+ 798              	.LVL73:
+ 799              		.loc 1 299 6 view .LVU195
+ 800 00de 1C46     		mov	r4, r3
+ 801              	.LVL74:
+ 802              	.L70:
+ 300:Core/Src/display.c **** 			tmp = x1;
+ 301:Core/Src/display.c **** 			x1 = x0;
+ 302:Core/Src/display.c **** 			x0 = tmp;
+ 303:Core/Src/display.c **** 		}
+ 304:Core/Src/display.c **** 		
+ 305:Core/Src/display.c **** 		/* Horizontal line */
+ 306:Core/Src/display.c **** 		for (i = x0; i <= x1; i++) {
+ 803              		.loc 1 306 3 is_stmt 1 view .LVU196
+ 804              		.loc 1 306 10 is_stmt 0 view .LVU197
+ 805 00e0 3FB2     		sxth	r7, r7
+ 806              	.LVL75:
+ 807              		.loc 1 306 3 view .LVU198
+ 808 00e2 07E0     		b	.L71
+ 809              	.LVL76:
+ 810              	.L72:
+ 307:Core/Src/display.c **** 			SSD1306_DrawPixel(i, y0, c);
+ 811              		.loc 1 307 4 is_stmt 1 view .LVU199
+ 812 00e4 BFB2     		uxth	r7, r7
+ 813              		.loc 1 307 4 is_stmt 0 view .LVU200
+ 814 00e6 4246     		mov	r2, r8
+ 815 00e8 4946     		mov	r1, r9
+ 816 00ea 3846     		mov	r0, r7
+ 817 00ec FFF7FEFF 		bl	SSD1306_DrawPixel
+ 818              	.LVL77:
+ 306:Core/Src/display.c **** 			SSD1306_DrawPixel(i, y0, c);
+ 819              		.loc 1 306 26 is_stmt 1 discriminator 3 view .LVU201
+ 820 00f0 0137     		adds	r7, r7, #1
+ 821              	.LVL78:
+ 306:Core/Src/display.c **** 			SSD1306_DrawPixel(i, y0, c);
+ 822              		.loc 1 306 26 is_stmt 0 discriminator 3 view .LVU202
+ 823 00f2 3FB2     		sxth	r7, r7
+ 824              	.LVL79:
+ 825              	.L71:
+ 306:Core/Src/display.c **** 			SSD1306_DrawPixel(i, y0, c);
+ 826              		.loc 1 306 18 is_stmt 1 discriminator 1 view .LVU203
+ 827 00f4 A742     		cmp	r7, r4
+ 828 00f6 F5DD     		ble	.L72
+ 306:Core/Src/display.c **** 			SSD1306_DrawPixel(i, y0, c);
+ 829              		.loc 1 306 18 is_stmt 0 discriminator 1 view .LVU204
+ 830 00f8 02E0     		b	.L49
+ 831              	.LVL80:
+ 832              	.L87:
+ 308:Core/Src/display.c **** 		}
+ 309:Core/Src/display.c **** 		
+ 310:Core/Src/display.c **** 		/* Return from function */
+ARM GAS  /tmp/cci1iOPj.s 			page 22
 
 
- 1262      F0
- 1263 00c9 10F1E101 		.ascii	"\020\361\341\001\340\360\020\361\340\000\300a\360\360"
- 1263      E0F010F1 
- 1263      E000C061 
- 1263      F0F0
- 1264 00d7 01000000 		.ascii	"\001\000\000\000\001\001!0\220\360`\001\001\001\000"
- 1264      01012130 
- 1264      90F06001 
- 1264      010100
- 1265 00e6 00000100 		.ascii	"\000\000\001\000\000\003\000\000\001\001\001\001\000"
- 1265      00030000 
- 1265      01010101 
- 1265      00
- 1266 00f3 00010000 		.ascii	"\000\001\000\000\000\001\001\001\001\000\000\000\377"
- 1266      00010101 
- 1266      01000000 
- 1266      FF
- 1267 0100 FF000080 		.ascii	"\377\000\000\200\300\300\000\000\200\300@\300\200\000"
- 1267      C0C00000 
- 1267      80C040C0 
- 1267      8000
- 1268 010e 80C040C0 		.ascii	"\200\300@\300\200\000\200\300\200\000\200\300O\317\210"
- 1268      800080C0 
- 1268      800080C0 
- 1268      4FCF88
- 1269 011d 0888C04F 		.ascii	"\010\210\300O\317\201\003\007\014\010\002\002\002\000"
- 1269      CF810307 
- 1269      0C080202 
- 1269      0200
- 1270 012b C3C70C08 		.ascii	"\303\307\014\010\014\007\003\000\017\017\210\310\010"
- 1270      0C070300 
- 1270      0F0F88C8 
- 1270      08
- 1271 0138 08000F0F 		.ascii	"\010\000\017\017\010\010\010\000\017\017\010\010\017"
- 1271      08080800 
- 1271      0F0F0808 
- 1271      0F
- 1272 0145 0780C74F 		.ascii	"\007\200\307O\310\217\007\000\004\015\211\317G\300\200"
- 1272      C88F0700 
- 1272      040D89CF 
- 1272      47C080
- 1273 0154 000F8FC0 		.ascii	"\000\017\217\300\300\002BB\000\004\014\010\017\007\000"
- 1273      C0024242 
- 1273      00040C08 
- 1273      0F0700
- 1274 0163 00000000 		.ascii	"\000\000\000\000\000\000\000\300\300\000\000\000\000"
- 1274      000000C0 
- 1274      C0000000 
- 1274      00
- 1275 0170 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 1275      00000000 
- 1275      00000000 
- 1275      00
- 1276 017d 0000FFFF 		.ascii	"\000\000\377\377\200\203\201\277\277\200\200\260\270"
- 1276      808381BF 
- 1276      BF8080B0 
- 1276      B8
-ARM GAS  /tmp/cc7dSzUz.s 			page 33
+ 311:Core/Src/display.c **** 		return;
+ 312:Core/Src/display.c **** 	}
+ 313:Core/Src/display.c **** 	
+ 314:Core/Src/display.c **** 	while (1) {
+ 315:Core/Src/display.c **** 		SSD1306_DrawPixel(x0, y0, c);
+ 316:Core/Src/display.c **** 		if (x0 == x1 && y0 == y1) {
+ 833              		.loc 1 316 16 discriminator 1 view .LVU205
+ 834 00fa 019B     		ldr	r3, [sp, #4]
+ 835 00fc 9E42     		cmp	r6, r3
+ 836 00fe 11D1     		bne	.L73
+ 837              	.LVL81:
+ 838              	.L49:
+ 317:Core/Src/display.c **** 			break;
+ 318:Core/Src/display.c **** 		}
+ 319:Core/Src/display.c **** 		e2 = err; 
+ 320:Core/Src/display.c **** 		if (e2 > -dx) {
+ 321:Core/Src/display.c **** 			err -= dy;
+ 322:Core/Src/display.c **** 			x0 += sx;
+ 323:Core/Src/display.c **** 		} 
+ 324:Core/Src/display.c **** 		if (e2 < dy) {
+ 325:Core/Src/display.c **** 			err += dx;
+ 326:Core/Src/display.c **** 			y0 += sy;
+ 327:Core/Src/display.c **** 		} 
+ 328:Core/Src/display.c **** 	}
+ 329:Core/Src/display.c **** }
+ 839              		.loc 1 329 1 view .LVU206
+ 840 0100 03B0     		add	sp, sp, #12
+ 841              	.LCFI14:
+ 842              		.cfi_remember_state
+ 843              		.cfi_def_cfa_offset 36
+ 844              		@ sp needed
+ 845 0102 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 846              	.LVL82:
+ 847              	.L82:
+ 848              	.LCFI15:
+ 849              		.cfi_restore_state
+ 850              		.loc 1 329 1 view .LVU207
+ 851 0106 2B46     		mov	r3, r5
+ 852              	.LVL83:
+ 853              	.L74:
+ 324:Core/Src/display.c **** 			err += dx;
+ 854              		.loc 1 324 3 is_stmt 1 view .LVU208
+ 324:Core/Src/display.c **** 			err += dx;
+ 855              		.loc 1 324 6 is_stmt 0 view .LVU209
+ 856 0108 5D45     		cmp	r5, fp
+ 857 010a 03DA     		bge	.L75
+ 325:Core/Src/display.c **** 			y0 += sy;
+ 858              		.loc 1 325 4 is_stmt 1 view .LVU210
+ 325:Core/Src/display.c **** 			y0 += sy;
+ 859              		.loc 1 325 8 is_stmt 0 view .LVU211
+ 860 010c 5344     		add	r3, r3, r10
+ 861              	.LVL84:
+ 325:Core/Src/display.c **** 			y0 += sy;
+ 862              		.loc 1 325 8 view .LVU212
+ 863 010e 1BB2     		sxth	r3, r3
+ 864              	.LVL85:
+ 326:Core/Src/display.c **** 		} 
+ARM GAS  /tmp/cci1iOPj.s 			page 23
 
 
- 1277 018a ACA7A380 		.ascii	"\254\247\243\200\235\277\242\277\235\200\202\201\202"
- 1277      9DBFA2BF 
- 1277      9D808281 
- 1277      82
- 1278 0197 8090B0A2 		.ascii	"\200\220\260\242\277\235\200\260\270\254\247\243\200"
- 1278      BF9D80B0 
- 1278      B8ACA7A3 
- 1278      80
- 1279 01a4 8080809E 		.ascii	"\200\200\200\236\277\241\241\277\277\200\236\277\241"
- 1279      BFA1A1BF 
- 1279      BF809EBF 
- 1279      A1
- 1280 01b1 A1BF9E81 		.ascii	"\241\277\236\201\237\277\241\200\226\267\255\255\273"
- 1280      9FBFA180 
- 1280      96B7ADAD 
- 1280      BB
- 1281 01be 9A808080 		.ascii	"\232\200\200\200\200\200\200\200\237\277\240\277\237"
- 1281      80808080 
- 1281      9FBFA0BF 
- 1281      9F
- 1282 01cb 80B0B080 		.ascii	"\200\260\260\200\223\267\244\277\237\200\203\201\277"
- 1282      93B7A4BF 
- 1282      9F808381 
- 1282      BF
- 1283 01d8 BF80BFBF 		.ascii	"\277\200\277\277\200\277\277\201\201\277\276\200\236"
- 1283      80BFBF81 
- 1283      81BFBE80 
- 1283      9E
- 1284 01e5 BFA1B392 		.ascii	"\277\241\263\222\200\277\277\201\201\277\276\200\236"
- 1284      80BFBF81 
- 1284      81BFBE80 
- 1284      9E
- 1285 01f2 BFA5A5B7 		.ascii	"\277\245\245\267\226\200\226\267\255\255\273\232\200"
- 1285      968096B7 
- 1285      ADADBB9A 
- 1285      80
- 1286 01ff FF       		.ascii	"\377"
- 1287              		.text
- 1288              	.Letext0:
- 1289              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 1290              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
- 1291              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 1292              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
- 1293              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 1294              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 1295              		.file 8 "Core/Inc/fonts.h"
- 1296              		.file 9 "Core/Inc/display.h"
- 1297              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 1298              		.file 11 "<built-in>"
-ARM GAS  /tmp/cc7dSzUz.s 			page 34
+ 865              		.loc 1 326 4 is_stmt 1 view .LVU213
+ 326:Core/Src/display.c **** 		} 
+ 866              		.loc 1 326 7 is_stmt 0 view .LVU214
+ 867 0110 4E44     		add	r6, r6, r9
+ 868              	.LVL86:
+ 326:Core/Src/display.c **** 		} 
+ 869              		.loc 1 326 7 view .LVU215
+ 870 0112 B6B2     		uxth	r6, r6
+ 871              	.LVL87:
+ 872              	.L75:
+ 299:Core/Src/display.c **** 			tmp = x1;
+ 873              		.loc 1 299 6 view .LVU216
+ 874 0114 1D46     		mov	r5, r3
+ 875              	.LVL88:
+ 876              	.L68:
+ 314:Core/Src/display.c **** 		SSD1306_DrawPixel(x0, y0, c);
+ 877              		.loc 1 314 2 is_stmt 1 view .LVU217
+ 315:Core/Src/display.c **** 		if (x0 == x1 && y0 == y1) {
+ 878              		.loc 1 315 3 view .LVU218
+ 879 0116 4246     		mov	r2, r8
+ 880 0118 3146     		mov	r1, r6
+ 881 011a 2046     		mov	r0, r4
+ 882 011c FFF7FEFF 		bl	SSD1306_DrawPixel
+ 883              	.LVL89:
+ 316:Core/Src/display.c **** 			break;
+ 884              		.loc 1 316 3 view .LVU219
+ 316:Core/Src/display.c **** 			break;
+ 885              		.loc 1 316 6 is_stmt 0 view .LVU220
+ 886 0120 BC42     		cmp	r4, r7
+ 887 0122 EAD0     		beq	.L87
+ 888              	.L73:
+ 319:Core/Src/display.c **** 		if (e2 > -dx) {
+ 889              		.loc 1 319 3 is_stmt 1 view .LVU221
+ 890              	.LVL90:
+ 320:Core/Src/display.c **** 			err -= dy;
+ 891              		.loc 1 320 3 view .LVU222
+ 320:Core/Src/display.c **** 			err -= dy;
+ 892              		.loc 1 320 12 is_stmt 0 view .LVU223
+ 893 0124 CAF10003 		rsb	r3, r10, #0
+ 320:Core/Src/display.c **** 			err -= dy;
+ 894              		.loc 1 320 6 view .LVU224
+ 895 0128 9D42     		cmp	r5, r3
+ 896 012a ECDD     		ble	.L82
+ 321:Core/Src/display.c **** 			x0 += sx;
+ 897              		.loc 1 321 4 is_stmt 1 view .LVU225
+ 321:Core/Src/display.c **** 			x0 += sx;
+ 898              		.loc 1 321 8 is_stmt 0 view .LVU226
+ 899 012c A5EB0B03 		sub	r3, r5, fp
+ 900 0130 1BB2     		sxth	r3, r3
+ 901              	.LVL91:
+ 322:Core/Src/display.c **** 		} 
+ 902              		.loc 1 322 4 is_stmt 1 view .LVU227
+ 322:Core/Src/display.c **** 		} 
+ 903              		.loc 1 322 7 is_stmt 0 view .LVU228
+ 904 0132 009A     		ldr	r2, [sp]
+ 905 0134 1444     		add	r4, r4, r2
+ 906              	.LVL92:
+ARM GAS  /tmp/cci1iOPj.s 			page 24
+
+
+ 322:Core/Src/display.c **** 		} 
+ 907              		.loc 1 322 7 view .LVU229
+ 908 0136 A4B2     		uxth	r4, r4
+ 909              	.LVL93:
+ 322:Core/Src/display.c **** 		} 
+ 910              		.loc 1 322 7 view .LVU230
+ 911 0138 E6E7     		b	.L74
+ 912              		.cfi_endproc
+ 913              	.LFE299:
+ 915              		.section	.text.SSD1306_DrawRectangle,"ax",%progbits
+ 916              		.align	1
+ 917              		.global	SSD1306_DrawRectangle
+ 918              		.syntax unified
+ 919              		.thumb
+ 920              		.thumb_func
+ 922              	SSD1306_DrawRectangle:
+ 923              	.LVL94:
+ 924              	.LFB300:
+ 330:Core/Src/display.c **** 
+ 331:Core/Src/display.c **** void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
+ 925              		.loc 1 331 95 is_stmt 1 view -0
+ 926              		.cfi_startproc
+ 927              		@ args = 4, pretend = 0, frame = 0
+ 928              		@ frame_needed = 0, uses_anonymous_args = 0
+ 929              		.loc 1 331 95 is_stmt 0 view .LVU232
+ 930 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 931              	.LCFI16:
+ 932              		.cfi_def_cfa_offset 24
+ 933              		.cfi_offset 4, -24
+ 934              		.cfi_offset 5, -20
+ 935              		.cfi_offset 6, -16
+ 936              		.cfi_offset 7, -12
+ 937              		.cfi_offset 8, -8
+ 938              		.cfi_offset 14, -4
+ 939 0004 82B0     		sub	sp, sp, #8
+ 940              	.LCFI17:
+ 941              		.cfi_def_cfa_offset 32
+ 942 0006 9DF82080 		ldrb	r8, [sp, #32]	@ zero_extendqisi2
+ 332:Core/Src/display.c **** 	/* Check input parameters */
+ 333:Core/Src/display.c **** 	if (
+ 943              		.loc 1 333 2 is_stmt 1 view .LVU233
+ 944              		.loc 1 333 5 is_stmt 0 view .LVU234
+ 945 000a 7F28     		cmp	r0, #127
+ 946 000c 34D8     		bhi	.L88
+ 947 000e 0646     		mov	r6, r0
+ 948 0010 0F46     		mov	r7, r1
+ 949 0012 1D46     		mov	r5, r3
+ 334:Core/Src/display.c **** 		x >= SSD1306_WIDTH ||
+ 950              		.loc 1 334 22 view .LVU235
+ 951 0014 1F29     		cmp	r1, #31
+ 952 0016 2FD8     		bhi	.L88
+ 335:Core/Src/display.c **** 		y >= SSD1306_HEIGHT
+ 336:Core/Src/display.c **** 	) {
+ 337:Core/Src/display.c **** 		/* Return error */
+ 338:Core/Src/display.c **** 		return;
+ 339:Core/Src/display.c **** 	}
+ 340:Core/Src/display.c **** 	
+ARM GAS  /tmp/cci1iOPj.s 			page 25
+
+
+ 341:Core/Src/display.c **** 	/* Check width and height */
+ 342:Core/Src/display.c **** 	if ((x + w) >= SSD1306_WIDTH) {
+ 953              		.loc 1 342 2 is_stmt 1 view .LVU236
+ 954              		.loc 1 342 9 is_stmt 0 view .LVU237
+ 955 0018 8318     		adds	r3, r0, r2
+ 956              	.LVL95:
+ 957              		.loc 1 342 5 view .LVU238
+ 958 001a 7F2B     		cmp	r3, #127
+ 959 001c 02DD     		ble	.L90
+ 343:Core/Src/display.c **** 		w = SSD1306_WIDTH - x;
+ 960              		.loc 1 343 3 is_stmt 1 view .LVU239
+ 961              		.loc 1 343 5 is_stmt 0 view .LVU240
+ 962 001e C0F18002 		rsb	r2, r0, #128
+ 963              	.LVL96:
+ 964              		.loc 1 343 5 view .LVU241
+ 965 0022 92B2     		uxth	r2, r2
+ 966              	.LVL97:
+ 967              	.L90:
+ 344:Core/Src/display.c **** 	}
+ 345:Core/Src/display.c **** 	if ((y + h) >= SSD1306_HEIGHT) {
+ 968              		.loc 1 345 2 is_stmt 1 view .LVU242
+ 969              		.loc 1 345 9 is_stmt 0 view .LVU243
+ 970 0024 7B19     		adds	r3, r7, r5
+ 971              		.loc 1 345 5 view .LVU244
+ 972 0026 1F2B     		cmp	r3, #31
+ 973 0028 02DD     		ble	.L91
+ 346:Core/Src/display.c **** 		h = SSD1306_HEIGHT - y;
+ 974              		.loc 1 346 3 is_stmt 1 view .LVU245
+ 975              		.loc 1 346 5 is_stmt 0 view .LVU246
+ 976 002a C7F12005 		rsb	r5, r7, #32
+ 977              	.LVL98:
+ 978              		.loc 1 346 5 view .LVU247
+ 979 002e ADB2     		uxth	r5, r5
+ 980              	.LVL99:
+ 981              	.L91:
+ 347:Core/Src/display.c **** 	}
+ 348:Core/Src/display.c **** 	
+ 349:Core/Src/display.c **** 	/* Draw 4 lines */
+ 350:Core/Src/display.c **** 	SSD1306_DrawLine(x, y, x + w, y, c);         /* Top line */
+ 982              		.loc 1 350 2 is_stmt 1 view .LVU248
+ 983 0030 9419     		adds	r4, r2, r6
+ 984 0032 A4B2     		uxth	r4, r4
+ 985 0034 CDF80080 		str	r8, [sp]
+ 986 0038 3B46     		mov	r3, r7
+ 987 003a 2246     		mov	r2, r4
+ 988              	.LVL100:
+ 989              		.loc 1 350 2 is_stmt 0 view .LVU249
+ 990 003c 3946     		mov	r1, r7
+ 991              	.LVL101:
+ 992              		.loc 1 350 2 view .LVU250
+ 993 003e 3046     		mov	r0, r6
+ 994              	.LVL102:
+ 995              		.loc 1 350 2 view .LVU251
+ 996 0040 FFF7FEFF 		bl	SSD1306_DrawLine
+ 997              	.LVL103:
+ 351:Core/Src/display.c **** 	SSD1306_DrawLine(x, y + h, x + w, y + h, c); /* Bottom line */
+ 998              		.loc 1 351 2 is_stmt 1 view .LVU252
+ARM GAS  /tmp/cci1iOPj.s 			page 26
+
+
+ 999 0044 3D44     		add	r5, r5, r7
+ 1000              	.LVL104:
+ 1001              		.loc 1 351 2 is_stmt 0 view .LVU253
+ 1002 0046 ADB2     		uxth	r5, r5
+ 1003 0048 CDF80080 		str	r8, [sp]
+ 1004 004c 2B46     		mov	r3, r5
+ 1005 004e 2246     		mov	r2, r4
+ 1006 0050 2946     		mov	r1, r5
+ 1007 0052 3046     		mov	r0, r6
+ 1008 0054 FFF7FEFF 		bl	SSD1306_DrawLine
+ 1009              	.LVL105:
+ 352:Core/Src/display.c **** 	SSD1306_DrawLine(x, y, x, y + h, c);         /* Left line */
+ 1010              		.loc 1 352 2 is_stmt 1 view .LVU254
+ 1011 0058 CDF80080 		str	r8, [sp]
+ 1012 005c 2B46     		mov	r3, r5
+ 1013 005e 3246     		mov	r2, r6
+ 1014 0060 3946     		mov	r1, r7
+ 1015 0062 3046     		mov	r0, r6
+ 1016 0064 FFF7FEFF 		bl	SSD1306_DrawLine
+ 1017              	.LVL106:
+ 353:Core/Src/display.c **** 	SSD1306_DrawLine(x + w, y, x + w, y + h, c); /* Right line */
+ 1018              		.loc 1 353 2 view .LVU255
+ 1019 0068 CDF80080 		str	r8, [sp]
+ 1020 006c 2B46     		mov	r3, r5
+ 1021 006e 2246     		mov	r2, r4
+ 1022 0070 3946     		mov	r1, r7
+ 1023 0072 2046     		mov	r0, r4
+ 1024 0074 FFF7FEFF 		bl	SSD1306_DrawLine
+ 1025              	.LVL107:
+ 1026              	.L88:
+ 354:Core/Src/display.c **** }
+ 1027              		.loc 1 354 1 is_stmt 0 view .LVU256
+ 1028 0078 02B0     		add	sp, sp, #8
+ 1029              	.LCFI18:
+ 1030              		.cfi_def_cfa_offset 24
+ 1031              		@ sp needed
+ 1032 007a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1033              		.loc 1 354 1 view .LVU257
+ 1034              		.cfi_endproc
+ 1035              	.LFE300:
+ 1037              		.section	.text.SSD1306_DrawFilledRectangle,"ax",%progbits
+ 1038              		.align	1
+ 1039              		.global	SSD1306_DrawFilledRectangle
+ 1040              		.syntax unified
+ 1041              		.thumb
+ 1042              		.thumb_func
+ 1044              	SSD1306_DrawFilledRectangle:
+ 1045              	.LVL108:
+ 1046              	.LFB301:
+ 355:Core/Src/display.c **** 
+ 356:Core/Src/display.c **** void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c)
+ 1047              		.loc 1 356 101 is_stmt 1 view -0
+ 1048              		.cfi_startproc
+ 1049              		@ args = 4, pretend = 0, frame = 0
+ 1050              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1051              		.loc 1 356 101 is_stmt 0 view .LVU259
+ 1052 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ARM GAS  /tmp/cci1iOPj.s 			page 27
+
+
+ 1053              	.LCFI19:
+ 1054              		.cfi_def_cfa_offset 28
+ 1055              		.cfi_offset 4, -28
+ 1056              		.cfi_offset 5, -24
+ 1057              		.cfi_offset 6, -20
+ 1058              		.cfi_offset 7, -16
+ 1059              		.cfi_offset 8, -12
+ 1060              		.cfi_offset 9, -8
+ 1061              		.cfi_offset 14, -4
+ 1062 0004 83B0     		sub	sp, sp, #12
+ 1063              	.LCFI20:
+ 1064              		.cfi_def_cfa_offset 40
+ 1065 0006 9DF82890 		ldrb	r9, [sp, #40]	@ zero_extendqisi2
+ 357:Core/Src/display.c **** 	uint8_t i;
+ 1066              		.loc 1 357 2 is_stmt 1 view .LVU260
+ 358:Core/Src/display.c **** 	
+ 359:Core/Src/display.c **** 	/* Check input parameters */
+ 360:Core/Src/display.c **** 	if (
+ 1067              		.loc 1 360 2 view .LVU261
+ 1068              		.loc 1 360 5 is_stmt 0 view .LVU262
+ 1069 000a 7F28     		cmp	r0, #127
+ 1070 000c 23D8     		bhi	.L93
+ 1071 000e 0546     		mov	r5, r0
+ 1072 0010 0F46     		mov	r7, r1
+ 1073 0012 9046     		mov	r8, r2
+ 1074 0014 1E46     		mov	r6, r3
+ 361:Core/Src/display.c **** 		x >= SSD1306_WIDTH ||
+ 1075              		.loc 1 361 22 view .LVU263
+ 1076 0016 1F29     		cmp	r1, #31
+ 1077 0018 1DD8     		bhi	.L93
+ 362:Core/Src/display.c **** 		y >= SSD1306_HEIGHT
+ 363:Core/Src/display.c **** 	) {
+ 364:Core/Src/display.c **** 		/* Return error */
+ 365:Core/Src/display.c **** 		return;
+ 366:Core/Src/display.c **** 	}
+ 367:Core/Src/display.c **** 	
+ 368:Core/Src/display.c **** 	/* Check width and height */
+ 369:Core/Src/display.c **** 	if ((x + w) >= SSD1306_WIDTH) {
+ 1078              		.loc 1 369 2 is_stmt 1 view .LVU264
+ 1079              		.loc 1 369 9 is_stmt 0 view .LVU265
+ 1080 001a 8318     		adds	r3, r0, r2
+ 1081              	.LVL109:
+ 1082              		.loc 1 369 5 view .LVU266
+ 1083 001c 7F2B     		cmp	r3, #127
+ 1084 001e 03DD     		ble	.L95
+ 370:Core/Src/display.c **** 		w = SSD1306_WIDTH - x;
+ 1085              		.loc 1 370 3 is_stmt 1 view .LVU267
+ 1086              		.loc 1 370 5 is_stmt 0 view .LVU268
+ 1087 0020 C0F18008 		rsb	r8, r0, #128
+ 1088 0024 1FFA88F8 		uxth	r8, r8
+ 1089              	.LVL110:
+ 1090              	.L95:
+ 371:Core/Src/display.c **** 	}
+ 372:Core/Src/display.c **** 	if ((y + h) >= SSD1306_HEIGHT) {
+ 1091              		.loc 1 372 2 is_stmt 1 view .LVU269
+ 1092              		.loc 1 372 9 is_stmt 0 view .LVU270
+ 1093 0028 BB19     		adds	r3, r7, r6
+ARM GAS  /tmp/cci1iOPj.s 			page 28
+
+
+ 1094              		.loc 1 372 5 view .LVU271
+ 1095 002a 1F2B     		cmp	r3, #31
+ 1096 002c 02DD     		ble	.L96
+ 373:Core/Src/display.c **** 		h = SSD1306_HEIGHT - y;
+ 1097              		.loc 1 373 3 is_stmt 1 view .LVU272
+ 1098              		.loc 1 373 5 is_stmt 0 view .LVU273
+ 1099 002e C7F12006 		rsb	r6, r7, #32
+ 1100              	.LVL111:
+ 1101              		.loc 1 373 5 view .LVU274
+ 1102 0032 B6B2     		uxth	r6, r6
+ 1103              	.LVL112:
+ 1104              	.L96:
+ 374:Core/Src/display.c **** 	}
+ 375:Core/Src/display.c **** 	
+ 376:Core/Src/display.c **** 	/* Draw lines */
+ 377:Core/Src/display.c **** 	for (i = 0; i <= h; i++) {
+ 1105              		.loc 1 377 2 is_stmt 1 view .LVU275
+ 1106              		.loc 1 377 9 is_stmt 0 view .LVU276
+ 1107 0034 0024     		movs	r4, #0
+ 1108              		.loc 1 377 2 view .LVU277
+ 1109 0036 0CE0     		b	.L97
+ 1110              	.LVL113:
+ 1111              	.L98:
+ 378:Core/Src/display.c **** 		/* Draw lines */
+ 379:Core/Src/display.c **** 		SSD1306_DrawLine(x, y + i, x + w, y + i, c);
+ 1112              		.loc 1 379 3 is_stmt 1 view .LVU278
+ 1113 0038 E119     		adds	r1, r4, r7
+ 1114 003a 89B2     		uxth	r1, r1
+ 1115 003c 08EB0502 		add	r2, r8, r5
+ 1116 0040 CDF80090 		str	r9, [sp]
+ 1117 0044 0B46     		mov	r3, r1
+ 1118 0046 92B2     		uxth	r2, r2
+ 1119 0048 2846     		mov	r0, r5
+ 1120 004a FFF7FEFF 		bl	SSD1306_DrawLine
+ 1121              	.LVL114:
+ 377:Core/Src/display.c **** 		/* Draw lines */
+ 1122              		.loc 1 377 23 discriminator 3 view .LVU279
+ 1123 004e 0134     		adds	r4, r4, #1
+ 1124              	.LVL115:
+ 377:Core/Src/display.c **** 		/* Draw lines */
+ 1125              		.loc 1 377 23 is_stmt 0 discriminator 3 view .LVU280
+ 1126 0050 E4B2     		uxtb	r4, r4
+ 1127              	.LVL116:
+ 1128              	.L97:
+ 377:Core/Src/display.c **** 		/* Draw lines */
+ 1129              		.loc 1 377 16 is_stmt 1 discriminator 1 view .LVU281
+ 1130 0052 B442     		cmp	r4, r6
+ 1131 0054 F0D9     		bls	.L98
+ 1132              	.LVL117:
+ 1133              	.L93:
+ 380:Core/Src/display.c **** 	}
+ 381:Core/Src/display.c **** }
+ 1134              		.loc 1 381 1 is_stmt 0 view .LVU282
+ 1135 0056 03B0     		add	sp, sp, #12
+ 1136              	.LCFI21:
+ 1137              		.cfi_def_cfa_offset 28
+ 1138              		@ sp needed
+ARM GAS  /tmp/cci1iOPj.s 			page 29
+
+
+ 1139 0058 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 1140              		.loc 1 381 1 view .LVU283
+ 1141              		.cfi_endproc
+ 1142              	.LFE301:
+ 1144              		.section	.text.Set_Page_Address,"ax",%progbits
+ 1145              		.align	1
+ 1146              		.global	Set_Page_Address
+ 1147              		.syntax unified
+ 1148              		.thumb
+ 1149              		.thumb_func
+ 1151              	Set_Page_Address:
+ 1152              	.LVL118:
+ 1153              	.LFB302:
+ 382:Core/Src/display.c **** 
+ 383:Core/Src/display.c **** void Set_Page_Address(unsigned char add)
+ 384:Core/Src/display.c **** {
+ 1154              		.loc 1 384 1 is_stmt 1 view -0
+ 1155              		.cfi_startproc
+ 1156              		@ args = 0, pretend = 0, frame = 0
+ 1157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1158              		.loc 1 384 1 is_stmt 0 view .LVU285
+ 1159 0000 08B5     		push	{r3, lr}
+ 1160              	.LCFI22:
+ 1161              		.cfi_def_cfa_offset 8
+ 1162              		.cfi_offset 3, -8
+ 1163              		.cfi_offset 14, -4
+ 385:Core/Src/display.c ****   add=0xb0|add;
+ 1164              		.loc 1 385 3 is_stmt 1 view .LVU286
+ 1165              	.LVL119:
+ 386:Core/Src/display.c ****   command(add);
+ 1166              		.loc 1 386 3 view .LVU287
+ 1167 0002 40F0B000 		orr	r0, r0, #176
+ 1168 0006 FFF7FEFF 		bl	command
+ 1169              	.LVL120:
+ 387:Core/Src/display.c **** 	return;
+ 1170              		.loc 1 387 2 view .LVU288
+ 388:Core/Src/display.c **** }
+ 1171              		.loc 1 388 1 is_stmt 0 view .LVU289
+ 1172 000a 08BD     		pop	{r3, pc}
+ 1173              		.cfi_endproc
+ 1174              	.LFE302:
+ 1176              		.section	.text.Set_Column_Address,"ax",%progbits
+ 1177              		.align	1
+ 1178              		.global	Set_Column_Address
+ 1179              		.syntax unified
+ 1180              		.thumb
+ 1181              		.thumb_func
+ 1183              	Set_Column_Address:
+ 1184              	.LVL121:
+ 1185              	.LFB303:
+ 389:Core/Src/display.c **** 
+ 390:Core/Src/display.c **** void Set_Column_Address(unsigned char add)
+ 391:Core/Src/display.c **** {
+ 1186              		.loc 1 391 1 is_stmt 1 view -0
+ 1187              		.cfi_startproc
+ 1188              		@ args = 0, pretend = 0, frame = 0
+ 1189              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/cci1iOPj.s 			page 30
+
+
+ 1190              		.loc 1 391 1 is_stmt 0 view .LVU291
+ 1191 0000 10B5     		push	{r4, lr}
+ 1192              	.LCFI23:
+ 1193              		.cfi_def_cfa_offset 8
+ 1194              		.cfi_offset 4, -8
+ 1195              		.cfi_offset 14, -4
+ 1196 0002 0446     		mov	r4, r0
+ 392:Core/Src/display.c ****   command((0x10|(add>>4)));
+ 1197              		.loc 1 392 3 is_stmt 1 view .LVU292
+ 1198 0004 0009     		lsrs	r0, r0, #4
+ 1199              	.LVL122:
+ 1200              		.loc 1 392 3 is_stmt 0 view .LVU293
+ 1201 0006 40F01000 		orr	r0, r0, #16
+ 1202 000a FFF7FEFF 		bl	command
+ 1203              	.LVL123:
+ 393:Core/Src/display.c **** 	command((0x0f&add));
+ 1204              		.loc 1 393 2 is_stmt 1 view .LVU294
+ 1205 000e 04F00F00 		and	r0, r4, #15
+ 1206 0012 FFF7FEFF 		bl	command
+ 1207              	.LVL124:
+ 394:Core/Src/display.c **** 	return;
+ 1208              		.loc 1 394 2 view .LVU295
+ 395:Core/Src/display.c **** }
+ 1209              		.loc 1 395 1 is_stmt 0 view .LVU296
+ 1210 0016 10BD     		pop	{r4, pc}
+ 1211              		.loc 1 395 1 view .LVU297
+ 1212              		.cfi_endproc
+ 1213              	.LFE303:
+ 1215              		.section	.text.SSD1306_UpdateScreen,"ax",%progbits
+ 1216              		.align	1
+ 1217              		.global	SSD1306_UpdateScreen
+ 1218              		.syntax unified
+ 1219              		.thumb
+ 1220              		.thumb_func
+ 1222              	SSD1306_UpdateScreen:
+ 1223              	.LFB291:
+ 111:Core/Src/display.c ****   unsigned char i,j,num=0;
+ 1224              		.loc 1 111 33 is_stmt 1 view -0
+ 1225              		.cfi_startproc
+ 1226              		@ args = 0, pretend = 0, frame = 0
+ 1227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1228 0000 38B5     		push	{r3, r4, r5, lr}
+ 1229              	.LCFI24:
+ 1230              		.cfi_def_cfa_offset 16
+ 1231              		.cfi_offset 3, -16
+ 1232              		.cfi_offset 4, -12
+ 1233              		.cfi_offset 5, -8
+ 1234              		.cfi_offset 14, -4
+ 112:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 1235              		.loc 1 112 3 view .LVU299
+ 1236              	.LVL125:
+ 113:Core/Src/display.c **** 	{
+ 1237              		.loc 1 113 2 view .LVU300
+ 113:Core/Src/display.c **** 	{
+ 1238              		.loc 1 113 7 is_stmt 0 view .LVU301
+ 1239 0002 0025     		movs	r5, #0
+ 113:Core/Src/display.c **** 	{
+ARM GAS  /tmp/cci1iOPj.s 			page 31
+
+
+ 1240              		.loc 1 113 2 view .LVU302
+ 1241 0004 0CE0     		b	.L105
+ 1242              	.LVL126:
+ 1243              	.L107:
+ 119:Core/Src/display.c **** 		}
+ 1244              		.loc 1 119 5 is_stmt 1 view .LVU303
+ 119:Core/Src/display.c **** 		}
+ 1245              		.loc 1 119 28 is_stmt 0 view .LVU304
+ 1246 0006 04EBC513 		add	r3, r4, r5, lsl #7
+ 119:Core/Src/display.c **** 		}
+ 1247              		.loc 1 119 5 view .LVU305
+ 1248 000a 0B4A     		ldr	r2, .L111
+ 1249 000c D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 1250 000e FFF7FEFF 		bl	data
+ 1251              	.LVL127:
+ 117:Core/Src/display.c **** 		{
+ 1252              		.loc 1 117 19 is_stmt 1 discriminator 3 view .LVU306
+ 1253 0012 0134     		adds	r4, r4, #1
+ 1254              	.LVL128:
+ 117:Core/Src/display.c **** 		{
+ 1255              		.loc 1 117 19 is_stmt 0 discriminator 3 view .LVU307
+ 1256 0014 E4B2     		uxtb	r4, r4
+ 1257              	.LVL129:
+ 1258              	.L106:
+ 117:Core/Src/display.c **** 		{
+ 1259              		.loc 1 117 12 is_stmt 1 discriminator 1 view .LVU308
+ 1260 0016 14F0800F 		tst	r4, #128
+ 1261 001a F4D0     		beq	.L107
+ 113:Core/Src/display.c **** 	{
+ 1262              		.loc 1 113 18 discriminator 2 view .LVU309
+ 1263 001c 0135     		adds	r5, r5, #1
+ 1264              	.LVL130:
+ 113:Core/Src/display.c **** 	{
+ 1265              		.loc 1 113 18 is_stmt 0 discriminator 2 view .LVU310
+ 1266 001e EDB2     		uxtb	r5, r5
+ 1267              	.LVL131:
+ 1268              	.L105:
+ 113:Core/Src/display.c **** 	{
+ 1269              		.loc 1 113 11 is_stmt 1 discriminator 1 view .LVU311
+ 1270 0020 032D     		cmp	r5, #3
+ 1271 0022 07D8     		bhi	.L110
+ 115:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 1272              		.loc 1 115 2 view .LVU312
+ 1273 0024 2846     		mov	r0, r5
+ 1274 0026 FFF7FEFF 		bl	Set_Page_Address
+ 1275              	.LVL132:
+ 116:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 1276              		.loc 1 116 3 view .LVU313
+ 1277 002a 0020     		movs	r0, #0
+ 1278 002c FFF7FEFF 		bl	Set_Column_Address
+ 1279              	.LVL133:
+ 117:Core/Src/display.c **** 		{
+ 1280              		.loc 1 117 3 view .LVU314
+ 117:Core/Src/display.c **** 		{
+ 1281              		.loc 1 117 8 is_stmt 0 view .LVU315
+ 1282 0030 0024     		movs	r4, #0
+ 117:Core/Src/display.c **** 		{
+ARM GAS  /tmp/cci1iOPj.s 			page 32
+
+
+ 1283              		.loc 1 117 3 view .LVU316
+ 1284 0032 F0E7     		b	.L106
+ 1285              	.LVL134:
+ 1286              	.L110:
+ 122:Core/Src/display.c **** 
+ 1287              		.loc 1 122 1 view .LVU317
+ 1288 0034 38BD     		pop	{r3, r4, r5, pc}
+ 1289              	.LVL135:
+ 1290              	.L112:
+ 122:Core/Src/display.c **** 
+ 1291              		.loc 1 122 1 view .LVU318
+ 1292 0036 00BF     		.align	2
+ 1293              	.L111:
+ 1294 0038 00000000 		.word	pixelBuffer
+ 1295              		.cfi_endproc
+ 1296              	.LFE291:
+ 1298              		.section	.text.SSD1306_ClearScreen,"ax",%progbits
+ 1299              		.align	1
+ 1300              		.global	SSD1306_ClearScreen
+ 1301              		.syntax unified
+ 1302              		.thumb
+ 1303              		.thumb_func
+ 1305              	SSD1306_ClearScreen:
+ 1306              	.LFB292:
+ 125:Core/Src/display.c ****   for (uint16_t i = 0; i < SSD1306_Buffer; i++)
+ 1307              		.loc 1 125 1 is_stmt 1 view -0
+ 1308              		.cfi_startproc
+ 1309              		@ args = 0, pretend = 0, frame = 0
+ 1310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1311 0000 08B5     		push	{r3, lr}
+ 1312              	.LCFI25:
+ 1313              		.cfi_def_cfa_offset 8
+ 1314              		.cfi_offset 3, -8
+ 1315              		.cfi_offset 14, -4
+ 126:Core/Src/display.c ****   {
+ 1316              		.loc 1 126 3 view .LVU320
+ 1317              	.LBB2:
+ 126:Core/Src/display.c ****   {
+ 1318              		.loc 1 126 8 view .LVU321
+ 1319              	.LVL136:
+ 126:Core/Src/display.c ****   {
+ 1320              		.loc 1 126 17 is_stmt 0 view .LVU322
+ 1321 0002 0023     		movs	r3, #0
+ 126:Core/Src/display.c ****   {
+ 1322              		.loc 1 126 3 view .LVU323
+ 1323 0004 04E0     		b	.L114
+ 1324              	.LVL137:
+ 1325              	.L115:
+ 128:Core/Src/display.c ****   }
+ 1326              		.loc 1 128 5 is_stmt 1 view .LVU324
+ 128:Core/Src/display.c ****   }
+ 1327              		.loc 1 128 20 is_stmt 0 view .LVU325
+ 1328 0006 054A     		ldr	r2, .L117
+ 1329 0008 0021     		movs	r1, #0
+ 1330 000a D154     		strb	r1, [r2, r3]
+ 126:Core/Src/display.c ****   {
+ 1331              		.loc 1 126 45 is_stmt 1 discriminator 3 view .LVU326
+ARM GAS  /tmp/cci1iOPj.s 			page 33
+
+
+ 1332 000c 0133     		adds	r3, r3, #1
+ 1333              	.LVL138:
+ 126:Core/Src/display.c ****   {
+ 1334              		.loc 1 126 45 is_stmt 0 discriminator 3 view .LVU327
+ 1335 000e 9BB2     		uxth	r3, r3
+ 1336              	.LVL139:
+ 1337              	.L114:
+ 126:Core/Src/display.c ****   {
+ 1338              		.loc 1 126 26 is_stmt 1 discriminator 1 view .LVU328
+ 1339 0010 034A     		ldr	r2, .L117+4
+ 1340 0012 9342     		cmp	r3, r2
+ 1341 0014 F7D3     		bcc	.L115
+ 1342              	.LBE2:
+ 130:Core/Src/display.c **** }
+ 1343              		.loc 1 130 3 view .LVU329
+ 1344 0016 FFF7FEFF 		bl	SSD1306_UpdateScreen
+ 1345              	.LVL140:
+ 131:Core/Src/display.c **** 
+ 1346              		.loc 1 131 1 is_stmt 0 view .LVU330
+ 1347 001a 08BD     		pop	{r3, pc}
+ 1348              	.L118:
+ 1349              		.align	2
+ 1350              	.L117:
+ 1351 001c 00000000 		.word	pixelBuffer
+ 1352 0020 00000000 		.word	SSD1306_Buffer
+ 1353              		.cfi_endproc
+ 1354              	.LFE292:
+ 1356              		.section	.text.SSD1306_Fill,"ax",%progbits
+ 1357              		.align	1
+ 1358              		.global	SSD1306_Fill
+ 1359              		.syntax unified
+ 1360              		.thumb
+ 1361              		.thumb_func
+ 1363              	SSD1306_Fill:
+ 1364              	.LVL141:
+ 1365              	.LFB293:
+ 133:Core/Src/display.c **** 	/* Set memory */
+ 1366              		.loc 1 133 42 is_stmt 1 view -0
+ 1367              		.cfi_startproc
+ 1368              		@ args = 0, pretend = 0, frame = 0
+ 1369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133:Core/Src/display.c **** 	/* Set memory */
+ 1370              		.loc 1 133 42 is_stmt 0 view .LVU332
+ 1371 0000 38B5     		push	{r3, r4, r5, lr}
+ 1372              	.LCFI26:
+ 1373              		.cfi_def_cfa_offset 16
+ 1374              		.cfi_offset 3, -16
+ 1375              		.cfi_offset 4, -12
+ 1376              		.cfi_offset 5, -8
+ 1377              		.cfi_offset 14, -4
+ 135:Core/Src/display.c ****   uint8_t fill;
+ 1378              		.loc 1 135 3 is_stmt 1 view .LVU333
+ 136:Core/Src/display.c ****   if (color == SSD1306_COLOR_BLACK)
+ 1379              		.loc 1 136 3 view .LVU334
+ 137:Core/Src/display.c ****   fill = 0x00;
+ 1380              		.loc 1 137 3 view .LVU335
+ 137:Core/Src/display.c ****   fill = 0x00;
+ARM GAS  /tmp/cci1iOPj.s 			page 34
+
+
+ 1381              		.loc 1 137 6 is_stmt 0 view .LVU336
+ 1382 0002 0146     		mov	r1, r0
+ 1383 0004 00B1     		cbz	r0, .L120
+ 140:Core/Src/display.c ****     for (uint16_t k = 0; k < SSD1306_BUFFER_SIZE; k++)
+ 1384              		.loc 1 140 8 view .LVU337
+ 1385 0006 FF21     		movs	r1, #255
+ 1386              	.L120:
+ 1387              	.LVL142:
+ 141:Core/Src/display.c ****   {
+ 1388              		.loc 1 141 5 is_stmt 1 view .LVU338
+ 1389              	.LBB3:
+ 141:Core/Src/display.c ****   {
+ 1390              		.loc 1 141 10 view .LVU339
+ 141:Core/Src/display.c ****   {
+ 1391              		.loc 1 141 19 is_stmt 0 view .LVU340
+ 1392 0008 0023     		movs	r3, #0
+ 141:Core/Src/display.c ****   {
+ 1393              		.loc 1 141 5 view .LVU341
+ 1394 000a 03E0     		b	.L121
+ 1395              	.LVL143:
+ 1396              	.L122:
+ 143:Core/Src/display.c ****   }
+ 1397              		.loc 1 143 5 is_stmt 1 view .LVU342
+ 143:Core/Src/display.c ****   }
+ 1398              		.loc 1 143 20 is_stmt 0 view .LVU343
+ 1399 000c 104A     		ldr	r2, .L130
+ 1400 000e D154     		strb	r1, [r2, r3]
+ 141:Core/Src/display.c ****   {
+ 1401              		.loc 1 141 52 is_stmt 1 discriminator 3 view .LVU344
+ 1402 0010 0133     		adds	r3, r3, #1
+ 1403              	.LVL144:
+ 141:Core/Src/display.c ****   {
+ 1404              		.loc 1 141 52 is_stmt 0 discriminator 3 view .LVU345
+ 1405 0012 9BB2     		uxth	r3, r3
+ 1406              	.LVL145:
+ 1407              	.L121:
+ 141:Core/Src/display.c ****   {
+ 1408              		.loc 1 141 28 is_stmt 1 discriminator 1 view .LVU346
+ 1409 0014 B3F5007F 		cmp	r3, #512
+ 1410 0018 F8D3     		bcc	.L122
+ 1411              	.LBE3:
+ 146:Core/Src/display.c **** 	{
+ 1412              		.loc 1 146 7 is_stmt 0 view .LVU347
+ 1413 001a 0025     		movs	r5, #0
+ 1414 001c 0CE0     		b	.L123
+ 1415              	.LVL146:
+ 1416              	.L125:
+ 152:Core/Src/display.c **** 		}
+ 1417              		.loc 1 152 5 is_stmt 1 view .LVU348
+ 152:Core/Src/display.c **** 		}
+ 1418              		.loc 1 152 28 is_stmt 0 view .LVU349
+ 1419 001e 04EBC513 		add	r3, r4, r5, lsl #7
+ 152:Core/Src/display.c **** 		}
+ 1420              		.loc 1 152 5 view .LVU350
+ 1421 0022 0B4A     		ldr	r2, .L130
+ 1422 0024 D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ 1423 0026 FFF7FEFF 		bl	data
+ARM GAS  /tmp/cci1iOPj.s 			page 35
+
+
+ 1424              	.LVL147:
+ 150:Core/Src/display.c **** 		{
+ 1425              		.loc 1 150 19 is_stmt 1 discriminator 3 view .LVU351
+ 1426 002a 0134     		adds	r4, r4, #1
+ 1427              	.LVL148:
+ 150:Core/Src/display.c **** 		{
+ 1428              		.loc 1 150 19 is_stmt 0 discriminator 3 view .LVU352
+ 1429 002c E4B2     		uxtb	r4, r4
+ 1430              	.LVL149:
+ 1431              	.L124:
+ 150:Core/Src/display.c **** 		{
+ 1432              		.loc 1 150 12 is_stmt 1 discriminator 1 view .LVU353
+ 1433 002e 14F0800F 		tst	r4, #128
+ 1434 0032 F4D0     		beq	.L125
+ 146:Core/Src/display.c **** 	{
+ 1435              		.loc 1 146 18 discriminator 2 view .LVU354
+ 1436 0034 0135     		adds	r5, r5, #1
+ 1437              	.LVL150:
+ 146:Core/Src/display.c **** 	{
+ 1438              		.loc 1 146 18 is_stmt 0 discriminator 2 view .LVU355
+ 1439 0036 EDB2     		uxtb	r5, r5
+ 1440              	.LVL151:
+ 1441              	.L123:
+ 146:Core/Src/display.c **** 	{
+ 1442              		.loc 1 146 11 is_stmt 1 discriminator 1 view .LVU356
+ 1443 0038 032D     		cmp	r5, #3
+ 1444 003a 07D8     		bhi	.L129
+ 148:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 1445              		.loc 1 148 2 view .LVU357
+ 1446 003c 2846     		mov	r0, r5
+ 1447 003e FFF7FEFF 		bl	Set_Page_Address
+ 1448              	.LVL152:
+ 149:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 1449              		.loc 1 149 3 view .LVU358
+ 1450 0042 0020     		movs	r0, #0
+ 1451 0044 FFF7FEFF 		bl	Set_Column_Address
+ 1452              	.LVL153:
+ 150:Core/Src/display.c **** 		{
+ 1453              		.loc 1 150 3 view .LVU359
+ 150:Core/Src/display.c **** 		{
+ 1454              		.loc 1 150 8 is_stmt 0 view .LVU360
+ 1455 0048 0024     		movs	r4, #0
+ 150:Core/Src/display.c **** 		{
+ 1456              		.loc 1 150 3 view .LVU361
+ 1457 004a F0E7     		b	.L124
+ 1458              	.LVL154:
+ 1459              	.L129:
+ 157:Core/Src/display.c **** 
+ 1460              		.loc 1 157 1 view .LVU362
+ 1461 004c 38BD     		pop	{r3, r4, r5, pc}
+ 1462              	.LVL155:
+ 1463              	.L131:
+ 157:Core/Src/display.c **** 
+ 1464              		.loc 1 157 1 view .LVU363
+ 1465 004e 00BF     		.align	2
+ 1466              	.L130:
+ 1467 0050 00000000 		.word	pixelBuffer
+ARM GAS  /tmp/cci1iOPj.s 			page 36
+
+
+ 1468              		.cfi_endproc
+ 1469              	.LFE293:
+ 1471              		.section	.text.display_init,"ax",%progbits
+ 1472              		.align	1
+ 1473              		.global	display_init
+ 1474              		.syntax unified
+ 1475              		.thumb
+ 1476              		.thumb_func
+ 1478              	display_init:
+ 1479              	.LFB290:
+  44:Core/Src/display.c ****     //display_power_low();
+ 1480              		.loc 1 44 1 is_stmt 1 view -0
+ 1481              		.cfi_startproc
+ 1482              		@ args = 0, pretend = 0, frame = 0
+ 1483              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1484 0000 08B5     		push	{r3, lr}
+ 1485              	.LCFI27:
+ 1486              		.cfi_def_cfa_offset 8
+ 1487              		.cfi_offset 3, -8
+ 1488              		.cfi_offset 14, -4
+  46:Core/Src/display.c ****     display_reset_high();
+ 1489              		.loc 1 46 5 view .LVU365
+ 1490 0002 0022     		movs	r2, #0
+ 1491 0004 4FF40071 		mov	r1, #512
+ 1492 0008 4FF09040 		mov	r0, #1207959552
+ 1493 000c FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1494              	.LVL156:
+  47:Core/Src/display.c ****     HAL_Delay(20);
+ 1495              		.loc 1 47 5 view .LVU366
+ 1496 0010 0122     		movs	r2, #1
+ 1497 0012 4FF48071 		mov	r1, #256
+ 1498 0016 4FF09040 		mov	r0, #1207959552
+ 1499 001a FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1500              	.LVL157:
+  48:Core/Src/display.c ****     display_reset_low();
+ 1501              		.loc 1 48 5 view .LVU367
+ 1502 001e 1420     		movs	r0, #20
+ 1503 0020 FFF7FEFF 		bl	HAL_Delay
+ 1504              	.LVL158:
+  49:Core/Src/display.c ****     HAL_Delay(20);
+ 1505              		.loc 1 49 5 view .LVU368
+ 1506 0024 0022     		movs	r2, #0
+ 1507 0026 4FF48071 		mov	r1, #256
+ 1508 002a 4FF09040 		mov	r0, #1207959552
+ 1509 002e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1510              	.LVL159:
+  50:Core/Src/display.c ****     display_reset_high();
+ 1511              		.loc 1 50 5 view .LVU369
+ 1512 0032 1420     		movs	r0, #20
+ 1513 0034 FFF7FEFF 		bl	HAL_Delay
+ 1514              	.LVL160:
+  51:Core/Src/display.c ****     HAL_Delay(20);
+ 1515              		.loc 1 51 5 view .LVU370
+ 1516 0038 0122     		movs	r2, #1
+ 1517 003a 4FF48071 		mov	r1, #256
+ 1518 003e 4FF09040 		mov	r0, #1207959552
+ 1519 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ARM GAS  /tmp/cci1iOPj.s 			page 37
+
+
+ 1520              	.LVL161:
+  52:Core/Src/display.c ****     display_power_high();
+ 1521              		.loc 1 52 5 view .LVU371
+ 1522 0046 1420     		movs	r0, #20
+ 1523 0048 FFF7FEFF 		bl	HAL_Delay
+ 1524              	.LVL162:
+  53:Core/Src/display.c ****     HAL_Delay(100);
+ 1525              		.loc 1 53 5 view .LVU372
+ 1526 004c 0122     		movs	r2, #1
+ 1527 004e 1146     		mov	r1, r2
+ 1528 0050 4FF09040 		mov	r0, #1207959552
+ 1529 0054 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1530              	.LVL163:
+  54:Core/Src/display.c **** 
+ 1531              		.loc 1 54 5 view .LVU373
+ 1532 0058 6420     		movs	r0, #100
+ 1533 005a FFF7FEFF 		bl	HAL_Delay
+ 1534              	.LVL164:
+  56:Core/Src/display.c **** 
+ 1535              		.loc 1 56 5 view .LVU374
+ 1536 005e AE20     		movs	r0, #174
+ 1537 0060 FFF7FEFF 		bl	command
+ 1538              	.LVL165:
+  58:Core/Src/display.c ****     command(0xF0);     
+ 1539              		.loc 1 58 5 view .LVU375
+ 1540 0064 D520     		movs	r0, #213
+ 1541 0066 FFF7FEFF 		bl	command
+ 1542              	.LVL166:
+  59:Core/Src/display.c **** 
+ 1543              		.loc 1 59 5 view .LVU376
+ 1544 006a F020     		movs	r0, #240
+ 1545 006c FFF7FEFF 		bl	command
+ 1546              	.LVL167:
+  61:Core/Src/display.c ****     command(0x1F);                     // 0x1F
+ 1547              		.loc 1 61 5 view .LVU377
+ 1548 0070 A820     		movs	r0, #168
+ 1549 0072 FFF7FEFF 		bl	command
+ 1550              	.LVL168:
+  62:Core/Src/display.c **** 
+ 1551              		.loc 1 62 5 view .LVU378
+ 1552 0076 1F20     		movs	r0, #31
+ 1553 0078 FFF7FEFF 		bl	command
+ 1554              	.LVL169:
+  64:Core/Src/display.c ****     command(0x00);                          //No offset
+ 1555              		.loc 1 64 5 view .LVU379
+ 1556 007c D320     		movs	r0, #211
+ 1557 007e FFF7FEFF 		bl	command
+ 1558              	.LVL170:
+  65:Core/Src/display.c **** 
+ 1559              		.loc 1 65 5 view .LVU380
+ 1560 0082 0020     		movs	r0, #0
+ 1561 0084 FFF7FEFF 		bl	command
+ 1562              	.LVL171:
+  67:Core/Src/display.c ****     command(0x14);          //set(0x10) disable
+ 1563              		.loc 1 67 5 view .LVU381
+ 1564 0088 8D20     		movs	r0, #141
+ 1565 008a FFF7FEFF 		bl	command
+ARM GAS  /tmp/cci1iOPj.s 			page 38
+
+
+ 1566              	.LVL172:
+  68:Core/Src/display.c **** 
+ 1567              		.loc 1 68 5 view .LVU382
+ 1568 008e 1420     		movs	r0, #20
+ 1569 0090 FFF7FEFF 		bl	command
+ 1570              	.LVL173:
+  70:Core/Src/display.c **** 
+ 1571              		.loc 1 70 5 view .LVU383
+ 1572 0094 4020     		movs	r0, #64
+ 1573 0096 FFF7FEFF 		bl	command
+ 1574              	.LVL174:
+  72:Core/Src/display.c **** 
+ 1575              		.loc 1 72 5 view .LVU384
+ 1576 009a A620     		movs	r0, #166
+ 1577 009c FFF7FEFF 		bl	command
+ 1578              	.LVL175:
+  74:Core/Src/display.c **** 
+ 1579              		.loc 1 74 5 view .LVU385
+ 1580 00a0 A420     		movs	r0, #164
+ 1581 00a2 FFF7FEFF 		bl	command
+ 1582              	.LVL176:
+  76:Core/Src/display.c **** 
+ 1583              		.loc 1 76 5 view .LVU386
+ 1584 00a6 A120     		movs	r0, #161
+ 1585 00a8 FFF7FEFF 		bl	command
+ 1586              	.LVL177:
+  78:Core/Src/display.c **** 
+ 1587              		.loc 1 78 5 view .LVU387
+ 1588 00ac C820     		movs	r0, #200
+ 1589 00ae FFF7FEFF 		bl	command
+ 1590              	.LVL178:
+  80:Core/Src/display.c ****     command(0x42);                       // 0x12 -
+ 1591              		.loc 1 80 5 view .LVU388
+ 1592 00b2 DA20     		movs	r0, #218
+ 1593 00b4 FFF7FEFF 		bl	command
+ 1594              	.LVL179:
+  81:Core/Src/display.c **** 
+ 1595              		.loc 1 81 5 view .LVU389
+ 1596 00b8 4220     		movs	r0, #66
+ 1597 00ba FFF7FEFF 		bl	command
+ 1598              	.LVL180:
+  83:Core/Src/display.c ****     command(0x80);           //
+ 1599              		.loc 1 83 5 view .LVU390
+ 1600 00be 8120     		movs	r0, #129
+ 1601 00c0 FFF7FEFF 		bl	command
+ 1602              	.LVL181:
+  84:Core/Src/display.c **** 
+ 1603              		.loc 1 84 5 view .LVU391
+ 1604 00c4 8020     		movs	r0, #128
+ 1605 00c6 FFF7FEFF 		bl	command
+ 1606              	.LVL182:
+  86:Core/Src/display.c ****     command(0xF1);            
+ 1607              		.loc 1 86 5 view .LVU392
+ 1608 00ca D920     		movs	r0, #217
+ 1609 00cc FFF7FEFF 		bl	command
+ 1610              	.LVL183:
+  87:Core/Src/display.c **** 
+ARM GAS  /tmp/cci1iOPj.s 			page 39
+
+
+ 1611              		.loc 1 87 5 view .LVU393
+ 1612 00d0 F120     		movs	r0, #241
+ 1613 00d2 FFF7FEFF 		bl	command
+ 1614              	.LVL184:
+  89:Core/Src/display.c ****     command(0x40);                       // 0x30
+ 1615              		.loc 1 89 5 view .LVU394
+ 1616 00d6 DB20     		movs	r0, #219
+ 1617 00d8 FFF7FEFF 		bl	command
+ 1618              	.LVL185:
+  90:Core/Src/display.c **** 
+ 1619              		.loc 1 90 5 view .LVU395
+ 1620 00dc 4020     		movs	r0, #64
+ 1621 00de FFF7FEFF 		bl	command
+ 1622              	.LVL186:
+  93:Core/Src/display.c **** 
+ 1623              		.loc 1 93 5 view .LVU396
+ 1624 00e2 AF20     		movs	r0, #175
+ 1625 00e4 FFF7FEFF 		bl	command
+ 1626              	.LVL187:
+  98:Core/Src/display.c **** 	
+ 1627              		.loc 1 98 4 view .LVU397
+ 1628 00e8 0120     		movs	r0, #1
+ 1629 00ea FFF7FEFF 		bl	SSD1306_Fill
+ 1630              	.LVL188:
+ 101:Core/Src/display.c **** 	
+ 1631              		.loc 1 101 4 view .LVU398
+ 1632 00ee FFF7FEFF 		bl	SSD1306_UpdateScreen
+ 1633              	.LVL189:
+ 104:Core/Src/display.c **** 	  SSD1306.CurrentY = 0;
+ 1634              		.loc 1 104 4 view .LVU399
+ 104:Core/Src/display.c **** 	  SSD1306.CurrentY = 0;
+ 1635              		.loc 1 104 21 is_stmt 0 view .LVU400
+ 1636 00f2 034B     		ldr	r3, .L134
+ 1637 00f4 0022     		movs	r2, #0
+ 1638 00f6 1A80     		strh	r2, [r3]	@ movhi
+ 105:Core/Src/display.c **** 
+ 1639              		.loc 1 105 4 is_stmt 1 view .LVU401
+ 105:Core/Src/display.c **** 
+ 1640              		.loc 1 105 21 is_stmt 0 view .LVU402
+ 1641 00f8 5A80     		strh	r2, [r3, #2]	@ movhi
+ 107:Core/Src/display.c **** 
+ 1642              		.loc 1 107 5 is_stmt 1 view .LVU403
+ 107:Core/Src/display.c **** 
+ 1643              		.loc 1 107 25 is_stmt 0 view .LVU404
+ 1644 00fa 0122     		movs	r2, #1
+ 1645 00fc 5A71     		strb	r2, [r3, #5]
+ 109:Core/Src/display.c **** 
+ 1646              		.loc 1 109 1 view .LVU405
+ 1647 00fe 08BD     		pop	{r3, pc}
+ 1648              	.L135:
+ 1649              		.align	2
+ 1650              	.L134:
+ 1651 0100 00000000 		.word	SSD1306
+ 1652              		.cfi_endproc
+ 1653              	.LFE290:
+ 1655              		.section	.text.Display_Picture,"ax",%progbits
+ 1656              		.align	1
+ARM GAS  /tmp/cci1iOPj.s 			page 40
+
+
+ 1657              		.global	Display_Picture
+ 1658              		.syntax unified
+ 1659              		.thumb
+ 1660              		.thumb_func
+ 1662              	Display_Picture:
+ 1663              	.LVL190:
+ 1664              	.LFB304:
+ 396:Core/Src/display.c **** 
+ 397:Core/Src/display.c **** void Display_Picture(unsigned char pic[])
+ 398:Core/Src/display.c **** {
+ 1665              		.loc 1 398 1 is_stmt 1 view -0
+ 1666              		.cfi_startproc
+ 1667              		@ args = 0, pretend = 0, frame = 0
+ 1668              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1669              		.loc 1 398 1 is_stmt 0 view .LVU407
+ 1670 0000 70B5     		push	{r4, r5, r6, lr}
+ 1671              	.LCFI28:
+ 1672              		.cfi_def_cfa_offset 16
+ 1673              		.cfi_offset 4, -16
+ 1674              		.cfi_offset 5, -12
+ 1675              		.cfi_offset 6, -8
+ 1676              		.cfi_offset 14, -4
+ 1677 0002 0646     		mov	r6, r0
+ 399:Core/Src/display.c ****   unsigned char i,j,num=0;
+ 1678              		.loc 1 399 3 is_stmt 1 view .LVU408
+ 1679              	.LVL191:
+ 400:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 1680              		.loc 1 400 2 view .LVU409
+ 1681              		.loc 1 400 7 is_stmt 0 view .LVU410
+ 1682 0004 0025     		movs	r5, #0
+ 1683              		.loc 1 400 2 view .LVU411
+ 1684 0006 0BE0     		b	.L137
+ 1685              	.LVL192:
+ 1686              	.L139:
+ 401:Core/Src/display.c **** 	{
+ 402:Core/Src/display.c **** 	Set_Page_Address(i);
+ 403:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 404:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 405:Core/Src/display.c **** 		{
+ 406:Core/Src/display.c **** 		  data(pic[i*0x80+j]);
+ 1687              		.loc 1 406 5 is_stmt 1 view .LVU412
+ 1688              		.loc 1 406 20 is_stmt 0 view .LVU413
+ 1689 0008 04EBC513 		add	r3, r4, r5, lsl #7
+ 1690              		.loc 1 406 5 view .LVU414
+ 1691 000c F05C     		ldrb	r0, [r6, r3]	@ zero_extendqisi2
+ 1692 000e FFF7FEFF 		bl	data
+ 1693              	.LVL193:
+ 404:Core/Src/display.c **** 		{
+ 1694              		.loc 1 404 19 is_stmt 1 discriminator 3 view .LVU415
+ 1695 0012 0134     		adds	r4, r4, #1
+ 1696              	.LVL194:
+ 404:Core/Src/display.c **** 		{
+ 1697              		.loc 1 404 19 is_stmt 0 discriminator 3 view .LVU416
+ 1698 0014 E4B2     		uxtb	r4, r4
+ 1699              	.LVL195:
+ 1700              	.L138:
+ 404:Core/Src/display.c **** 		{
+ARM GAS  /tmp/cci1iOPj.s 			page 41
+
+
+ 1701              		.loc 1 404 12 is_stmt 1 discriminator 1 view .LVU417
+ 1702 0016 14F0800F 		tst	r4, #128
+ 1703 001a F5D0     		beq	.L139
+ 400:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 1704              		.loc 1 400 18 discriminator 2 view .LVU418
+ 1705 001c 0135     		adds	r5, r5, #1
+ 1706              	.LVL196:
+ 400:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 1707              		.loc 1 400 18 is_stmt 0 discriminator 2 view .LVU419
+ 1708 001e EDB2     		uxtb	r5, r5
+ 1709              	.LVL197:
+ 1710              	.L137:
+ 400:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
+ 1711              		.loc 1 400 11 is_stmt 1 discriminator 1 view .LVU420
+ 1712 0020 032D     		cmp	r5, #3
+ 1713 0022 07D8     		bhi	.L142
+ 402:Core/Src/display.c ****   Set_Column_Address(0x00);
+ 1714              		.loc 1 402 2 view .LVU421
+ 1715 0024 2846     		mov	r0, r5
+ 1716 0026 FFF7FEFF 		bl	Set_Page_Address
+ 1717              	.LVL198:
+ 403:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 1718              		.loc 1 403 3 view .LVU422
+ 1719 002a 0020     		movs	r0, #0
+ 1720 002c FFF7FEFF 		bl	Set_Column_Address
+ 1721              	.LVL199:
+ 404:Core/Src/display.c **** 		{
+ 1722              		.loc 1 404 3 view .LVU423
+ 404:Core/Src/display.c **** 		{
+ 1723              		.loc 1 404 8 is_stmt 0 view .LVU424
+ 1724 0030 0024     		movs	r4, #0
+ 404:Core/Src/display.c **** 		{
+ 1725              		.loc 1 404 3 view .LVU425
+ 1726 0032 F0E7     		b	.L138
+ 1727              	.LVL200:
+ 1728              	.L142:
+ 407:Core/Src/display.c **** 		}
+ 408:Core/Src/display.c **** 	}
+ 409:Core/Src/display.c ****   return;
+ 410:Core/Src/display.c **** }
+ 1729              		.loc 1 410 1 view .LVU426
+ 1730 0034 70BD     		pop	{r4, r5, r6, pc}
+ 1731              		.loc 1 410 1 view .LVU427
+ 1732              		.cfi_endproc
+ 1733              	.LFE304:
+ 1735              		.section	.text.display_demo,"ax",%progbits
+ 1736              		.align	1
+ 1737              		.global	display_demo
+ 1738              		.syntax unified
+ 1739              		.thumb
+ 1740              		.thumb_func
+ 1742              	display_demo:
+ 1743              	.LFB305:
+ 411:Core/Src/display.c **** 
+ 412:Core/Src/display.c **** void display_demo (void)
+ 413:Core/Src/display.c **** {
+ 1744              		.loc 1 413 1 is_stmt 1 view -0
+ARM GAS  /tmp/cci1iOPj.s 			page 42
+
+
+ 1745              		.cfi_startproc
+ 1746              		@ args = 0, pretend = 0, frame = 512
+ 1747              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1748 0000 00B5     		push	{lr}
+ 1749              	.LCFI29:
+ 1750              		.cfi_def_cfa_offset 4
+ 1751              		.cfi_offset 14, -4
+ 1752 0002 ADF5017D 		sub	sp, sp, #516
+ 1753              	.LCFI30:
+ 1754              		.cfi_def_cfa_offset 520
+ 414:Core/Src/display.c **** 
+ 415:Core/Src/display.c ****     unsigned char pic[]= 
+ 1755              		.loc 1 415 5 view .LVU429
+ 1756              		.loc 1 415 19 is_stmt 0 view .LVU430
+ 1757 0006 4FF40072 		mov	r2, #512
+ 1758 000a 0C49     		ldr	r1, .L145
+ 1759 000c 6846     		mov	r0, sp
+ 1760 000e FFF7FEFF 		bl	memcpy
+ 1761              	.LVL201:
+ 416:Core/Src/display.c **** 
+ 417:Core/Src/display.c **** /*--  ������һ��ͼ��E:\��ʾ��ͼƬ\ER-OLED091-3.bmp  --*/
+ 418:Core/Src/display.c **** /*--  ����x�߶�=128x32  --*/
+ 419:Core/Src/display.c **** { 0xFF,0x01,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xE1,0x59,0x45,0x59,0xE1,0x01,0x99,
+ 420:Core/Src/display.c **** 0x25,0x25,0xC9,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x25,0x25,0x65,0x99,0x01,
+ 421:Core/Src/display.c **** 0x01,0xFD,0x01,0x01,0x99,0x25,0x25,0xC9,0x01,0x01,0xFD,0x01,0x01,0xFD,0x19,0x21,
+ 422:Core/Src/display.c **** 0xC1,0xFD,0x01,0x01,0xF9,0x05,0x05,0x25,0xE9,0x01,0x01,0x01,0x01,0x05,0x05,0xFD,
+ 423:Core/Src/display.c **** 0x05,0x05,0x01,0xFD,0x25,0x25,0x25,0x25,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,0x01,
+ 424:Core/Src/display.c **** 0xFD,0x21,0x21,0x21,0xFD,0x01,0x01,0x01,0x01,0x01,0xF9,0x05,0x05,0x05,0x89,0x01,
+ 425:Core/Src/display.c **** 0x01,0xF9,0x05,0x05,0x05,0xF9,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0xFD,0x01,
+ 426:Core/Src/display.c **** 0x01,0x01,0x05,0x05,0xFD,0x05,0x05,0x01,0xFD,0x05,0x05,0x05,0xF9,0x01,0x01,0xFF,
+ 427:Core/Src/display.c **** 0xFF,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x01,0x00,
+ 428:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0xF1,0xF0,0x90,0x90,0x91,0x00,
+ 429:Core/Src/display.c **** 0xF0,0xF1,0x10,0x10,0xF0,0xE1,0x01,0x00,0x00,0x00,0x01,0xC0,0xE0,0x31,0x10,0x30,
+ 430:Core/Src/display.c **** 0xE0,0xC1,0x00,0xF0,0xF0,0x01,0x01,0x01,0x00,0x00,0xF0,0xF0,0x90,0x90,0x90,0x01,
+ 431:Core/Src/display.c **** 0xF0,0xF0,0x10,0x11,0xF1,0xE1,0x01,0xE1,0xF0,0x10,0xF1,0xE1,0x01,0xE0,0xF0,0x10,
+ 432:Core/Src/display.c **** 0xF1,0xE0,0x00,0xC0,0x61,0xF0,0xF0,0x01,0x00,0x00,0x00,0x01,0x01,0x21,0x30,0x90,
+ 433:Core/Src/display.c **** 0xF0,0x60,0x01,0x01,0x01,0x00,0x00,0x00,0x01,0x00,0x00,0x03,0x00,0x00,0x01,0x01,
+ 434:Core/Src/display.c **** 0x01,0x01,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0xFF,
+ 435:Core/Src/display.c **** 0xFF,0x00,0x00,0x80,0xC0,0xC0,0x00,0x00,0x80,0xC0,0x40,0xC0,0x80,0x00,0x80,0xC0,
+ 436:Core/Src/display.c **** 0x40,0xC0,0x80,0x00,0x80,0xC0,0x80,0x00,0x80,0xC0,0x4F,0xCF,0x88,0x08,0x88,0xC0,
+ 437:Core/Src/display.c **** 0x4F,0xCF,0x81,0x03,0x07,0x0C,0x08,0x02,0x02,0x02,0x00,0xC3,0xC7,0x0C,0x08,0x0C,
+ 438:Core/Src/display.c **** 0x07,0x03,0x00,0x0F,0x0F,0x88,0xC8,0x08,0x08,0x00,0x0F,0x0F,0x08,0x08,0x08,0x00,
+ 439:Core/Src/display.c **** 0x0F,0x0F,0x08,0x08,0x0F,0x07,0x80,0xC7,0x4F,0xC8,0x8F,0x07,0x00,0x04,0x0D,0x89,
+ 440:Core/Src/display.c **** 0xCF,0x47,0xC0,0x80,0x00,0x0F,0x8F,0xC0,0xC0,0x02,0x42,0x42,0x00,0x04,0x0C,0x08,
+ 441:Core/Src/display.c **** 0x0F,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xC0,0xC0,0x00,0x00,0x00,0x00,
+ 442:Core/Src/display.c **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,
+ 443:Core/Src/display.c **** 0xFF,0x80,0x83,0x81,0xBF,0xBF,0x80,0x80,0xB0,0xB8,0xAC,0xA7,0xA3,0x80,0x9D,0xBF,
+ 444:Core/Src/display.c **** 0xA2,0xBF,0x9D,0x80,0x82,0x81,0x82,0x80,0x90,0xB0,0xA2,0xBF,0x9D,0x80,0xB0,0xB8,
+ 445:Core/Src/display.c **** 0xAC,0xA7,0xA3,0x80,0x80,0x80,0x80,0x9E,0xBF,0xA1,0xA1,0xBF,0xBF,0x80,0x9E,0xBF,
+ 446:Core/Src/display.c **** 0xA1,0xA1,0xBF,0x9E,0x81,0x9F,0xBF,0xA1,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,
+ 447:Core/Src/display.c **** 0x80,0x80,0x80,0x80,0x80,0x80,0x9F,0xBF,0xA0,0xBF,0x9F,0x80,0xB0,0xB0,0x80,0x93,
+ 448:Core/Src/display.c **** 0xB7,0xA4,0xBF,0x9F,0x80,0x83,0x81,0xBF,0xBF,0x80,0xBF,0xBF,0x80,0xBF,0xBF,0x81,
+ 449:Core/Src/display.c **** 0x81,0xBF,0xBE,0x80,0x9E,0xBF,0xA1,0xB3,0x92,0x80,0xBF,0xBF,0x81,0x81,0xBF,0xBE,
+ 450:Core/Src/display.c **** 0x80,0x9E,0xBF,0xA5,0xA5,0xB7,0x96,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,0xFF
+ 451:Core/Src/display.c **** };
+ 452:Core/Src/display.c ****     Display_Picture(pic);
+ 1762              		.loc 1 452 5 is_stmt 1 view .LVU431
+ARM GAS  /tmp/cci1iOPj.s 			page 43
+
+
+ 1763 0012 6846     		mov	r0, sp
+ 1764 0014 FFF7FEFF 		bl	Display_Picture
+ 1765              	.LVL202:
+ 453:Core/Src/display.c ****     HAL_Delay(1000);
+ 1766              		.loc 1 453 5 view .LVU432
+ 1767 0018 4FF47A70 		mov	r0, #1000
+ 1768 001c FFF7FEFF 		bl	HAL_Delay
+ 1769              	.LVL203:
+ 454:Core/Src/display.c ****     command(0xa7);
+ 1770              		.loc 1 454 5 view .LVU433
+ 1771 0020 A720     		movs	r0, #167
+ 1772 0022 FFF7FEFF 		bl	command
+ 1773              	.LVL204:
+ 455:Core/Src/display.c ****     HAL_Delay(1000);
+ 1774              		.loc 1 455 5 view .LVU434
+ 1775 0026 4FF47A70 		mov	r0, #1000
+ 1776 002a FFF7FEFF 		bl	HAL_Delay
+ 1777              	.LVL205:
+ 456:Core/Src/display.c ****     command(0xa6);
+ 1778              		.loc 1 456 5 view .LVU435
+ 1779 002e A620     		movs	r0, #166
+ 1780 0030 FFF7FEFF 		bl	command
+ 1781              	.LVL206:
+ 457:Core/Src/display.c **** 
+ 458:Core/Src/display.c **** }
+ 1782              		.loc 1 458 1 is_stmt 0 view .LVU436
+ 1783 0034 0DF5017D 		add	sp, sp, #516
+ 1784              	.LCFI31:
+ 1785              		.cfi_def_cfa_offset 4
+ 1786              		@ sp needed
+ 1787 0038 5DF804FB 		ldr	pc, [sp], #4
+ 1788              	.L146:
+ 1789              		.align	2
+ 1790              	.L145:
+ 1791 003c 00000000 		.word	.LANCHOR0
+ 1792              		.cfi_endproc
+ 1793              	.LFE305:
+ 1795              		.section	.bss.SSD1306,"aw",%nobits
+ 1796              		.align	2
+ 1799              	SSD1306:
+ 1800 0000 00000000 		.space	6
+ 1800      0000
+ 1801              		.section	.bss.pixelBuffer,"aw",%nobits
+ 1802              		.align	2
+ 1805              	pixelBuffer:
+ 1806 0000 00000000 		.space	512
+ 1806      00000000 
+ 1806      00000000 
+ 1806      00000000 
+ 1806      00000000 
+ 1807              		.section	.bss.SSD1306_Buffer,"aw",%nobits
+ 1808              		.align	2
+ 1811              	SSD1306_Buffer:
+ 1812 0000 00000000 		.space	512
+ 1812      00000000 
+ 1812      00000000 
+ 1812      00000000 
+ARM GAS  /tmp/cci1iOPj.s 			page 44
+
+
+ 1812      00000000 
+ 1813              		.section	.rodata
+ 1814              		.align	2
+ 1815              		.set	.LANCHOR0,. + 0
+ 1816              	.LC0:
+ 1817 0000 FF0101FD 		.ascii	"\377\001\001\375%%%%\001\341YEY\341\001\231%%\311\001"
+ 1817      25252525 
+ 1817      01E15945 
+ 1817      59E10199 
+ 1817      2525C901 
+ 1818 0014 0505FD05 		.ascii	"\005\005\375\005\005\001\375%%e\231\001\001\375\001"
+ 1818      0501FD25 
+ 1818      25659901 
+ 1818      01FD01
+ 1819 0023 01992525 		.ascii	"\001\231%%\311\001\001\375\001\001\375\031!\301\375"
+ 1819      C90101FD 
+ 1819      0101FD19 
+ 1819      21C1FD
+ 1820 0032 0101F905 		.ascii	"\001\001\371\005\005%\351\001\001\001\001\005\005\375"
+ 1820      0525E901 
+ 1820      01010105 
+ 1820      05FD
+ 1821 0040 050501FD 		.ascii	"\005\005\001\375%%%%\001\371\005\005\005\211\001\001"
+ 1821      25252525 
+ 1821      01F90505 
+ 1821      05890101 
+ 1822 0050 FD212121 		.ascii	"\375!!!\375\001\001\001\001\001\371\005\005\005\211"
+ 1822      FD010101 
+ 1822      0101F905 
+ 1822      050589
+ 1823 005f 0101F905 		.ascii	"\001\001\371\005\005\005\371\001\001\001\001\001\001"
+ 1823      0505F901 
+ 1823      01010101 
+ 1823      01
+ 1824 006c 0101FD01 		.ascii	"\001\001\375\001\001\001\005\005\375\005\005\001\375"
+ 1824      01010505 
+ 1824      FD050501 
+ 1824      FD
+ 1825 0079 050505F9 		.ascii	"\005\005\005\371\001\001\377\377\000\000\001\001\001"
+ 1825      0101FFFF 
+ 1825      00000101 
+ 1825      01
+ 1826 0086 01010100 		.ascii	"\001\001\001\000\000\000\000\000\001\000\001\001\000"
+ 1826      00000000 
+ 1826      01000101 
+ 1826      00
+ 1827 0093 00000001 		.ascii	"\000\000\000\001\000\000\000\361\360\220\220\221\000"
+ 1827      000000F1 
+ 1827      F0909091 
+ 1827      00
+ 1828 00a0 F0F11010 		.ascii	"\360\361\020\020\360\341\001\000\000\000\001\300\340"
+ 1828      F0E10100 
+ 1828      000001C0 
+ 1828      E0
+ 1829 00ad 311030E0 		.ascii	"1\0200\340\301\000\360\360\001\001\001\000\000\360\360"
+ 1829      C100F0F0 
+ 1829      01010100 
+ARM GAS  /tmp/cci1iOPj.s 			page 45
+
+
+ 1829      00F0F0
+ 1830 00bc 90909001 		.ascii	"\220\220\220\001\360\360\020\021\361\341\001\341\360"
+ 1830      F0F01011 
+ 1830      F1E101E1 
+ 1830      F0
+ 1831 00c9 10F1E101 		.ascii	"\020\361\341\001\340\360\020\361\340\000\300a\360\360"
+ 1831      E0F010F1 
+ 1831      E000C061 
+ 1831      F0F0
+ 1832 00d7 01000000 		.ascii	"\001\000\000\000\001\001!0\220\360`\001\001\001\000"
+ 1832      01012130 
+ 1832      90F06001 
+ 1832      010100
+ 1833 00e6 00000100 		.ascii	"\000\000\001\000\000\003\000\000\001\001\001\001\000"
+ 1833      00030000 
+ 1833      01010101 
+ 1833      00
+ 1834 00f3 00010000 		.ascii	"\000\001\000\000\000\001\001\001\001\000\000\000\377"
+ 1834      00010101 
+ 1834      01000000 
+ 1834      FF
+ 1835 0100 FF000080 		.ascii	"\377\000\000\200\300\300\000\000\200\300@\300\200\000"
+ 1835      C0C00000 
+ 1835      80C040C0 
+ 1835      8000
+ 1836 010e 80C040C0 		.ascii	"\200\300@\300\200\000\200\300\200\000\200\300O\317\210"
+ 1836      800080C0 
+ 1836      800080C0 
+ 1836      4FCF88
+ 1837 011d 0888C04F 		.ascii	"\010\210\300O\317\201\003\007\014\010\002\002\002\000"
+ 1837      CF810307 
+ 1837      0C080202 
+ 1837      0200
+ 1838 012b C3C70C08 		.ascii	"\303\307\014\010\014\007\003\000\017\017\210\310\010"
+ 1838      0C070300 
+ 1838      0F0F88C8 
+ 1838      08
+ 1839 0138 08000F0F 		.ascii	"\010\000\017\017\010\010\010\000\017\017\010\010\017"
+ 1839      08080800 
+ 1839      0F0F0808 
+ 1839      0F
+ 1840 0145 0780C74F 		.ascii	"\007\200\307O\310\217\007\000\004\015\211\317G\300\200"
+ 1840      C88F0700 
+ 1840      040D89CF 
+ 1840      47C080
+ 1841 0154 000F8FC0 		.ascii	"\000\017\217\300\300\002BB\000\004\014\010\017\007\000"
+ 1841      C0024242 
+ 1841      00040C08 
+ 1841      0F0700
+ 1842 0163 00000000 		.ascii	"\000\000\000\000\000\000\000\300\300\000\000\000\000"
+ 1842      000000C0 
+ 1842      C0000000 
+ 1842      00
+ 1843 0170 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
+ 1843      00000000 
+ 1843      00000000 
+ 1843      00
+ARM GAS  /tmp/cci1iOPj.s 			page 46
+
+
+ 1844 017d 0000FFFF 		.ascii	"\000\000\377\377\200\203\201\277\277\200\200\260\270"
+ 1844      808381BF 
+ 1844      BF8080B0 
+ 1844      B8
+ 1845 018a ACA7A380 		.ascii	"\254\247\243\200\235\277\242\277\235\200\202\201\202"
+ 1845      9DBFA2BF 
+ 1845      9D808281 
+ 1845      82
+ 1846 0197 8090B0A2 		.ascii	"\200\220\260\242\277\235\200\260\270\254\247\243\200"
+ 1846      BF9D80B0 
+ 1846      B8ACA7A3 
+ 1846      80
+ 1847 01a4 8080809E 		.ascii	"\200\200\200\236\277\241\241\277\277\200\236\277\241"
+ 1847      BFA1A1BF 
+ 1847      BF809EBF 
+ 1847      A1
+ 1848 01b1 A1BF9E81 		.ascii	"\241\277\236\201\237\277\241\200\226\267\255\255\273"
+ 1848      9FBFA180 
+ 1848      96B7ADAD 
+ 1848      BB
+ 1849 01be 9A808080 		.ascii	"\232\200\200\200\200\200\200\200\237\277\240\277\237"
+ 1849      80808080 
+ 1849      9FBFA0BF 
+ 1849      9F
+ 1850 01cb 80B0B080 		.ascii	"\200\260\260\200\223\267\244\277\237\200\203\201\277"
+ 1850      93B7A4BF 
+ 1850      9F808381 
+ 1850      BF
+ 1851 01d8 BF80BFBF 		.ascii	"\277\200\277\277\200\277\277\201\201\277\276\200\236"
+ 1851      80BFBF81 
+ 1851      81BFBE80 
+ 1851      9E
+ 1852 01e5 BFA1B392 		.ascii	"\277\241\263\222\200\277\277\201\201\277\276\200\236"
+ 1852      80BFBF81 
+ 1852      81BFBE80 
+ 1852      9E
+ 1853 01f2 BFA5A5B7 		.ascii	"\277\245\245\267\226\200\226\267\255\255\273\232\200"
+ 1853      968096B7 
+ 1853      ADADBB9A 
+ 1853      80
+ 1854 01ff FF       		.ascii	"\377"
+ 1855              		.text
+ 1856              	.Letext0:
+ 1857              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 1858              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 1859              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 1860              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 1861              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 1862              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 1863              		.file 8 "Core/Inc/fonts.h"
+ 1864              		.file 9 "Core/Inc/display.h"
+ 1865              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 1866              		.file 11 "<built-in>"
+ARM GAS  /tmp/cci1iOPj.s 			page 47
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 display.c
-     /tmp/cc7dSzUz.s:21     .text.command:00000000 $t
-     /tmp/cc7dSzUz.s:27     .text.command:00000000 command
-     /tmp/cc7dSzUz.s:81     .text.command:00000048 $d
-     /tmp/cc7dSzUz.s:86     .text.data:00000000 $t
-     /tmp/cc7dSzUz.s:92     .text.data:00000000 data
-     /tmp/cc7dSzUz.s:146    .text.data:00000048 $d
-     /tmp/cc7dSzUz.s:151    .text.SSD1306_ToggleInvert:00000000 $t
-     /tmp/cc7dSzUz.s:157    .text.SSD1306_ToggleInvert:00000000 SSD1306_ToggleInvert
-     /tmp/cc7dSzUz.s:204    .text.SSD1306_ToggleInvert:00000024 $d
-     /tmp/cc7dSzUz.s:1231   .bss.SSD1306:00000000 SSD1306
-     /tmp/cc7dSzUz.s:1237   .bss.pixelBuffer:00000000 pixelBuffer
-     /tmp/cc7dSzUz.s:210    .text.SSD1306_DrawPixel:00000000 $t
-     /tmp/cc7dSzUz.s:216    .text.SSD1306_DrawPixel:00000000 SSD1306_DrawPixel
-     /tmp/cc7dSzUz.s:314    .text.SSD1306_DrawPixel:00000054 $d
-     /tmp/cc7dSzUz.s:320    .text.SSD1306_GotoXY:00000000 $t
-     /tmp/cc7dSzUz.s:326    .text.SSD1306_GotoXY:00000000 SSD1306_GotoXY
-     /tmp/cc7dSzUz.s:346    .text.SSD1306_GotoXY:00000008 $d
-     /tmp/cc7dSzUz.s:351    .text.SSD1306_Putc:00000000 $t
-     /tmp/cc7dSzUz.s:357    .text.SSD1306_Putc:00000000 SSD1306_Putc
-     /tmp/cc7dSzUz.s:515    .text.SSD1306_Putc:00000098 $d
-     /tmp/cc7dSzUz.s:520    .text.SSD1306_Puts:00000000 $t
-     /tmp/cc7dSzUz.s:526    .text.SSD1306_Puts:00000000 SSD1306_Puts
-     /tmp/cc7dSzUz.s:577    .text.Set_Page_Address:00000000 $t
-     /tmp/cc7dSzUz.s:583    .text.Set_Page_Address:00000000 Set_Page_Address
-     /tmp/cc7dSzUz.s:609    .text.Set_Column_Address:00000000 $t
-     /tmp/cc7dSzUz.s:615    .text.Set_Column_Address:00000000 Set_Column_Address
-     /tmp/cc7dSzUz.s:648    .text.SSD1306_UpdateScreen:00000000 $t
-     /tmp/cc7dSzUz.s:654    .text.SSD1306_UpdateScreen:00000000 SSD1306_UpdateScreen
-     /tmp/cc7dSzUz.s:726    .text.SSD1306_UpdateScreen:00000038 $d
-     /tmp/cc7dSzUz.s:731    .text.SSD1306_ClearScreen:00000000 $t
-     /tmp/cc7dSzUz.s:737    .text.SSD1306_ClearScreen:00000000 SSD1306_ClearScreen
-     /tmp/cc7dSzUz.s:783    .text.SSD1306_ClearScreen:0000001c $d
-     /tmp/cc7dSzUz.s:1243   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
-     /tmp/cc7dSzUz.s:789    .text.SSD1306_Fill:00000000 $t
-     /tmp/cc7dSzUz.s:795    .text.SSD1306_Fill:00000000 SSD1306_Fill
-     /tmp/cc7dSzUz.s:899    .text.SSD1306_Fill:00000050 $d
-     /tmp/cc7dSzUz.s:904    .text.display_init:00000000 $t
-     /tmp/cc7dSzUz.s:910    .text.display_init:00000000 display_init
-     /tmp/cc7dSzUz.s:1083   .text.display_init:00000100 $d
-     /tmp/cc7dSzUz.s:1088   .text.Display_Picture:00000000 $t
-     /tmp/cc7dSzUz.s:1094   .text.Display_Picture:00000000 Display_Picture
-     /tmp/cc7dSzUz.s:1168   .text.display_demo:00000000 $t
-     /tmp/cc7dSzUz.s:1174   .text.display_demo:00000000 display_demo
-     /tmp/cc7dSzUz.s:1223   .text.display_demo:0000003c $d
-     /tmp/cc7dSzUz.s:1228   .bss.SSD1306:00000000 $d
-     /tmp/cc7dSzUz.s:1234   .bss.pixelBuffer:00000000 $d
-     /tmp/cc7dSzUz.s:1240   .bss.SSD1306_Buffer:00000000 $d
-     /tmp/cc7dSzUz.s:1246   .rodata:00000000 $d
+     /tmp/cci1iOPj.s:21     .text.command:00000000 $t
+     /tmp/cci1iOPj.s:27     .text.command:00000000 command
+     /tmp/cci1iOPj.s:81     .text.command:00000048 $d
+     /tmp/cci1iOPj.s:86     .text.data:00000000 $t
+     /tmp/cci1iOPj.s:92     .text.data:00000000 data
+     /tmp/cci1iOPj.s:146    .text.data:00000048 $d
+     /tmp/cci1iOPj.s:151    .text.SSD1306_ToggleInvert:00000000 $t
+     /tmp/cci1iOPj.s:157    .text.SSD1306_ToggleInvert:00000000 SSD1306_ToggleInvert
+     /tmp/cci1iOPj.s:204    .text.SSD1306_ToggleInvert:00000024 $d
+     /tmp/cci1iOPj.s:1799   .bss.SSD1306:00000000 SSD1306
+     /tmp/cci1iOPj.s:1805   .bss.pixelBuffer:00000000 pixelBuffer
+     /tmp/cci1iOPj.s:210    .text.SSD1306_DrawPixel:00000000 $t
+     /tmp/cci1iOPj.s:216    .text.SSD1306_DrawPixel:00000000 SSD1306_DrawPixel
+     /tmp/cci1iOPj.s:314    .text.SSD1306_DrawPixel:00000054 $d
+     /tmp/cci1iOPj.s:320    .text.SSD1306_GotoXY:00000000 $t
+     /tmp/cci1iOPj.s:326    .text.SSD1306_GotoXY:00000000 SSD1306_GotoXY
+     /tmp/cci1iOPj.s:346    .text.SSD1306_GotoXY:00000008 $d
+     /tmp/cci1iOPj.s:351    .text.SSD1306_Putc:00000000 $t
+     /tmp/cci1iOPj.s:357    .text.SSD1306_Putc:00000000 SSD1306_Putc
+     /tmp/cci1iOPj.s:515    .text.SSD1306_Putc:00000098 $d
+     /tmp/cci1iOPj.s:520    .text.SSD1306_Puts:00000000 $t
+     /tmp/cci1iOPj.s:526    .text.SSD1306_Puts:00000000 SSD1306_Puts
+     /tmp/cci1iOPj.s:577    .text.SSD1306_DrawLine:00000000 $t
+     /tmp/cci1iOPj.s:583    .text.SSD1306_DrawLine:00000000 SSD1306_DrawLine
+     /tmp/cci1iOPj.s:916    .text.SSD1306_DrawRectangle:00000000 $t
+     /tmp/cci1iOPj.s:922    .text.SSD1306_DrawRectangle:00000000 SSD1306_DrawRectangle
+     /tmp/cci1iOPj.s:1038   .text.SSD1306_DrawFilledRectangle:00000000 $t
+     /tmp/cci1iOPj.s:1044   .text.SSD1306_DrawFilledRectangle:00000000 SSD1306_DrawFilledRectangle
+     /tmp/cci1iOPj.s:1145   .text.Set_Page_Address:00000000 $t
+     /tmp/cci1iOPj.s:1151   .text.Set_Page_Address:00000000 Set_Page_Address
+     /tmp/cci1iOPj.s:1177   .text.Set_Column_Address:00000000 $t
+     /tmp/cci1iOPj.s:1183   .text.Set_Column_Address:00000000 Set_Column_Address
+     /tmp/cci1iOPj.s:1216   .text.SSD1306_UpdateScreen:00000000 $t
+     /tmp/cci1iOPj.s:1222   .text.SSD1306_UpdateScreen:00000000 SSD1306_UpdateScreen
+     /tmp/cci1iOPj.s:1294   .text.SSD1306_UpdateScreen:00000038 $d
+     /tmp/cci1iOPj.s:1299   .text.SSD1306_ClearScreen:00000000 $t
+     /tmp/cci1iOPj.s:1305   .text.SSD1306_ClearScreen:00000000 SSD1306_ClearScreen
+     /tmp/cci1iOPj.s:1351   .text.SSD1306_ClearScreen:0000001c $d
+     /tmp/cci1iOPj.s:1811   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
+     /tmp/cci1iOPj.s:1357   .text.SSD1306_Fill:00000000 $t
+     /tmp/cci1iOPj.s:1363   .text.SSD1306_Fill:00000000 SSD1306_Fill
+     /tmp/cci1iOPj.s:1467   .text.SSD1306_Fill:00000050 $d
+     /tmp/cci1iOPj.s:1472   .text.display_init:00000000 $t
+     /tmp/cci1iOPj.s:1478   .text.display_init:00000000 display_init
+     /tmp/cci1iOPj.s:1651   .text.display_init:00000100 $d
+     /tmp/cci1iOPj.s:1656   .text.Display_Picture:00000000 $t
+     /tmp/cci1iOPj.s:1662   .text.Display_Picture:00000000 Display_Picture
+     /tmp/cci1iOPj.s:1736   .text.display_demo:00000000 $t
+     /tmp/cci1iOPj.s:1742   .text.display_demo:00000000 display_demo
+     /tmp/cci1iOPj.s:1791   .text.display_demo:0000003c $d
+     /tmp/cci1iOPj.s:1796   .bss.SSD1306:00000000 $d
+     /tmp/cci1iOPj.s:1802   .bss.pixelBuffer:00000000 $d
+     /tmp/cci1iOPj.s:1808   .bss.SSD1306_Buffer:00000000 $d
+     /tmp/cci1iOPj.s:1814   .rodata:00000000 $d
+
+ARM GAS  /tmp/cci1iOPj.s 			page 48
+
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
@@ -2030,6 +2823,3 @@ HAL_SPI_Transmit
 hspi1
 HAL_Delay
 memcpy
-ARM GAS  /tmp/cc7dSzUz.s 			page 35
-
-

@@ -55,8 +55,8 @@ void display_init (void)
 
     command(DISPLAYOFF); 
 
-    command(SETDISPLAYCLOCKDIV); // 0xD5 - Clock divide ratio/osc. freq
-    command(0x80);     
+    command(SETDISPLAYCLOCKDIV); // 0x80 - Clock divide ratio/osc. freq
+    command(0xF0);     
 
     command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
     command(0x1F);                     // 0x1F
@@ -227,7 +227,6 @@ char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color) {
 	return ch;
 }
 
-
 char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
 	/* Write characters */
 	while (*str) {
@@ -245,8 +244,141 @@ char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
 	return *str;
 }
  
+void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD1306_COLOR_t c) {
+	int16_t dx, dy, sx, sy, err, e2, i, tmp; 
+	
+	/* Check for overflow */
+	if (x0 >= SSD1306_WIDTH) {
+		x0 = SSD1306_WIDTH - 1;
+	}
+	if (x1 >= SSD1306_WIDTH) {
+		x1 = SSD1306_WIDTH - 1;
+	}
+	if (y0 >= SSD1306_HEIGHT) {
+		y0 = SSD1306_HEIGHT - 1;
+	}
+	if (y1 >= SSD1306_HEIGHT) {
+		y1 = SSD1306_HEIGHT - 1;
+	}
+	
+	dx = (x0 < x1) ? (x1 - x0) : (x0 - x1); 
+	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
+	sx = (x0 < x1) ? 1 : -1; 
+	sy = (y0 < y1) ? 1 : -1; 
+	err = ((dx > dy) ? dx : -dy) / 2; 
 
+	if (dx == 0) {
+		if (y1 < y0) {
+			tmp = y1;
+			y1 = y0;
+			y0 = tmp;
+		}
+		
+		if (x1 < x0) {
+			tmp = x1;
+			x1 = x0;
+			x0 = tmp;
+		}
+		
+		/* Vertical line */
+		for (i = y0; i <= y1; i++) {
+			SSD1306_DrawPixel(x0, i, c);
+		}
+		
+		/* Return from function */
+		return;
+	}
+	
+	if (dy == 0) {
+		if (y1 < y0) {
+			tmp = y1;
+			y1 = y0;
+			y0 = tmp;
+		}
+		
+		if (x1 < x0) {
+			tmp = x1;
+			x1 = x0;
+			x0 = tmp;
+		}
+		
+		/* Horizontal line */
+		for (i = x0; i <= x1; i++) {
+			SSD1306_DrawPixel(i, y0, c);
+		}
+		
+		/* Return from function */
+		return;
+	}
+	
+	while (1) {
+		SSD1306_DrawPixel(x0, y0, c);
+		if (x0 == x1 && y0 == y1) {
+			break;
+		}
+		e2 = err; 
+		if (e2 > -dx) {
+			err -= dy;
+			x0 += sx;
+		} 
+		if (e2 < dy) {
+			err += dx;
+			y0 += sy;
+		} 
+	}
+}
 
+void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
+	/* Check input parameters */
+	if (
+		x >= SSD1306_WIDTH ||
+		y >= SSD1306_HEIGHT
+	) {
+		/* Return error */
+		return;
+	}
+	
+	/* Check width and height */
+	if ((x + w) >= SSD1306_WIDTH) {
+		w = SSD1306_WIDTH - x;
+	}
+	if ((y + h) >= SSD1306_HEIGHT) {
+		h = SSD1306_HEIGHT - y;
+	}
+	
+	/* Draw 4 lines */
+	SSD1306_DrawLine(x, y, x + w, y, c);         /* Top line */
+	SSD1306_DrawLine(x, y + h, x + w, y + h, c); /* Bottom line */
+	SSD1306_DrawLine(x, y, x, y + h, c);         /* Left line */
+	SSD1306_DrawLine(x + w, y, x + w, y + h, c); /* Right line */
+}
+
+void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
+	uint8_t i;
+	
+	/* Check input parameters */
+	if (
+		x >= SSD1306_WIDTH ||
+		y >= SSD1306_HEIGHT
+	) {
+		/* Return error */
+		return;
+	}
+	
+	/* Check width and height */
+	if ((x + w) >= SSD1306_WIDTH) {
+		w = SSD1306_WIDTH - x;
+	}
+	if ((y + h) >= SSD1306_HEIGHT) {
+		h = SSD1306_HEIGHT - y;
+	}
+	
+	/* Draw lines */
+	for (i = 0; i <= h; i++) {
+		/* Draw lines */
+		SSD1306_DrawLine(x, y + i, x + w, y + i, c);
+	}
+}
 
 void Set_Page_Address(unsigned char add)
 {
