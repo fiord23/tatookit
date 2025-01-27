@@ -40,6 +40,7 @@ Core/Src/main.c \
 Core/Src/gpio.c \
 Core/Src/adc.c \
 Core/Src/i2c.c \
+Core/Src/motor.c \
 Core/Src/spi.c \
 Core/Src/display.c \
 Core/Src/fonts.c \

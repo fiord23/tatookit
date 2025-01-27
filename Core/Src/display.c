@@ -457,4 +457,19 @@ void display_demo (void)
 
 }
 
-
+void display_test (void)
+{
+	SSD1306_Fill(SSD1306_COLOR_BLACK);
+	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+	SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
+	SSD1306_GotoXY(70,5);
+	SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
+	SSD1306_GotoXY(70,21);
+	SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
+	SSD1306_GotoXY(0,5);
+	SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
+	SSD1306_UpdateScreen();
+}

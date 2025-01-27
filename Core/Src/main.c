@@ -23,12 +23,14 @@
 #include "spi.h"
 #include "gpio.h"
 
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "display.h"
 #include "dac.h"
-//#include "ssd1306.h"
+#include "motor.h"
 #include "fonts.h"
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,8 +40,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define I2C_ADDRESS    0x60
-#define I2C_ID_ADDRESS 0x0D
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,19 +51,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t data_config4[2] = {0x0D, 0x30};
-uint8_t data_config0[2] = {0x09, 0xE1}; //enable motor 7 bit - Hihg
-uint8_t data_config0_low[2] = {0x09, 0x61}; //enable motor 7 bit - Hihg
-
-uint8_t data_config2[2] = {0x10, 40}; //speed motor
-uint8_t regData = 0;
-uint8_t regAddress = I2C_ID_ADDRESS;
-uint8_t pmode = 0x30;
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
 uint16_t adc_value16 = 0xFFFF;
-uint8_t speed = 40;
-uint8_t flag_motor = 0;
+uint8_t speed = MOTOR_SPEED_DEFAULT;
+bool flag_motor = 0;
 
 
 
@@ -115,62 +108,30 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //
   button_interrupt_init();
-
-  HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_RESET);
-   HAL_Delay(100);
-
-  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config4, 2,  100);
-  HAL_Delay(100);
-
-  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0, 2,  100);
-   HAL_Delay(100);
-  HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config2, 2,  100);
-  HAL_Delay(100);
-  HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
-  
-   HAL_Delay(100);
+  motor_init();
   display_power_high();
   dac_data_send(993);
-
   display_init();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    //display_demo();
-SSD1306_Fill(SSD1306_COLOR_BLACK);
-SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
-SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
-SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
-SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
-SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
-SSD1306_GotoXY(70,5);
-SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
-SSD1306_GotoXY(70,21);
-SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
-SSD1306_GotoXY(0,5);
-SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
-SSD1306_UpdateScreen();
 
-
-
-    if (speed > 63)
+    if (speed > MOTOR_SPEED_HIGH)
     {
-      speed = 63;
+      speed = MOTOR_SPEED_HIGH;
     }
-    if (speed < 3)
+    if (speed < MOTOR_SPEED_LOW)
     {
-      speed = 3;
+      speed = MOTOR_SPEED_LOW;
     }
 
-    data_config2[1] = speed;
-    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config2, 2,  100);
-    HAL_Delay(10);
+    motor_write(REG_CTRL2, speed);
+    HAL_Delay(100);
 
-//  display_demo();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -249,7 +210,7 @@ void EXTI15_10_IRQHandler (void)
   {
     flag_motor = 0;
     display_power_low();
-    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0_low, 2,  100);
+    motor_write(CONFIG0, 0x61);
 
     
   }
@@ -257,9 +218,8 @@ void EXTI15_10_IRQHandler (void)
   {
     flag_motor = 1;
     display_power_high();
-    HAL_I2C_Master_Transmit(&hi2c3, (I2C_ADDRESS), data_config0, 2,  100);
+    motor_write(CONFIG0, 0xE1);
   }
-  //flag_motor++;
 
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
 
