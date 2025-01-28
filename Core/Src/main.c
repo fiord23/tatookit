@@ -22,6 +22,7 @@
 #include "i2c.h"
 #include "spi.h"
 #include "gpio.h"
+#include <stdio.h>
 
 
 /* Private includes ----------------------------------------------------------*/
@@ -31,6 +32,7 @@
 #include "motor.h"
 #include "fonts.h"
 #include <stdbool.h>
+#include "clocks.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,7 +42,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define VREF 3.3
+#define ADC_RES 4095.0
+#define VBAT_DIV 2.0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -53,9 +57,11 @@
 /* USER CODE BEGIN PV */
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
-uint16_t adc_value16 = 0xFFFF;
+float vbat_value = 0.0;
 uint8_t speed = MOTOR_SPEED_DEFAULT;
 bool flag_motor = 0;
+volatile uint16_t ADC_Data[3] = { 0, };
+char buf[3] = {'0', '.', '0'};
 
 
 
@@ -112,14 +118,13 @@ int main(void)
   display_power_high();
   dac_data_send(993);
   display_init();
-
+  display_test();
   /* USER CODE END 2 */
-
+  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
     if (speed > MOTOR_SPEED_HIGH)
     {
       speed = MOTOR_SPEED_HIGH;
@@ -130,63 +135,30 @@ int main(void)
     }
 
     motor_write(REG_CTRL2, speed);
-    HAL_Delay(100);
+    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+    gcvt(vbat_value, 2, buf);
+    SSD1306_Fill(SSD1306_COLOR_BLACK);
+	  SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+	  SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+	  SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+	  SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+	  SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
+	  SSD1306_GotoXY(70,5);
+	  SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
+	  SSD1306_GotoXY(70,21);
+	  SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
+	  SSD1306_GotoXY(0,5);
+	  SSD1306_Puts(buf, &Font_16x26, SSD1306_COLOR_WHITE);
+  	SSD1306_GotoXY(50,5);
+	  SSD1306_Puts("v", &Font_16x26, SSD1306_COLOR_WHITE);  
+	  SSD1306_UpdateScreen();
+    HAL_Delay(1000);
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-}
-
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
-void SystemClock_Config(void)
-{
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-
-  /** Configure the main internal regulator output voltage
-  */
-  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 40;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
-  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
-  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
 }
 
 /* USER CODE BEGIN 4 */
@@ -227,23 +199,24 @@ void EXTI15_10_IRQHandler (void)
 void ADC1_IRQHandler(void)
 {
     if (ADC1->ISR & ADC_ISR_EOC) { // Проверяем флаг конца преобразования
-        adc_value15 = ADC1->DR; // Читаем данные АЦП
-
-        // Обработка полученного значения adc_value
-
-        ADC1->ISR |= ADC_ISR_EOC; // Сбрасываем флаг конца преобразования
-        //ADC1->CR |= ADC_CR_ADSTART;
-
+      ADC1->DR;
     }
 }
 
+void DMA1_Channel1_IRQHandler() {
+  
+  if(DMA1->ISR & DMA_ISR_TCIF1) {
+
+		    DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
+
+	} else if (DMA1->ISR & DMA_ISR_TEIF1) {
+		/*Здесь можно сделать какой-то обработчик ошибок*/
+		DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
+	}
+}
 
 /* USER CODE END 4 */
 
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */

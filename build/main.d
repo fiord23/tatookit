@@ -30,7 +30,8 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h Core/Inc/adc.h \
  Core/Inc/main.h Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
  Core/Inc/i2c.h Core/Inc/spi.h Core/Inc/gpio.h Core/Inc/display.h \
- Core/Inc/fonts.h Core/Inc/dac.h Core/Inc/motor.h Core/Inc/fonts.h
+ Core/Inc/fonts.h Core/Inc/dac.h Core/Inc/motor.h Core/Inc/fonts.h \
+ Core/Inc/clocks.h
 Core/Inc/main.h:
 Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 Core/Inc/stm32l4xx_hal_conf.h:
@@ -74,3 +75,4 @@ Core/Inc/fonts.h:
 Core/Inc/dac.h:
 Core/Inc/motor.h:
 Core/Inc/fonts.h:
+Core/Inc/clocks.h:

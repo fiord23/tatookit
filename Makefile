@@ -43,8 +43,8 @@ Core/Src/i2c.c \
 Core/Src/motor.c \
 Core/Src/spi.c \
 Core/Src/display.c \
+Core/Src/clocks.c \
 Core/Src/fonts.c \
-Core/Src/ssd1306.c \
 Core/Src/dac.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
