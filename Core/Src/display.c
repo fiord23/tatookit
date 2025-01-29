@@ -1,9 +1,18 @@
 
 #include "display.h"
+#include <stdio.h>
+
+#define VREF 3.3
+#define ADC_RES 4095.0
+#define VBAT_DIV 2.0
+
 
 
 extern SPI_HandleTypeDef hspi1;
-
+extern vbat_value;
+extern char vbatbuf[3];
+extern volatile uint16_t ADC_Data[3];
+extern uint8_t speed;
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
@@ -601,8 +610,20 @@ void display_test (void)
 	SSD1306_UpdateScreen();
 }
 
-void vbat_show(uint8_t data)
+void show_vbat(void)
 {
+	uint8_t data = 0;
+	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+    gcvt(vbat_value, 2, vbatbuf);
+    if (vbat_value > 4.0)
+      data = 4;
+    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+      data = 3;
+    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+     data = 2;
+    else if (vbat_value < 3.2)  
+       data = 1;
+	
 	switch (data)
 	{
 	case 1:
@@ -636,4 +657,15 @@ void vbat_show(uint8_t data)
 	default:
 		break;
 	}
+}
+
+void show_motor_duty (void)
+{
+	float data = ((float)speed / 63.0 ) * 9.0 * 10.0;
+	char duty_data[4] = {'0', '.', '0', 'v'};
+	duty_data[0] = (uint8_t)data / 10 + '0';
+	duty_data[2] = (uint8_t)data % 10 + '0';
+	SSD1306_GotoXY(0,5);
+	SSD1306_Puts(duty_data, &Font_16x26, SSD1306_COLOR_WHITE);
+
 }

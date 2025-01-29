@@ -22,7 +22,7 @@
 #include "i2c.h"
 #include "spi.h"
 #include "gpio.h"
-#include <stdio.h>
+
 
 
 /* Private includes ----------------------------------------------------------*/
@@ -42,9 +42,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define VREF 3.3
-#define ADC_RES 4095.0
-#define VBAT_DIV 2.0
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -57,11 +55,12 @@
 /* USER CODE BEGIN PV */
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
+char vbatbuf[3] = {'0', '.', '0'};
 float vbat_value = 0.0;
 uint8_t speed = 40;
 uint8_t flag_motor = 3;
 volatile uint16_t ADC_Data[3] = { 0, };
-char vbatbuf[3] = {'0', '.', '0'};
+
 
 
 
@@ -125,22 +124,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    motor_speed_write(speed);
-    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    gcvt(vbat_value, 2, vbatbuf);
-    SSD1306_GotoXY(0,5);
-	  SSD1306_Puts(vbatbuf, &Font_16x26, SSD1306_COLOR_WHITE);
-  	SSD1306_GotoXY(50,5);
-	  SSD1306_Puts("v", &Font_16x26, SSD1306_COLOR_WHITE);  
-	  SSD1306_UpdateScreen();
-    if (vbat_value > 4.0)
-      vbat_show(4);
-    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
-      vbat_show(3);
-    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
-      vbat_show(2);
-    else if (vbat_value < 3.2)  
-       vbat_show(1);
+
+    show_motor_duty();
+    show_vbat();
     SSD1306_UpdateScreen();
 
     HAL_Delay(1000);
@@ -157,12 +143,14 @@ void  EXTI1_IRQHandler (void)    //PB1 BUTTON -
 {
   EXTI->PR1 |= EXTI_PR1_PIF1;
   speed--;
+  motor_speed_write(speed);
 
 }
 void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
 {
   EXTI->PR1 |= EXTI_PR1_PIF6; 
   speed ++;
+  motor_speed_write(speed);
 }
 void EXTI15_10_IRQHandler (void)
 {

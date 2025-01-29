@@ -8,3 +8,11 @@ build/main.o
 build/tatookit.elf
 build/tatookit.hex
 build/tatookit.map
+build/tatookit.map
+build/display.lst
+build/display.o
+build/main.lst
+build/main.o
+build/tatookit.elf
+build/tatookit.hex
+build/tatookit.map
