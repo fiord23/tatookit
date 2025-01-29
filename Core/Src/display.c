@@ -111,9 +111,9 @@ void SSD1306_UpdateScreen(void) {
   unsigned char i,j,num=0;
 	for(i=0;i<0x04;i++)
 	{
-	Set_Page_Address(i);
-  Set_Column_Address(0x00);
-  for(j=0;j<0x80;j++)
+		Set_Page_Address(i);
+  		Set_Column_Address(0x00);
+  		for(j=0;j<0x80;j++)
 		{
 		  data(pixelBuffer[i*0x80+j]);
 		}
@@ -601,4 +601,39 @@ void display_test (void)
 	SSD1306_UpdateScreen();
 }
 
-
+void vbat_show(uint8_t data)
+{
+	switch (data)
+	{
+	case 1:
+    	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+		break;
+	case 2:
+    	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+		break;
+	case 3:
+    	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+		break;
+	case 4:
+    	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+		break;
+	default:
+		break;
+	}
+}

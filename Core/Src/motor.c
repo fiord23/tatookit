@@ -20,3 +20,17 @@ void motor_init(void)
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);  
     HAL_Delay(100);
 }
+
+void motor_speed_write (uint8_t data)
+{
+    if (data > MOTOR_SPEED_HIGH)
+      {
+        data = MOTOR_SPEED_HIGH;
+      }
+    if (data < MOTOR_SPEED_LOW)
+    {
+      data = MOTOR_SPEED_LOW;
+    }
+
+    motor_write(REG_CTRL2, data);
+}

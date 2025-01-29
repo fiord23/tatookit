@@ -58,10 +58,10 @@
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
 float vbat_value = 0.0;
-uint8_t speed = MOTOR_SPEED_DEFAULT;
-bool flag_motor = 0;
+uint8_t speed = 40;
+uint8_t flag_motor = 3;
 volatile uint16_t ADC_Data[3] = { 0, };
-char buf[3] = {'0', '.', '0'};
+char vbatbuf[3] = {'0', '.', '0'};
 
 
 
@@ -125,33 +125,24 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    if (speed > MOTOR_SPEED_HIGH)
-    {
-      speed = MOTOR_SPEED_HIGH;
-    }
-    if (speed < MOTOR_SPEED_LOW)
-    {
-      speed = MOTOR_SPEED_LOW;
-    }
-
-    motor_write(REG_CTRL2, speed);
+    motor_speed_write(speed);
     vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    gcvt(vbat_value, 2, buf);
-    SSD1306_Fill(SSD1306_COLOR_BLACK);
-	  SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
-	  SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
-	  SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
-	  SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
-	  SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
-	  SSD1306_GotoXY(70,5);
-	  SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
-	  SSD1306_GotoXY(70,21);
-	  SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
-	  SSD1306_GotoXY(0,5);
-	  SSD1306_Puts(buf, &Font_16x26, SSD1306_COLOR_WHITE);
+    gcvt(vbat_value, 2, vbatbuf);
+    SSD1306_GotoXY(0,5);
+	  SSD1306_Puts(vbatbuf, &Font_16x26, SSD1306_COLOR_WHITE);
   	SSD1306_GotoXY(50,5);
 	  SSD1306_Puts("v", &Font_16x26, SSD1306_COLOR_WHITE);  
 	  SSD1306_UpdateScreen();
+    if (vbat_value > 4.0)
+      vbat_show(4);
+    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+      vbat_show(3);
+    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+      vbat_show(2);
+    else if (vbat_value < 3.2)  
+       vbat_show(1);
+    SSD1306_UpdateScreen();
+
     HAL_Delay(1000);
 
     /* USER CODE END WHILE */
@@ -168,13 +159,11 @@ void  EXTI1_IRQHandler (void)    //PB1 BUTTON -
   speed--;
 
 }
-
 void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
 {
   EXTI->PR1 |= EXTI_PR1_PIF6; 
   speed ++;
 }
-
 void EXTI15_10_IRQHandler (void)
 {
   
@@ -202,7 +191,6 @@ void ADC1_IRQHandler(void)
       ADC1->DR;
     }
 }
-
 void DMA1_Channel1_IRQHandler() {
   
   if(DMA1->ISR & DMA_ISR_TCIF1) {

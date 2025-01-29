@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccaQDcJG.s 			page 1
+ARM GAS  /tmp/ccfXhaLe.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
   34              		.loc 1 22 1 is_stmt 0 view .LVU1
   35 0000 00B5     		push	{lr}
   36              	.LCFI0:
-ARM GAS  /tmp/ccaQDcJG.s 			page 2
+ARM GAS  /tmp/ccfXhaLe.s 			page 2
 
 
   37              		.cfi_def_cfa_offset 4
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
   85              		.section	.text.data,"ax",%progbits
   86              		.align	1
   87              		.global	data
-ARM GAS  /tmp/ccaQDcJG.s 			page 3
+ARM GAS  /tmp/ccfXhaLe.s 			page 3
 
 
   88              		.syntax unified
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  135 003c FFF7FEFF 		bl	HAL_GPIO_WritePin
  136              	.LVL11:
   38:Core/Src/display.c ****     
-ARM GAS  /tmp/ccaQDcJG.s 			page 4
+ARM GAS  /tmp/ccfXhaLe.s 			page 4
 
 
   39:Core/Src/display.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
   73:Core/Src/display.c ****     command(RESETALLON); // 0xA4 - Disable Entire Display On
   74:Core/Src/display.c **** 
   75:Core/Src/display.c ****     command(SETSEGREMAP); // 0xA1 - set segment re-map 128 to 0  
-ARM GAS  /tmp/ccaQDcJG.s 			page 5
+ARM GAS  /tmp/ccfXhaLe.s 			page 5
 
 
   76:Core/Src/display.c **** 
@@ -279,9 +279,9 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  111:Core/Src/display.c ****   unsigned char i,j,num=0;
  112:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
  113:Core/Src/display.c **** 	{
- 114:Core/Src/display.c **** 	Set_Page_Address(i);
- 115:Core/Src/display.c ****   Set_Column_Address(0x00);
- 116:Core/Src/display.c ****   for(j=0;j<0x80;j++)
+ 114:Core/Src/display.c **** 		Set_Page_Address(i);
+ 115:Core/Src/display.c ****   		Set_Column_Address(0x00);
+ 116:Core/Src/display.c ****   		for(j=0;j<0x80;j++)
  117:Core/Src/display.c **** 		{
  118:Core/Src/display.c **** 		  data(pixelBuffer[i*0x80+j]);
  119:Core/Src/display.c **** 		}
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  130:Core/Src/display.c **** }
  131:Core/Src/display.c **** 
  132:Core/Src/display.c **** void SSD1306_Fill(SSD1306_COLOR_t color) {
-ARM GAS  /tmp/ccaQDcJG.s 			page 6
+ARM GAS  /tmp/ccfXhaLe.s 			page 6
 
 
  133:Core/Src/display.c **** 	/* Set memory */
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  180              	.LVL13:
  181              	.L11:
  166:Core/Src/display.c **** 		pixelBuffer[i] = ~pixelBuffer[i];
-ARM GAS  /tmp/ccaQDcJG.s 			page 7
+ARM GAS  /tmp/ccfXhaLe.s 			page 7
 
 
  182              		.loc 1 166 3 is_stmt 1 view .LVU29
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  229 0004 1F29     		cmp	r1, #31
  230 0006 23D8     		bhi	.L19
  170:Core/Src/display.c **** 	if (
-ARM GAS  /tmp/ccaQDcJG.s 			page 8
+ARM GAS  /tmp/ccfXhaLe.s 			page 8
 
 
  231              		.loc 1 170 71 view .LVU40
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  269              		.loc 1 188 44 view .LVU54
  270 002c DB43     		mvns	r3, r3
  271 002e 5BB2     		sxtb	r3, r3
-ARM GAS  /tmp/ccaQDcJG.s 			page 9
+ARM GAS  /tmp/ccfXhaLe.s 			page 9
 
 
  272 0030 1340     		ands	r3, r3, r2
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  317              	.LFE295:
  319              		.section	.text.SSD1306_GotoXY,"ax",%progbits
  320              		.align	1
-ARM GAS  /tmp/ccaQDcJG.s 			page 10
+ARM GAS  /tmp/ccfXhaLe.s 			page 10
 
 
  321              		.global	SSD1306_GotoXY
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  370              		.cfi_offset 5, -24
  371              		.cfi_offset 6, -20
  372              		.cfi_offset 7, -16
-ARM GAS  /tmp/ccaQDcJG.s 			page 11
+ARM GAS  /tmp/ccfXhaLe.s 			page 11
 
 
  373              		.cfi_offset 8, -12
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  217:Core/Src/display.c **** 				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t)!color);
  407              		.loc 1 217 5 is_stmt 1 view .LVU82
  408              		.loc 1 217 30 is_stmt 0 view .LVU83
-ARM GAS  /tmp/ccaQDcJG.s 			page 12
+ARM GAS  /tmp/ccfXhaLe.s 			page 12
 
 
  409 0026 1C4B     		ldr	r3, .L41
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  452              	.LVL33:
  453 0064 EBE7     		b	.L33
  454              	.L39:
-ARM GAS  /tmp/ccaQDcJG.s 			page 13
+ARM GAS  /tmp/ccfXhaLe.s 			page 13
 
 
  211:Core/Src/display.c **** 		b = Font->data[(ch - 32) * Font->FontHeight + i];
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  224:Core/Src/display.c **** 	
  225:Core/Src/display.c **** 	/* Return character written */
  226:Core/Src/display.c **** 	return ch;
-ARM GAS  /tmp/ccaQDcJG.s 			page 14
+ARM GAS  /tmp/ccfXhaLe.s 			page 14
 
 
  491              		.loc 1 226 2 is_stmt 1 view .LVU113
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  540              		.cfi_offset 14, -4
  541 0002 0446     		mov	r4, r0
  542 0004 0E46     		mov	r6, r1
-ARM GAS  /tmp/ccaQDcJG.s 			page 15
+ARM GAS  /tmp/ccfXhaLe.s 			page 15
 
 
  543 0006 1546     		mov	r5, r2
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  578              		.global	SSD1306_DrawLine
  579              		.syntax unified
  580              		.thumb
-ARM GAS  /tmp/ccaQDcJG.s 			page 16
+ARM GAS  /tmp/ccfXhaLe.s 			page 16
 
 
  581              		.thumb_func
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  626              	.L51:
  627              	.LVL48:
  255:Core/Src/display.c **** 	}
-ARM GAS  /tmp/ccaQDcJG.s 			page 17
+ARM GAS  /tmp/ccfXhaLe.s 			page 17
 
 
  256:Core/Src/display.c **** 	if (y0 >= SSD1306_HEIGHT) {
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  266:Core/Src/display.c **** 	sy = (y0 < y1) ? 1 : -1; 
  672              		.loc 1 266 2 is_stmt 1 view .LVU159
  673              		.loc 1 266 5 is_stmt 0 view .LVU160
-ARM GAS  /tmp/ccaQDcJG.s 			page 18
+ARM GAS  /tmp/ccfXhaLe.s 			page 18
 
 
  674 004c 4E45     		cmp	r6, r9
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  703              	.LVL57:
  704              	.L54:
  263:Core/Src/display.c **** 	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
-ARM GAS  /tmp/ccaQDcJG.s 			page 19
+ARM GAS  /tmp/ccfXhaLe.s 			page 19
 
 
  705              		.loc 1 263 35 discriminator 2 view .LVU170
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  276:Core/Src/display.c **** 			tmp = x1;
  749              		.loc 1 276 6 is_stmt 0 view .LVU181
  750 00a8 BC42     		cmp	r4, r7
-ARM GAS  /tmp/ccaQDcJG.s 			page 20
+ARM GAS  /tmp/ccfXhaLe.s 			page 20
 
 
  751 00aa 00D8     		bhi	.L64
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  296:Core/Src/display.c **** 		}
  297:Core/Src/display.c **** 		
  298:Core/Src/display.c **** 		if (x1 < x0) {
-ARM GAS  /tmp/ccaQDcJG.s 			page 21
+ARM GAS  /tmp/ccfXhaLe.s 			page 21
 
 
  792              		.loc 1 298 3 is_stmt 1 view .LVU193
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  308:Core/Src/display.c **** 		
  309:Core/Src/display.c **** 		/* Return from function */
  310:Core/Src/display.c **** 		return;
-ARM GAS  /tmp/ccaQDcJG.s 			page 22
+ARM GAS  /tmp/ccfXhaLe.s 			page 22
 
 
  311:Core/Src/display.c **** 	}
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  864              	.LVL85:
  325:Core/Src/display.c **** 		} 
  865              		.loc 1 325 4 is_stmt 1 view .LVU213
-ARM GAS  /tmp/ccaQDcJG.s 			page 23
+ARM GAS  /tmp/ccfXhaLe.s 			page 23
 
 
  325:Core/Src/display.c **** 		} 
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  905 0134 1444     		add	r4, r4, r2
  906              	.LVL92:
  321:Core/Src/display.c **** 		} 
-ARM GAS  /tmp/ccaQDcJG.s 			page 24
+ARM GAS  /tmp/ccfXhaLe.s 			page 24
 
 
  907              		.loc 1 321 7 view .LVU229
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  338:Core/Src/display.c **** 	}
  339:Core/Src/display.c **** 	
  340:Core/Src/display.c **** 	/* Check width and height */
-ARM GAS  /tmp/ccaQDcJG.s 			page 25
+ARM GAS  /tmp/ccfXhaLe.s 			page 25
 
 
  341:Core/Src/display.c **** 	if ((x + w) >= SSD1306_WIDTH) {
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  350:Core/Src/display.c **** 	SSD1306_DrawLine(x, y + h, x + w, y + h, c); /* Bottom line */
  998              		.loc 1 350 2 is_stmt 1 view .LVU252
  999 0044 3D44     		add	r5, r5, r7
-ARM GAS  /tmp/ccaQDcJG.s 			page 26
+ARM GAS  /tmp/ccfXhaLe.s 			page 26
 
 
  1000              	.LVL104:
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1051              		.loc 1 355 101 is_stmt 0 view .LVU259
  1052 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
  1053              	.LCFI19:
-ARM GAS  /tmp/ccaQDcJG.s 			page 27
+ARM GAS  /tmp/ccfXhaLe.s 			page 27
 
 
  1054              		.cfi_def_cfa_offset 28
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1092              		.loc 1 371 9 is_stmt 0 view .LVU270
  1093 0028 BB19     		adds	r3, r7, r6
  1094              		.loc 1 371 5 view .LVU271
-ARM GAS  /tmp/ccaQDcJG.s 			page 28
+ARM GAS  /tmp/ccfXhaLe.s 			page 28
 
 
  1095 002a 1F2B     		cmp	r3, #31
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1137              		.cfi_def_cfa_offset 28
  1138              		@ sp needed
  1139 0058 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
-ARM GAS  /tmp/ccaQDcJG.s 			page 29
+ARM GAS  /tmp/ccfXhaLe.s 			page 29
 
 
  1140              		.loc 1 380 1 view .LVU283
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1191              	.LVL120:
  386:Core/Src/display.c **** 	SSD1306_DrawLine(x3, y3, x1, y1, color);
  1192              		.loc 1 386 2 view .LVU288
-ARM GAS  /tmp/ccaQDcJG.s 			page 30
+ARM GAS  /tmp/ccfXhaLe.s 			page 30
 
 
  1193 002e 0096     		str	r6, [sp]
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1246              		.loc 1 389 134 view .LVU293
  1247 0012 0593     		str	r3, [sp, #20]
  1248 0014 BDF85430 		ldrh	r3, [sp, #84]
-ARM GAS  /tmp/ccaQDcJG.s 			page 31
+ARM GAS  /tmp/ccfXhaLe.s 			page 31
 
 
  1249 0018 0693     		str	r3, [sp, #24]
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  404:Core/Src/display.c **** 		xinc2 = -1;
  405:Core/Src/display.c **** 	}
  406:Core/Src/display.c **** 
-ARM GAS  /tmp/ccaQDcJG.s 			page 32
+ARM GAS  /tmp/ccfXhaLe.s 			page 32
 
 
  407:Core/Src/display.c **** 	if (y2 >= y1) {
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  422:Core/Src/display.c **** 	} else {
  423:Core/Src/display.c **** 		xinc2 = 0;
  424:Core/Src/display.c **** 		yinc1 = 0;
-ARM GAS  /tmp/ccaQDcJG.s 			page 33
+ARM GAS  /tmp/ccfXhaLe.s 			page 33
 
 
  425:Core/Src/display.c **** 		den = deltay;
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1361              		.loc 1 427 10 view .LVU339
  1362 0082 9B46     		mov	fp, r3
  1363              	.LVL145:
-ARM GAS  /tmp/ccaQDcJG.s 			page 34
+ARM GAS  /tmp/ccfXhaLe.s 			page 34
 
 
  426:Core/Src/display.c **** 		numadd = deltax;
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1401              		.loc 1 431 30 is_stmt 1 discriminator 1 view .LVU352
  1402 00a4 CA45     		cmp	r10, r9
  1403 00a6 1BDB     		blt	.L113
-ARM GAS  /tmp/ccaQDcJG.s 			page 35
+ARM GAS  /tmp/ccfXhaLe.s 			page 35
 
 
  432:Core/Src/display.c **** 		SSD1306_DrawLine(x, y, x3, y3, color);
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1445 00de D7E7     		b	.L108
  1446              	.L113:
  442:Core/Src/display.c **** 	}
-ARM GAS  /tmp/ccaQDcJG.s 			page 36
+ARM GAS  /tmp/ccfXhaLe.s 			page 36
 
 
  443:Core/Src/display.c **** }
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  448:Core/Src/display.c **** 	int16_t ddF_y = -2 * r;
  1498              		.loc 1 448 2 view .LVU374
  1499              		.loc 1 448 21 is_stmt 0 view .LVU375
-ARM GAS  /tmp/ccaQDcJG.s 			page 37
+ARM GAS  /tmp/ccfXhaLe.s 			page 37
 
 
  1500 0014 C4EBC433 		rsb	r3, r4, r4, lsl #15
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1544              		.loc 1 449 10 is_stmt 0 view .LVU387
  1545 005e 0023     		movs	r3, #0
  1546 0060 0293     		str	r3, [sp, #8]
-ARM GAS  /tmp/ccaQDcJG.s 			page 38
+ARM GAS  /tmp/ccfXhaLe.s 			page 38
 
 
  447:Core/Src/display.c **** 	int16_t ddF_y = -2 * r;
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1592 0096 0FFA83F9 		sxth	r9, r3
  1593              	.LVL177:
  466:Core/Src/display.c **** 
-ARM GAS  /tmp/ccaQDcJG.s 			page 39
+ARM GAS  /tmp/ccfXhaLe.s 			page 39
 
 
  467:Core/Src/display.c ****         SSD1306_DrawPixel(x0 + x, y0 + y, c);
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1641 0102 3246     		mov	r2, r6
  1642 0104 4146     		mov	r1, r8
  1643 0106 2046     		mov	r0, r4
-ARM GAS  /tmp/ccaQDcJG.s 			page 40
+ARM GAS  /tmp/ccfXhaLe.s 			page 40
 
 
  1644 0108 FFF7FEFF 		bl	SSD1306_DrawPixel
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  479:Core/Src/display.c **** void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
  1692              		.loc 1 479 85 is_stmt 1 view -0
  1693              		.cfi_startproc
-ARM GAS  /tmp/ccaQDcJG.s 			page 41
+ARM GAS  /tmp/ccfXhaLe.s 			page 41
 
 
  1694              		@ args = 0, pretend = 0, frame = 16
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1741              	.LVL191:
  1742              		.loc 1 486 5 view .LVU429
  1743 0026 89B2     		uxth	r1, r1
-ARM GAS  /tmp/ccaQDcJG.s 			page 42
+ARM GAS  /tmp/ccfXhaLe.s 			page 42
 
 
  1744 0028 5846     		mov	r0, fp
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1790              	.LVL198:
  1791              	.L127:
  493:Core/Src/display.c ****         if (f >= 0) {
-ARM GAS  /tmp/ccaQDcJG.s 			page 43
+ARM GAS  /tmp/ccfXhaLe.s 			page 43
 
 
  494:Core/Src/display.c ****             y--;
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1837 00b0 89B2     		uxth	r1, r1
  1838 00b2 0BEB0508 		add	r8, fp, r5
  1839 00b6 1FFA88F8 		uxth	r8, r8
-ARM GAS  /tmp/ccaQDcJG.s 			page 44
+ARM GAS  /tmp/ccfXhaLe.s 			page 44
 
 
  1840 00ba CDF800A0 		str	r10, [sp]
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1887 0118 B7E7     		b	.L123
  1888              	.L126:
  507:Core/Src/display.c ****     }
-ARM GAS  /tmp/ccaQDcJG.s 			page 45
+ARM GAS  /tmp/ccfXhaLe.s 			page 45
 
 
  508:Core/Src/display.c **** }
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  1939              	.LVL212:
  1940              	.LFB307:
  516:Core/Src/display.c **** 
-ARM GAS  /tmp/ccaQDcJG.s 			page 46
+ARM GAS  /tmp/ccfXhaLe.s 			page 46
 
 
  517:Core/Src/display.c **** void Set_Column_Address(unsigned char add)
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  111:Core/Src/display.c **** 	for(i=0;i<0x04;i++)
  1990              		.loc 1 111 3 view .LVU476
  1991              	.LVL216:
-ARM GAS  /tmp/ccaQDcJG.s 			page 47
+ARM GAS  /tmp/ccfXhaLe.s 			page 47
 
 
  112:Core/Src/display.c **** 	{
@@ -2783,16 +2783,16 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2005 000e FFF7FEFF 		bl	data
  2006              	.LVL218:
  116:Core/Src/display.c **** 		{
- 2007              		.loc 1 116 19 is_stmt 1 discriminator 3 view .LVU483
+ 2007              		.loc 1 116 21 is_stmt 1 discriminator 3 view .LVU483
  2008 0012 0134     		adds	r4, r4, #1
  2009              	.LVL219:
  116:Core/Src/display.c **** 		{
- 2010              		.loc 1 116 19 is_stmt 0 discriminator 3 view .LVU484
+ 2010              		.loc 1 116 21 is_stmt 0 discriminator 3 view .LVU484
  2011 0014 E4B2     		uxtb	r4, r4
  2012              	.LVL220:
  2013              	.L134:
  116:Core/Src/display.c **** 		{
- 2014              		.loc 1 116 12 is_stmt 1 discriminator 1 view .LVU485
+ 2014              		.loc 1 116 14 is_stmt 1 discriminator 1 view .LVU485
  2015 0016 14F0800F 		tst	r4, #128
  2016 001a F4D0     		beq	.L135
  112:Core/Src/display.c **** 	{
@@ -2808,26 +2808,26 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2024              		.loc 1 112 11 is_stmt 1 discriminator 1 view .LVU488
  2025 0020 032D     		cmp	r5, #3
  2026 0022 07D8     		bhi	.L138
- 114:Core/Src/display.c ****   Set_Column_Address(0x00);
- 2027              		.loc 1 114 2 view .LVU489
+ 114:Core/Src/display.c ****   		Set_Column_Address(0x00);
+ 2027              		.loc 1 114 3 view .LVU489
  2028 0024 2846     		mov	r0, r5
  2029 0026 FFF7FEFF 		bl	Set_Page_Address
  2030              	.LVL223:
- 115:Core/Src/display.c ****   for(j=0;j<0x80;j++)
- 2031              		.loc 1 115 3 view .LVU490
+ 115:Core/Src/display.c ****   		for(j=0;j<0x80;j++)
+ 2031              		.loc 1 115 5 view .LVU490
  2032 002a 0020     		movs	r0, #0
  2033 002c FFF7FEFF 		bl	Set_Column_Address
  2034              	.LVL224:
-ARM GAS  /tmp/ccaQDcJG.s 			page 48
+ARM GAS  /tmp/ccfXhaLe.s 			page 48
 
 
  116:Core/Src/display.c **** 		{
- 2035              		.loc 1 116 3 view .LVU491
+ 2035              		.loc 1 116 5 view .LVU491
  116:Core/Src/display.c **** 		{
- 2036              		.loc 1 116 8 is_stmt 0 view .LVU492
+ 2036              		.loc 1 116 10 is_stmt 0 view .LVU492
  2037 0030 0024     		movs	r4, #0
  116:Core/Src/display.c **** 		{
- 2038              		.loc 1 116 3 view .LVU493
+ 2038              		.loc 1 116 5 view .LVU493
  2039 0032 F0E7     		b	.L134
  2040              	.LVL225:
  2041              	.L138:
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  127:Core/Src/display.c ****   }
  2081              		.loc 1 127 5 is_stmt 1 view .LVU501
  127:Core/Src/display.c ****   }
-ARM GAS  /tmp/ccaQDcJG.s 			page 49
+ARM GAS  /tmp/ccfXhaLe.s 			page 49
 
 
  2082              		.loc 1 127 20 is_stmt 0 view .LVU502
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2131              		.cfi_offset 5, -8
  2132              		.cfi_offset 14, -4
  134:Core/Src/display.c ****   uint8_t fill;
-ARM GAS  /tmp/ccaQDcJG.s 			page 50
+ARM GAS  /tmp/ccfXhaLe.s 			page 50
 
 
  2133              		.loc 1 134 3 is_stmt 1 view .LVU510
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2172              		.loc 1 151 5 is_stmt 1 view .LVU525
  151:Core/Src/display.c **** 		}
  2173              		.loc 1 151 28 is_stmt 0 view .LVU526
-ARM GAS  /tmp/ccaQDcJG.s 			page 51
+ARM GAS  /tmp/ccfXhaLe.s 			page 51
 
 
  2174 001e 04EBC513 		add	r3, r4, r5, lsl #7
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2215              		.loc 1 156 1 view .LVU539
  2216 004c 38BD     		pop	{r3, r4, r5, pc}
  2217              	.LVL246:
-ARM GAS  /tmp/ccaQDcJG.s 			page 52
+ARM GAS  /tmp/ccfXhaLe.s 			page 52
 
 
  2218              	.L159:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2267 0032 1420     		movs	r0, #20
  2268 0034 FFF7FEFF 		bl	HAL_Delay
  2269              	.LVL251:
-ARM GAS  /tmp/ccaQDcJG.s 			page 53
+ARM GAS  /tmp/ccfXhaLe.s 			page 53
 
 
   50:Core/Src/display.c ****     HAL_Delay(20);
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
   64:Core/Src/display.c **** 
  2314              		.loc 1 64 5 view .LVU557
  2315 0082 0020     		movs	r0, #0
-ARM GAS  /tmp/ccaQDcJG.s 			page 54
+ARM GAS  /tmp/ccfXhaLe.s 			page 54
 
 
  2316 0084 FFF7FEFF 		bl	command
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2359 00c4 8020     		movs	r0, #128
  2360 00c6 FFF7FEFF 		bl	command
  2361              	.LVL273:
-ARM GAS  /tmp/ccaQDcJG.s 			page 55
+ARM GAS  /tmp/ccfXhaLe.s 			page 55
 
 
   85:Core/Src/display.c ****     command(0xF1);            
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2402 00fe 08BD     		pop	{r3, pc}
  2403              	.L163:
  2404              		.align	2
-ARM GAS  /tmp/ccaQDcJG.s 			page 56
+ARM GAS  /tmp/ccfXhaLe.s 			page 56
 
 
  2405              	.L162:
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2449              		.loc 1 531 19 is_stmt 1 discriminator 3 view .LVU592
  2450 0012 0134     		adds	r4, r4, #1
  2451              	.LVL285:
-ARM GAS  /tmp/ccaQDcJG.s 			page 57
+ARM GAS  /tmp/ccfXhaLe.s 			page 57
 
 
  531:Core/Src/display.c **** 		{
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2493              		.syntax unified
  2494              		.thumb
  2495              		.thumb_func
-ARM GAS  /tmp/ccaQDcJG.s 			page 58
+ARM GAS  /tmp/ccfXhaLe.s 			page 58
 
 
  2497              	display_demo:
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  572:Core/Src/display.c **** 0xAC,0xA7,0xA3,0x80,0x80,0x80,0x80,0x9E,0xBF,0xA1,0xA1,0xBF,0xBF,0x80,0x9E,0xBF,
  573:Core/Src/display.c **** 0xA1,0xA1,0xBF,0x9E,0x81,0x9F,0xBF,0xA1,0x80,0x96,0xB7,0xAD,0xAD,0xBB,0x9A,0x80,
  574:Core/Src/display.c **** 0x80,0x80,0x80,0x80,0x80,0x80,0x9F,0xBF,0xA0,0xBF,0x9F,0x80,0xB0,0xB0,0x80,0x93,
-ARM GAS  /tmp/ccaQDcJG.s 			page 59
+ARM GAS  /tmp/ccfXhaLe.s 			page 59
 
 
  575:Core/Src/display.c **** 0xB7,0xA4,0xBF,0x9F,0x80,0x83,0x81,0xBF,0xBF,0x80,0xBF,0xBF,0x80,0xBF,0xBF,0x81,
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2559 0010 362E3276 		.ascii	"6.2v\000"
  2559      00
  2560              		.section	.text.display_test,"ax",%progbits
-ARM GAS  /tmp/ccaQDcJG.s 			page 60
+ARM GAS  /tmp/ccfXhaLe.s 			page 60
 
 
  2561              		.align	1
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2609 0032 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
  2610              	.LVL301:
  593:Core/Src/display.c **** 	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
-ARM GAS  /tmp/ccaQDcJG.s 			page 61
+ARM GAS  /tmp/ccfXhaLe.s 			page 61
 
 
  2611              		.loc 1 593 2 view .LVU619
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2658 0084 0748     		ldr	r0, .L177+16
  2659 0086 FFF7FEFF 		bl	SSD1306_Puts
  2660              	.LVL309:
-ARM GAS  /tmp/ccaQDcJG.s 			page 62
+ARM GAS  /tmp/ccfXhaLe.s 			page 62
 
 
  601:Core/Src/display.c **** 	SSD1306_UpdateScreen();
@@ -3682,276 +3682,578 @@ ARM GAS  /tmp/ccaQDcJG.s 			page 1
  2677 00a4 10000000 		.word	.LC3
  2678              		.cfi_endproc
  2679              	.LFE310:
- 2681              		.section	.bss.SSD1306,"aw",%nobits
- 2682              		.align	2
- 2685              	SSD1306:
- 2686 0000 00000000 		.space	6
- 2686      0000
- 2687              		.section	.bss.pixelBuffer,"aw",%nobits
- 2688              		.align	2
- 2691              	pixelBuffer:
- 2692 0000 00000000 		.space	512
- 2692      00000000 
- 2692      00000000 
- 2692      00000000 
- 2692      00000000 
- 2693              		.section	.bss.SSD1306_Buffer,"aw",%nobits
- 2694              		.align	2
- 2697              	SSD1306_Buffer:
- 2698 0000 00000000 		.space	512
- 2698      00000000 
- 2698      00000000 
- 2698      00000000 
- 2698      00000000 
- 2699              		.section	.rodata
- 2700              		.align	2
- 2701              		.set	.LANCHOR0,. + 0
- 2702              	.LC0:
- 2703 0000 FF0101FD 		.ascii	"\377\001\001\375%%%%\001\341YEY\341\001\231%%\311\001"
- 2703      25252525 
- 2703      01E15945 
- 2703      59E10199 
- 2703      2525C901 
- 2704 0014 0505FD05 		.ascii	"\005\005\375\005\005\001\375%%e\231\001\001\375\001"
- 2704      0501FD25 
- 2704      25659901 
- 2704      01FD01
- 2705 0023 01992525 		.ascii	"\001\231%%\311\001\001\375\001\001\375\031!\301\375"
- 2705      C90101FD 
-ARM GAS  /tmp/ccaQDcJG.s 			page 63
+ 2681              		.section	.text.vbat_show,"ax",%progbits
+ 2682              		.align	1
+ 2683              		.global	vbat_show
+ 2684              		.syntax unified
+ 2685              		.thumb
+ 2686              		.thumb_func
+ 2688              	vbat_show:
+ 2689              	.LVL311:
+ 2690              	.LFB311:
+ 603:Core/Src/display.c **** 
+ 604:Core/Src/display.c **** void vbat_show(uint8_t data)
+ 605:Core/Src/display.c **** {
+ 2691              		.loc 1 605 1 is_stmt 1 view -0
+ 2692              		.cfi_startproc
+ 2693              		@ args = 0, pretend = 0, frame = 0
+ 2694              		@ frame_needed = 0, uses_anonymous_args = 0
+ 2695              		.loc 1 605 1 is_stmt 0 view .LVU630
+ 2696 0000 10B5     		push	{r4, lr}
+ 2697              	.LCFI47:
+ 2698              		.cfi_def_cfa_offset 8
+ 2699              		.cfi_offset 4, -8
+ 2700              		.cfi_offset 14, -4
+ 2701 0002 82B0     		sub	sp, sp, #8
+ 2702              	.LCFI48:
+ 2703              		.cfi_def_cfa_offset 16
+ 606:Core/Src/display.c **** 	switch (data)
+ 2704              		.loc 1 606 2 is_stmt 1 view .LVU631
+ 2705 0004 0138     		subs	r0, r0, #1
+ 2706              	.LVL312:
+ 2707              		.loc 1 606 2 is_stmt 0 view .LVU632
+ 2708 0006 0328     		cmp	r0, #3
+ 2709 0008 28D8     		bhi	.L179
+ 2710 000a DFE800F0 		tbb	[pc, r0]
+ 2711              	.L182:
+ 2712 000e 02       		.byte	(.L185-.L182)/2
+ 2713 000f 29       		.byte	(.L184-.L182)/2
+ARM GAS  /tmp/ccfXhaLe.s 			page 63
 
 
- 2705      0101FD19 
- 2705      21C1FD
- 2706 0032 0101F905 		.ascii	"\001\001\371\005\005%\351\001\001\001\001\005\005\375"
- 2706      0525E901 
- 2706      01010105 
- 2706      05FD
- 2707 0040 050501FD 		.ascii	"\005\005\001\375%%%%\001\371\005\005\005\211\001\001"
- 2707      25252525 
- 2707      01F90505 
- 2707      05890101 
- 2708 0050 FD212121 		.ascii	"\375!!!\375\001\001\001\001\001\371\005\005\005\211"
- 2708      FD010101 
- 2708      0101F905 
- 2708      050589
- 2709 005f 0101F905 		.ascii	"\001\001\371\005\005\005\371\001\001\001\001\001\001"
- 2709      0505F901 
- 2709      01010101 
- 2709      01
- 2710 006c 0101FD01 		.ascii	"\001\001\375\001\001\001\005\005\375\005\005\001\375"
- 2710      01010505 
- 2710      FD050501 
- 2710      FD
- 2711 0079 050505F9 		.ascii	"\005\005\005\371\001\001\377\377\000\000\001\001\001"
- 2711      0101FFFF 
- 2711      00000101 
- 2711      01
- 2712 0086 01010100 		.ascii	"\001\001\001\000\000\000\000\000\001\000\001\001\000"
- 2712      00000000 
- 2712      01000101 
- 2712      00
- 2713 0093 00000001 		.ascii	"\000\000\000\001\000\000\000\361\360\220\220\221\000"
- 2713      000000F1 
- 2713      F0909091 
- 2713      00
- 2714 00a0 F0F11010 		.ascii	"\360\361\020\020\360\341\001\000\000\000\001\300\340"
- 2714      F0E10100 
- 2714      000001C0 
- 2714      E0
- 2715 00ad 311030E0 		.ascii	"1\0200\340\301\000\360\360\001\001\001\000\000\360\360"
- 2715      C100F0F0 
- 2715      01010100 
- 2715      00F0F0
- 2716 00bc 90909001 		.ascii	"\220\220\220\001\360\360\020\021\361\341\001\341\360"
- 2716      F0F01011 
- 2716      F1E101E1 
- 2716      F0
- 2717 00c9 10F1E101 		.ascii	"\020\361\341\001\340\360\020\361\340\000\300a\360\360"
- 2717      E0F010F1 
- 2717      E000C061 
- 2717      F0F0
- 2718 00d7 01000000 		.ascii	"\001\000\000\000\001\001!0\220\360`\001\001\001\000"
- 2718      01012130 
- 2718      90F06001 
- 2718      010100
- 2719 00e6 00000100 		.ascii	"\000\000\001\000\000\003\000\000\001\001\001\001\000"
- 2719      00030000 
- 2719      01010101 
-ARM GAS  /tmp/ccaQDcJG.s 			page 64
+ 2714 0010 4F       		.byte	(.L183-.L182)/2
+ 2715 0011 75       		.byte	(.L181-.L182)/2
+ 2716              		.p2align 1
+ 2717              	.L185:
+ 607:Core/Src/display.c **** 	{
+ 608:Core/Src/display.c **** 	case 1:
+ 609:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+ 2718              		.loc 1 609 6 is_stmt 1 view .LVU633
+ 2719 0012 0024     		movs	r4, #0
+ 2720 0014 0094     		str	r4, [sp]
+ 2721 0016 0223     		movs	r3, #2
+ 2722 0018 0522     		movs	r2, #5
+ 2723 001a 0721     		movs	r1, #7
+ 2724 001c 7820     		movs	r0, #120
+ 2725              	.LVL313:
+ 2726              		.loc 1 609 6 is_stmt 0 view .LVU634
+ 2727 001e FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2728              	.LVL314:
+ 610:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+ 2729              		.loc 1 610 6 is_stmt 1 view .LVU635
+ 2730 0022 0094     		str	r4, [sp]
+ 2731 0024 0323     		movs	r3, #3
+ 2732 0026 0A22     		movs	r2, #10
+ 2733 0028 1146     		mov	r1, r2
+ 2734 002a 7620     		movs	r0, #118
+ 2735 002c FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2736              	.LVL315:
+ 611:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_BLACK);
+ 2737              		.loc 1 611 6 view .LVU636
+ 2738 0030 0094     		str	r4, [sp]
+ 2739 0032 0323     		movs	r3, #3
+ 2740 0034 0A22     		movs	r2, #10
+ 2741 0036 1021     		movs	r1, #16
+ 2742 0038 7620     		movs	r0, #118
+ 2743 003a FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2744              	.LVL316:
+ 612:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_BLACK);
+ 2745              		.loc 1 612 6 view .LVU637
+ 2746 003e 0094     		str	r4, [sp]
+ 2747 0040 0323     		movs	r3, #3
+ 2748 0042 0A22     		movs	r2, #10
+ 2749 0044 1621     		movs	r1, #22
+ 2750 0046 7620     		movs	r0, #118
+ 2751 0048 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2752              	.LVL317:
+ 613:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 2753              		.loc 1 613 6 view .LVU638
+ 2754 004c 0123     		movs	r3, #1
+ 2755 004e 0093     		str	r3, [sp]
+ 2756 0050 0323     		movs	r3, #3
+ 2757 0052 0A22     		movs	r2, #10
+ 2758 0054 1C21     		movs	r1, #28
+ 2759 0056 7620     		movs	r0, #118
+ 2760 0058 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2761              	.LVL318:
+ 614:Core/Src/display.c **** 		break;
+ 2762              		.loc 1 614 3 view .LVU639
+ARM GAS  /tmp/ccfXhaLe.s 			page 64
 
 
- 2719      00
- 2720 00f3 00010000 		.ascii	"\000\001\000\000\000\001\001\001\001\000\000\000\377"
- 2720      00010101 
- 2720      01000000 
- 2720      FF
- 2721 0100 FF000080 		.ascii	"\377\000\000\200\300\300\000\000\200\300@\300\200\000"
- 2721      C0C00000 
- 2721      80C040C0 
- 2721      8000
- 2722 010e 80C040C0 		.ascii	"\200\300@\300\200\000\200\300\200\000\200\300O\317\210"
- 2722      800080C0 
- 2722      800080C0 
- 2722      4FCF88
- 2723 011d 0888C04F 		.ascii	"\010\210\300O\317\201\003\007\014\010\002\002\002\000"
- 2723      CF810307 
- 2723      0C080202 
- 2723      0200
- 2724 012b C3C70C08 		.ascii	"\303\307\014\010\014\007\003\000\017\017\210\310\010"
- 2724      0C070300 
- 2724      0F0F88C8 
- 2724      08
- 2725 0138 08000F0F 		.ascii	"\010\000\017\017\010\010\010\000\017\017\010\010\017"
- 2725      08080800 
- 2725      0F0F0808 
- 2725      0F
- 2726 0145 0780C74F 		.ascii	"\007\200\307O\310\217\007\000\004\015\211\317G\300\200"
- 2726      C88F0700 
- 2726      040D89CF 
- 2726      47C080
- 2727 0154 000F8FC0 		.ascii	"\000\017\217\300\300\002BB\000\004\014\010\017\007\000"
- 2727      C0024242 
- 2727      00040C08 
- 2727      0F0700
- 2728 0163 00000000 		.ascii	"\000\000\000\000\000\000\000\300\300\000\000\000\000"
- 2728      000000C0 
- 2728      C0000000 
- 2728      00
- 2729 0170 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
- 2729      00000000 
- 2729      00000000 
- 2729      00
- 2730 017d 0000FFFF 		.ascii	"\000\000\377\377\200\203\201\277\277\200\200\260\270"
- 2730      808381BF 
- 2730      BF8080B0 
- 2730      B8
- 2731 018a ACA7A380 		.ascii	"\254\247\243\200\235\277\242\277\235\200\202\201\202"
- 2731      9DBFA2BF 
- 2731      9D808281 
- 2731      82
- 2732 0197 8090B0A2 		.ascii	"\200\220\260\242\277\235\200\260\270\254\247\243\200"
- 2732      BF9D80B0 
- 2732      B8ACA7A3 
- 2732      80
- 2733 01a4 8080809E 		.ascii	"\200\200\200\236\277\241\241\277\277\200\236\277\241"
- 2733      BFA1A1BF 
- 2733      BF809EBF 
- 2733      A1
-ARM GAS  /tmp/ccaQDcJG.s 			page 65
+ 2763              	.L179:
+ 615:Core/Src/display.c **** 	case 2:
+ 616:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+ 617:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+ 618:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_BLACK);
+ 619:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 620:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 621:Core/Src/display.c **** 		break;
+ 622:Core/Src/display.c **** 	case 3:
+ 623:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
+ 624:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+ 625:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+ 626:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 627:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 628:Core/Src/display.c **** 		break;
+ 629:Core/Src/display.c **** 	case 4:
+ 630:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_WHITE);
+ 631:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+ 632:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+ 633:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 634:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 635:Core/Src/display.c **** 		break;
+ 636:Core/Src/display.c **** 	default:
+ 637:Core/Src/display.c **** 		break;
+ 638:Core/Src/display.c **** 	}
+ 639:Core/Src/display.c **** }
+ 2764              		.loc 1 639 1 is_stmt 0 view .LVU640
+ 2765 005c 02B0     		add	sp, sp, #8
+ 2766              	.LCFI49:
+ 2767              		.cfi_remember_state
+ 2768              		.cfi_def_cfa_offset 8
+ 2769              		@ sp needed
+ 2770 005e 10BD     		pop	{r4, pc}
+ 2771              	.L184:
+ 2772              	.LCFI50:
+ 2773              		.cfi_restore_state
+ 616:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+ 2774              		.loc 1 616 6 is_stmt 1 view .LVU641
+ 2775 0060 0024     		movs	r4, #0
+ 2776 0062 0094     		str	r4, [sp]
+ 2777 0064 0223     		movs	r3, #2
+ 2778 0066 0522     		movs	r2, #5
+ 2779 0068 0721     		movs	r1, #7
+ 2780 006a 7820     		movs	r0, #120
+ 2781 006c FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2782              	.LVL319:
+ 617:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_BLACK);
+ 2783              		.loc 1 617 6 view .LVU642
+ 2784 0070 0094     		str	r4, [sp]
+ 2785 0072 0323     		movs	r3, #3
+ 2786 0074 0A22     		movs	r2, #10
+ 2787 0076 1146     		mov	r1, r2
+ 2788 0078 7620     		movs	r0, #118
+ 2789 007a FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2790              	.LVL320:
+ 618:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 2791              		.loc 1 618 6 view .LVU643
+ARM GAS  /tmp/ccfXhaLe.s 			page 65
 
 
- 2734 01b1 A1BF9E81 		.ascii	"\241\277\236\201\237\277\241\200\226\267\255\255\273"
- 2734      9FBFA180 
- 2734      96B7ADAD 
- 2734      BB
- 2735 01be 9A808080 		.ascii	"\232\200\200\200\200\200\200\200\237\277\240\277\237"
- 2735      80808080 
- 2735      9FBFA0BF 
- 2735      9F
- 2736 01cb 80B0B080 		.ascii	"\200\260\260\200\223\267\244\277\237\200\203\201\277"
- 2736      93B7A4BF 
- 2736      9F808381 
- 2736      BF
- 2737 01d8 BF80BFBF 		.ascii	"\277\200\277\277\200\277\277\201\201\277\276\200\236"
- 2737      80BFBF81 
- 2737      81BFBE80 
- 2737      9E
- 2738 01e5 BFA1B392 		.ascii	"\277\241\263\222\200\277\277\201\201\277\276\200\236"
- 2738      80BFBF81 
- 2738      81BFBE80 
- 2738      9E
- 2739 01f2 BFA5A5B7 		.ascii	"\277\245\245\267\226\200\226\267\255\255\273\232\200"
- 2739      968096B7 
- 2739      ADADBB9A 
- 2739      80
- 2740 01ff FF       		.ascii	"\377"
- 2741              		.text
- 2742              	.Letext0:
- 2743              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 2744              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
- 2745              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 2746              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
- 2747              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
- 2748              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
- 2749              		.file 8 "Core/Inc/fonts.h"
- 2750              		.file 9 "Core/Inc/display.h"
- 2751              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 2752              		.file 11 "<built-in>"
-ARM GAS  /tmp/ccaQDcJG.s 			page 66
+ 2792 007e 0094     		str	r4, [sp]
+ 2793 0080 0323     		movs	r3, #3
+ 2794 0082 0A22     		movs	r2, #10
+ 2795 0084 1021     		movs	r1, #16
+ 2796 0086 7620     		movs	r0, #118
+ 2797 0088 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2798              	.LVL321:
+ 619:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 2799              		.loc 1 619 6 view .LVU644
+ 2800 008c 0124     		movs	r4, #1
+ 2801 008e 0094     		str	r4, [sp]
+ 2802 0090 0323     		movs	r3, #3
+ 2803 0092 0A22     		movs	r2, #10
+ 2804 0094 1621     		movs	r1, #22
+ 2805 0096 7620     		movs	r0, #118
+ 2806 0098 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2807              	.LVL322:
+ 620:Core/Src/display.c **** 		break;
+ 2808              		.loc 1 620 6 view .LVU645
+ 2809 009c 0094     		str	r4, [sp]
+ 2810 009e 0323     		movs	r3, #3
+ 2811 00a0 0A22     		movs	r2, #10
+ 2812 00a2 1C21     		movs	r1, #28
+ 2813 00a4 7620     		movs	r0, #118
+ 2814 00a6 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2815              	.LVL323:
+ 621:Core/Src/display.c **** 	case 3:
+ 2816              		.loc 1 621 3 view .LVU646
+ 2817 00aa D7E7     		b	.L179
+ 2818              	.L183:
+ 623:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_BLACK);
+ 2819              		.loc 1 623 6 view .LVU647
+ 2820 00ac 0024     		movs	r4, #0
+ 2821 00ae 0094     		str	r4, [sp]
+ 2822 00b0 0223     		movs	r3, #2
+ 2823 00b2 0522     		movs	r2, #5
+ 2824 00b4 0721     		movs	r1, #7
+ 2825 00b6 7820     		movs	r0, #120
+ 2826 00b8 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2827              	.LVL324:
+ 624:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+ 2828              		.loc 1 624 6 view .LVU648
+ 2829 00bc 0094     		str	r4, [sp]
+ 2830 00be 0323     		movs	r3, #3
+ 2831 00c0 0A22     		movs	r2, #10
+ 2832 00c2 1146     		mov	r1, r2
+ 2833 00c4 7620     		movs	r0, #118
+ 2834 00c6 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2835              	.LVL325:
+ 625:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 2836              		.loc 1 625 6 view .LVU649
+ 2837 00ca 0124     		movs	r4, #1
+ 2838 00cc 0094     		str	r4, [sp]
+ 2839 00ce 0323     		movs	r3, #3
+ 2840 00d0 0A22     		movs	r2, #10
+ 2841 00d2 1021     		movs	r1, #16
+ 2842 00d4 7620     		movs	r0, #118
+ARM GAS  /tmp/ccfXhaLe.s 			page 66
+
+
+ 2843 00d6 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2844              	.LVL326:
+ 626:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 2845              		.loc 1 626 6 view .LVU650
+ 2846 00da 0094     		str	r4, [sp]
+ 2847 00dc 0323     		movs	r3, #3
+ 2848 00de 0A22     		movs	r2, #10
+ 2849 00e0 1621     		movs	r1, #22
+ 2850 00e2 7620     		movs	r0, #118
+ 2851 00e4 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2852              	.LVL327:
+ 627:Core/Src/display.c **** 		break;
+ 2853              		.loc 1 627 6 view .LVU651
+ 2854 00e8 0094     		str	r4, [sp]
+ 2855 00ea 0323     		movs	r3, #3
+ 2856 00ec 0A22     		movs	r2, #10
+ 2857 00ee 1C21     		movs	r1, #28
+ 2858 00f0 7620     		movs	r0, #118
+ 2859 00f2 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2860              	.LVL328:
+ 628:Core/Src/display.c **** 	case 4:
+ 2861              		.loc 1 628 3 view .LVU652
+ 2862 00f6 B1E7     		b	.L179
+ 2863              	.L181:
+ 630:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+ 2864              		.loc 1 630 6 view .LVU653
+ 2865 00f8 0124     		movs	r4, #1
+ 2866 00fa 0094     		str	r4, [sp]
+ 2867 00fc 0223     		movs	r3, #2
+ 2868 00fe 0522     		movs	r2, #5
+ 2869 0100 0721     		movs	r1, #7
+ 2870 0102 7820     		movs	r0, #120
+ 2871 0104 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2872              	.LVL329:
+ 631:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+ 2873              		.loc 1 631 6 view .LVU654
+ 2874 0108 0094     		str	r4, [sp]
+ 2875 010a 0323     		movs	r3, #3
+ 2876 010c 0A22     		movs	r2, #10
+ 2877 010e 1146     		mov	r1, r2
+ 2878 0110 7620     		movs	r0, #118
+ 2879 0112 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2880              	.LVL330:
+ 632:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+ 2881              		.loc 1 632 6 view .LVU655
+ 2882 0116 0094     		str	r4, [sp]
+ 2883 0118 0323     		movs	r3, #3
+ 2884 011a 0A22     		movs	r2, #10
+ 2885 011c 1021     		movs	r1, #16
+ 2886 011e 7620     		movs	r0, #118
+ 2887 0120 FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2888              	.LVL331:
+ 633:Core/Src/display.c ****     	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+ 2889              		.loc 1 633 6 view .LVU656
+ 2890 0124 0094     		str	r4, [sp]
+ 2891 0126 0323     		movs	r3, #3
+ 2892 0128 0A22     		movs	r2, #10
+ARM GAS  /tmp/ccfXhaLe.s 			page 67
+
+
+ 2893 012a 1621     		movs	r1, #22
+ 2894 012c 7620     		movs	r0, #118
+ 2895 012e FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2896              	.LVL332:
+ 634:Core/Src/display.c **** 		break;
+ 2897              		.loc 1 634 6 view .LVU657
+ 2898 0132 0094     		str	r4, [sp]
+ 2899 0134 0323     		movs	r3, #3
+ 2900 0136 0A22     		movs	r2, #10
+ 2901 0138 1C21     		movs	r1, #28
+ 2902 013a 7620     		movs	r0, #118
+ 2903 013c FFF7FEFF 		bl	SSD1306_DrawFilledRectangle
+ 2904              	.LVL333:
+ 635:Core/Src/display.c **** 	default:
+ 2905              		.loc 1 635 3 view .LVU658
+ 2906              		.loc 1 639 1 is_stmt 0 view .LVU659
+ 2907 0140 8CE7     		b	.L179
+ 2908              		.cfi_endproc
+ 2909              	.LFE311:
+ 2911              		.section	.bss.SSD1306,"aw",%nobits
+ 2912              		.align	2
+ 2915              	SSD1306:
+ 2916 0000 00000000 		.space	6
+ 2916      0000
+ 2917              		.section	.bss.pixelBuffer,"aw",%nobits
+ 2918              		.align	2
+ 2921              	pixelBuffer:
+ 2922 0000 00000000 		.space	512
+ 2922      00000000 
+ 2922      00000000 
+ 2922      00000000 
+ 2922      00000000 
+ 2923              		.section	.bss.SSD1306_Buffer,"aw",%nobits
+ 2924              		.align	2
+ 2927              	SSD1306_Buffer:
+ 2928 0000 00000000 		.space	512
+ 2928      00000000 
+ 2928      00000000 
+ 2928      00000000 
+ 2928      00000000 
+ 2929              		.section	.rodata
+ 2930              		.align	2
+ 2931              		.set	.LANCHOR0,. + 0
+ 2932              	.LC0:
+ 2933 0000 FF0101FD 		.ascii	"\377\001\001\375%%%%\001\341YEY\341\001\231%%\311\001"
+ 2933      25252525 
+ 2933      01E15945 
+ 2933      59E10199 
+ 2933      2525C901 
+ 2934 0014 0505FD05 		.ascii	"\005\005\375\005\005\001\375%%e\231\001\001\375\001"
+ 2934      0501FD25 
+ 2934      25659901 
+ 2934      01FD01
+ 2935 0023 01992525 		.ascii	"\001\231%%\311\001\001\375\001\001\375\031!\301\375"
+ 2935      C90101FD 
+ 2935      0101FD19 
+ 2935      21C1FD
+ARM GAS  /tmp/ccfXhaLe.s 			page 68
+
+
+ 2936 0032 0101F905 		.ascii	"\001\001\371\005\005%\351\001\001\001\001\005\005\375"
+ 2936      0525E901 
+ 2936      01010105 
+ 2936      05FD
+ 2937 0040 050501FD 		.ascii	"\005\005\001\375%%%%\001\371\005\005\005\211\001\001"
+ 2937      25252525 
+ 2937      01F90505 
+ 2937      05890101 
+ 2938 0050 FD212121 		.ascii	"\375!!!\375\001\001\001\001\001\371\005\005\005\211"
+ 2938      FD010101 
+ 2938      0101F905 
+ 2938      050589
+ 2939 005f 0101F905 		.ascii	"\001\001\371\005\005\005\371\001\001\001\001\001\001"
+ 2939      0505F901 
+ 2939      01010101 
+ 2939      01
+ 2940 006c 0101FD01 		.ascii	"\001\001\375\001\001\001\005\005\375\005\005\001\375"
+ 2940      01010505 
+ 2940      FD050501 
+ 2940      FD
+ 2941 0079 050505F9 		.ascii	"\005\005\005\371\001\001\377\377\000\000\001\001\001"
+ 2941      0101FFFF 
+ 2941      00000101 
+ 2941      01
+ 2942 0086 01010100 		.ascii	"\001\001\001\000\000\000\000\000\001\000\001\001\000"
+ 2942      00000000 
+ 2942      01000101 
+ 2942      00
+ 2943 0093 00000001 		.ascii	"\000\000\000\001\000\000\000\361\360\220\220\221\000"
+ 2943      000000F1 
+ 2943      F0909091 
+ 2943      00
+ 2944 00a0 F0F11010 		.ascii	"\360\361\020\020\360\341\001\000\000\000\001\300\340"
+ 2944      F0E10100 
+ 2944      000001C0 
+ 2944      E0
+ 2945 00ad 311030E0 		.ascii	"1\0200\340\301\000\360\360\001\001\001\000\000\360\360"
+ 2945      C100F0F0 
+ 2945      01010100 
+ 2945      00F0F0
+ 2946 00bc 90909001 		.ascii	"\220\220\220\001\360\360\020\021\361\341\001\341\360"
+ 2946      F0F01011 
+ 2946      F1E101E1 
+ 2946      F0
+ 2947 00c9 10F1E101 		.ascii	"\020\361\341\001\340\360\020\361\340\000\300a\360\360"
+ 2947      E0F010F1 
+ 2947      E000C061 
+ 2947      F0F0
+ 2948 00d7 01000000 		.ascii	"\001\000\000\000\001\001!0\220\360`\001\001\001\000"
+ 2948      01012130 
+ 2948      90F06001 
+ 2948      010100
+ 2949 00e6 00000100 		.ascii	"\000\000\001\000\000\003\000\000\001\001\001\001\000"
+ 2949      00030000 
+ 2949      01010101 
+ 2949      00
+ 2950 00f3 00010000 		.ascii	"\000\001\000\000\000\001\001\001\001\000\000\000\377"
+ARM GAS  /tmp/ccfXhaLe.s 			page 69
+
+
+ 2950      00010101 
+ 2950      01000000 
+ 2950      FF
+ 2951 0100 FF000080 		.ascii	"\377\000\000\200\300\300\000\000\200\300@\300\200\000"
+ 2951      C0C00000 
+ 2951      80C040C0 
+ 2951      8000
+ 2952 010e 80C040C0 		.ascii	"\200\300@\300\200\000\200\300\200\000\200\300O\317\210"
+ 2952      800080C0 
+ 2952      800080C0 
+ 2952      4FCF88
+ 2953 011d 0888C04F 		.ascii	"\010\210\300O\317\201\003\007\014\010\002\002\002\000"
+ 2953      CF810307 
+ 2953      0C080202 
+ 2953      0200
+ 2954 012b C3C70C08 		.ascii	"\303\307\014\010\014\007\003\000\017\017\210\310\010"
+ 2954      0C070300 
+ 2954      0F0F88C8 
+ 2954      08
+ 2955 0138 08000F0F 		.ascii	"\010\000\017\017\010\010\010\000\017\017\010\010\017"
+ 2955      08080800 
+ 2955      0F0F0808 
+ 2955      0F
+ 2956 0145 0780C74F 		.ascii	"\007\200\307O\310\217\007\000\004\015\211\317G\300\200"
+ 2956      C88F0700 
+ 2956      040D89CF 
+ 2956      47C080
+ 2957 0154 000F8FC0 		.ascii	"\000\017\217\300\300\002BB\000\004\014\010\017\007\000"
+ 2957      C0024242 
+ 2957      00040C08 
+ 2957      0F0700
+ 2958 0163 00000000 		.ascii	"\000\000\000\000\000\000\000\300\300\000\000\000\000"
+ 2958      000000C0 
+ 2958      C0000000 
+ 2958      00
+ 2959 0170 00000000 		.ascii	"\000\000\000\000\000\000\000\000\000\000\000\000\000"
+ 2959      00000000 
+ 2959      00000000 
+ 2959      00
+ 2960 017d 0000FFFF 		.ascii	"\000\000\377\377\200\203\201\277\277\200\200\260\270"
+ 2960      808381BF 
+ 2960      BF8080B0 
+ 2960      B8
+ 2961 018a ACA7A380 		.ascii	"\254\247\243\200\235\277\242\277\235\200\202\201\202"
+ 2961      9DBFA2BF 
+ 2961      9D808281 
+ 2961      82
+ 2962 0197 8090B0A2 		.ascii	"\200\220\260\242\277\235\200\260\270\254\247\243\200"
+ 2962      BF9D80B0 
+ 2962      B8ACA7A3 
+ 2962      80
+ 2963 01a4 8080809E 		.ascii	"\200\200\200\236\277\241\241\277\277\200\236\277\241"
+ 2963      BFA1A1BF 
+ 2963      BF809EBF 
+ 2963      A1
+ 2964 01b1 A1BF9E81 		.ascii	"\241\277\236\201\237\277\241\200\226\267\255\255\273"
+ 2964      9FBFA180 
+ARM GAS  /tmp/ccfXhaLe.s 			page 70
+
+
+ 2964      96B7ADAD 
+ 2964      BB
+ 2965 01be 9A808080 		.ascii	"\232\200\200\200\200\200\200\200\237\277\240\277\237"
+ 2965      80808080 
+ 2965      9FBFA0BF 
+ 2965      9F
+ 2966 01cb 80B0B080 		.ascii	"\200\260\260\200\223\267\244\277\237\200\203\201\277"
+ 2966      93B7A4BF 
+ 2966      9F808381 
+ 2966      BF
+ 2967 01d8 BF80BFBF 		.ascii	"\277\200\277\277\200\277\277\201\201\277\276\200\236"
+ 2967      80BFBF81 
+ 2967      81BFBE80 
+ 2967      9E
+ 2968 01e5 BFA1B392 		.ascii	"\277\241\263\222\200\277\277\201\201\277\276\200\236"
+ 2968      80BFBF81 
+ 2968      81BFBE80 
+ 2968      9E
+ 2969 01f2 BFA5A5B7 		.ascii	"\277\245\245\267\226\200\226\267\255\255\273\232\200"
+ 2969      968096B7 
+ 2969      ADADBB9A 
+ 2969      80
+ 2970 01ff FF       		.ascii	"\377"
+ 2971              		.text
+ 2972              	.Letext0:
+ 2973              		.file 2 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 2974              		.file 3 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 2975              		.file 4 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 2976              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 2977              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 2978              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h"
+ 2979              		.file 8 "Core/Inc/fonts.h"
+ 2980              		.file 9 "Core/Inc/display.h"
+ 2981              		.file 10 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 2982              		.file 11 "<built-in>"
+ARM GAS  /tmp/ccfXhaLe.s 			page 71
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 display.c
-     /tmp/ccaQDcJG.s:21     .text.command:00000000 $t
-     /tmp/ccaQDcJG.s:27     .text.command:00000000 command
-     /tmp/ccaQDcJG.s:81     .text.command:00000048 $d
-     /tmp/ccaQDcJG.s:86     .text.data:00000000 $t
-     /tmp/ccaQDcJG.s:92     .text.data:00000000 data
-     /tmp/ccaQDcJG.s:146    .text.data:00000048 $d
-     /tmp/ccaQDcJG.s:151    .text.SSD1306_ToggleInvert:00000000 $t
-     /tmp/ccaQDcJG.s:157    .text.SSD1306_ToggleInvert:00000000 SSD1306_ToggleInvert
-     /tmp/ccaQDcJG.s:204    .text.SSD1306_ToggleInvert:00000024 $d
-     /tmp/ccaQDcJG.s:2685   .bss.SSD1306:00000000 SSD1306
-     /tmp/ccaQDcJG.s:2691   .bss.pixelBuffer:00000000 pixelBuffer
-     /tmp/ccaQDcJG.s:210    .text.SSD1306_DrawPixel:00000000 $t
-     /tmp/ccaQDcJG.s:216    .text.SSD1306_DrawPixel:00000000 SSD1306_DrawPixel
-     /tmp/ccaQDcJG.s:314    .text.SSD1306_DrawPixel:00000054 $d
-     /tmp/ccaQDcJG.s:320    .text.SSD1306_GotoXY:00000000 $t
-     /tmp/ccaQDcJG.s:326    .text.SSD1306_GotoXY:00000000 SSD1306_GotoXY
-     /tmp/ccaQDcJG.s:346    .text.SSD1306_GotoXY:00000008 $d
-     /tmp/ccaQDcJG.s:351    .text.SSD1306_Putc:00000000 $t
-     /tmp/ccaQDcJG.s:357    .text.SSD1306_Putc:00000000 SSD1306_Putc
-     /tmp/ccaQDcJG.s:515    .text.SSD1306_Putc:00000098 $d
-     /tmp/ccaQDcJG.s:520    .text.SSD1306_Puts:00000000 $t
-     /tmp/ccaQDcJG.s:526    .text.SSD1306_Puts:00000000 SSD1306_Puts
-     /tmp/ccaQDcJG.s:577    .text.SSD1306_DrawLine:00000000 $t
-     /tmp/ccaQDcJG.s:583    .text.SSD1306_DrawLine:00000000 SSD1306_DrawLine
-     /tmp/ccaQDcJG.s:916    .text.SSD1306_DrawRectangle:00000000 $t
-     /tmp/ccaQDcJG.s:922    .text.SSD1306_DrawRectangle:00000000 SSD1306_DrawRectangle
-     /tmp/ccaQDcJG.s:1038   .text.SSD1306_DrawFilledRectangle:00000000 $t
-     /tmp/ccaQDcJG.s:1044   .text.SSD1306_DrawFilledRectangle:00000000 SSD1306_DrawFilledRectangle
-     /tmp/ccaQDcJG.s:1145   .text.SSD1306_DrawTriangle:00000000 $t
-     /tmp/ccaQDcJG.s:1151   .text.SSD1306_DrawTriangle:00000000 SSD1306_DrawTriangle
-     /tmp/ccaQDcJG.s:1211   .text.SSD1306_DrawFilledTriangle:00000000 $t
-     /tmp/ccaQDcJG.s:1217   .text.SSD1306_DrawFilledTriangle:00000000 SSD1306_DrawFilledTriangle
-     /tmp/ccaQDcJG.s:1458   .text.SSD1306_DrawCircle:00000000 $t
-     /tmp/ccaQDcJG.s:1464   .text.SSD1306_DrawCircle:00000000 SSD1306_DrawCircle
-     /tmp/ccaQDcJG.s:1683   .text.SSD1306_DrawFilledCircle:00000000 $t
-     /tmp/ccaQDcJG.s:1689   .text.SSD1306_DrawFilledCircle:00000000 SSD1306_DrawFilledCircle
-     /tmp/ccaQDcJG.s:1900   .text.Set_Page_Address:00000000 $t
-     /tmp/ccaQDcJG.s:1906   .text.Set_Page_Address:00000000 Set_Page_Address
-     /tmp/ccaQDcJG.s:1932   .text.Set_Column_Address:00000000 $t
-     /tmp/ccaQDcJG.s:1938   .text.Set_Column_Address:00000000 Set_Column_Address
-     /tmp/ccaQDcJG.s:1971   .text.SSD1306_UpdateScreen:00000000 $t
-     /tmp/ccaQDcJG.s:1977   .text.SSD1306_UpdateScreen:00000000 SSD1306_UpdateScreen
-     /tmp/ccaQDcJG.s:2049   .text.SSD1306_UpdateScreen:00000038 $d
-     /tmp/ccaQDcJG.s:2054   .text.SSD1306_ClearScreen:00000000 $t
-     /tmp/ccaQDcJG.s:2060   .text.SSD1306_ClearScreen:00000000 SSD1306_ClearScreen
-     /tmp/ccaQDcJG.s:2106   .text.SSD1306_ClearScreen:0000001c $d
-     /tmp/ccaQDcJG.s:2697   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
-     /tmp/ccaQDcJG.s:2112   .text.SSD1306_Fill:00000000 $t
-     /tmp/ccaQDcJG.s:2118   .text.SSD1306_Fill:00000000 SSD1306_Fill
-     /tmp/ccaQDcJG.s:2222   .text.SSD1306_Fill:00000050 $d
-     /tmp/ccaQDcJG.s:2227   .text.display_init:00000000 $t
-     /tmp/ccaQDcJG.s:2233   .text.display_init:00000000 display_init
-     /tmp/ccaQDcJG.s:2406   .text.display_init:00000100 $d
-     /tmp/ccaQDcJG.s:2411   .text.Display_Picture:00000000 $t
-     /tmp/ccaQDcJG.s:2417   .text.Display_Picture:00000000 Display_Picture
-ARM GAS  /tmp/ccaQDcJG.s 			page 67
+     /tmp/ccfXhaLe.s:21     .text.command:00000000 $t
+     /tmp/ccfXhaLe.s:27     .text.command:00000000 command
+     /tmp/ccfXhaLe.s:81     .text.command:00000048 $d
+     /tmp/ccfXhaLe.s:86     .text.data:00000000 $t
+     /tmp/ccfXhaLe.s:92     .text.data:00000000 data
+     /tmp/ccfXhaLe.s:146    .text.data:00000048 $d
+     /tmp/ccfXhaLe.s:151    .text.SSD1306_ToggleInvert:00000000 $t
+     /tmp/ccfXhaLe.s:157    .text.SSD1306_ToggleInvert:00000000 SSD1306_ToggleInvert
+     /tmp/ccfXhaLe.s:204    .text.SSD1306_ToggleInvert:00000024 $d
+     /tmp/ccfXhaLe.s:2915   .bss.SSD1306:00000000 SSD1306
+     /tmp/ccfXhaLe.s:2921   .bss.pixelBuffer:00000000 pixelBuffer
+     /tmp/ccfXhaLe.s:210    .text.SSD1306_DrawPixel:00000000 $t
+     /tmp/ccfXhaLe.s:216    .text.SSD1306_DrawPixel:00000000 SSD1306_DrawPixel
+     /tmp/ccfXhaLe.s:314    .text.SSD1306_DrawPixel:00000054 $d
+     /tmp/ccfXhaLe.s:320    .text.SSD1306_GotoXY:00000000 $t
+     /tmp/ccfXhaLe.s:326    .text.SSD1306_GotoXY:00000000 SSD1306_GotoXY
+     /tmp/ccfXhaLe.s:346    .text.SSD1306_GotoXY:00000008 $d
+     /tmp/ccfXhaLe.s:351    .text.SSD1306_Putc:00000000 $t
+     /tmp/ccfXhaLe.s:357    .text.SSD1306_Putc:00000000 SSD1306_Putc
+     /tmp/ccfXhaLe.s:515    .text.SSD1306_Putc:00000098 $d
+     /tmp/ccfXhaLe.s:520    .text.SSD1306_Puts:00000000 $t
+     /tmp/ccfXhaLe.s:526    .text.SSD1306_Puts:00000000 SSD1306_Puts
+     /tmp/ccfXhaLe.s:577    .text.SSD1306_DrawLine:00000000 $t
+     /tmp/ccfXhaLe.s:583    .text.SSD1306_DrawLine:00000000 SSD1306_DrawLine
+     /tmp/ccfXhaLe.s:916    .text.SSD1306_DrawRectangle:00000000 $t
+     /tmp/ccfXhaLe.s:922    .text.SSD1306_DrawRectangle:00000000 SSD1306_DrawRectangle
+     /tmp/ccfXhaLe.s:1038   .text.SSD1306_DrawFilledRectangle:00000000 $t
+     /tmp/ccfXhaLe.s:1044   .text.SSD1306_DrawFilledRectangle:00000000 SSD1306_DrawFilledRectangle
+     /tmp/ccfXhaLe.s:1145   .text.SSD1306_DrawTriangle:00000000 $t
+     /tmp/ccfXhaLe.s:1151   .text.SSD1306_DrawTriangle:00000000 SSD1306_DrawTriangle
+     /tmp/ccfXhaLe.s:1211   .text.SSD1306_DrawFilledTriangle:00000000 $t
+     /tmp/ccfXhaLe.s:1217   .text.SSD1306_DrawFilledTriangle:00000000 SSD1306_DrawFilledTriangle
+     /tmp/ccfXhaLe.s:1458   .text.SSD1306_DrawCircle:00000000 $t
+     /tmp/ccfXhaLe.s:1464   .text.SSD1306_DrawCircle:00000000 SSD1306_DrawCircle
+     /tmp/ccfXhaLe.s:1683   .text.SSD1306_DrawFilledCircle:00000000 $t
+     /tmp/ccfXhaLe.s:1689   .text.SSD1306_DrawFilledCircle:00000000 SSD1306_DrawFilledCircle
+     /tmp/ccfXhaLe.s:1900   .text.Set_Page_Address:00000000 $t
+     /tmp/ccfXhaLe.s:1906   .text.Set_Page_Address:00000000 Set_Page_Address
+     /tmp/ccfXhaLe.s:1932   .text.Set_Column_Address:00000000 $t
+     /tmp/ccfXhaLe.s:1938   .text.Set_Column_Address:00000000 Set_Column_Address
+     /tmp/ccfXhaLe.s:1971   .text.SSD1306_UpdateScreen:00000000 $t
+     /tmp/ccfXhaLe.s:1977   .text.SSD1306_UpdateScreen:00000000 SSD1306_UpdateScreen
+     /tmp/ccfXhaLe.s:2049   .text.SSD1306_UpdateScreen:00000038 $d
+     /tmp/ccfXhaLe.s:2054   .text.SSD1306_ClearScreen:00000000 $t
+     /tmp/ccfXhaLe.s:2060   .text.SSD1306_ClearScreen:00000000 SSD1306_ClearScreen
+     /tmp/ccfXhaLe.s:2106   .text.SSD1306_ClearScreen:0000001c $d
+     /tmp/ccfXhaLe.s:2927   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
+     /tmp/ccfXhaLe.s:2112   .text.SSD1306_Fill:00000000 $t
+     /tmp/ccfXhaLe.s:2118   .text.SSD1306_Fill:00000000 SSD1306_Fill
+     /tmp/ccfXhaLe.s:2222   .text.SSD1306_Fill:00000050 $d
+     /tmp/ccfXhaLe.s:2227   .text.display_init:00000000 $t
+     /tmp/ccfXhaLe.s:2233   .text.display_init:00000000 display_init
+     /tmp/ccfXhaLe.s:2406   .text.display_init:00000100 $d
+     /tmp/ccfXhaLe.s:2411   .text.Display_Picture:00000000 $t
+     /tmp/ccfXhaLe.s:2417   .text.Display_Picture:00000000 Display_Picture
+ARM GAS  /tmp/ccfXhaLe.s 			page 72
 
 
-     /tmp/ccaQDcJG.s:2491   .text.display_demo:00000000 $t
-     /tmp/ccaQDcJG.s:2497   .text.display_demo:00000000 display_demo
-     /tmp/ccaQDcJG.s:2546   .text.display_demo:0000003c $d
-     /tmp/ccaQDcJG.s:2551   .rodata.display_test.str1.4:00000000 $d
-     /tmp/ccaQDcJG.s:2561   .text.display_test:00000000 $t
-     /tmp/ccaQDcJG.s:2567   .text.display_test:00000000 display_test
-     /tmp/ccaQDcJG.s:2673   .text.display_test:00000094 $d
-     /tmp/ccaQDcJG.s:2682   .bss.SSD1306:00000000 $d
-     /tmp/ccaQDcJG.s:2688   .bss.pixelBuffer:00000000 $d
-     /tmp/ccaQDcJG.s:2694   .bss.SSD1306_Buffer:00000000 $d
-     /tmp/ccaQDcJG.s:2700   .rodata:00000000 $d
+     /tmp/ccfXhaLe.s:2491   .text.display_demo:00000000 $t
+     /tmp/ccfXhaLe.s:2497   .text.display_demo:00000000 display_demo
+     /tmp/ccfXhaLe.s:2546   .text.display_demo:0000003c $d
+     /tmp/ccfXhaLe.s:2551   .rodata.display_test.str1.4:00000000 $d
+     /tmp/ccfXhaLe.s:2561   .text.display_test:00000000 $t
+     /tmp/ccfXhaLe.s:2567   .text.display_test:00000000 display_test
+     /tmp/ccfXhaLe.s:2673   .text.display_test:00000094 $d
+     /tmp/ccfXhaLe.s:2682   .text.vbat_show:00000000 $t
+     /tmp/ccfXhaLe.s:2688   .text.vbat_show:00000000 vbat_show
+     /tmp/ccfXhaLe.s:2712   .text.vbat_show:0000000e $d
+     /tmp/ccfXhaLe.s:2716   .text.vbat_show:00000012 $t
+     /tmp/ccfXhaLe.s:2912   .bss.SSD1306:00000000 $d
+     /tmp/ccfXhaLe.s:2918   .bss.pixelBuffer:00000000 $d
+     /tmp/ccfXhaLe.s:2924   .bss.SSD1306_Buffer:00000000 $d
+     /tmp/ccfXhaLe.s:2930   .rodata:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_WritePin
