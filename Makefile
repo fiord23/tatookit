@@ -44,6 +44,7 @@ Core/Src/motor.c \
 Core/Src/spi.c \
 Core/Src/display.c \
 Core/Src/clocks.c \
+Core/Src/time.c \
 Core/Src/fonts.c \
 Core/Src/dac.c \
 Core/Src/stm32l4xx_it.c \

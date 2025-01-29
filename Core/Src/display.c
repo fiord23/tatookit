@@ -1,18 +1,16 @@
 
 #include "display.h"
 #include <stdio.h>
+#include "motor.h"
 
-#define VREF 3.3
-#define ADC_RES 4095.0
-#define VBAT_DIV 2.0
+
+
 
 
 
 extern SPI_HandleTypeDef hspi1;
-extern vbat_value;
-extern char vbatbuf[3];
-extern volatile uint16_t ADC_Data[3];
 extern uint8_t speed;
+extern uint16_t time;
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
@@ -601,29 +599,18 @@ void display_test (void)
 	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
 	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
 	SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(70,5);
-	SSD1306_Puts("120Hz", &Font_7x10, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(70,21);
-	SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(0,5);
-	SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
+	//SSD1306_GotoXY(70,5);
+	//SSD1306_Puts("000Hz", &Font_7x10, SSD1306_COLOR_WHITE);
+	//SSD1306_GotoXY(70,21);
+	//SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
+	//SSD1306_GotoXY(0,5);
+	//SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
 }
 
-void show_vbat(void)
+void show_vbat( uint8_t data)
 {
-	uint8_t data = 0;
-	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    gcvt(vbat_value, 2, vbatbuf);
-    if (vbat_value > 4.0)
-      data = 4;
-    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
-      data = 3;
-    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
-     data = 2;
-    else if (vbat_value < 3.2)  
-       data = 1;
-	
+
 	switch (data)
 	{
 	case 1:
@@ -661,11 +648,51 @@ void show_vbat(void)
 
 void show_motor_duty (void)
 {
-	float data = ((float)speed / 63.0 ) * 9.0 * 10.0;
+	float datas = ((float)speed / 63.0 ) * 9.0 * 10.0;
 	char duty_data[4] = {'0', '.', '0', 'v'};
-	duty_data[0] = (uint8_t)data / 10 + '0';
-	duty_data[2] = (uint8_t)data % 10 + '0';
+	duty_data[0] = (uint8_t)datas / 10 + '0';
+	duty_data[2] = (uint8_t)datas % 10 + '0';
 	SSD1306_GotoXY(0,5);
 	SSD1306_Puts(duty_data, &Font_16x26, SSD1306_COLOR_WHITE);
+
+}
+
+void show_motor_speed (void)
+{
+	char speed_data[5] = {'0', '0', '0', 'H', 'z'};
+
+	uint32_t datam = motor_read(RC_STATUS1)*32; //rad*s
+	double freq = (double)datam / 62.831853;
+	uint16_t freq_int = (uint16_t)freq;
+	if (freq_int >= 100)
+	{
+		speed_data[0] = '1';
+		freq_int -= 100;
+	}
+	else
+	{
+		speed_data[0] = ' ';
+	}
+	speed_data[1] = freq_int / 10 + '0';
+	speed_data[2] = freq_int % 10 + '0';
+	SSD1306_GotoXY(70, 5);
+	SSD1306_Puts(speed_data, &Font_7x10, SSD1306_COLOR_WHITE);
+}
+
+void show_time (void)
+{
+	char data[6] = {'0', '0', ':',  '0','0', 'h'};
+	 data[4] = time%10 + '0';
+	 data[3] = time/10 + '0';
+	 if (data[3] > '5')
+	 {
+		data[3] = '0';
+		data[4] += 1;
+
+	 }
+	
+
+	SSD1306_GotoXY(70,21);
+	SSD1306_Puts(data, &Font_7x10, SSD1306_COLOR_WHITE);
 
 }

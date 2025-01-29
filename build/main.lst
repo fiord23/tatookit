@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccXAx71c.s 			page 1
+ARM GAS  /tmp/ccbuWFR0.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -20,14 +20,21 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
   19              		.file 1 "Core/Src/main.c"
-  20              		.section	.text.main,"ax",%progbits
-  21              		.align	1
-  22              		.global	main
-  23              		.syntax unified
-  24              		.thumb
-  25              		.thumb_func
-  27              	main:
-  28              	.LFB288:
+  20              		.global	__aeabi_f2d
+  21              		.global	__aeabi_dmul
+  22              		.global	__aeabi_dadd
+  23              		.global	__aeabi_ddiv
+  24              		.global	__aeabi_d2f
+  25              		.global	__aeabi_dcmpgt
+  26              		.global	__aeabi_dcmplt
+  27              		.section	.text.main,"ax",%progbits
+  28              		.align	1
+  29              		.global	main
+  30              		.syntax unified
+  31              		.thumb
+  32              		.thumb_func
+  34              	main:
+  35              	.LFB288:
    1:Core/Src/main.c **** /* USER CODE BEGIN Header */
    2:Core/Src/main.c **** /**
    3:Core/Src/main.c ****   ******************************************************************************
@@ -51,6 +58,9 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   21:Core/Src/main.c **** #include "adc.h"
   22:Core/Src/main.c **** #include "i2c.h"
   23:Core/Src/main.c **** #include "spi.h"
+ARM GAS  /tmp/ccbuWFR0.s 			page 2
+
+
   24:Core/Src/main.c **** #include "gpio.h"
   25:Core/Src/main.c **** 
   26:Core/Src/main.c **** 
@@ -58,549 +68,823 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   28:Core/Src/main.c **** /* Private includes ----------------------------------------------------------*/
   29:Core/Src/main.c **** /* USER CODE BEGIN Includes */
   30:Core/Src/main.c **** #include "display.h"
-ARM GAS  /tmp/ccXAx71c.s 			page 2
-
-
   31:Core/Src/main.c **** #include "dac.h"
   32:Core/Src/main.c **** #include "motor.h"
   33:Core/Src/main.c **** #include "fonts.h"
   34:Core/Src/main.c **** #include <stdbool.h>
   35:Core/Src/main.c **** #include "clocks.h"
-  36:Core/Src/main.c **** /* USER CODE END Includes */
-  37:Core/Src/main.c **** 
-  38:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
-  39:Core/Src/main.c **** /* USER CODE BEGIN PTD */
-  40:Core/Src/main.c **** 
-  41:Core/Src/main.c **** /* USER CODE END PTD */
-  42:Core/Src/main.c **** 
-  43:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
-  44:Core/Src/main.c **** /* USER CODE BEGIN PD */
-  45:Core/Src/main.c **** 
-  46:Core/Src/main.c **** /* USER CODE END PD */
-  47:Core/Src/main.c **** 
-  48:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
-  49:Core/Src/main.c **** /* USER CODE BEGIN PM */
+  36:Core/Src/main.c **** #include "time.h"
+  37:Core/Src/main.c **** /* USER CODE END Includes */
+  38:Core/Src/main.c **** 
+  39:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
+  40:Core/Src/main.c **** /* USER CODE BEGIN PTD */
+  41:Core/Src/main.c **** 
+  42:Core/Src/main.c **** /* USER CODE END PTD */
+  43:Core/Src/main.c **** 
+  44:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
+  45:Core/Src/main.c **** /* USER CODE BEGIN PD */
+  46:Core/Src/main.c **** #define ADC_RES 4095.0
+  47:Core/Src/main.c **** #define VBAT_DIV 2.0
+  48:Core/Src/main.c **** #define VREF 3.3
+  49:Core/Src/main.c **** /* USER CODE END PD */
   50:Core/Src/main.c **** 
-  51:Core/Src/main.c **** /* USER CODE END PM */
-  52:Core/Src/main.c **** 
-  53:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
-  54:Core/Src/main.c **** 
-  55:Core/Src/main.c **** /* USER CODE BEGIN PV */
-  56:Core/Src/main.c **** uint16_t adc_value11 = 0;
-  57:Core/Src/main.c **** volatile uint16_t adc_value15 = 0;
-  58:Core/Src/main.c **** char vbatbuf[3] = {'0', '.', '0'};
-  59:Core/Src/main.c **** float vbat_value = 0.0;
-  60:Core/Src/main.c **** uint8_t speed = 40;
-  61:Core/Src/main.c **** uint8_t flag_motor = 3;
-  62:Core/Src/main.c **** volatile uint16_t ADC_Data[3] = { 0, };
-  63:Core/Src/main.c **** 
-  64:Core/Src/main.c **** 
-  65:Core/Src/main.c **** 
-  66:Core/Src/main.c **** 
-  67:Core/Src/main.c **** /* USER CODE END PV */
+  51:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
+  52:Core/Src/main.c **** /* USER CODE BEGIN PM */
+  53:Core/Src/main.c **** 
+  54:Core/Src/main.c **** /* USER CODE END PM */
+  55:Core/Src/main.c **** 
+  56:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
+  57:Core/Src/main.c **** 
+  58:Core/Src/main.c **** /* USER CODE BEGIN PV */
+  59:Core/Src/main.c **** uint16_t adc_value11 = 0;
+  60:Core/Src/main.c **** volatile uint16_t adc_value15 = 0;
+  61:Core/Src/main.c **** float vbat_value = 0.0;
+  62:Core/Src/main.c **** uint8_t speed = 40;
+  63:Core/Src/main.c **** uint8_t flag_motor = 3;
+  64:Core/Src/main.c **** volatile uint16_t ADC_Data[3] = { 0, };
+  65:Core/Src/main.c **** double data_speed = 0.0;
+  66:Core/Src/main.c **** uint16_t time = 0;
+  67:Core/Src/main.c **** 
   68:Core/Src/main.c **** 
-  69:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
-  70:Core/Src/main.c **** void SystemClock_Config(void);
-  71:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  69:Core/Src/main.c **** 
+  70:Core/Src/main.c **** 
+  71:Core/Src/main.c **** /* USER CODE END PV */
   72:Core/Src/main.c **** 
-  73:Core/Src/main.c **** /* USER CODE END PFP */
-  74:Core/Src/main.c **** 
-  75:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
-  76:Core/Src/main.c **** /* USER CODE BEGIN 0 */
-  77:Core/Src/main.c **** /* USER CODE END 0 */
+  73:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
+  74:Core/Src/main.c **** void SystemClock_Config(void);
+  75:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  76:Core/Src/main.c **** 
+  77:Core/Src/main.c **** /* USER CODE END PFP */
   78:Core/Src/main.c **** 
-  79:Core/Src/main.c **** /**
-  80:Core/Src/main.c ****   * @brief  The application entry point.
-  81:Core/Src/main.c ****   * @retval int
-  82:Core/Src/main.c ****   */
-  83:Core/Src/main.c **** int main(void)
-  84:Core/Src/main.c **** {
-  29              		.loc 1 84 1 view -0
-  30              		.cfi_startproc
-  31              		@ Volatile: function does not return.
-ARM GAS  /tmp/ccXAx71c.s 			page 3
+  79:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
+  80:Core/Src/main.c **** /* USER CODE BEGIN 0 */
+ARM GAS  /tmp/ccbuWFR0.s 			page 3
 
 
-  32              		@ args = 0, pretend = 0, frame = 0
-  33              		@ frame_needed = 0, uses_anonymous_args = 0
-  34 0000 08B5     		push	{r3, lr}
-  35              	.LCFI0:
-  36              		.cfi_def_cfa_offset 8
-  37              		.cfi_offset 3, -8
-  38              		.cfi_offset 14, -4
-  85:Core/Src/main.c **** 
-  86:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
-  87:Core/Src/main.c **** 
-  88:Core/Src/main.c ****   /* USER CODE END 1 */
+  81:Core/Src/main.c **** /* USER CODE END 0 */
+  82:Core/Src/main.c **** 
+  83:Core/Src/main.c **** /**
+  84:Core/Src/main.c ****   * @brief  The application entry point.
+  85:Core/Src/main.c ****   * @retval int
+  86:Core/Src/main.c ****   */
+  87:Core/Src/main.c **** int main(void)
+  88:Core/Src/main.c **** {
+  36              		.loc 1 88 1 view -0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 0
+  39              		@ frame_needed = 0, uses_anonymous_args = 0
+  40 0000 38B5     		push	{r3, r4, r5, lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 16
+  43              		.cfi_offset 3, -16
+  44              		.cfi_offset 4, -12
+  45              		.cfi_offset 5, -8
+  46              		.cfi_offset 14, -4
+  47 0002 2DED028B 		vpush.64	{d8}
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 24
+  50              		.cfi_offset 80, -24
+  51              		.cfi_offset 81, -20
   89:Core/Src/main.c **** 
-  90:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  90:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
   91:Core/Src/main.c **** 
-  92:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  93:Core/Src/main.c ****   HAL_Init();
-  39              		.loc 1 93 3 view .LVU1
-  40 0002 FFF7FEFF 		bl	HAL_Init
-  41              	.LVL0:
-  94:Core/Src/main.c **** 
-  95:Core/Src/main.c ****   /* USER CODE BEGIN Init */
-  96:Core/Src/main.c **** 
-  97:Core/Src/main.c ****   /* USER CODE END Init */
+  92:Core/Src/main.c ****   /* USER CODE END 1 */
+  93:Core/Src/main.c **** 
+  94:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  95:Core/Src/main.c **** 
+  96:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  97:Core/Src/main.c ****   HAL_Init();
+  52              		.loc 1 97 3 view .LVU1
+  53 0006 FFF7FEFF 		bl	HAL_Init
+  54              	.LVL0:
   98:Core/Src/main.c **** 
-  99:Core/Src/main.c ****   /* Configure the system clock */
- 100:Core/Src/main.c ****   SystemClock_Config();
-  42              		.loc 1 100 3 view .LVU2
-  43 0006 FFF7FEFF 		bl	SystemClock_Config
-  44              	.LVL1:
- 101:Core/Src/main.c **** 
- 102:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
- 103:Core/Src/main.c **** 
- 104:Core/Src/main.c ****   /* USER CODE END SysInit */
+  99:Core/Src/main.c ****   /* USER CODE BEGIN Init */
+ 100:Core/Src/main.c **** 
+ 101:Core/Src/main.c ****   /* USER CODE END Init */
+ 102:Core/Src/main.c **** 
+ 103:Core/Src/main.c ****   /* Configure the system clock */
+ 104:Core/Src/main.c ****   SystemClock_Config();
+  55              		.loc 1 104 3 view .LVU2
+  56 000a FFF7FEFF 		bl	SystemClock_Config
+  57              	.LVL1:
  105:Core/Src/main.c **** 
- 106:Core/Src/main.c ****   /* Initialize all configured peripherals */
- 107:Core/Src/main.c ****   MX_GPIO_Init();
-  45              		.loc 1 107 3 view .LVU3
-  46 000a FFF7FEFF 		bl	MX_GPIO_Init
-  47              	.LVL2:
- 108:Core/Src/main.c ****   //MX_ADC1_Init();
- 109:Core/Src/main.c ****   adc_init();
-  48              		.loc 1 109 3 view .LVU4
-  49 000e FFF7FEFF 		bl	adc_init
-  50              	.LVL3:
- 110:Core/Src/main.c ****   dac_init();
-  51              		.loc 1 110 3 view .LVU5
-  52 0012 FFF7FEFF 		bl	dac_init
-  53              	.LVL4:
- 111:Core/Src/main.c ****   MX_I2C3_Init();
-  54              		.loc 1 111 3 view .LVU6
-  55 0016 FFF7FEFF 		bl	MX_I2C3_Init
-  56              	.LVL5:
- 112:Core/Src/main.c ****   MX_SPI1_Init();
-  57              		.loc 1 112 3 view .LVU7
-  58 001a FFF7FEFF 		bl	MX_SPI1_Init
-  59              	.LVL6:
- 113:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
-ARM GAS  /tmp/ccXAx71c.s 			page 4
+ 106:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
+ 107:Core/Src/main.c **** 
+ 108:Core/Src/main.c ****   /* USER CODE END SysInit */
+ 109:Core/Src/main.c **** 
+ 110:Core/Src/main.c ****   /* Initialize all configured peripherals */
+ 111:Core/Src/main.c ****   MX_GPIO_Init();
+  58              		.loc 1 111 3 view .LVU3
+  59 000e FFF7FEFF 		bl	MX_GPIO_Init
+  60              	.LVL2:
+ 112:Core/Src/main.c ****   //MX_ADC1_Init();
+ARM GAS  /tmp/ccbuWFR0.s 			page 4
 
 
- 114:Core/Src/main.c ****   //
- 115:Core/Src/main.c ****   button_interrupt_init();
-  60              		.loc 1 115 3 view .LVU8
-  61 001e FFF7FEFF 		bl	button_interrupt_init
-  62              	.LVL7:
- 116:Core/Src/main.c ****   motor_init();
-  63              		.loc 1 116 3 view .LVU9
-  64 0022 FFF7FEFF 		bl	motor_init
-  65              	.LVL8:
- 117:Core/Src/main.c ****   display_power_high();
-  66              		.loc 1 117 3 view .LVU10
-  67 0026 0122     		movs	r2, #1
-  68 0028 1146     		mov	r1, r2
-  69 002a 4FF09040 		mov	r0, #1207959552
-  70 002e FFF7FEFF 		bl	HAL_GPIO_WritePin
-  71              	.LVL9:
- 118:Core/Src/main.c ****   dac_data_send(993);
-  72              		.loc 1 118 3 view .LVU11
-  73 0032 40F2E130 		movw	r0, #993
-  74 0036 FFF7FEFF 		bl	dac_data_send
-  75              	.LVL10:
- 119:Core/Src/main.c ****   display_init();
-  76              		.loc 1 119 3 view .LVU12
-  77 003a FFF7FEFF 		bl	display_init
-  78              	.LVL11:
- 120:Core/Src/main.c ****   display_test();
-  79              		.loc 1 120 3 view .LVU13
-  80 003e FFF7FEFF 		bl	display_test
-  81              	.LVL12:
-  82              	.L2:
- 121:Core/Src/main.c ****   /* USER CODE END 2 */
- 122:Core/Src/main.c ****   
- 123:Core/Src/main.c ****   /* Infinite loop */
- 124:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
- 125:Core/Src/main.c ****   while (1)
-  83              		.loc 1 125 3 view .LVU14
- 126:Core/Src/main.c ****   {
+ 113:Core/Src/main.c ****   adc_init();
+  61              		.loc 1 113 3 view .LVU4
+  62 0012 FFF7FEFF 		bl	adc_init
+  63              	.LVL3:
+ 114:Core/Src/main.c ****   dac_init();
+  64              		.loc 1 114 3 view .LVU5
+  65 0016 FFF7FEFF 		bl	dac_init
+  66              	.LVL4:
+ 115:Core/Src/main.c ****   MX_I2C3_Init();
+  67              		.loc 1 115 3 view .LVU6
+  68 001a FFF7FEFF 		bl	MX_I2C3_Init
+  69              	.LVL5:
+ 116:Core/Src/main.c ****   MX_SPI1_Init();
+  70              		.loc 1 116 3 view .LVU7
+  71 001e FFF7FEFF 		bl	MX_SPI1_Init
+  72              	.LVL6:
+ 117:Core/Src/main.c ****   
+ 118:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 119:Core/Src/main.c ****   //
+ 120:Core/Src/main.c ****   button_interrupt_init();
+  73              		.loc 1 120 3 view .LVU8
+  74 0022 FFF7FEFF 		bl	button_interrupt_init
+  75              	.LVL7:
+ 121:Core/Src/main.c ****   motor_init();
+  76              		.loc 1 121 3 view .LVU9
+  77 0026 FFF7FEFF 		bl	motor_init
+  78              	.LVL8:
+ 122:Core/Src/main.c ****   display_power_high();
+  79              		.loc 1 122 3 view .LVU10
+  80 002a 0122     		movs	r2, #1
+  81 002c 1146     		mov	r1, r2
+  82 002e 4FF09040 		mov	r0, #1207959552
+  83 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  84              	.LVL9:
+ 123:Core/Src/main.c ****   dac_data_send(993);
+  85              		.loc 1 123 3 view .LVU11
+  86 0036 40F2E130 		movw	r0, #993
+  87 003a FFF7FEFF 		bl	dac_data_send
+  88              	.LVL10:
+ 124:Core/Src/main.c ****   display_init();
+  89              		.loc 1 124 3 view .LVU12
+  90 003e FFF7FEFF 		bl	display_init
+  91              	.LVL11:
+ 125:Core/Src/main.c ****   display_test();
+  92              		.loc 1 125 3 view .LVU13
+  93 0042 FFF7FEFF 		bl	display_test
+  94              	.LVL12:
+ 126:Core/Src/main.c ****   time_init();
+  95              		.loc 1 126 3 view .LVU14
+  96 0046 FFF7FEFF 		bl	time_init
+  97              	.LVL13:
+  98 004a 18E0     		b	.L7
+  99              	.LVL14:
+ 100              	.L8:
+ 101              	.LBB4:
  127:Core/Src/main.c **** 
- 128:Core/Src/main.c ****     show_motor_duty();
-  84              		.loc 1 128 5 view .LVU15
-  85 0042 FFF7FEFF 		bl	show_motor_duty
-  86              	.LVL13:
- 129:Core/Src/main.c ****     show_vbat();
-  87              		.loc 1 129 5 view .LVU16
-  88 0046 FFF7FEFF 		bl	show_vbat
-  89              	.LVL14:
- 130:Core/Src/main.c ****     SSD1306_UpdateScreen();
-  90              		.loc 1 130 5 view .LVU17
-  91 004a FFF7FEFF 		bl	SSD1306_UpdateScreen
-  92              	.LVL15:
- 131:Core/Src/main.c **** 
- 132:Core/Src/main.c ****     HAL_Delay(1000);
-  93              		.loc 1 132 5 discriminator 1 view .LVU18
-  94 004e 4FF47A70 		mov	r0, #1000
-  95 0052 FFF7FEFF 		bl	HAL_Delay
-  96              	.LVL16:
- 125:Core/Src/main.c ****   {
-ARM GAS  /tmp/ccXAx71c.s 			page 5
+ 128:Core/Src/main.c ****   /* USER CODE END 2 */
+ARM GAS  /tmp/ccbuWFR0.s 			page 5
 
 
-  97              		.loc 1 125 9 view .LVU19
-  98 0056 F4E7     		b	.L2
-  99              		.cfi_endproc
- 100              	.LFE288:
- 102              		.section	.text.EXTI1_IRQHandler,"ax",%progbits
- 103              		.align	1
- 104              		.global	EXTI1_IRQHandler
- 105              		.syntax unified
- 106              		.thumb
- 107              		.thumb_func
- 109              	EXTI1_IRQHandler:
- 110              	.LFB289:
- 133:Core/Src/main.c **** 
- 134:Core/Src/main.c ****     /* USER CODE END WHILE */
- 135:Core/Src/main.c **** 
- 136:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
- 137:Core/Src/main.c ****   }
- 138:Core/Src/main.c ****   /* USER CODE END 3 */
- 139:Core/Src/main.c **** }
- 140:Core/Src/main.c **** 
- 141:Core/Src/main.c **** /* USER CODE BEGIN 4 */
- 142:Core/Src/main.c **** void  EXTI1_IRQHandler (void)    //PB1 BUTTON - 
- 143:Core/Src/main.c **** {
- 111              		.loc 1 143 1 view -0
- 112              		.cfi_startproc
- 113              		@ args = 0, pretend = 0, frame = 0
- 114              		@ frame_needed = 0, uses_anonymous_args = 0
- 115 0000 08B5     		push	{r3, lr}
- 116              	.LCFI1:
- 117              		.cfi_def_cfa_offset 8
- 118              		.cfi_offset 3, -8
- 119              		.cfi_offset 14, -4
- 144:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF1;
- 120              		.loc 1 144 3 view .LVU21
- 121              		.loc 1 144 7 is_stmt 0 view .LVU22
- 122 0002 064A     		ldr	r2, .L6
- 123 0004 5369     		ldr	r3, [r2, #20]
- 124              		.loc 1 144 13 view .LVU23
- 125 0006 43F00203 		orr	r3, r3, #2
- 126 000a 5361     		str	r3, [r2, #20]
- 145:Core/Src/main.c ****   speed--;
- 127              		.loc 1 145 3 is_stmt 1 view .LVU24
- 128              		.loc 1 145 8 is_stmt 0 view .LVU25
- 129 000c 044B     		ldr	r3, .L6+4
- 130 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
- 131 0010 0138     		subs	r0, r0, #1
- 132 0012 C0B2     		uxtb	r0, r0
- 133 0014 1870     		strb	r0, [r3]
- 146:Core/Src/main.c ****   motor_speed_write(speed);
- 134              		.loc 1 146 3 is_stmt 1 view .LVU26
- 135 0016 FFF7FEFF 		bl	motor_speed_write
- 136              	.LVL17:
- 147:Core/Src/main.c **** 
- 148:Core/Src/main.c **** }
- 137              		.loc 1 148 1 is_stmt 0 view .LVU27
- 138 001a 08BD     		pop	{r3, pc}
- 139              	.L7:
-ARM GAS  /tmp/ccXAx71c.s 			page 6
+ 129:Core/Src/main.c ****   
+ 130:Core/Src/main.c ****   /* Infinite loop */
+ 131:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 132:Core/Src/main.c ****   while (1)
+ 133:Core/Src/main.c ****   {
+ 134:Core/Src/main.c ****       show_motor_speed();
+ 135:Core/Src/main.c ****       HAL_Delay(10);
+ 136:Core/Src/main.c ****       SSD1306_UpdateScreen();
+ 137:Core/Src/main.c ****       HAL_Delay(10);
+ 138:Core/Src/main.c ****       uint8_t databat = 0;
+ 139:Core/Src/main.c **** 	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+ 140:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 141:Core/Src/main.c ****         databat = 4;
+ 102              		.loc 1 141 17 is_stmt 0 view .LVU15
+ 103 004c 0424     		movs	r4, #4
+ 104              	.L2:
+ 105              	.LVL15:
+ 142:Core/Src/main.c ****       else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+ 143:Core/Src/main.c ****         databat = 3;
+ 144:Core/Src/main.c ****       else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+ 145:Core/Src/main.c ****         databat = 2;
+ 146:Core/Src/main.c ****       else if (vbat_value < 3.2)  
+ 147:Core/Src/main.c ****        databat = 1;
+ 148:Core/Src/main.c ****     HAL_Delay(10);
+ 106              		.loc 1 148 5 is_stmt 1 view .LVU16
+ 107 004e 0A20     		movs	r0, #10
+ 108 0050 FFF7FEFF 		bl	HAL_Delay
+ 109              	.LVL16:
+ 149:Core/Src/main.c ****     show_vbat(databat);
+ 110              		.loc 1 149 5 view .LVU17
+ 111 0054 2046     		mov	r0, r4
+ 112 0056 FFF7FEFF 		bl	show_vbat
+ 113              	.LVL17:
+ 150:Core/Src/main.c ****     HAL_Delay(10);
+ 114              		.loc 1 150 5 view .LVU18
+ 115 005a 0A20     		movs	r0, #10
+ 116 005c FFF7FEFF 		bl	HAL_Delay
+ 117              	.LVL18:
+ 151:Core/Src/main.c ****     show_time();
+ 118              		.loc 1 151 5 view .LVU19
+ 119 0060 FFF7FEFF 		bl	show_time
+ 120              	.LVL19:
+ 152:Core/Src/main.c ****     HAL_Delay(10);
+ 121              		.loc 1 152 5 view .LVU20
+ 122 0064 0A20     		movs	r0, #10
+ 123 0066 FFF7FEFF 		bl	HAL_Delay
+ 124              	.LVL20:
+ 153:Core/Src/main.c ****     show_motor_duty();
+ 125              		.loc 1 153 5 view .LVU21
+ 126 006a FFF7FEFF 		bl	show_motor_duty
+ 127              	.LVL21:
+ 154:Core/Src/main.c ****     HAL_Delay(10);
+ 128              		.loc 1 154 5 view .LVU22
+ 129 006e 0A20     		movs	r0, #10
+ 130 0070 FFF7FEFF 		bl	HAL_Delay
+ 131              	.LVL22:
+ 155:Core/Src/main.c ****     SSD1306_UpdateScreen();
+ARM GAS  /tmp/ccbuWFR0.s 			page 6
 
 
- 140              		.align	2
- 141              	.L6:
- 142 001c 00040140 		.word	1073808384
- 143 0020 00000000 		.word	speed
- 144              		.cfi_endproc
- 145              	.LFE289:
- 147              		.section	.text.EXTI9_5_IRQHandler,"ax",%progbits
- 148              		.align	1
- 149              		.global	EXTI9_5_IRQHandler
- 150              		.syntax unified
- 151              		.thumb
- 152              		.thumb_func
- 154              	EXTI9_5_IRQHandler:
- 155              	.LFB290:
- 149:Core/Src/main.c **** void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
- 150:Core/Src/main.c **** {
- 156              		.loc 1 150 1 is_stmt 1 view -0
- 157              		.cfi_startproc
- 158              		@ args = 0, pretend = 0, frame = 0
- 159              		@ frame_needed = 0, uses_anonymous_args = 0
- 160 0000 08B5     		push	{r3, lr}
- 161              	.LCFI2:
- 162              		.cfi_def_cfa_offset 8
- 163              		.cfi_offset 3, -8
- 164              		.cfi_offset 14, -4
- 151:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF6; 
- 165              		.loc 1 151 3 view .LVU29
- 166              		.loc 1 151 7 is_stmt 0 view .LVU30
- 167 0002 064A     		ldr	r2, .L10
- 168 0004 5369     		ldr	r3, [r2, #20]
- 169              		.loc 1 151 13 view .LVU31
- 170 0006 43F04003 		orr	r3, r3, #64
- 171 000a 5361     		str	r3, [r2, #20]
- 152:Core/Src/main.c ****   speed ++;
- 172              		.loc 1 152 3 is_stmt 1 view .LVU32
- 173              		.loc 1 152 9 is_stmt 0 view .LVU33
- 174 000c 044B     		ldr	r3, .L10+4
- 175 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
- 176 0010 0130     		adds	r0, r0, #1
- 177 0012 C0B2     		uxtb	r0, r0
- 178 0014 1870     		strb	r0, [r3]
- 153:Core/Src/main.c ****   motor_speed_write(speed);
- 179              		.loc 1 153 3 is_stmt 1 view .LVU34
- 180 0016 FFF7FEFF 		bl	motor_speed_write
- 181              	.LVL18:
- 154:Core/Src/main.c **** }
- 182              		.loc 1 154 1 is_stmt 0 view .LVU35
- 183 001a 08BD     		pop	{r3, pc}
- 184              	.L11:
- 185              		.align	2
- 186              	.L10:
- 187 001c 00040140 		.word	1073808384
- 188 0020 00000000 		.word	speed
- 189              		.cfi_endproc
- 190              	.LFE290:
- 192              		.section	.text.EXTI15_10_IRQHandler,"ax",%progbits
- 193              		.align	1
-ARM GAS  /tmp/ccXAx71c.s 			page 7
+ 132              		.loc 1 155 5 view .LVU23
+ 133 0074 FFF7FEFF 		bl	SSD1306_UpdateScreen
+ 134              	.LVL23:
+ 156:Core/Src/main.c ****     HAL_Delay(100);
+ 135              		.loc 1 156 5 view .LVU24
+ 136 0078 6420     		movs	r0, #100
+ 137 007a FFF7FEFF 		bl	HAL_Delay
+ 138              	.LVL24:
+ 139              	.LBE4:
+ 132:Core/Src/main.c ****   {
+ 140              		.loc 1 132 9 view .LVU25
+ 141              	.L7:
+ 132:Core/Src/main.c ****   {
+ 142              		.loc 1 132 3 view .LVU26
+ 143              	.LBB5:
+ 134:Core/Src/main.c ****       HAL_Delay(10);
+ 144              		.loc 1 134 7 view .LVU27
+ 145 007e FFF7FEFF 		bl	show_motor_speed
+ 146              	.LVL25:
+ 135:Core/Src/main.c ****       SSD1306_UpdateScreen();
+ 147              		.loc 1 135 7 view .LVU28
+ 148 0082 0A20     		movs	r0, #10
+ 149 0084 FFF7FEFF 		bl	HAL_Delay
+ 150              	.LVL26:
+ 136:Core/Src/main.c ****       HAL_Delay(10);
+ 151              		.loc 1 136 7 view .LVU29
+ 152 0088 FFF7FEFF 		bl	SSD1306_UpdateScreen
+ 153              	.LVL27:
+ 137:Core/Src/main.c ****       uint8_t databat = 0;
+ 154              		.loc 1 137 7 view .LVU30
+ 155 008c 0A20     		movs	r0, #10
+ 156 008e FFF7FEFF 		bl	HAL_Delay
+ 157              	.LVL28:
+ 138:Core/Src/main.c **** 	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+ 158              		.loc 1 138 7 view .LVU31
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 159              		.loc 1 139 6 view .LVU32
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 160              		.loc 1 139 35 is_stmt 0 view .LVU33
+ 161 0092 394B     		ldr	r3, .L15+40
+ 162 0094 1888     		ldrh	r0, [r3]
+ 163 0096 80B2     		uxth	r0, r0
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 164              		.loc 1 139 20 view .LVU34
+ 165 0098 07EE900A 		vmov	s15, r0	@ int
+ 166 009c F8EE677A 		vcvt.f32.u32	s15, s15
+ 167 00a0 17EE900A 		vmov	r0, s15
+ 168 00a4 FFF7FEFF 		bl	__aeabi_f2d
+ 169              	.LVL29:
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 170              		.loc 1 139 39 view .LVU35
+ 171 00a8 29A3     		adr	r3, .L15
+ 172 00aa D3E90023 		ldrd	r2, [r3]
+ 173 00ae FFF7FEFF 		bl	__aeabi_dmul
+ 174              	.LVL30:
+ 175 00b2 0246     		mov	r2, r0
+ 176 00b4 0B46     		mov	r3, r1
+ARM GAS  /tmp/ccbuWFR0.s 			page 7
 
 
- 194              		.global	EXTI15_10_IRQHandler
- 195              		.syntax unified
- 196              		.thumb
- 197              		.thumb_func
- 199              	EXTI15_10_IRQHandler:
- 200              	.LFB291:
- 155:Core/Src/main.c **** void EXTI15_10_IRQHandler (void)
- 156:Core/Src/main.c **** {
- 201              		.loc 1 156 1 is_stmt 1 view -0
- 202              		.cfi_startproc
- 203              		@ args = 0, pretend = 0, frame = 0
- 204              		@ frame_needed = 0, uses_anonymous_args = 0
- 205 0000 08B5     		push	{r3, lr}
- 206              	.LCFI3:
- 207              		.cfi_def_cfa_offset 8
- 208              		.cfi_offset 3, -8
- 209              		.cfi_offset 14, -4
- 157:Core/Src/main.c ****   
- 158:Core/Src/main.c ****   if (flag_motor)
- 210              		.loc 1 158 3 view .LVU37
- 211              		.loc 1 158 7 is_stmt 0 view .LVU38
- 212 0002 114B     		ldr	r3, .L16
- 213 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 214              		.loc 1 158 6 view .LVU39
- 215 0006 8BB1     		cbz	r3, .L13
- 159:Core/Src/main.c ****   {
- 160:Core/Src/main.c ****     flag_motor = 0;
- 216              		.loc 1 160 5 is_stmt 1 view .LVU40
- 217              		.loc 1 160 16 is_stmt 0 view .LVU41
- 218 0008 0022     		movs	r2, #0
- 219 000a 0F4B     		ldr	r3, .L16
- 220 000c 1A70     		strb	r2, [r3]
- 161:Core/Src/main.c ****     display_power_low();
- 221              		.loc 1 161 5 is_stmt 1 view .LVU42
- 222 000e 0121     		movs	r1, #1
- 223 0010 4FF09040 		mov	r0, #1207959552
- 224 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 225              	.LVL19:
- 162:Core/Src/main.c ****     motor_write(CONFIG0, 0x61);
- 226              		.loc 1 162 5 view .LVU43
- 227 0018 6121     		movs	r1, #97
- 228 001a 0920     		movs	r0, #9
- 229 001c FFF7FEFF 		bl	motor_write
- 230              	.LVL20:
- 231              	.L14:
- 163:Core/Src/main.c **** 
- 164:Core/Src/main.c ****     
- 165:Core/Src/main.c ****   }
- 166:Core/Src/main.c ****   else
- 167:Core/Src/main.c ****   {
- 168:Core/Src/main.c ****     flag_motor = 1;
- 169:Core/Src/main.c ****     display_power_high();
- 170:Core/Src/main.c ****     motor_write(CONFIG0, 0xE1);
- 171:Core/Src/main.c ****   }
- 172:Core/Src/main.c **** 
- 173:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
- 232              		.loc 1 173 3 view .LVU44
-ARM GAS  /tmp/ccXAx71c.s 			page 8
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 177              		.loc 1 139 46 view .LVU36
+ 178 00b6 FFF7FEFF 		bl	__aeabi_dadd
+ 179              	.LVL31:
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 180              		.loc 1 139 58 view .LVU37
+ 181 00ba 27A3     		adr	r3, .L15+8
+ 182 00bc D3E90023 		ldrd	r2, [r3]
+ 183 00c0 FFF7FEFF 		bl	__aeabi_ddiv
+ 184              	.LVL32:
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 185              		.loc 1 139 68 view .LVU38
+ 186 00c4 26A3     		adr	r3, .L15+16
+ 187 00c6 D3E90023 		ldrd	r2, [r3]
+ 188 00ca FFF7FEFF 		bl	__aeabi_dadd
+ 189              	.LVL33:
+ 190 00ce FFF7FEFF 		bl	__aeabi_d2f
+ 191              	.LVL34:
+ 192 00d2 08EE100A 		vmov	s16, r0
+ 139:Core/Src/main.c ****       if (vbat_value > 4.0)
+ 193              		.loc 1 139 17 view .LVU39
+ 194 00d6 294B     		ldr	r3, .L15+44
+ 195 00d8 1860     		str	r0, [r3]	@ float
+ 140:Core/Src/main.c ****         databat = 4;
+ 196              		.loc 1 140 7 is_stmt 1 view .LVU40
+ 140:Core/Src/main.c ****         databat = 4;
+ 197              		.loc 1 140 10 is_stmt 0 view .LVU41
+ 198 00da F1EE007A 		vmov.f32	s15, #4.0e+0
+ 199 00de B4EEE78A 		vcmpe.f32	s16, s15
+ 200 00e2 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 201 00e6 B1DC     		bgt	.L8
+ 142:Core/Src/main.c ****         databat = 3;
+ 202              		.loc 1 142 12 is_stmt 1 view .LVU42
+ 142:Core/Src/main.c ****         databat = 3;
+ 203              		.loc 1 142 29 is_stmt 0 view .LVU43
+ 204 00e8 FFF7FEFF 		bl	__aeabi_f2d
+ 205              	.LVL35:
+ 206 00ec 0446     		mov	r4, r0
+ 207 00ee 0D46     		mov	r5, r1
+ 142:Core/Src/main.c ****         databat = 3;
+ 208              		.loc 1 142 15 view .LVU44
+ 209 00f0 1DA3     		adr	r3, .L15+24
+ 210 00f2 D3E90023 		ldrd	r2, [r3]
+ 211 00f6 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 212              	.LVL36:
+ 213 00fa 30B1     		cbz	r0, .L3
+ 142:Core/Src/main.c ****         databat = 3;
+ 214              		.loc 1 142 36 discriminator 1 view .LVU45
+ 215 00fc F1EE007A 		vmov.f32	s15, #4.0e+0
+ 216 0100 B4EEE78A 		vcmpe.f32	s16, s15
+ 217 0104 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 218 0108 19D4     		bmi	.L9
+ 219              	.L3:
+ 144:Core/Src/main.c ****         databat = 2;
+ 220              		.loc 1 144 12 is_stmt 1 view .LVU46
+ 144:Core/Src/main.c ****         databat = 2;
+ 221              		.loc 1 144 15 is_stmt 0 view .LVU47
+ARM GAS  /tmp/ccbuWFR0.s 			page 8
 
 
- 233              		.loc 1 173 7 is_stmt 0 view .LVU45
- 234 0020 0A4A     		ldr	r2, .L16+4
- 235 0022 5369     		ldr	r3, [r2, #20]
- 236              		.loc 1 173 13 view .LVU46
- 237 0024 43F40063 		orr	r3, r3, #2048
- 238 0028 5361     		str	r3, [r2, #20]
- 174:Core/Src/main.c **** 
- 175:Core/Src/main.c **** }
- 239              		.loc 1 175 1 view .LVU47
- 240 002a 08BD     		pop	{r3, pc}
- 241              	.L13:
- 168:Core/Src/main.c ****     display_power_high();
- 242              		.loc 1 168 5 is_stmt 1 view .LVU48
- 168:Core/Src/main.c ****     display_power_high();
- 243              		.loc 1 168 16 is_stmt 0 view .LVU49
- 244 002c 0121     		movs	r1, #1
- 245 002e 064B     		ldr	r3, .L16
- 246 0030 1970     		strb	r1, [r3]
- 169:Core/Src/main.c ****     motor_write(CONFIG0, 0xE1);
- 247              		.loc 1 169 5 is_stmt 1 view .LVU50
- 248 0032 0A46     		mov	r2, r1
- 249 0034 4FF09040 		mov	r0, #1207959552
- 250 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 251              	.LVL21:
- 170:Core/Src/main.c ****   }
- 252              		.loc 1 170 5 view .LVU51
- 253 003c E121     		movs	r1, #225
- 254 003e 0920     		movs	r0, #9
- 255 0040 FFF7FEFF 		bl	motor_write
- 256              	.LVL22:
- 257 0044 ECE7     		b	.L14
- 258              	.L17:
- 259 0046 00BF     		.align	2
- 260              	.L16:
- 261 0048 00000000 		.word	flag_motor
- 262 004c 00040140 		.word	1073808384
- 263              		.cfi_endproc
- 264              	.LFE291:
- 266              		.section	.text.ADC1_IRQHandler,"ax",%progbits
- 267              		.align	1
- 268              		.global	ADC1_IRQHandler
- 269              		.syntax unified
- 270              		.thumb
- 271              		.thumb_func
- 273              	ADC1_IRQHandler:
- 274              	.LFB292:
- 176:Core/Src/main.c **** void ADC1_IRQHandler(void)
- 177:Core/Src/main.c **** {
- 275              		.loc 1 177 1 view -0
- 276              		.cfi_startproc
- 277              		@ args = 0, pretend = 0, frame = 0
- 278              		@ frame_needed = 0, uses_anonymous_args = 0
- 279              		@ link register save eliminated.
- 178:Core/Src/main.c ****     if (ADC1->ISR & ADC_ISR_EOC) { // Проверяем флаг конца преобразова
- 280              		.loc 1 178 5 view .LVU53
- 281              		.loc 1 178 13 is_stmt 0 view .LVU54
- 282 0000 034B     		ldr	r3, .L20
-ARM GAS  /tmp/ccXAx71c.s 			page 9
+ 222 010a 19A3     		adr	r3, .L15+32
+ 223 010c D3E90023 		ldrd	r2, [r3]
+ 224 0110 2046     		mov	r0, r4
+ 225 0112 2946     		mov	r1, r5
+ 226 0114 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 227              	.LVL37:
+ 228 0118 38B1     		cbz	r0, .L5
+ 144:Core/Src/main.c ****         databat = 2;
+ 229              		.loc 1 144 36 discriminator 1 view .LVU48
+ 230 011a 13A3     		adr	r3, .L15+24
+ 231 011c D3E90023 		ldrd	r2, [r3]
+ 232 0120 2046     		mov	r0, r4
+ 233 0122 2946     		mov	r1, r5
+ 234 0124 FFF7FEFF 		bl	__aeabi_dcmplt
+ 235              	.LVL38:
+ 236 0128 58B9     		cbnz	r0, .L10
+ 237              	.L5:
+ 146:Core/Src/main.c ****        databat = 1;
+ 238              		.loc 1 146 12 is_stmt 1 view .LVU49
+ 146:Core/Src/main.c ****        databat = 1;
+ 239              		.loc 1 146 15 is_stmt 0 view .LVU50
+ 240 012a 11A3     		adr	r3, .L15+32
+ 241 012c D3E90023 		ldrd	r2, [r3]
+ 242 0130 2046     		mov	r0, r4
+ 243 0132 2946     		mov	r1, r5
+ 244 0134 FFF7FEFF 		bl	__aeabi_dcmplt
+ 245              	.LVL39:
+ 246 0138 28B9     		cbnz	r0, .L11
+ 138:Core/Src/main.c **** 	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+ 247              		.loc 1 138 15 view .LVU51
+ 248 013a 0024     		movs	r4, #0
+ 249 013c 87E7     		b	.L2
+ 250              	.L9:
+ 143:Core/Src/main.c ****       else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+ 251              		.loc 1 143 17 view .LVU52
+ 252 013e 0324     		movs	r4, #3
+ 253 0140 85E7     		b	.L2
+ 254              	.L10:
+ 145:Core/Src/main.c ****       else if (vbat_value < 3.2)  
+ 255              		.loc 1 145 17 view .LVU53
+ 256 0142 0224     		movs	r4, #2
+ 257 0144 83E7     		b	.L2
+ 258              	.L11:
+ 147:Core/Src/main.c ****     HAL_Delay(10);
+ 259              		.loc 1 147 16 view .LVU54
+ 260 0146 0124     		movs	r4, #1
+ 261 0148 81E7     		b	.L2
+ 262              	.L16:
+ 263 014a 00BFAFF3 		.align	3
+ 263      0080
+ 264              	.L15:
+ 265 0150 66666666 		.word	1717986918
+ 266 0154 66660A40 		.word	1074423398
+ 267 0158 00000000 		.word	0
+ 268 015c 00FEAF40 		.word	1085275648
+ 269 0160 EC51B81E 		.word	515396076
+ 270 0164 85EBC13F 		.word	1069673349
+ARM GAS  /tmp/ccbuWFR0.s 			page 9
 
 
- 283 0002 1B68     		ldr	r3, [r3]
- 284              		.loc 1 178 8 view .LVU55
- 285 0004 13F0040F 		tst	r3, #4
- 286 0008 01D0     		beq	.L18
- 179:Core/Src/main.c ****       ADC1->DR;
- 287              		.loc 1 179 7 is_stmt 1 view .LVU56
- 288              		.loc 1 179 11 is_stmt 0 view .LVU57
- 289 000a 014B     		ldr	r3, .L20
- 290 000c 1B6C     		ldr	r3, [r3, #64]
- 291              	.L18:
- 180:Core/Src/main.c ****     }
- 181:Core/Src/main.c **** }
- 292              		.loc 1 181 1 view .LVU58
- 293 000e 7047     		bx	lr
- 294              	.L21:
- 295              		.align	2
- 296              	.L20:
- 297 0010 00000450 		.word	1342439424
- 298              		.cfi_endproc
- 299              	.LFE292:
- 301              		.section	.text.DMA1_Channel1_IRQHandler,"ax",%progbits
- 302              		.align	1
- 303              		.global	DMA1_Channel1_IRQHandler
- 304              		.syntax unified
- 305              		.thumb
- 306              		.thumb_func
- 308              	DMA1_Channel1_IRQHandler:
- 309              	.LFB293:
- 182:Core/Src/main.c **** void DMA1_Channel1_IRQHandler() {
- 310              		.loc 1 182 33 is_stmt 1 view -0
- 311              		.cfi_startproc
- 312              		@ args = 0, pretend = 0, frame = 0
- 313              		@ frame_needed = 0, uses_anonymous_args = 0
- 314              		@ link register save eliminated.
- 183:Core/Src/main.c ****   
- 184:Core/Src/main.c ****   if(DMA1->ISR & DMA_ISR_TCIF1) {
- 315              		.loc 1 184 3 view .LVU60
- 316              		.loc 1 184 10 is_stmt 0 view .LVU61
- 317 0000 0A4B     		ldr	r3, .L25
- 318 0002 1B68     		ldr	r3, [r3]
- 319              		.loc 1 184 5 view .LVU62
- 320 0004 13F0020F 		tst	r3, #2
- 321 0008 05D0     		beq	.L23
- 185:Core/Src/main.c **** 
- 186:Core/Src/main.c **** 		    DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
- 322              		.loc 1 186 7 is_stmt 1 view .LVU63
- 323              		.loc 1 186 11 is_stmt 0 view .LVU64
- 324 000a 084A     		ldr	r2, .L25
- 325 000c 5368     		ldr	r3, [r2, #4]
- 326              		.loc 1 186 18 view .LVU65
- 327 000e 43F00103 		orr	r3, r3, #1
- 328 0012 5360     		str	r3, [r2, #4]
- 329 0014 7047     		bx	lr
- 330              	.L23:
+ 271 0168 9A999999 		.word	-1717986918
+ 272 016c 99990D40 		.word	1074633113
+ 273 0170 9A999999 		.word	-1717986918
+ 274 0174 99990940 		.word	1074370969
+ 275 0178 00000000 		.word	ADC_Data
+ 276 017c 00000000 		.word	vbat_value
+ 277              	.LBE5:
+ 278              		.cfi_endproc
+ 279              	.LFE288:
+ 281              		.section	.text.EXTI1_IRQHandler,"ax",%progbits
+ 282              		.align	1
+ 283              		.global	EXTI1_IRQHandler
+ 284              		.syntax unified
+ 285              		.thumb
+ 286              		.thumb_func
+ 288              	EXTI1_IRQHandler:
+ 289              	.LFB289:
+ 157:Core/Src/main.c **** 
+ 158:Core/Src/main.c ****     /* USER CODE END WHILE */
+ 159:Core/Src/main.c **** 
+ 160:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 161:Core/Src/main.c ****   }
+ 162:Core/Src/main.c ****   /* USER CODE END 3 */
+ 163:Core/Src/main.c **** }
+ 164:Core/Src/main.c **** 
+ 165:Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 166:Core/Src/main.c **** void EXTI1_IRQHandler (void)    //PB1 BUTTON - 
+ 167:Core/Src/main.c **** {
+ 290              		.loc 1 167 1 is_stmt 1 view -0
+ 291              		.cfi_startproc
+ 292              		@ args = 0, pretend = 0, frame = 0
+ 293              		@ frame_needed = 0, uses_anonymous_args = 0
+ 294 0000 08B5     		push	{r3, lr}
+ 295              	.LCFI2:
+ 296              		.cfi_def_cfa_offset 8
+ 297              		.cfi_offset 3, -8
+ 298              		.cfi_offset 14, -4
+ 168:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF1;
+ 299              		.loc 1 168 3 view .LVU56
+ 300              		.loc 1 168 7 is_stmt 0 view .LVU57
+ 301 0002 064A     		ldr	r2, .L19
+ 302 0004 5369     		ldr	r3, [r2, #20]
+ 303              		.loc 1 168 13 view .LVU58
+ 304 0006 43F00203 		orr	r3, r3, #2
+ 305 000a 5361     		str	r3, [r2, #20]
+ 169:Core/Src/main.c ****   speed--;
+ 306              		.loc 1 169 3 is_stmt 1 view .LVU59
+ 307              		.loc 1 169 8 is_stmt 0 view .LVU60
+ 308 000c 044B     		ldr	r3, .L19+4
+ 309 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 310 0010 0138     		subs	r0, r0, #1
+ 311 0012 C0B2     		uxtb	r0, r0
+ 312 0014 1870     		strb	r0, [r3]
+ 170:Core/Src/main.c ****   motor_speed_write(speed);
+ 313              		.loc 1 170 3 is_stmt 1 view .LVU61
+ 314 0016 FFF7FEFF 		bl	motor_speed_write
+ 315              	.LVL40:
+ARM GAS  /tmp/ccbuWFR0.s 			page 10
+
+
+ 171:Core/Src/main.c **** 
+ 172:Core/Src/main.c **** }
+ 316              		.loc 1 172 1 is_stmt 0 view .LVU62
+ 317 001a 08BD     		pop	{r3, pc}
+ 318              	.L20:
+ 319              		.align	2
+ 320              	.L19:
+ 321 001c 00040140 		.word	1073808384
+ 322 0020 00000000 		.word	speed
+ 323              		.cfi_endproc
+ 324              	.LFE289:
+ 326              		.section	.text.EXTI9_5_IRQHandler,"ax",%progbits
+ 327              		.align	1
+ 328              		.global	EXTI9_5_IRQHandler
+ 329              		.syntax unified
+ 330              		.thumb
+ 331              		.thumb_func
+ 333              	EXTI9_5_IRQHandler:
+ 334              	.LFB290:
+ 173:Core/Src/main.c **** void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
+ 174:Core/Src/main.c **** {
+ 335              		.loc 1 174 1 is_stmt 1 view -0
+ 336              		.cfi_startproc
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 0, uses_anonymous_args = 0
+ 339 0000 08B5     		push	{r3, lr}
+ 340              	.LCFI3:
+ 341              		.cfi_def_cfa_offset 8
+ 342              		.cfi_offset 3, -8
+ 343              		.cfi_offset 14, -4
+ 175:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF6; 
+ 344              		.loc 1 175 3 view .LVU64
+ 345              		.loc 1 175 7 is_stmt 0 view .LVU65
+ 346 0002 064A     		ldr	r2, .L23
+ 347 0004 5369     		ldr	r3, [r2, #20]
+ 348              		.loc 1 175 13 view .LVU66
+ 349 0006 43F04003 		orr	r3, r3, #64
+ 350 000a 5361     		str	r3, [r2, #20]
+ 176:Core/Src/main.c ****   speed ++;
+ 351              		.loc 1 176 3 is_stmt 1 view .LVU67
+ 352              		.loc 1 176 9 is_stmt 0 view .LVU68
+ 353 000c 044B     		ldr	r3, .L23+4
+ 354 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 355 0010 0130     		adds	r0, r0, #1
+ 356 0012 C0B2     		uxtb	r0, r0
+ 357 0014 1870     		strb	r0, [r3]
+ 177:Core/Src/main.c ****   motor_speed_write(speed);
+ 358              		.loc 1 177 3 is_stmt 1 view .LVU69
+ 359 0016 FFF7FEFF 		bl	motor_speed_write
+ 360              	.LVL41:
+ 178:Core/Src/main.c **** }
+ 361              		.loc 1 178 1 is_stmt 0 view .LVU70
+ 362 001a 08BD     		pop	{r3, pc}
+ 363              	.L24:
+ 364              		.align	2
+ 365              	.L23:
+ 366 001c 00040140 		.word	1073808384
+ARM GAS  /tmp/ccbuWFR0.s 			page 11
+
+
+ 367 0020 00000000 		.word	speed
+ 368              		.cfi_endproc
+ 369              	.LFE290:
+ 371              		.section	.text.EXTI15_10_IRQHandler,"ax",%progbits
+ 372              		.align	1
+ 373              		.global	EXTI15_10_IRQHandler
+ 374              		.syntax unified
+ 375              		.thumb
+ 376              		.thumb_func
+ 378              	EXTI15_10_IRQHandler:
+ 379              	.LFB291:
+ 179:Core/Src/main.c **** void EXTI15_10_IRQHandler (void)
+ 180:Core/Src/main.c **** {
+ 380              		.loc 1 180 1 is_stmt 1 view -0
+ 381              		.cfi_startproc
+ 382              		@ args = 0, pretend = 0, frame = 0
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384 0000 08B5     		push	{r3, lr}
+ 385              	.LCFI4:
+ 386              		.cfi_def_cfa_offset 8
+ 387              		.cfi_offset 3, -8
+ 388              		.cfi_offset 14, -4
+ 181:Core/Src/main.c ****   
+ 182:Core/Src/main.c ****   if (flag_motor)
+ 389              		.loc 1 182 3 view .LVU72
+ 390              		.loc 1 182 7 is_stmt 0 view .LVU73
+ 391 0002 114B     		ldr	r3, .L29
+ 392 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 393              		.loc 1 182 6 view .LVU74
+ 394 0006 8BB1     		cbz	r3, .L26
+ 183:Core/Src/main.c ****   {
+ 184:Core/Src/main.c ****     flag_motor = 0;
+ 395              		.loc 1 184 5 is_stmt 1 view .LVU75
+ 396              		.loc 1 184 16 is_stmt 0 view .LVU76
+ 397 0008 0022     		movs	r2, #0
+ 398 000a 0F4B     		ldr	r3, .L29
+ 399 000c 1A70     		strb	r2, [r3]
+ 185:Core/Src/main.c ****     display_power_low();
+ 400              		.loc 1 185 5 is_stmt 1 view .LVU77
+ 401 000e 0121     		movs	r1, #1
+ 402 0010 4FF09040 		mov	r0, #1207959552
+ 403 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 404              	.LVL42:
+ 186:Core/Src/main.c ****     motor_write(CONFIG0, 0x61);
+ 405              		.loc 1 186 5 view .LVU78
+ 406 0018 6121     		movs	r1, #97
+ 407 001a 0920     		movs	r0, #9
+ 408 001c FFF7FEFF 		bl	motor_write
+ 409              	.LVL43:
+ 410              	.L27:
  187:Core/Src/main.c **** 
- 188:Core/Src/main.c **** 	} else if (DMA1->ISR & DMA_ISR_TEIF1) {
- 331              		.loc 1 188 9 is_stmt 1 view .LVU66
-ARM GAS  /tmp/ccXAx71c.s 			page 10
+ 188:Core/Src/main.c ****     
+ 189:Core/Src/main.c ****   }
+ 190:Core/Src/main.c ****   else
+ 191:Core/Src/main.c ****   {
+ 192:Core/Src/main.c ****     flag_motor = 1;
+ 193:Core/Src/main.c ****     display_power_high();
+ARM GAS  /tmp/ccbuWFR0.s 			page 12
 
 
- 332              		.loc 1 188 17 is_stmt 0 view .LVU67
- 333 0016 054B     		ldr	r3, .L25
- 334 0018 1B68     		ldr	r3, [r3]
- 335              		.loc 1 188 12 view .LVU68
- 336 001a 13F0080F 		tst	r3, #8
- 337 001e 04D0     		beq	.L22
- 189:Core/Src/main.c **** 		/*Здесь можно сделать какой-то обработчик ошибок*/
- 190:Core/Src/main.c **** 		DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
- 338              		.loc 1 190 3 is_stmt 1 view .LVU69
- 339              		.loc 1 190 7 is_stmt 0 view .LVU70
- 340 0020 024A     		ldr	r2, .L25
- 341 0022 5368     		ldr	r3, [r2, #4]
- 342              		.loc 1 190 14 view .LVU71
- 343 0024 43F00103 		orr	r3, r3, #1
- 344 0028 5360     		str	r3, [r2, #4]
- 345              	.L22:
- 191:Core/Src/main.c **** 	}
- 192:Core/Src/main.c **** }
- 346              		.loc 1 192 1 view .LVU72
- 347 002a 7047     		bx	lr
- 348              	.L26:
- 349              		.align	2
- 350              	.L25:
- 351 002c 00000240 		.word	1073872896
- 352              		.cfi_endproc
- 353              	.LFE293:
- 355              		.section	.text.Error_Handler,"ax",%progbits
- 356              		.align	1
- 357              		.global	Error_Handler
- 358              		.syntax unified
- 359              		.thumb
- 360              		.thumb_func
- 362              	Error_Handler:
- 363              	.LFB294:
- 193:Core/Src/main.c **** 
- 194:Core/Src/main.c **** /* USER CODE END 4 */
- 195:Core/Src/main.c **** 
- 196:Core/Src/main.c **** void Error_Handler(void)
- 197:Core/Src/main.c **** {
- 364              		.loc 1 197 1 is_stmt 1 view -0
- 365              		.cfi_startproc
- 366              		@ Volatile: function does not return.
- 367              		@ args = 0, pretend = 0, frame = 0
- 368              		@ frame_needed = 0, uses_anonymous_args = 0
- 369              		@ link register save eliminated.
- 198:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
- 199:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
- 200:Core/Src/main.c ****   __disable_irq();
- 370              		.loc 1 200 3 view .LVU74
- 371              	.LBB4:
- 372              	.LBI4:
- 373              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+ 194:Core/Src/main.c ****     motor_write(CONFIG0, 0xE1);
+ 195:Core/Src/main.c ****   }
+ 196:Core/Src/main.c **** 
+ 197:Core/Src/main.c ****   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
+ 411              		.loc 1 197 3 view .LVU79
+ 412              		.loc 1 197 7 is_stmt 0 view .LVU80
+ 413 0020 0A4A     		ldr	r2, .L29+4
+ 414 0022 5369     		ldr	r3, [r2, #20]
+ 415              		.loc 1 197 13 view .LVU81
+ 416 0024 43F40063 		orr	r3, r3, #2048
+ 417 0028 5361     		str	r3, [r2, #20]
+ 198:Core/Src/main.c **** 
+ 199:Core/Src/main.c **** }
+ 418              		.loc 1 199 1 view .LVU82
+ 419 002a 08BD     		pop	{r3, pc}
+ 420              	.L26:
+ 192:Core/Src/main.c ****     display_power_high();
+ 421              		.loc 1 192 5 is_stmt 1 view .LVU83
+ 192:Core/Src/main.c ****     display_power_high();
+ 422              		.loc 1 192 16 is_stmt 0 view .LVU84
+ 423 002c 0121     		movs	r1, #1
+ 424 002e 064B     		ldr	r3, .L29
+ 425 0030 1970     		strb	r1, [r3]
+ 193:Core/Src/main.c ****     motor_write(CONFIG0, 0xE1);
+ 426              		.loc 1 193 5 is_stmt 1 view .LVU85
+ 427 0032 0A46     		mov	r2, r1
+ 428 0034 4FF09040 		mov	r0, #1207959552
+ 429 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 430              	.LVL44:
+ 194:Core/Src/main.c ****   }
+ 431              		.loc 1 194 5 view .LVU86
+ 432 003c E121     		movs	r1, #225
+ 433 003e 0920     		movs	r0, #9
+ 434 0040 FFF7FEFF 		bl	motor_write
+ 435              	.LVL45:
+ 436 0044 ECE7     		b	.L27
+ 437              	.L30:
+ 438 0046 00BF     		.align	2
+ 439              	.L29:
+ 440 0048 00000000 		.word	flag_motor
+ 441 004c 00040140 		.word	1073808384
+ 442              		.cfi_endproc
+ 443              	.LFE291:
+ 445              		.section	.text.ADC1_IRQHandler,"ax",%progbits
+ 446              		.align	1
+ 447              		.global	ADC1_IRQHandler
+ 448              		.syntax unified
+ 449              		.thumb
+ 450              		.thumb_func
+ 452              	ADC1_IRQHandler:
+ 453              	.LFB292:
+ 200:Core/Src/main.c **** void ADC1_IRQHandler(void)
+ 201:Core/Src/main.c **** {
+ 454              		.loc 1 201 1 view -0
+ 455              		.cfi_startproc
+ 456              		@ args = 0, pretend = 0, frame = 0
+ 457              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccbuWFR0.s 			page 13
+
+
+ 458              		@ link register save eliminated.
+ 202:Core/Src/main.c ****     if (ADC1->ISR & ADC_ISR_EOC) { // Проверяем флаг конца преобразова
+ 459              		.loc 1 202 5 view .LVU88
+ 460              		.loc 1 202 13 is_stmt 0 view .LVU89
+ 461 0000 034B     		ldr	r3, .L33
+ 462 0002 1B68     		ldr	r3, [r3]
+ 463              		.loc 1 202 8 view .LVU90
+ 464 0004 13F0040F 		tst	r3, #4
+ 465 0008 01D0     		beq	.L31
+ 203:Core/Src/main.c ****       ADC1->DR;
+ 466              		.loc 1 203 7 is_stmt 1 view .LVU91
+ 467              		.loc 1 203 11 is_stmt 0 view .LVU92
+ 468 000a 014B     		ldr	r3, .L33
+ 469 000c 1B6C     		ldr	r3, [r3, #64]
+ 470              	.L31:
+ 204:Core/Src/main.c ****     }
+ 205:Core/Src/main.c **** }
+ 471              		.loc 1 205 1 view .LVU93
+ 472 000e 7047     		bx	lr
+ 473              	.L34:
+ 474              		.align	2
+ 475              	.L33:
+ 476 0010 00000450 		.word	1342439424
+ 477              		.cfi_endproc
+ 478              	.LFE292:
+ 480              		.section	.text.DMA1_Channel1_IRQHandler,"ax",%progbits
+ 481              		.align	1
+ 482              		.global	DMA1_Channel1_IRQHandler
+ 483              		.syntax unified
+ 484              		.thumb
+ 485              		.thumb_func
+ 487              	DMA1_Channel1_IRQHandler:
+ 488              	.LFB293:
+ 206:Core/Src/main.c **** void DMA1_Channel1_IRQHandler() {
+ 489              		.loc 1 206 33 is_stmt 1 view -0
+ 490              		.cfi_startproc
+ 491              		@ args = 0, pretend = 0, frame = 0
+ 492              		@ frame_needed = 0, uses_anonymous_args = 0
+ 493              		@ link register save eliminated.
+ 207:Core/Src/main.c ****   
+ 208:Core/Src/main.c ****   if(DMA1->ISR & DMA_ISR_TCIF1) {
+ 494              		.loc 1 208 3 view .LVU95
+ 495              		.loc 1 208 10 is_stmt 0 view .LVU96
+ 496 0000 0A4B     		ldr	r3, .L38
+ 497 0002 1B68     		ldr	r3, [r3]
+ 498              		.loc 1 208 5 view .LVU97
+ 499 0004 13F0020F 		tst	r3, #2
+ 500 0008 05D0     		beq	.L36
+ 209:Core/Src/main.c **** 
+ 210:Core/Src/main.c **** 		    DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
+ 501              		.loc 1 210 7 is_stmt 1 view .LVU98
+ 502              		.loc 1 210 11 is_stmt 0 view .LVU99
+ 503 000a 084A     		ldr	r2, .L38
+ 504 000c 5368     		ldr	r3, [r2, #4]
+ 505              		.loc 1 210 18 view .LVU100
+ 506 000e 43F00103 		orr	r3, r3, #1
+ 507 0012 5360     		str	r3, [r2, #4]
+ARM GAS  /tmp/ccbuWFR0.s 			page 14
+
+
+ 508 0014 7047     		bx	lr
+ 509              	.L36:
+ 211:Core/Src/main.c **** 
+ 212:Core/Src/main.c **** 	} else if (DMA1->ISR & DMA_ISR_TEIF1) {
+ 510              		.loc 1 212 9 is_stmt 1 view .LVU101
+ 511              		.loc 1 212 17 is_stmt 0 view .LVU102
+ 512 0016 054B     		ldr	r3, .L38
+ 513 0018 1B68     		ldr	r3, [r3]
+ 514              		.loc 1 212 12 view .LVU103
+ 515 001a 13F0080F 		tst	r3, #8
+ 516 001e 04D0     		beq	.L35
+ 213:Core/Src/main.c **** 		/*Здесь можно сделать какой-то обработчик ошибок*/
+ 214:Core/Src/main.c **** 		DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
+ 517              		.loc 1 214 3 is_stmt 1 view .LVU104
+ 518              		.loc 1 214 7 is_stmt 0 view .LVU105
+ 519 0020 024A     		ldr	r2, .L38
+ 520 0022 5368     		ldr	r3, [r2, #4]
+ 521              		.loc 1 214 14 view .LVU106
+ 522 0024 43F00103 		orr	r3, r3, #1
+ 523 0028 5360     		str	r3, [r2, #4]
+ 524              	.L35:
+ 215:Core/Src/main.c **** 	}
+ 216:Core/Src/main.c **** }
+ 525              		.loc 1 216 1 view .LVU107
+ 526 002a 7047     		bx	lr
+ 527              	.L39:
+ 528              		.align	2
+ 529              	.L38:
+ 530 002c 00000240 		.word	1073872896
+ 531              		.cfi_endproc
+ 532              	.LFE293:
+ 534              		.section	.text.TIM7_IRQHandler,"ax",%progbits
+ 535              		.align	1
+ 536              		.global	TIM7_IRQHandler
+ 537              		.syntax unified
+ 538              		.thumb
+ 539              		.thumb_func
+ 541              	TIM7_IRQHandler:
+ 542              	.LFB294:
+ 217:Core/Src/main.c **** void TIM7_IRQHandler (void)
+ 218:Core/Src/main.c **** {
+ 543              		.loc 1 218 1 is_stmt 1 view -0
+ 544              		.cfi_startproc
+ 545              		@ args = 0, pretend = 0, frame = 0
+ 546              		@ frame_needed = 0, uses_anonymous_args = 0
+ 547              		@ link register save eliminated.
+ 219:Core/Src/main.c ****   TIM7->SR &= ~TIM_SR_UIF;
+ 548              		.loc 1 219 3 view .LVU109
+ 549              		.loc 1 219 7 is_stmt 0 view .LVU110
+ 550 0000 044A     		ldr	r2, .L41
+ 551 0002 1369     		ldr	r3, [r2, #16]
+ 552              		.loc 1 219 12 view .LVU111
+ 553 0004 23F00103 		bic	r3, r3, #1
+ 554 0008 1361     		str	r3, [r2, #16]
+ 220:Core/Src/main.c ****   time++;
+ 555              		.loc 1 220 3 is_stmt 1 view .LVU112
+ 556              		.loc 1 220 7 is_stmt 0 view .LVU113
+ARM GAS  /tmp/ccbuWFR0.s 			page 15
+
+
+ 557 000a 034A     		ldr	r2, .L41+4
+ 558 000c 1388     		ldrh	r3, [r2]
+ 559 000e 0133     		adds	r3, r3, #1
+ 560 0010 1380     		strh	r3, [r2]	@ movhi
+ 221:Core/Src/main.c **** }
+ 561              		.loc 1 221 1 view .LVU114
+ 562 0012 7047     		bx	lr
+ 563              	.L42:
+ 564              		.align	2
+ 565              	.L41:
+ 566 0014 00140040 		.word	1073746944
+ 567 0018 00000000 		.word	time
+ 568              		.cfi_endproc
+ 569              	.LFE294:
+ 571              		.section	.text.Error_Handler,"ax",%progbits
+ 572              		.align	1
+ 573              		.global	Error_Handler
+ 574              		.syntax unified
+ 575              		.thumb
+ 576              		.thumb_func
+ 578              	Error_Handler:
+ 579              	.LFB295:
+ 222:Core/Src/main.c **** /* USER CODE END 4 */
+ 223:Core/Src/main.c **** 
+ 224:Core/Src/main.c **** void Error_Handler(void)
+ 225:Core/Src/main.c **** {
+ 580              		.loc 1 225 1 is_stmt 1 view -0
+ 581              		.cfi_startproc
+ 582              		@ Volatile: function does not return.
+ 583              		@ args = 0, pretend = 0, frame = 0
+ 584              		@ frame_needed = 0, uses_anonymous_args = 0
+ 585              		@ link register save eliminated.
+ 226:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 227:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 228:Core/Src/main.c ****   __disable_irq();
+ 586              		.loc 1 228 3 view .LVU116
+ 587              	.LBB6:
+ 588              	.LBI6:
+ 589              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
    1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
    2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
    3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
    4:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.2.0
    5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     08. May 2019
-ARM GAS  /tmp/ccXAx71c.s 			page 11
-
-
    6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
    7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
    8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2019 Arm Limited. All rights reserved.
@@ -614,6 +898,9 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   16:Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
   17:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
   18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+ARM GAS  /tmp/ccbuWFR0.s 			page 16
+
+
   19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
   20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
@@ -658,9 +945,6 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   61:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
   62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
-ARM GAS  /tmp/ccXAx71c.s 			page 12
-
-
   63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
   65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
@@ -674,6 +958,9 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
   73:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
   74:Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
   75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ARM GAS  /tmp/ccbuWFR0.s 			page 17
+
+
   76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
   77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
@@ -718,9 +1005,6 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
  117:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __COMPILER_BARRIER()                   __ASM volatile("":::"memory")
  118:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  119:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccXAx71c.s 			page 13
-
-
  120:Drivers/CMSIS/Include/cmsis_gcc.h **** /* #########################  Startup and Lowlevel Init  ######################## */
  121:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  122:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __PROGRAM_START
@@ -734,6 +1018,9 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
  130:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  131:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE __NO_RETURN void __cmsis_start(void)
  132:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ARM GAS  /tmp/ccbuWFR0.s 			page 18
+
+
  133:Drivers/CMSIS/Include/cmsis_gcc.h ****   extern void _start(void) __NO_RETURN;
  134:Drivers/CMSIS/Include/cmsis_gcc.h ****   
  135:Drivers/CMSIS/Include/cmsis_gcc.h ****   typedef struct {
@@ -778,9 +1065,6 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
  174:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __STACK_LIMIT             __StackLimit
  175:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  176:Drivers/CMSIS/Include/cmsis_gcc.h **** 
-ARM GAS  /tmp/ccXAx71c.s 			page 14
-
-
  177:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __VECTOR_TABLE
  178:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __VECTOR_TABLE            __Vectors
  179:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -794,6 +1078,9 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
  187:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
  188:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
  189:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ARM GAS  /tmp/ccbuWFR0.s 			page 19
+
+
  190:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  191:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
  192:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
@@ -812,119 +1099,139 @@ ARM GAS  /tmp/ccXAx71c.s 			page 1
  205:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
  206:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  207:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
- 374              		.loc 2 207 27 view .LVU75
- 375              	.LBB5:
+ 590              		.loc 2 207 27 view .LVU117
+ 591              	.LBB7:
  208:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  209:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
- 376              		.loc 2 209 3 view .LVU76
- 377              		.syntax unified
- 378              	@ 209 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
- 379 0000 72B6     		cpsid i
- 380              	@ 0 "" 2
- 381              		.thumb
- 382              		.syntax unified
- 383              	.L28:
- 384              	.LBE5:
- 385              	.LBE4:
- 201:Core/Src/main.c ****   while (1)
- 386              		.loc 1 201 3 view .LVU77
- 202:Core/Src/main.c ****   {
- 203:Core/Src/main.c ****   }
- 387              		.loc 1 203 3 view .LVU78
- 201:Core/Src/main.c ****   while (1)
- 388              		.loc 1 201 9 view .LVU79
- 389 0002 FEE7     		b	.L28
- 390              		.cfi_endproc
- 391              	.LFE294:
- 393              		.global	ADC_Data
- 394              		.section	.bss.ADC_Data,"aw",%nobits
-ARM GAS  /tmp/ccXAx71c.s 			page 15
+ 592              		.loc 2 209 3 view .LVU118
+ 593              		.syntax unified
+ 594              	@ 209 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 595 0000 72B6     		cpsid i
+ 596              	@ 0 "" 2
+ 597              		.thumb
+ 598              		.syntax unified
+ 599              	.L44:
+ 600              	.LBE7:
+ 601              	.LBE6:
+ 229:Core/Src/main.c ****   while (1)
+ 602              		.loc 1 229 3 view .LVU119
+ 230:Core/Src/main.c ****   {
+ 231:Core/Src/main.c ****   }
+ 603              		.loc 1 231 3 view .LVU120
+ 229:Core/Src/main.c ****   while (1)
+ 604              		.loc 1 229 9 view .LVU121
+ 605 0002 FEE7     		b	.L44
+ 606              		.cfi_endproc
+ 607              	.LFE295:
+ 609              		.global	time
+ 610              		.section	.bss.time,"aw",%nobits
+ 611              		.align	1
+ 614              	time:
+ 615 0000 0000     		.space	2
+ 616              		.global	data_speed
+ 617              		.section	.bss.data_speed,"aw",%nobits
+ 618              		.align	3
+ 621              	data_speed:
+ 622 0000 00000000 		.space	8
+ 622      00000000 
+ 623              		.global	ADC_Data
+ 624              		.section	.bss.ADC_Data,"aw",%nobits
+ 625              		.align	2
+ 628              	ADC_Data:
+ARM GAS  /tmp/ccbuWFR0.s 			page 20
 
 
- 395              		.align	2
- 398              	ADC_Data:
- 399 0000 00000000 		.space	6
- 399      0000
- 400              		.global	flag_motor
- 401              		.section	.data.flag_motor,"aw"
- 404              	flag_motor:
- 405 0000 03       		.byte	3
- 406              		.global	speed
- 407              		.section	.data.speed,"aw"
- 410              	speed:
- 411 0000 28       		.byte	40
- 412              		.global	vbat_value
- 413              		.section	.bss.vbat_value,"aw",%nobits
- 414              		.align	2
- 417              	vbat_value:
- 418 0000 00000000 		.space	4
- 419              		.global	vbatbuf
- 420              		.section	.data.vbatbuf,"aw"
- 421              		.align	2
- 424              	vbatbuf:
- 425 0000 302E30   		.ascii	"0.0"
- 426              		.global	adc_value15
- 427              		.section	.bss.adc_value15,"aw",%nobits
- 428              		.align	1
- 431              	adc_value15:
- 432 0000 0000     		.space	2
- 433              		.global	adc_value11
- 434              		.section	.bss.adc_value11,"aw",%nobits
- 435              		.align	1
- 438              	adc_value11:
- 439 0000 0000     		.space	2
- 440              		.text
- 441              	.Letext0:
- 442              		.file 3 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
- 443              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
- 444              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
- 445              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
- 446              		.file 7 "Core/Inc/motor.h"
- 447              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
- 448              		.file 9 "Core/Inc/display.h"
- 449              		.file 10 "Core/Inc/dac.h"
- 450              		.file 11 "Core/Inc/gpio.h"
- 451              		.file 12 "Core/Inc/spi.h"
- 452              		.file 13 "Core/Inc/i2c.h"
- 453              		.file 14 "Core/Inc/adc.h"
-ARM GAS  /tmp/ccXAx71c.s 			page 16
+ 629 0000 00000000 		.space	6
+ 629      0000
+ 630              		.global	flag_motor
+ 631              		.section	.data.flag_motor,"aw"
+ 634              	flag_motor:
+ 635 0000 03       		.byte	3
+ 636              		.global	speed
+ 637              		.section	.data.speed,"aw"
+ 640              	speed:
+ 641 0000 28       		.byte	40
+ 642              		.global	vbat_value
+ 643              		.section	.bss.vbat_value,"aw",%nobits
+ 644              		.align	2
+ 647              	vbat_value:
+ 648 0000 00000000 		.space	4
+ 649              		.global	adc_value15
+ 650              		.section	.bss.adc_value15,"aw",%nobits
+ 651              		.align	1
+ 654              	adc_value15:
+ 655 0000 0000     		.space	2
+ 656              		.global	adc_value11
+ 657              		.section	.bss.adc_value11,"aw",%nobits
+ 658              		.align	1
+ 661              	adc_value11:
+ 662 0000 0000     		.space	2
+ 663              		.text
+ 664              	.Letext0:
+ 665              		.file 3 "/usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h"
+ 666              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 667              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 668              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 669              		.file 7 "Core/Inc/motor.h"
+ 670              		.file 8 "Core/Inc/display.h"
+ 671              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ 672              		.file 10 "Core/Inc/time.h"
+ 673              		.file 11 "Core/Inc/dac.h"
+ 674              		.file 12 "Core/Inc/gpio.h"
+ 675              		.file 13 "Core/Inc/spi.h"
+ 676              		.file 14 "Core/Inc/i2c.h"
+ 677              		.file 15 "Core/Inc/adc.h"
+ARM GAS  /tmp/ccbuWFR0.s 			page 21
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccXAx71c.s:21     .text.main:00000000 $t
-     /tmp/ccXAx71c.s:27     .text.main:00000000 main
-     /tmp/ccXAx71c.s:103    .text.EXTI1_IRQHandler:00000000 $t
-     /tmp/ccXAx71c.s:109    .text.EXTI1_IRQHandler:00000000 EXTI1_IRQHandler
-     /tmp/ccXAx71c.s:142    .text.EXTI1_IRQHandler:0000001c $d
-     /tmp/ccXAx71c.s:410    .data.speed:00000000 speed
-     /tmp/ccXAx71c.s:148    .text.EXTI9_5_IRQHandler:00000000 $t
-     /tmp/ccXAx71c.s:154    .text.EXTI9_5_IRQHandler:00000000 EXTI9_5_IRQHandler
-     /tmp/ccXAx71c.s:187    .text.EXTI9_5_IRQHandler:0000001c $d
-     /tmp/ccXAx71c.s:193    .text.EXTI15_10_IRQHandler:00000000 $t
-     /tmp/ccXAx71c.s:199    .text.EXTI15_10_IRQHandler:00000000 EXTI15_10_IRQHandler
-     /tmp/ccXAx71c.s:261    .text.EXTI15_10_IRQHandler:00000048 $d
-     /tmp/ccXAx71c.s:404    .data.flag_motor:00000000 flag_motor
-     /tmp/ccXAx71c.s:267    .text.ADC1_IRQHandler:00000000 $t
-     /tmp/ccXAx71c.s:273    .text.ADC1_IRQHandler:00000000 ADC1_IRQHandler
-     /tmp/ccXAx71c.s:297    .text.ADC1_IRQHandler:00000010 $d
-     /tmp/ccXAx71c.s:302    .text.DMA1_Channel1_IRQHandler:00000000 $t
-     /tmp/ccXAx71c.s:308    .text.DMA1_Channel1_IRQHandler:00000000 DMA1_Channel1_IRQHandler
-     /tmp/ccXAx71c.s:351    .text.DMA1_Channel1_IRQHandler:0000002c $d
-     /tmp/ccXAx71c.s:356    .text.Error_Handler:00000000 $t
-     /tmp/ccXAx71c.s:362    .text.Error_Handler:00000000 Error_Handler
-     /tmp/ccXAx71c.s:398    .bss.ADC_Data:00000000 ADC_Data
-     /tmp/ccXAx71c.s:395    .bss.ADC_Data:00000000 $d
-     /tmp/ccXAx71c.s:417    .bss.vbat_value:00000000 vbat_value
-     /tmp/ccXAx71c.s:414    .bss.vbat_value:00000000 $d
-     /tmp/ccXAx71c.s:424    .data.vbatbuf:00000000 vbatbuf
-     /tmp/ccXAx71c.s:421    .data.vbatbuf:00000000 $d
-     /tmp/ccXAx71c.s:431    .bss.adc_value15:00000000 adc_value15
-     /tmp/ccXAx71c.s:428    .bss.adc_value15:00000000 $d
-     /tmp/ccXAx71c.s:438    .bss.adc_value11:00000000 adc_value11
-     /tmp/ccXAx71c.s:435    .bss.adc_value11:00000000 $d
+     /tmp/ccbuWFR0.s:28     .text.main:00000000 $t
+     /tmp/ccbuWFR0.s:34     .text.main:00000000 main
+     /tmp/ccbuWFR0.s:265    .text.main:00000150 $d
+     /tmp/ccbuWFR0.s:628    .bss.ADC_Data:00000000 ADC_Data
+     /tmp/ccbuWFR0.s:647    .bss.vbat_value:00000000 vbat_value
+     /tmp/ccbuWFR0.s:282    .text.EXTI1_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:288    .text.EXTI1_IRQHandler:00000000 EXTI1_IRQHandler
+     /tmp/ccbuWFR0.s:321    .text.EXTI1_IRQHandler:0000001c $d
+     /tmp/ccbuWFR0.s:640    .data.speed:00000000 speed
+     /tmp/ccbuWFR0.s:327    .text.EXTI9_5_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:333    .text.EXTI9_5_IRQHandler:00000000 EXTI9_5_IRQHandler
+     /tmp/ccbuWFR0.s:366    .text.EXTI9_5_IRQHandler:0000001c $d
+     /tmp/ccbuWFR0.s:372    .text.EXTI15_10_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:378    .text.EXTI15_10_IRQHandler:00000000 EXTI15_10_IRQHandler
+     /tmp/ccbuWFR0.s:440    .text.EXTI15_10_IRQHandler:00000048 $d
+     /tmp/ccbuWFR0.s:634    .data.flag_motor:00000000 flag_motor
+     /tmp/ccbuWFR0.s:446    .text.ADC1_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:452    .text.ADC1_IRQHandler:00000000 ADC1_IRQHandler
+     /tmp/ccbuWFR0.s:476    .text.ADC1_IRQHandler:00000010 $d
+     /tmp/ccbuWFR0.s:481    .text.DMA1_Channel1_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:487    .text.DMA1_Channel1_IRQHandler:00000000 DMA1_Channel1_IRQHandler
+     /tmp/ccbuWFR0.s:530    .text.DMA1_Channel1_IRQHandler:0000002c $d
+     /tmp/ccbuWFR0.s:535    .text.TIM7_IRQHandler:00000000 $t
+     /tmp/ccbuWFR0.s:541    .text.TIM7_IRQHandler:00000000 TIM7_IRQHandler
+     /tmp/ccbuWFR0.s:566    .text.TIM7_IRQHandler:00000014 $d
+     /tmp/ccbuWFR0.s:614    .bss.time:00000000 time
+     /tmp/ccbuWFR0.s:572    .text.Error_Handler:00000000 $t
+     /tmp/ccbuWFR0.s:578    .text.Error_Handler:00000000 Error_Handler
+     /tmp/ccbuWFR0.s:611    .bss.time:00000000 $d
+     /tmp/ccbuWFR0.s:621    .bss.data_speed:00000000 data_speed
+     /tmp/ccbuWFR0.s:618    .bss.data_speed:00000000 $d
+     /tmp/ccbuWFR0.s:625    .bss.ADC_Data:00000000 $d
+     /tmp/ccbuWFR0.s:644    .bss.vbat_value:00000000 $d
+     /tmp/ccbuWFR0.s:654    .bss.adc_value15:00000000 adc_value15
+     /tmp/ccbuWFR0.s:651    .bss.adc_value15:00000000 $d
+     /tmp/ccbuWFR0.s:661    .bss.adc_value11:00000000 adc_value11
+     /tmp/ccbuWFR0.s:658    .bss.adc_value11:00000000 $d
 
 UNDEFINED SYMBOLS
+__aeabi_f2d
+__aeabi_dmul
+__aeabi_dadd
+__aeabi_ddiv
+__aeabi_d2f
+__aeabi_dcmpgt
+__aeabi_dcmplt
 HAL_Init
 SystemClock_Config
 MX_GPIO_Init
@@ -934,13 +1241,19 @@ MX_I2C3_Init
 MX_SPI1_Init
 button_interrupt_init
 motor_init
+ARM GAS  /tmp/ccbuWFR0.s 			page 22
+
+
 HAL_GPIO_WritePin
 dac_data_send
 display_init
 display_test
-show_motor_duty
-show_vbat
-SSD1306_UpdateScreen
+time_init
 HAL_Delay
+show_vbat
+show_time
+show_motor_duty
+SSD1306_UpdateScreen
+show_motor_speed
 motor_speed_write
 motor_write

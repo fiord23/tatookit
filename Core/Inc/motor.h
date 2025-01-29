@@ -37,4 +37,5 @@
 void motor_write(uint8_t reg, uint8_t data);
 void motor_init(void);
 void motor_speed_write (uint8_t data);
+uint8_t motor_read(uint8_t reg);
 #endif

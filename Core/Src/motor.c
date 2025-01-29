@@ -8,6 +8,14 @@ void motor_write(uint8_t reg, uint8_t data)
     HAL_I2C_Master_Transmit(&hi2c3, MOTOR_I2C_ADDRESS, tdata, 2,  100);
 }
 
+uint8_t motor_read(uint8_t reg)
+{
+   uint8_t data; 
+   uint8_t tdata[1] = {reg};
+   HAL_I2C_Master_Transmit(&hi2c3, MOTOR_I2C_ADDRESS, tdata, 1,  100);
+   HAL_I2C_Master_Receive(&hi2c3, MOTOR_I2C_ADDRESS, &data, 1, 100);
+   return data;
+}
 
 void motor_init(void)
 {
@@ -16,7 +24,9 @@ void motor_init(void)
     HAL_Delay(10);
     motor_write(CONFIG4, 0x30);
     motor_write(CONFIG0, 0xE1);
+    motor_write(REG_CTRL0, 21); //scale speed 32
     motor_write(REG_CTRL2, 40);
+
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);  
     HAL_Delay(100);
 }

@@ -33,6 +33,7 @@
 #include "fonts.h"
 #include <stdbool.h>
 #include "clocks.h"
+#include "time.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +43,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define ADC_RES 4095.0
+#define VBAT_DIV 2.0
+#define VREF 3.3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -55,11 +58,12 @@
 /* USER CODE BEGIN PV */
 uint16_t adc_value11 = 0;
 volatile uint16_t adc_value15 = 0;
-char vbatbuf[3] = {'0', '.', '0'};
 float vbat_value = 0.0;
 uint8_t speed = 40;
 uint8_t flag_motor = 3;
 volatile uint16_t ADC_Data[3] = { 0, };
+double data_speed = 0.0;
+uint16_t time = 0;
 
 
 
@@ -110,6 +114,7 @@ int main(void)
   dac_init();
   MX_I2C3_Init();
   MX_SPI1_Init();
+  
   /* USER CODE BEGIN 2 */
   //
   button_interrupt_init();
@@ -118,18 +123,37 @@ int main(void)
   dac_data_send(993);
   display_init();
   display_test();
+  time_init();
+
   /* USER CODE END 2 */
   
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+      show_motor_speed();
+      HAL_Delay(10);
+      SSD1306_UpdateScreen();
+      HAL_Delay(10);
+      uint8_t databat = 0;
+	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+      if (vbat_value > 4.0)
+        databat = 4;
+      else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+        databat = 3;
+      else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+        databat = 2;
+      else if (vbat_value < 3.2)  
+       databat = 1;
+    HAL_Delay(10);
+    show_vbat(databat);
+    HAL_Delay(10);
+    show_time();
+    HAL_Delay(10);
     show_motor_duty();
-    show_vbat();
+    HAL_Delay(10);
     SSD1306_UpdateScreen();
-
-    HAL_Delay(1000);
+    HAL_Delay(100);
 
     /* USER CODE END WHILE */
 
@@ -139,7 +163,7 @@ int main(void)
 }
 
 /* USER CODE BEGIN 4 */
-void  EXTI1_IRQHandler (void)    //PB1 BUTTON - 
+void EXTI1_IRQHandler (void)    //PB1 BUTTON - 
 {
   EXTI->PR1 |= EXTI_PR1_PIF1;
   speed--;
@@ -190,7 +214,11 @@ void DMA1_Channel1_IRQHandler() {
 		DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
 	}
 }
-
+void TIM7_IRQHandler (void)
+{
+  TIM7->SR &= ~TIM_SR_UIF;
+  time++;
+}
 /* USER CODE END 4 */
 
 void Error_Handler(void)

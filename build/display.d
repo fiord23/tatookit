@@ -27,7 +27,8 @@ build/display.o: Core/Src/display.c Core/Inc/display.h Core/Inc/main.h \
  Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h \
  Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h \
  Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h \
- Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h Core/Inc/fonts.h
+ Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h Core/Inc/fonts.h \
+ Core/Inc/motor.h
 Core/Inc/display.h:
 Core/Inc/main.h:
 Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
@@ -62,3 +63,4 @@ Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h:
 Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi.h:
 Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 Core/Inc/fonts.h:
+Core/Inc/motor.h:
