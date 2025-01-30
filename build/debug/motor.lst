@@ -1,0 +1,335 @@
+ARM GAS  /tmp/ccsWziXm.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"motor.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/motor.c"
+  20              		.section	.text.motor_write,"ax",%progbits
+  21              		.align	1
+  22              		.global	motor_write
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	motor_write:
+  28              	.LVL0:
+  29              	.LFB288:
+   1:Core/Src/motor.c **** #include "motor.h"
+   2:Core/Src/motor.c **** #include "stm32l4xx_hal_i2c.h"
+   3:Core/Src/motor.c **** extern I2C_HandleTypeDef hi2c3;
+   4:Core/Src/motor.c **** 
+   5:Core/Src/motor.c **** void motor_write(uint8_t reg, uint8_t data)
+   6:Core/Src/motor.c **** {
+  30              		.loc 1 6 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 6 1 is_stmt 0 view .LVU1
+  35 0000 00B5     		push	{lr}
+  36              		.cfi_def_cfa_offset 4
+  37              		.cfi_offset 14, -4
+  38 0002 85B0     		sub	sp, sp, #20
+  39              		.cfi_def_cfa_offset 24
+   7:Core/Src/motor.c ****     uint8_t tdata[2] = {reg, data};
+  40              		.loc 1 7 5 is_stmt 1 view .LVU2
+  41              		.loc 1 7 13 is_stmt 0 view .LVU3
+  42 0004 8DF80C00 		strb	r0, [sp, #12]
+  43 0008 8DF80D10 		strb	r1, [sp, #13]
+   8:Core/Src/motor.c ****     HAL_I2C_Master_Transmit(&hi2c3, MOTOR_I2C_ADDRESS, tdata, 2,  100);
+  44              		.loc 1 8 5 is_stmt 1 view .LVU4
+  45 000c 6423     		movs	r3, #100
+  46 000e 0093     		str	r3, [sp]
+  47 0010 0223     		movs	r3, #2
+  48 0012 03AA     		add	r2, sp, #12
+  49 0014 6021     		movs	r1, #96
+  50              	.LVL1:
+ARM GAS  /tmp/ccsWziXm.s 			page 2
+
+
+  51              		.loc 1 8 5 is_stmt 0 view .LVU5
+  52 0016 0348     		ldr	r0, .L3
+  53              	.LVL2:
+  54              		.loc 1 8 5 view .LVU6
+  55 0018 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  56              	.LVL3:
+   9:Core/Src/motor.c **** }
+  57              		.loc 1 9 1 view .LVU7
+  58 001c 05B0     		add	sp, sp, #20
+  59              		.cfi_def_cfa_offset 4
+  60              		@ sp needed
+  61 001e 5DF804FB 		ldr	pc, [sp], #4
+  62              	.L4:
+  63 0022 00BF     		.align	2
+  64              	.L3:
+  65 0024 00000000 		.word	hi2c3
+  66              		.cfi_endproc
+  67              	.LFE288:
+  69              		.section	.text.motor_read,"ax",%progbits
+  70              		.align	1
+  71              		.global	motor_read
+  72              		.syntax unified
+  73              		.thumb
+  74              		.thumb_func
+  76              	motor_read:
+  77              	.LVL4:
+  78              	.LFB289:
+  10:Core/Src/motor.c **** 
+  11:Core/Src/motor.c **** uint8_t motor_read(uint8_t reg)
+  12:Core/Src/motor.c **** {
+  79              		.loc 1 12 1 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 8
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		.loc 1 12 1 is_stmt 0 view .LVU9
+  84 0000 30B5     		push	{r4, r5, lr}
+  85              		.cfi_def_cfa_offset 12
+  86              		.cfi_offset 4, -12
+  87              		.cfi_offset 5, -8
+  88              		.cfi_offset 14, -4
+  89 0002 85B0     		sub	sp, sp, #20
+  90              		.cfi_def_cfa_offset 32
+  13:Core/Src/motor.c ****    uint8_t data; 
+  91              		.loc 1 13 4 is_stmt 1 view .LVU10
+  14:Core/Src/motor.c ****    uint8_t tdata[1] = {reg};
+  92              		.loc 1 14 4 view .LVU11
+  93              		.loc 1 14 12 is_stmt 0 view .LVU12
+  94 0004 8DF80C00 		strb	r0, [sp, #12]
+  15:Core/Src/motor.c ****    HAL_I2C_Master_Transmit(&hi2c3, MOTOR_I2C_ADDRESS, tdata, 1,  100);
+  95              		.loc 1 15 4 is_stmt 1 view .LVU13
+  96 0008 0A4C     		ldr	r4, .L7
+  97 000a 6425     		movs	r5, #100
+  98 000c 0095     		str	r5, [sp]
+  99 000e 0123     		movs	r3, #1
+ 100 0010 03AA     		add	r2, sp, #12
+ 101 0012 6021     		movs	r1, #96
+ 102 0014 2046     		mov	r0, r4
+ARM GAS  /tmp/ccsWziXm.s 			page 3
+
+
+ 103              	.LVL5:
+ 104              		.loc 1 15 4 is_stmt 0 view .LVU14
+ 105 0016 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 106              	.LVL6:
+  16:Core/Src/motor.c ****    HAL_I2C_Master_Receive(&hi2c3, MOTOR_I2C_ADDRESS, &data, 1, 100);
+ 107              		.loc 1 16 4 is_stmt 1 view .LVU15
+ 108 001a 0095     		str	r5, [sp]
+ 109 001c 0123     		movs	r3, #1
+ 110 001e 0DF10F02 		add	r2, sp, #15
+ 111 0022 6021     		movs	r1, #96
+ 112 0024 2046     		mov	r0, r4
+ 113 0026 FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 114              	.LVL7:
+  17:Core/Src/motor.c ****    return data;
+ 115              		.loc 1 17 4 view .LVU16
+  18:Core/Src/motor.c **** }
+ 116              		.loc 1 18 1 is_stmt 0 view .LVU17
+ 117 002a 9DF80F00 		ldrb	r0, [sp, #15]	@ zero_extendqisi2
+ 118 002e 05B0     		add	sp, sp, #20
+ 119              		.cfi_def_cfa_offset 12
+ 120              		@ sp needed
+ 121 0030 30BD     		pop	{r4, r5, pc}
+ 122              	.L8:
+ 123 0032 00BF     		.align	2
+ 124              	.L7:
+ 125 0034 00000000 		.word	hi2c3
+ 126              		.cfi_endproc
+ 127              	.LFE289:
+ 129              		.section	.text.motor_init,"ax",%progbits
+ 130              		.align	1
+ 131              		.global	motor_init
+ 132              		.syntax unified
+ 133              		.thumb
+ 134              		.thumb_func
+ 136              	motor_init:
+ 137              	.LFB290:
+  19:Core/Src/motor.c **** 
+  20:Core/Src/motor.c **** void motor_init(void)
+  21:Core/Src/motor.c **** {
+ 138              		.loc 1 21 1 is_stmt 1 view -0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142 0000 08B5     		push	{r3, lr}
+ 143              		.cfi_def_cfa_offset 8
+ 144              		.cfi_offset 3, -8
+ 145              		.cfi_offset 14, -4
+  22:Core/Src/motor.c ****     HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
+ 146              		.loc 1 22 5 view .LVU19
+ 147 0002 0122     		movs	r2, #1
+ 148 0004 8021     		movs	r1, #128
+ 149 0006 1348     		ldr	r0, .L11
+ 150 0008 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 151              	.LVL8:
+  23:Core/Src/motor.c ****     HAL_GPIO_WritePin(GPIOA,  POWER_ON_OFF_Pin |EN_IN1_Pin, GPIO_PIN_RESET);
+ 152              		.loc 1 23 5 view .LVU20
+ 153 000c 0022     		movs	r2, #0
+ARM GAS  /tmp/ccsWziXm.s 			page 4
+
+
+ 154 000e 0521     		movs	r1, #5
+ 155 0010 4FF09040 		mov	r0, #1207959552
+ 156 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 157              	.LVL9:
+  24:Core/Src/motor.c ****     HAL_Delay(10);
+ 158              		.loc 1 24 5 view .LVU21
+ 159 0018 0A20     		movs	r0, #10
+ 160 001a FFF7FEFF 		bl	HAL_Delay
+ 161              	.LVL10:
+  25:Core/Src/motor.c ****     motor_write(CONFIG4, 0x30);
+ 162              		.loc 1 25 5 view .LVU22
+ 163 001e 3021     		movs	r1, #48
+ 164 0020 0D20     		movs	r0, #13
+ 165 0022 FFF7FEFF 		bl	motor_write
+ 166              	.LVL11:
+  26:Core/Src/motor.c ****     motor_write(CONFIG0, 0xE1);
+ 167              		.loc 1 26 5 view .LVU23
+ 168 0026 E121     		movs	r1, #225
+ 169 0028 0920     		movs	r0, #9
+ 170 002a FFF7FEFF 		bl	motor_write
+ 171              	.LVL12:
+  27:Core/Src/motor.c ****     motor_write(REG_CTRL0, 21); //scale speed 32
+ 172              		.loc 1 27 5 view .LVU24
+ 173 002e 1521     		movs	r1, #21
+ 174 0030 0E20     		movs	r0, #14
+ 175 0032 FFF7FEFF 		bl	motor_write
+ 176              	.LVL13:
+  28:Core/Src/motor.c ****     motor_write(REG_CTRL2, 40);
+ 177              		.loc 1 28 5 view .LVU25
+ 178 0036 2821     		movs	r1, #40
+ 179 0038 1020     		movs	r0, #16
+ 180 003a FFF7FEFF 		bl	motor_write
+ 181              	.LVL14:
+  29:Core/Src/motor.c **** 
+  30:Core/Src/motor.c ****     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);  
+ 182              		.loc 1 30 5 view .LVU26
+ 183 003e 0122     		movs	r2, #1
+ 184 0040 0421     		movs	r1, #4
+ 185 0042 4FF09040 		mov	r0, #1207959552
+ 186 0046 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 187              	.LVL15:
+  31:Core/Src/motor.c ****     HAL_Delay(100);
+ 188              		.loc 1 31 5 view .LVU27
+ 189 004a 6420     		movs	r0, #100
+ 190 004c FFF7FEFF 		bl	HAL_Delay
+ 191              	.LVL16:
+  32:Core/Src/motor.c **** }
+ 192              		.loc 1 32 1 is_stmt 0 view .LVU28
+ 193 0050 08BD     		pop	{r3, pc}
+ 194              	.L12:
+ 195 0052 00BF     		.align	2
+ 196              	.L11:
+ 197 0054 00040048 		.word	1207960576
+ 198              		.cfi_endproc
+ 199              	.LFE290:
+ 201              		.section	.text.motor_speed_write,"ax",%progbits
+ 202              		.align	1
+ARM GAS  /tmp/ccsWziXm.s 			page 5
+
+
+ 203              		.global	motor_speed_write
+ 204              		.syntax unified
+ 205              		.thumb
+ 206              		.thumb_func
+ 208              	motor_speed_write:
+ 209              	.LVL17:
+ 210              	.LFB291:
+  33:Core/Src/motor.c **** 
+  34:Core/Src/motor.c **** void motor_speed_write (uint8_t data)
+  35:Core/Src/motor.c **** {
+ 211              		.loc 1 35 1 is_stmt 1 view -0
+ 212              		.cfi_startproc
+ 213              		@ args = 0, pretend = 0, frame = 0
+ 214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 215              		.loc 1 35 1 is_stmt 0 view .LVU30
+ 216 0000 08B5     		push	{r3, lr}
+ 217              		.cfi_def_cfa_offset 8
+ 218              		.cfi_offset 3, -8
+ 219              		.cfi_offset 14, -4
+  36:Core/Src/motor.c ****     if (data > MOTOR_SPEED_HIGH)
+ 220              		.loc 1 36 5 is_stmt 1 view .LVU31
+ 221              		.loc 1 36 8 is_stmt 0 view .LVU32
+ 222 0002 3F28     		cmp	r0, #63
+ 223 0004 04D8     		bhi	.L15
+ 224 0006 0146     		mov	r1, r0
+  37:Core/Src/motor.c ****       {
+  38:Core/Src/motor.c ****         data = MOTOR_SPEED_HIGH;
+  39:Core/Src/motor.c ****       }
+  40:Core/Src/motor.c ****     if (data < MOTOR_SPEED_LOW)
+ 225              		.loc 1 40 5 is_stmt 1 view .LVU33
+ 226              		.loc 1 40 8 is_stmt 0 view .LVU34
+ 227 0008 0228     		cmp	r0, #2
+ 228 000a 02D8     		bhi	.L14
+  41:Core/Src/motor.c ****     {
+  42:Core/Src/motor.c ****       data = MOTOR_SPEED_LOW;
+ 229              		.loc 1 42 12 view .LVU35
+ 230 000c 0321     		movs	r1, #3
+ 231 000e 00E0     		b	.L14
+ 232              	.L15:
+  38:Core/Src/motor.c ****       }
+ 233              		.loc 1 38 14 view .LVU36
+ 234 0010 3F21     		movs	r1, #63
+ 235              	.L14:
+ 236              	.LVL18:
+  43:Core/Src/motor.c ****     }
+  44:Core/Src/motor.c **** 
+  45:Core/Src/motor.c ****     motor_write(REG_CTRL2, data);
+ 237              		.loc 1 45 5 is_stmt 1 view .LVU37
+ 238 0012 1020     		movs	r0, #16
+ 239 0014 FFF7FEFF 		bl	motor_write
+ 240              	.LVL19:
+  46:Core/Src/motor.c **** }...
+ 241              		.loc 1 46 1 is_stmt 0 view .LVU38
+ 242 0018 08BD     		pop	{r3, pc}
+ 243              		.cfi_endproc
+ 244              	.LFE291:
+ 246              		.text
+ARM GAS  /tmp/ccsWziXm.s 			page 6
+
+
+ 247              	.Letext0:
+ 248              		.file 2 "/home/d-zaretski/.config/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/ar
+ 249              		.file 3 "/home/d-zaretski/.config/Code/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/ar
+ 250              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h"
+ 251              		.file 5 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_def.h"
+ 252              		.file 6 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_gpio.h"
+ 253              		.file 7 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_dma.h"
+ 254              		.file 8 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c.h"
+ 255              		.file 9 "Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h"
+ARM GAS  /tmp/ccsWziXm.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 motor.c
+     /tmp/ccsWziXm.s:21     .text.motor_write:00000000 $t
+     /tmp/ccsWziXm.s:27     .text.motor_write:00000000 motor_write
+     /tmp/ccsWziXm.s:65     .text.motor_write:00000024 $d
+     /tmp/ccsWziXm.s:70     .text.motor_read:00000000 $t
+     /tmp/ccsWziXm.s:76     .text.motor_read:00000000 motor_read
+     /tmp/ccsWziXm.s:125    .text.motor_read:00000034 $d
+     /tmp/ccsWziXm.s:130    .text.motor_init:00000000 $t
+     /tmp/ccsWziXm.s:136    .text.motor_init:00000000 motor_init
+     /tmp/ccsWziXm.s:197    .text.motor_init:00000054 $d
+     /tmp/ccsWziXm.s:202    .text.motor_speed_write:00000000 $t
+     /tmp/ccsWziXm.s:208    .text.motor_speed_write:00000000 motor_speed_write
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+hi2c3
+HAL_I2C_Master_Receive
+HAL_GPIO_WritePin
+HAL_Delay
