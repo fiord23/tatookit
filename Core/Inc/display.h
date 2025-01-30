@@ -6,6 +6,7 @@
 
 #include "stdlib.h"
 #include "string.h"
+#include "stdint.h"
 
 #define cs_low()                HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_RESET) //PA9 LOW
 #define cs_high()               HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_SET) //PA9 HIGH

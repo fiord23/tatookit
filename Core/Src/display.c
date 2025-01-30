@@ -6,12 +6,15 @@
 #define ADC_RES 4095.0
 #define VBAT_DIV 2.0
 #define VREF 3.3
+#define HYSTERESIS 0.1
 
 extern SPI_HandleTypeDef hspi1;
 extern uint8_t speed;
 extern uint16_t time;
 extern volatile uint16_t ADC_Data[];
 float vbat_value = 0.0;
+uint8_t hyst_status = 0;
+uint8_t databat = 0;
 
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
@@ -113,7 +116,7 @@ void display_init (void)
 
 }
 void SSD1306_UpdateScreen(void) {
-  unsigned char i,j,num=0;
+  unsigned char i,j=0;
 	for(i=0;i<0x04;i++)
 	{
 		Set_Page_Address(i);
@@ -126,7 +129,7 @@ void SSD1306_UpdateScreen(void) {
 }
 void SSD1306_ClearScreen()
 {
-  for (uint16_t i = 0; i < SSD1306_Buffer; i++)
+  for (uint16_t i = 0; i < sizeof(SSD1306_Buffer); i++)
   {
     pixelBuffer[i] = 0x00;
   }
@@ -511,7 +514,7 @@ void Set_Column_Address(unsigned char add)
 }
 void Display_Picture(unsigned char pic[])
 {
-  unsigned char i,j,num=0;
+  unsigned char i,j=0;
 	for(i=0;i<0x04;i++)
 	{
 	Set_Page_Address(i);
@@ -588,17 +591,28 @@ void display_test (void)
 }
 void show_vbat( void)
 {
-	uint8_t databat = 0;
+	
 	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    if (vbat_value > 4.0)
+    if (vbat_value > 4.0)  
     	databat = 4;
-    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 4)) 
+		databat = 4;
+	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 3)) 
+		databat = 3;
+    else if ( (vbat_value > 3.7) && (vbat_value < 3.9) )
         databat = 3;
-    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 3))
+	 	databat = 3;
+	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 2))
+		databat = 2;	
+    else if ( (vbat_value > 3.3) && (vbat_value < 3.6) )
         databat = 2;
+	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 2))
+		databat = 2;
+	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 1))
+		databat = 1;
     else if (vbat_value < 3.2)  
        databat = 1;
-
 	switch (databat)
 	{
 	case 1:

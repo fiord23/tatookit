@@ -32,6 +32,7 @@
 #include "clocks.h"
 #include "time.h"
 #include <stdbool.h>
+#include "stdint.h"
 
 /* USER CODE END Includes */
 
