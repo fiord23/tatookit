@@ -4,10 +4,14 @@
 #include "motor.h"
 #include "stdint.h"
 
-#define ADC_RES 4095.0
-#define VBAT_DIV 2.0
-#define VREF 3.3
-#define HYSTERESIS 0.1
+#define ADC_RES 			4095.0
+#define VBAT_DIV 			2.0
+#define VREF 				3.3
+#define HYSTERESIS 			0.1
+#define VBAT_LEVEL_HIGH 	4.0
+#define VBAT_LEVEL_MID 		3.7
+#define VBAT_LEVEL_LOW 		3.3
+
 
 extern SPI_HandleTypeDef hspi1;
 extern uint8_t speed;
@@ -594,25 +598,25 @@ void show_vbat( void)
 {
 	
 	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    if (vbat_value > 4.0)  
+    if (vbat_value > VBAT_LEVEL_HIGH)  
     	databat = 4;
-	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 4)) 
+	else if (vbat_value > ((VBAT_LEVEL_HIGH - HYSTERESIS) && (vbat_value < VBAT_LEVEL_HIGH) && (databat == 4))) 
 		databat = 4;
-	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 3)) 
+	else if ((vbat_value > (VBAT_LEVEL_HIGH - HYSTERESIS)) && (vbat_value < VBAT_LEVEL_HIGH) && (databat == 3)) 
 		databat = 3;
-    else if ( (vbat_value > 3.7) && (vbat_value < 3.9) )
+    else if ( (vbat_value > VBAT_LEVEL_MID) && (vbat_value < (VBAT_LEVEL_HIGH - HYSTERESIS)) )
         databat = 3;
-	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 3))
+	else if ((vbat_value > (VBAT_LEVEL_MID - HYSTERESIS)) && (vbat_value < VBAT_LEVEL_MID) && (databat == 3))
 	 	databat = 3;
-	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 2))
+	else if ((vbat_value > (VBAT_LEVEL_MID - HYSTERESIS)) && (vbat_value < VBAT_LEVEL_MID) && (databat == 2))
 		databat = 2;	
-    else if ( (vbat_value > 3.3) && (vbat_value < 3.6) )
+    else if ( (vbat_value > VBAT_LEVEL_LOW) && (vbat_value < (VBAT_LEVEL_MID - HYSTERESIS)) )
         databat = 2;
-	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 2))
+	else if ((vbat_value > (VBAT_LEVEL_LOW - HYSTERESIS)) && (vbat_value < VBAT_LEVEL_LOW) && (databat == 2))
 		databat = 2;
-	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 1))
+	else if ((vbat_value > (VBAT_LEVEL_LOW - HYSTERESIS)) && (vbat_value < VBAT_LEVEL_LOW) && (databat == 1))
 		databat = 1;
-    else if (vbat_value < 3.2)  
+    else if (vbat_value <  (VBAT_LEVEL_LOW - HYSTERESIS))  
        databat = 1;
 	switch (databat)
 	{
