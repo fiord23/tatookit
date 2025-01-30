@@ -2,6 +2,7 @@
 #include "display.h"
 #include <stdio.h>
 #include "motor.h"
+#include "stdint.h"
 
 #define ADC_RES 4095.0
 #define VBAT_DIV 2.0
