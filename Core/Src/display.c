@@ -3,14 +3,16 @@
 #include <stdio.h>
 #include "motor.h"
 
-
-
-
-
+#define ADC_RES 4095.0
+#define VBAT_DIV 2.0
+#define VREF 3.3
 
 extern SPI_HandleTypeDef hspi1;
 extern uint8_t speed;
 extern uint16_t time;
+extern volatile uint16_t ADC_Data[];
+float vbat_value = 0.0;
+
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
@@ -22,7 +24,6 @@ typedef struct {
 	uint8_t Inverted;
 	uint8_t Initialized;
 } SSD1306_t;
-
 static SSD1306_t SSD1306;
 
 void command (uint8_t command)
@@ -34,7 +35,6 @@ void command (uint8_t command)
     cs_high(); 
 
 }
-
 void data (uint8_t data)
 {
     uint8_t tdata = data;
@@ -45,7 +45,6 @@ void data (uint8_t data)
     
 
 }
-
 void display_init (void)
 {
     //display_power_low();
@@ -113,7 +112,6 @@ void display_init (void)
     SSD1306.Initialized = 1;
 
 }
-
 void SSD1306_UpdateScreen(void) {
   unsigned char i,j,num=0;
 	for(i=0;i<0x04;i++)
@@ -126,7 +124,6 @@ void SSD1306_UpdateScreen(void) {
 		}
 	}
 }
-
 void SSD1306_ClearScreen()
 {
   for (uint16_t i = 0; i < SSD1306_Buffer; i++)
@@ -135,7 +132,6 @@ void SSD1306_ClearScreen()
   }
   SSD1306_UpdateScreen();
 }
-
 void SSD1306_Fill(SSD1306_COLOR_t color) {
 	/* Set memory */
   uint8_t i,j;
@@ -161,7 +157,6 @@ void SSD1306_Fill(SSD1306_COLOR_t color) {
 
 
 }
-
 void SSD1306_ToggleInvert(void) {
 	uint16_t i;
 	
@@ -173,7 +168,6 @@ void SSD1306_ToggleInvert(void) {
 		pixelBuffer[i] = ~pixelBuffer[i];
 	}
 }
-
 void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color) {
 	if (
 		x >= SSD1306_WIDTH ||
@@ -195,13 +189,11 @@ void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color) {
 		pixelBuffer[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
 	}
 }
-
 void SSD1306_GotoXY(uint16_t x, uint16_t y) {
 	/* Set write pointers */
 	SSD1306.CurrentX = x;
 	SSD1306.CurrentY = y;
 }
-
 char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color) {
 	uint32_t i, b, j;
 	
@@ -232,7 +224,6 @@ char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color) {
 	/* Return character written */
 	return ch;
 }
-
 char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
 	/* Write characters */
 	while (*str) {
@@ -249,7 +240,6 @@ char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
 	/* Everything OK, zero should be returned */
 	return *str;
 }
- 
 void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD1306_COLOR_t c) {
 	int16_t dx, dy, sx, sy, err, e2, i, tmp; 
 	
@@ -333,7 +323,6 @@ void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD130
 		} 
 	}
 }
-
 void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
 	/* Check input parameters */
 	if (
@@ -358,7 +347,6 @@ void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD13
 	SSD1306_DrawLine(x, y, x, y + h, c);         /* Left line */
 	SSD1306_DrawLine(x + w, y, x + w, y + h, c); /* Right line */
 }
-
 void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
 	uint8_t i;
 	
@@ -385,14 +373,12 @@ void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h,
 		SSD1306_DrawLine(x, y + i, x + w, y + i, c);
 	}
 }
-
 void SSD1306_DrawTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color) {
 	/* Draw lines */
 	SSD1306_DrawLine(x1, y1, x2, y2, color);
 	SSD1306_DrawLine(x2, y2, x3, y3, color);
 	SSD1306_DrawLine(x3, y3, x1, y1, color);
 }
-
 void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color) {
 	int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 
 	yinc1 = 0, yinc2 = 0, den = 0, num = 0, numadd = 0, numpixels = 0, 
@@ -448,7 +434,6 @@ void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t 
 		y += yinc2;
 	}
 }
-
 void SSD1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
 	int16_t f = 1 - r;
 	int16_t ddF_x = 1;
@@ -482,7 +467,6 @@ void SSD1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
         SSD1306_DrawPixel(x0 - y, y0 - x, c);
     }
 }
-
 void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
 	int16_t f = 1 - r;
 	int16_t ddF_x = 1;
@@ -513,21 +497,18 @@ void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t
         SSD1306_DrawLine(x0 + y, y0 - x, x0 - y, y0 - x, c);
     }
 }
-
 void Set_Page_Address(unsigned char add)
 {
   add=0xb0|add;
   command(add);
 	return;
 }
-
 void Set_Column_Address(unsigned char add)
 {
   command((0x10|(add>>4)));
 	command((0x0f&add));
 	return;
 }
-
 void Display_Picture(unsigned char pic[])
 {
   unsigned char i,j,num=0;
@@ -542,7 +523,6 @@ void Display_Picture(unsigned char pic[])
 	}
   return;
 }
-
 void display_demo (void)
 {
 
@@ -590,15 +570,14 @@ void display_demo (void)
     command(0xa6);
 
 }
-
 void display_test (void)
 {
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
-	SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
-	SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
-	SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
-	SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
-	SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
+	//SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
+	//SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
+	//SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
+	//SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
+	//SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
 	//SSD1306_GotoXY(70,5);
 	//SSD1306_Puts("000Hz", &Font_7x10, SSD1306_COLOR_WHITE);
 	//SSD1306_GotoXY(70,21);
@@ -607,11 +586,20 @@ void display_test (void)
 	//SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
 }
-
-void show_vbat( uint8_t data)
+void show_vbat( void)
 {
+	uint8_t databat = 0;
+	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+    if (vbat_value > 4.0)
+    	databat = 4;
+    else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
+        databat = 3;
+    else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
+        databat = 2;
+    else if (vbat_value < 3.2)  
+       databat = 1;
 
-	switch (data)
+	switch (databat)
 	{
 	case 1:
     	SSD1306_DrawFilledRectangle(120, 7,  5,  2, SSD1306_COLOR_BLACK);
@@ -645,21 +633,19 @@ void show_vbat( uint8_t data)
 		break;
 	}
 }
-
 void show_motor_duty (void)
 {
 	float datas = ((float)speed / 63.0 ) * 9.0 * 10.0;
-	char duty_data[4] = {'0', '.', '0', 'v'};
+	char duty_data[5] = {'0', '.', '0', 'v'};
 	duty_data[0] = (uint8_t)datas / 10 + '0';
 	duty_data[2] = (uint8_t)datas % 10 + '0';
 	SSD1306_GotoXY(0,5);
 	SSD1306_Puts(duty_data, &Font_16x26, SSD1306_COLOR_WHITE);
 
 }
-
 void show_motor_speed (void)
 {
-	char speed_data[5] = {'0', '0', '0', 'H', 'z'};
+	char speed_data[6] = {'0', '0', '0', 'H', 'z'};
 
 	uint32_t datam = motor_read(RC_STATUS1)*32; //rad*s
 	double freq = (double)datam / 62.831853;
@@ -678,20 +664,38 @@ void show_motor_speed (void)
 	SSD1306_GotoXY(70, 5);
 	SSD1306_Puts(speed_data, &Font_7x10, SSD1306_COLOR_WHITE);
 }
-
 void show_time (void)
 {
 	char data[6] = {'0', '0', ':',  '0','0', 'h'};
-	 data[4] = time%10 + '0';
-	 data[3] = time/10 + '0';
-	 if (data[3] > '5')
-	 {
-		data[3] = '0';
-		data[4] += 1;
-
-	 }
+	uint8_t sec_tmp = 0;
+	uint8_t min_tmp = 0;
+	sec_tmp = time%60;
+	min_tmp = time/60;
 	
+	data[4] = sec_tmp%10 + '0';
+	data[3] = sec_tmp/10 + '0';
 
+	data[1] = min_tmp%10 + '0';
+	data[0] = min_tmp/10 + '0';
+
+	if (data[4] > '9')
+	 {
+		data[3] += 1;
+		data[4] = '0';
+	 }
+	 if (data[1] > '9')
+	 {
+		data[0] += 1;
+		data[1] = '0';
+	 }
+	 if (data[0] > '9')
+	 {
+		data[0] = '0';
+		data[1] = '0';
+		data[3] = '0';
+		data[4] = '0';
+		time = 0;
+	 }	
 	SSD1306_GotoXY(70,21);
 	SSD1306_Puts(data, &Font_7x10, SSD1306_COLOR_WHITE);
 

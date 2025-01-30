@@ -9,6 +9,7 @@
     "dac.h": "c",
     "display.h": "c",
     "motor.h": "c",
-    "stm32l4xx_hal_i2c.h": "c"
+    "stm32l4xx_hal_i2c.h": "c",
+    "cstdint": "c"
 },
 }

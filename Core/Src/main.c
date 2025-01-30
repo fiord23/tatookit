@@ -23,17 +23,16 @@
 #include "spi.h"
 #include "gpio.h"
 
-
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "display.h"
 #include "dac.h"
 #include "motor.h"
 #include "fonts.h"
-#include <stdbool.h>
 #include "clocks.h"
 #include "time.h"
+#include <stdbool.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,9 +42,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_RES 4095.0
-#define VBAT_DIV 2.0
-#define VREF 3.3
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -56,22 +53,15 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t adc_value11 = 0;
-volatile uint16_t adc_value15 = 0;
-float vbat_value = 0.0;
 uint8_t speed = 40;
 uint8_t flag_motor = 3;
 volatile uint16_t ADC_Data[3] = { 0, };
-double data_speed = 0.0;
 uint16_t time = 0;
-
-
-
+bool time_active = 1;
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -86,37 +76,21 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
-
   /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
   /* USER CODE BEGIN Init */
-
   /* USER CODE END Init */
-
   /* Configure the system clock */
   SystemClock_Config();
-
   /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_ADC1_Init();
   adc_init();
   dac_init();
   MX_I2C3_Init();
   MX_SPI1_Init();
-  
-  /* USER CODE BEGIN 2 */
-  //
   button_interrupt_init();
   motor_init();
   display_power_high();
@@ -124,37 +98,21 @@ int main(void)
   display_init();
   display_test();
   time_init();
-
+  /* USER CODE END SysInit */
+  /* Initialize all configured peripherals */
+  /* USER CODE BEGIN 2 */
   /* USER CODE END 2 */
-  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      show_motor_speed();
-      HAL_Delay(10);
-      SSD1306_UpdateScreen();
-      HAL_Delay(10);
-      uint8_t databat = 0;
-	    vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-      if (vbat_value > 4.0)
-        databat = 4;
-      else if ( (vbat_value > 3.7) && (vbat_value < 4.0) )
-        databat = 3;
-      else if ( (vbat_value > 3.2) && (vbat_value < 3.7) )
-        databat = 2;
-      else if (vbat_value < 3.2)  
-       databat = 1;
-    HAL_Delay(10);
-    show_vbat(databat);
-    HAL_Delay(10);
+    
+    show_motor_speed();
+    show_vbat();
     show_time();
-    HAL_Delay(10);
     show_motor_duty();
-    HAL_Delay(10);
+    HAL_Delay(500);
     SSD1306_UpdateScreen();
-    HAL_Delay(100);
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -176,7 +134,7 @@ void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
   speed ++;
   motor_speed_write(speed);
 }
-void EXTI15_10_IRQHandler (void)
+void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
 {
   
   if (flag_motor)
@@ -184,7 +142,7 @@ void EXTI15_10_IRQHandler (void)
     flag_motor = 0;
     display_power_low();
     motor_write(CONFIG0, 0x61);
-
+    time_active = 0;
     
   }
   else
@@ -192,6 +150,7 @@ void EXTI15_10_IRQHandler (void)
     flag_motor = 1;
     display_power_high();
     motor_write(CONFIG0, 0xE1);
+    time_active = 1;
   }
 
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
@@ -199,28 +158,23 @@ void EXTI15_10_IRQHandler (void)
 }
 void ADC1_IRQHandler(void)
 {
-    if (ADC1->ISR & ADC_ISR_EOC) { // Проверяем флаг конца преобразования
+    if (ADC1->ISR & ADC_ISR_EOC) { 
       ADC1->DR;
     }
 }
 void DMA1_Channel1_IRQHandler() {
-  
-  if(DMA1->ISR & DMA_ISR_TCIF1) {
-
-		    DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
-
-	} else if (DMA1->ISR & DMA_ISR_TEIF1) {
-		/*Здесь можно сделать какой-то обработчик ошибок*/
-		DMA1->IFCR |= DMA_IFCR_CGIF1; //Сбросим глобальный флаг.
-	}
+  if(DMA1->ISR & DMA_ISR_TCIF1) 
+		DMA1->IFCR |= DMA_IFCR_CGIF1; 
+  else if (DMA1->ISR & DMA_ISR_TEIF1)	
+		DMA1->IFCR |= DMA_IFCR_CGIF1;
 }
 void TIM7_IRQHandler (void)
 {
   TIM7->SR &= ~TIM_SR_UIF;
+  if (time_active)
   time++;
 }
 /* USER CODE END 4 */
-
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -231,7 +185,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
 #ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
