@@ -43,7 +43,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define MOTOR_SPEED_WAKEUP 53
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -60,6 +60,10 @@ volatile uint16_t ADC_Data[3] = { 0, };
 uint16_t time = 0;
 bool time_active = 1;
 bool sleep = 0;
+uint16_t time_sleep = 0;
+volatile uint32_t button_counter_plus = 0;
+volatile uint32_t button_counter_minus = 0;
+uint8_t cycles = 0;
 
 /* USER CODE END PV */
 
@@ -110,14 +114,60 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    
+
+    if  ( time_sleep < 15 )
+    {
+      if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) //PB6 BUTTON +
+      {
+        button_counter_plus ++;
+        if (button_counter_plus > 12)
+        {
+          speed ++;
+          if(speed > MOTOR_SPEED_HIGH)
+            speed = MOTOR_SPEED_HIGH;
+          motor_speed_write(speed);
+          show_motor_speed();
+          HAL_Delay(1);
+          SSD1306_UpdateScreen();
+          if (button_counter_plus > 1000)
+            button_counter_plus = 0;
+        }
+      }
+      if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)) //PB1 BUTTON -
+      {
+        button_counter_minus ++;
+        if (button_counter_minus > 12)
+        {
+          speed --;
+          if(speed < MOTOR_SPEED_LOW)
+            speed = MOTOR_SPEED_LOW;
+          motor_speed_write(speed);
+          show_motor_speed();
+          HAL_Delay(1);
+          SSD1306_UpdateScreen();
+          if (button_counter_minus > 1000)
+            button_counter_minus = 0;
+        }     
+
+      }
       show_motor_speed();
       show_vbat();
       show_time();
-      show_motor_duty();
-      SSD1306_UpdateScreen();
-      HAL_Delay(1000);
-
+      show_motor_duty(); 
+    }
+    else
+    {
+      display_power_low();
+      SSD1306_Fill(SSD1306_COLOR_BLACK);    
+    }
+    HAL_Delay(100);
+    cycles ++;
+    if (cycles % 10 == 0)
+    {
+      cycles = 0;
+      
+    }
+    SSD1306_UpdateScreen();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -148,6 +198,7 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
     display_power_low();
     motor_write(CONFIG0, 0x61);
     time_active = 0;
+
     
   }
   else
@@ -156,13 +207,14 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
     display_power_high();
     motor_write(CONFIG0, 0xE1);
     time_active = 1;
-    if (speed < 53)
+    if (speed < MOTOR_SPEED_WAKEUP)
     {
-      motor_speed_write(53);
+      motor_speed_write(MOTOR_SPEED_WAKEUP);
       for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay ++)
       ;
     }
     motor_speed_write(speed);
+    time_sleep = 0;
   }
 
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
@@ -184,7 +236,13 @@ void TIM7_IRQHandler (void)
 {
   TIM7->SR &= ~TIM_SR_UIF;
   if (time_active)
-  time++;
+  {
+    time++;
+  }
+  else
+  {
+    time_sleep ++;
+  }
 }
 /* USER CODE END 4 */
 void Error_Handler(void)
