@@ -55,10 +55,11 @@
 
 /* USER CODE BEGIN PV */
 uint8_t speed = 40;
-uint8_t flag_motor = 3;
+bool flag_motor = 1;
 volatile uint16_t ADC_Data[3] = { 0, };
 uint16_t time = 0;
 bool time_active = 1;
+bool sleep = 0;
 
 /* USER CODE END PV */
 
@@ -99,6 +100,8 @@ int main(void)
   display_init();
   display_test();
   time_init();
+
+
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
@@ -108,12 +111,13 @@ int main(void)
   while (1)
   {
     
-    show_motor_speed();
-    show_vbat();
-    show_time();
-    show_motor_duty();
-    HAL_Delay(500);
-    SSD1306_UpdateScreen();
+      show_motor_speed();
+      show_vbat();
+      show_time();
+      show_motor_duty();
+      SSD1306_UpdateScreen();
+      HAL_Delay(1000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -152,6 +156,13 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
     display_power_high();
     motor_write(CONFIG0, 0xE1);
     time_active = 1;
+    if (speed < 53)
+    {
+      motor_speed_write(53);
+      for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay ++)
+      ;
+    }
+    motor_speed_write(speed);
   }
 
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
