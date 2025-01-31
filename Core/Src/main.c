@@ -60,7 +60,10 @@ volatile uint16_t ADC_Data[3] = { 0, };
 uint16_t time = 0;
 bool time_active = 1;
 bool sleep = 0;
+bool sleep_status = 0;
 uint16_t time_sleep = 0;
+uint8_t sec_to_min = 0;
+float power_value;
 volatile uint32_t button_counter_plus = 0;
 volatile uint32_t button_counter_minus = 0;
 uint8_t cycles = 0;
@@ -104,6 +107,7 @@ int main(void)
   display_init();
   display_test();
   time_init();
+  show_motor_speed();
 
 
   /* USER CODE END SysInit */
@@ -114,6 +118,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+   // power_value = (((float)ADC_Data[2]) / 4095.0   ) * 3.3;
 
     if  ( time_sleep < 15 )
     {
@@ -150,24 +155,30 @@ int main(void)
         }     
 
       }
-      show_motor_speed();
+      
+      
       show_vbat();
       show_time();
       show_motor_duty(); 
+      show_motor_speed();
+      SSD1306_UpdateScreen();
     }
     else
     {
       display_power_low();
-      SSD1306_Fill(SSD1306_COLOR_BLACK);    
+      SSD1306_Fill(SSD1306_COLOR_BLACK);
+      sleep_status = 1;    
+
     }
     HAL_Delay(100);
     cycles ++;
     if (cycles % 10 == 0)
     {
       cycles = 0;
-      
-    }
+    //  show_vbat();
     SSD1306_UpdateScreen();
+    }
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -197,24 +208,34 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
     flag_motor = 0;
     display_power_low();
     motor_write(CONFIG0, 0x61);
-    time_active = 0;
-
-    
+    time_active = 0;  
   }
+
   else
   {
-    flag_motor = 1;
     display_power_high();
-    motor_write(CONFIG0, 0xE1);
-    time_active = 1;
-    if (speed < MOTOR_SPEED_WAKEUP)
+    if (sleep_status)
     {
-      motor_speed_write(MOTOR_SPEED_WAKEUP);
-      for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay ++)
-      ;
+      sleep_status = 0;
+      flag_motor = 0;
+      time_sleep = 0;
+      
     }
-    motor_speed_write(speed);
-    time_sleep = 0;
+    else
+    {
+      motor_write(CONFIG0, 0xE1);
+      time_active = 1;
+      if (speed < MOTOR_SPEED_WAKEUP)
+        {
+          motor_speed_write(MOTOR_SPEED_WAKEUP);
+          for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay ++)
+          ;
+        }
+      motor_speed_write(speed);
+      time_sleep = 0;
+      flag_motor = 1;
+    }
+
   }
 
   EXTI->PR1 |= EXTI_PR1_PIF11; //PA11 BUTTON INT
@@ -234,14 +255,29 @@ void DMA1_Channel1_IRQHandler() {
 }
 void TIM7_IRQHandler (void)
 {
+
+  
   TIM7->SR &= ~TIM_SR_UIF;
+  
   if (time_active)
   {
-    time++;
+    sec_to_min++;
+    if (sec_to_min > 59)
+    {
+      time++;
+      sec_to_min = 0;
+    }
+    
   }
   else
   {
-    time_sleep ++;
+    sec_to_min++;
+    if (sec_to_min > 59)
+    {
+      time_sleep ++;
+      sec_to_min = 0;
+    }
+    
   }
 }
 /* USER CODE END 4 */
