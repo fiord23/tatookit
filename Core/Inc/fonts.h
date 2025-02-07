@@ -91,6 +91,8 @@ extern FontDef_t Font_11x18;
  */
 extern FontDef_t Font_16x26;
 
+extern FontDef_t Conthrax_SemiBold10pt7bGlyphs;
+
 /**
  * @}
  */

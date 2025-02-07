@@ -67,7 +67,6 @@ float power_value;
 volatile uint32_t button_counter_plus = 0;
 volatile uint32_t button_counter_minus = 0;
 uint8_t cycles = 0;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -134,7 +133,7 @@ int main(void)
           show_motor_speed();
           HAL_Delay(1);
           SSD1306_UpdateScreen();
-          if (button_counter_plus > 1000)
+          if (button_counter_plus > 120)
             button_counter_plus = 0;
         }
       }
@@ -150,12 +149,11 @@ int main(void)
           show_motor_speed();
           HAL_Delay(1);
           SSD1306_UpdateScreen();
-          if (button_counter_minus > 1000)
+          if (button_counter_minus > 120)
             button_counter_minus = 0;
         }     
 
       }
-      
       
       show_vbat();
       show_time();
@@ -188,21 +186,29 @@ int main(void)
 
 /* USER CODE BEGIN 4 */
 void EXTI1_IRQHandler (void)    //PB1 BUTTON - 
+
 {
   EXTI->PR1 |= EXTI_PR1_PIF1;
   speed--;
+  if(speed < MOTOR_SPEED_LOW)
+    speed = MOTOR_SPEED_LOW;
   motor_speed_write(speed);
+  button_counter_minus = 0;
+
 
 }
 void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
 {
   EXTI->PR1 |= EXTI_PR1_PIF6; 
   speed ++;
+  if(speed > MOTOR_SPEED_HIGH)
+    speed = MOTOR_SPEED_HIGH;
   motor_speed_write(speed);
+  button_counter_plus = 0;
+
 }
 void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
 {
-  
   if (flag_motor)
   {
     flag_motor = 0;
@@ -219,7 +225,6 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
       sleep_status = 0;
       flag_motor = 0;
       time_sleep = 0;
-      
     }
     else
     {
@@ -255,10 +260,8 @@ void DMA1_Channel1_IRQHandler() {
 }
 void TIM7_IRQHandler (void)
 {
-
   
   TIM7->SR &= ~TIM_SR_UIF;
-  
   if (time_active)
   {
     sec_to_min++;
