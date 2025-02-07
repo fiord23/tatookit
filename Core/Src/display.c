@@ -621,28 +621,28 @@ void show_vbat( void)
 	switch (databat)
 	{
 	case 1:
-    	SSD1306_DrawFilledRectangle(119, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
 		break;
 	case 2:
-    	SSD1306_DrawFilledRectangle(119, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
 		break;
 	case 3:
-    	SSD1306_DrawFilledRectangle(119, 7,  5,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
 		break;
 	case 4:
-    	SSD1306_DrawFilledRectangle(119, 7,  5,  2, SSD1306_COLOR_WHITE);
+    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_WHITE);
     	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
@@ -659,13 +659,13 @@ void show_motor_duty (void)
 	char duty_data2[2] = {'0'};
 	duty_data1[0] = (uint8_t)datas / 10 + '0';
 	duty_data2[0] = (uint8_t)datas % 10 + '0';
-	SSD1306_GotoXY(5,11);
+	SSD1306_GotoXY(5,9);
 	SSD1306_Puts(duty_data1, &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(37,11);
+	SSD1306_GotoXY(37,9);
 	SSD1306_Puts(duty_data2, &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(21,11);
+	SSD1306_GotoXY(21,9);
 	SSD1306_Putc('.', &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(53,24);
+	SSD1306_GotoXY(55,22);
 	SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
 
 
@@ -688,7 +688,7 @@ void show_motor_speed (void)
 	}
 	speed_data[1] = freq_int / 10 + '0';
 	speed_data[2] = freq_int % 10 + '0';
-	SSD1306_GotoXY(70, 5);
+	SSD1306_GotoXY(70, 8);
 	SSD1306_Puts(speed_data, &Font_7x10, SSD1306_COLOR_WHITE);
 }
 void show_time (void)
