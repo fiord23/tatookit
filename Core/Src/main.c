@@ -61,8 +61,10 @@ uint16_t time = 0;
 bool time_active = 1;
 bool sleep = 0;
 bool sleep_status = 0;
+bool motor_speed_flag = 0;
 uint16_t time_sleep = 0;
 uint8_t sec_to_min = 0;
+uint16_t counter_first_start = 0;
 float power_value;
 volatile uint32_t button_counter_plus = 0;
 volatile uint32_t button_counter_minus = 0;
@@ -95,6 +97,18 @@ int main(void)
   SystemClock_Config();
   /* USER CODE BEGIN SysInit */
   MX_GPIO_Init();
+  HAL_Delay(100);
+  while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
+  {
+    counter_first_start++;
+    HAL_Delay(50);
+    if (counter_first_start > 50)
+    {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+    }
+    
+  }
+  counter_first_start = 0;
   adc_init();
   dac_init();
   MX_I2C3_Init();
@@ -130,7 +144,7 @@ int main(void)
           if(speed > MOTOR_SPEED_HIGH)
             speed = MOTOR_SPEED_HIGH;
           motor_speed_write(speed);
-          show_motor_speed();
+          show_motor_duty();
           HAL_Delay(1);
           SSD1306_UpdateScreen();
           if (button_counter_plus > 120)
@@ -146,7 +160,7 @@ int main(void)
           if(speed < MOTOR_SPEED_LOW)
             speed = MOTOR_SPEED_LOW;
           motor_speed_write(speed);
-          show_motor_speed();
+          show_motor_duty();
           HAL_Delay(1);
           SSD1306_UpdateScreen();
           if (button_counter_minus > 120)
@@ -158,7 +172,12 @@ int main(void)
       show_vbat();
       show_time();
       show_motor_duty(); 
-      show_motor_speed();
+      if (motor_speed_flag)
+      {
+        show_motor_speed();
+        motor_speed_flag = 0;
+      }
+      
       SSD1306_UpdateScreen();
     }
     else
@@ -207,7 +226,7 @@ void EXTI9_5_IRQHandler (void) //PB6 BUTTON +
   button_counter_plus = 0;
 
 }
-void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
+void EXTI15_10_IRQHandler (void) //PA11 BUTTON ON/OFF
 {
   if (flag_motor)
   {
@@ -220,11 +239,11 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
   else
   {
     display_power_high();
+    time_sleep = 0;
     if (sleep_status)
     {
       sleep_status = 0;
       flag_motor = 0;
-      time_sleep = 0;
     }
     else
     {
@@ -237,7 +256,6 @@ void EXTI15_10_IRQHandler (void) //BUTTON ON/OFF
           ;
         }
       motor_speed_write(speed);
-      time_sleep = 0;
       flag_motor = 1;
     }
 
@@ -262,6 +280,11 @@ void TIM7_IRQHandler (void)
 {
   
   TIM7->SR &= ~TIM_SR_UIF;
+  if (motor_speed_flag == 0)
+  {
+    motor_speed_flag = 1;
+  }
+  
   if (time_active)
   {
     sec_to_min++;

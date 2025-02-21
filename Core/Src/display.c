@@ -667,8 +667,6 @@ void show_motor_duty (void)
 	SSD1306_Putc('.', &Font_16x26, SSD1306_COLOR_WHITE);
 	SSD1306_GotoXY(55,22);
 	SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
-
-
 }
 void show_motor_speed (void)
 {
