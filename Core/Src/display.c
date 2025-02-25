@@ -672,7 +672,7 @@ void show_motor_speed (void)
 {
 	char speed_data[6] = {'0', '0', '0', 'H', 'z'};
 
-	uint32_t datam = motor_read(RC_STATUS1)*32; //rad*s
+	uint32_t datam = motor_read(RC_STATUS1)*97; //rad*s
 	double freq = (double)datam / 62.831853;
 	uint16_t freq_int = (uint16_t)freq;
 	if (freq_int >= 100)

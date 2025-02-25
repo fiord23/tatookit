@@ -47,6 +47,7 @@ Core/Src/clocks.c \
 Core/Src/time.c \
 Core/Src/fonts.c \
 Core/Src/dac.c \
+Core/Src/flash.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \

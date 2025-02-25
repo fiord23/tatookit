@@ -6,20 +6,46 @@
             "type": "shell",
             "group": "build",
             "command": "make",
-            "problemMatcher": []
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "statusbar": {
+                    "color": "#8bff97",
+                    "label": "$(code) Build",
+                    "detail": "Build"
+                }
+            }
         },
         {
             "label": "Clean",
             "type": "shell",
             "group": "build",
             "command": "make clean",
-            "problemMatcher": []
+            "problemMatcher": [],
+            "options": {
+                "statusbar": {
+                    "color": "#ff8b8b",
+                    "label": "$(clear-all) Clean",
+                    "detail": "Clean ALL"
+                }
+            }
         },
         {
             "label": "Write firmware",
             "type": "shell",
             "command": "make prog",
-            "problemMatcher": []
+            "problemMatcher": [],
+            "options": {
+                "statusbar": {
+                    "color": "#e21ecb",
+                    "label": "$(prog) Prog",
+                    "detail": "Prog",
+                    "icon": {
+                        "id": "cloud-download",
+                    }
+                }
+            }
+
         }
     ]
 }                                           
