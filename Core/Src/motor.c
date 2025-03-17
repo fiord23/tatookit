@@ -28,7 +28,7 @@ void motor_init(void)
   motor_write(REG_CTRL0, 21); // scale speed 32
   motor_write(REG_CTRL2, 40);
 
-  HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
   HAL_Delay(100);
 }
 

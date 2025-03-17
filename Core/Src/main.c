@@ -98,25 +98,24 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
-  CodeProtection_SetLevel(0);
+  // CodeProtection_SetLevel(0);
   /* USER CODE BEGIN Init */
   /* USER CODE END Init */
   /* Configure the system clock */
   SystemClock_Config();
   /* USER CODE BEGIN SysInit */
   MX_GPIO_Init();
-
+  CodeProtection_SetLevel(1);
   HAL_Delay(100);
-  // while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
-  //{
-  //  counter_first_start++;
-  //  HAL_Delay(50);
-  //  if (counter_first_start > 50)
-  //  {
-  //   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-  // }
-
-  //}
+  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
+  {
+    counter_first_start++;
+    HAL_Delay(5);
+    if (counter_first_start > 600)
+    {
+      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+    }
+  }
   HAL_Delay(50);
   counter_first_start = 0;
   adc_init();
@@ -124,27 +123,17 @@ int main(void)
   MX_I2C3_Init();
   MX_SPI1_Init();
   button_interrupt_init();
-  // motor_init();
-
+  motor_init();
+  HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
   display_power_high();
-  // dac_data_send(993);
+  dac_data_send(993);
   display_init();
   display_test();
   time_init();
- // __disable_irq();
- // FLASH_PageErase(127, 1);
- // __enable_irq();
-
- // uint64_t dataf = speed;
- // HAL_FLASH_Unlock();
-  //HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, ADDR_FLASH_PAGE, dataf);
- // HAL_FLASH_Lock();
-
-  //uint8_t *flash_biases = (uint8_t *)(ADDR_FLASH_PAGE);
-  //flash_rdp_level1();
- 
   // show_motor_speed();
-
+  char speed_data_0[6] = {'0', '0', '0', 'H', 'z'};
+  SSD1306_GotoXY(70, 8);
+  SSD1306_Puts(speed_data_0, &Font_7x10, SSD1306_COLOR_WHITE);
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
@@ -154,14 +143,6 @@ int main(void)
   while (1)
   {
     // power_value = (((float)ADC_Data[2]) / 4095.0   ) * 3.3;
-    if (motor_init_flag == 3)
-    {
-      motor_init();
-      dac_data_send(993);
-      motor_write(REG_CTRL0, 21);
-      show_motor_speed();
-      motor_init_flag = 1;
-    }
     if (time_sleep < 15)
     {
       if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) // PB6 BUTTON +
@@ -212,8 +193,9 @@ int main(void)
     {
       display_power_low();
       SSD1306_Fill(SSD1306_COLOR_BLACK);
-
       sleep_status = 1;
+      if (time_sleep > 29)
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
     HAL_Delay(100);
     cycles++;
@@ -253,9 +235,11 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
 }
 void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
 {
-  if (motor_init_flag != 1)
+  EXTI->PR1 |= EXTI_PR1_PIF11; // PA11 BUTTON INT
+  if (motor_init_flag == 0)
   {
-    motor_init_flag = 3;
+    HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
+    motor_init_flag = 1;
   }
 
   if (flag_motor)
@@ -281,6 +265,7 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
       time_active = 1;
       if (speed < MOTOR_SPEED_WAKEUP)
       {
+
         motor_speed_write(MOTOR_SPEED_WAKEUP);
         for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay++)
           ;
@@ -289,8 +274,6 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
       flag_motor = 1;
     }
   }
-
-  EXTI->PR1 |= EXTI_PR1_PIF11; // PA11 BUTTON INT
 }
 void ADC1_IRQHandler(void)
 {
@@ -308,29 +291,32 @@ void DMA1_Channel1_IRQHandler()
 }
 void TIM7_IRQHandler(void)
 {
-
   TIM7->SR &= ~TIM_SR_UIF;
-  if (motor_speed_flag == 0)
+  if (motor_init_flag == 1)
   {
-    motor_speed_flag = 1;
-  }
 
-  if (time_active)
-  {
-    sec_to_min++;
-    if (sec_to_min > 59)
+    if (motor_speed_flag == 0)
     {
-      time++;
-      sec_to_min = 0;
+      motor_speed_flag = 1;
     }
-  }
-  else
-  {
-    sec_to_min++;
-    if (sec_to_min > 59)
+
+    if (time_active)
     {
-      time_sleep++;
-      sec_to_min = 0;
+      sec_to_min++;
+      if (sec_to_min > 59)
+      {
+        time++;
+        sec_to_min = 0;
+      }
+    }
+    else
+    {
+      sec_to_min++;
+      if (sec_to_min > 59)
+      {
+        time_sleep++;
+        sec_to_min = 0;
+      }
     }
   }
 }

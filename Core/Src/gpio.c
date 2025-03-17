@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    gpio.c
-  * @brief   This file provides code for the configuration
-  *          of all used GPIO pins.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    gpio.c
+ * @brief   This file provides code for the configuration
+ *          of all used GPIO pins.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -33,12 +33,12 @@
 /* USER CODE END 1 */
 
 /** Configure pins as
-        * Analog
-        * Input
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
+ * Analog
+ * Input
+ * Output
+ * EVENT_OUT
+ * EXTI
+ */
 void MX_GPIO_Init(void)
 {
 
@@ -49,17 +49,15 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, PH_IN2_Pin
-                          |POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin | POWER_ON_OFF_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, PH_IN2_Pin | POWER_VOLTAGE_REMOTE_Pin | DISPLAY_CS_Pin | DISPLAY_DC_Pin | POWER_ON_OFF_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
 
-  HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin  |EN_IN1_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin | EN_IN1_Pin, GPIO_PIN_SET);
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin
                            PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = POWER_ON_OFF_Pin|EN_IN1_Pin|PH_IN2_Pin
-                          |POWER_VOLTAGE_REMOTE_Pin|DISPLAY_CS_Pin|DISPLAY_DC_Pin;
+  GPIO_InitStruct.Pin = POWER_ON_OFF_Pin | EN_IN1_Pin | PH_IN2_Pin | POWER_VOLTAGE_REMOTE_Pin | DISPLAY_CS_Pin | DISPLAY_DC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -73,13 +71,13 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(PB_CLR_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = PB_INT_Pin|NFAULT_Pin|RCOUT_Pin;
+  GPIO_InitStruct.Pin = PB_INT_Pin | NFAULT_Pin | RCOUT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PBPin PBPin */
-  GPIO_InitStruct.Pin = BUTTON_1_Pin|BUTTON_2_Pin;
+  GPIO_InitStruct.Pin = BUTTON_1_Pin | BUTTON_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -90,16 +88,15 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(NSLEEP_GPIO_Port, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 2 */
-void button_interrupt_init (void)
+void button_interrupt_init(void)
 {
-  SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI1_Pos); //PB1
-  SYSCFG->EXTICR[1] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI2_Pos ); //PB6
-  //SYSCFG->EXTICR[3] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI2_Pos ); //PB6
-  EXTI->IMR1  |= (EXTI_IMR1_IM1 | EXTI_IMR1_IM6 | EXTI_IMR1_IM11 );
+  SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0_PB << SYSCFG_EXTICR1_EXTI1_Pos); // PB1
+  SYSCFG->EXTICR[1] |= (SYSCFG_EXTICR1_EXTI0_PB << SYSCFG_EXTICR1_EXTI2_Pos); // PB6
+  // SYSCFG->EXTICR[3] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI2_Pos ); //PB6
+  EXTI->IMR1 |= (EXTI_IMR1_IM1 | EXTI_IMR1_IM6 | EXTI_IMR1_IM11);
   EXTI->FTSR1 |= (EXTI_FTSR1_FT1 | EXTI_FTSR1_FT6 | EXTI_FTSR1_FT11);
   NVIC_EnableIRQ(EXTI1_IRQn);
   NVIC_EnableIRQ(EXTI9_5_IRQn);

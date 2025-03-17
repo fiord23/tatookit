@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    i2c.c
-  * @brief   This file provides code for the configuration
-  *          of the I2C instances.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2024 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    i2c.c
+ * @brief   This file provides code for the configuration
+ *          of the I2C instances.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2024 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "i2c.h"
@@ -52,14 +52,14 @@ void MX_I2C3_Init(void)
   }
 
   /** Configure Analogue filter
-  */
+   */
   if (HAL_I2CEx_ConfigAnalogFilter(&hi2c3, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Configure Digital filter
-  */
+   */
   if (HAL_I2CEx_ConfigDigitalFilter(&hi2c3, 0) != HAL_OK)
   {
     Error_Handler();
@@ -67,22 +67,21 @@ void MX_I2C3_Init(void)
   /* USER CODE BEGIN I2C3_Init 2 */
 
   /* USER CODE END I2C3_Init 2 */
-
 }
 
-void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
+void HAL_I2C_MspInit(I2C_HandleTypeDef *i2cHandle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-  if(i2cHandle->Instance==I2C3)
+  if (i2cHandle->Instance == I2C3)
   {
-  /* USER CODE BEGIN I2C3_MspInit 0 */
+    /* USER CODE BEGIN I2C3_MspInit 0 */
 
-  /* USER CODE END I2C3_MspInit 0 */
+    /* USER CODE END I2C3_MspInit 0 */
 
-  /** Initializes the peripherals clock
-  */
+    /** Initializes the peripherals clock
+     */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C3;
     PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
@@ -118,20 +117,20 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     HAL_NVIC_EnableIRQ(I2C3_EV_IRQn);
     HAL_NVIC_SetPriority(I2C3_ER_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(I2C3_ER_IRQn);
-  /* USER CODE BEGIN I2C3_MspInit 1 */
+    /* USER CODE BEGIN I2C3_MspInit 1 */
 
-  /* USER CODE END I2C3_MspInit 1 */
+    /* USER CODE END I2C3_MspInit 1 */
   }
 }
 
-void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
+void HAL_I2C_MspDeInit(I2C_HandleTypeDef *i2cHandle)
 {
 
-  if(i2cHandle->Instance==I2C3)
+  if (i2cHandle->Instance == I2C3)
   {
-  /* USER CODE BEGIN I2C3_MspDeInit 0 */
+    /* USER CODE BEGIN I2C3_MspDeInit 0 */
 
-  /* USER CODE END I2C3_MspDeInit 0 */
+    /* USER CODE END I2C3_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_I2C3_CLK_DISABLE();
 
@@ -146,9 +145,9 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
     /* I2C3 interrupt Deinit */
     HAL_NVIC_DisableIRQ(I2C3_EV_IRQn);
     HAL_NVIC_DisableIRQ(I2C3_ER_IRQn);
-  /* USER CODE BEGIN I2C3_MspDeInit 1 */
+    /* USER CODE BEGIN I2C3_MspDeInit 1 */
 
-  /* USER CODE END I2C3_MspDeInit 1 */
+    /* USER CODE END I2C3_MspDeInit 1 */
   }
 }
 
