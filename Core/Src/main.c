@@ -97,7 +97,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
+  HAL_Delay(100);
   // CodeProtection_SetLevel(0);
   /* USER CODE BEGIN Init */
   /* USER CODE END Init */
@@ -107,7 +107,7 @@ int main(void)
   MX_GPIO_Init();
   CodeProtection_SetLevel(1);
   HAL_Delay(100);
-  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11))
+  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11)) //read power button
   {
     counter_first_start++;
     HAL_Delay(5);
@@ -116,13 +116,16 @@ int main(void)
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
   }
-  HAL_Delay(50);
+  HAL_Delay(700);
+  
   counter_first_start = 0;
+  HAL_Delay(50);
   adc_init();
   dac_init();
   MX_I2C3_Init();
   MX_SPI1_Init();
   button_interrupt_init();
+  HAL_Delay(50);
   motor_init();
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
   display_power_high();
@@ -217,7 +220,7 @@ int main(void)
 void EXTI1_IRQHandler(void) // PB1 BUTTON -
 
 {
-  EXTI->PR1 |= EXTI_PR1_PIF1;
+  EXTI->PR1 = EXTI_PR1_PIF1;
   speed--;
   if (speed < MOTOR_SPEED_LOW)
     speed = MOTOR_SPEED_LOW;
@@ -226,7 +229,7 @@ void EXTI1_IRQHandler(void) // PB1 BUTTON -
 }
 void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
 {
-  EXTI->PR1 |= EXTI_PR1_PIF6;
+  EXTI->PR1 = EXTI_PR1_PIF6;
   speed++;
   if (speed > MOTOR_SPEED_HIGH)
     speed = MOTOR_SPEED_HIGH;
@@ -235,7 +238,16 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
 }
 void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
 {
-  EXTI->PR1 |= EXTI_PR1_PIF11; // PA11 BUTTON INT
+    static uint32_t last_time = 0;
+
+  if (HAL_GetTick() - last_time < 100)
+  {
+    EXTI->PR1 = EXTI_PR1_PIF11;
+    return;
+  }
+
+  last_time = HAL_GetTick();
+  EXTI->PR1 = EXTI_PR1_PIF11; // PA11 BUTTON INT
   if (motor_init_flag == 0)
   {
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
@@ -274,6 +286,7 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
       flag_motor = 1;
     }
   }
+  EXTI->PR1 = 0xFFFFFFFF;
 }
 void ADC1_IRQHandler(void)
 {

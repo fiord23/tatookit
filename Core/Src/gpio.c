@@ -93,13 +93,28 @@ void MX_GPIO_Init(void)
 /* USER CODE BEGIN 2 */
 void button_interrupt_init(void)
 {
-  SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0_PB << SYSCFG_EXTICR1_EXTI1_Pos); // PB1
-  SYSCFG->EXTICR[1] |= (SYSCFG_EXTICR1_EXTI0_PB << SYSCFG_EXTICR1_EXTI2_Pos); // PB6
-  // SYSCFG->EXTICR[3] |= (SYSCFG_EXTICR1_EXTI0_PB   << SYSCFG_EXTICR1_EXTI2_Pos ); //PB6
-  EXTI->IMR1 |= (EXTI_IMR1_IM1 | EXTI_IMR1_IM6 | EXTI_IMR1_IM11);
-  EXTI->FTSR1 |= (EXTI_FTSR1_FT1 | EXTI_FTSR1_FT6 | EXTI_FTSR1_FT11);
-  NVIC_EnableIRQ(EXTI1_IRQn);
-  NVIC_EnableIRQ(EXTI9_5_IRQn);
-  NVIC_EnableIRQ(EXTI15_10_IRQn);
+    // 1. Включить тактирование SYSCFG
+    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+
+    // 2. Настроить PB1 -> EXTI1
+    SYSCFG->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI1_Msk);
+    SYSCFG->EXTICR[0] |=  SYSCFG_EXTICR1_EXTI1_PB;
+
+    // 3. Настроить PB6 -> EXTI6
+    SYSCFG->EXTICR[1] &= ~(SYSCFG_EXTICR2_EXTI6_Msk);
+    SYSCFG->EXTICR[1] |=  SYSCFG_EXTICR2_EXTI6_PB;
+
+    // 4. PA11 -> EXTI11 (по умолчанию уже PA)
+
+    // 5. Разрешить прерывания
+    EXTI->IMR1 |= (EXTI_IMR1_IM1 | EXTI_IMR1_IM6 | EXTI_IMR1_IM11);
+
+    // 6. Срабатывание по спаду
+    EXTI->FTSR1 |= (EXTI_FTSR1_FT1 | EXTI_FTSR1_FT6 | EXTI_FTSR1_FT11);
+
+    // 7. Разрешить в NVIC
+    NVIC_EnableIRQ(EXTI1_IRQn);
+    NVIC_EnableIRQ(EXTI9_5_IRQn);
+    NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 /* USER CODE END 2 */

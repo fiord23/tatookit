@@ -1,5 +1,6 @@
 
 #include "dac.h"
+#include "stm32l431xx.h"
 void dac_init(void)
 {
     // PA5 Pin

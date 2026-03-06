@@ -392,8 +392,8 @@ void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t 
 	yinc1 = 0, yinc2 = 0, den = 0, num = 0, numadd = 0, numpixels = 0, 
 	curpixel = 0;
 	
-	deltax = ABS(x2 - x1);
-	deltay = ABS(y2 - y1);
+	deltax = 0; //ABS(x2 - x1);
+	deltay = 0; //ABS(y2 - y1);
 	x = x1;
 	y = y1;
 
@@ -581,17 +581,6 @@ void display_demo (void)
 void display_test (void)
 {
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
-	//SSD1306_DrawFilledRectangle(118, 28, 10, 3, SSD1306_COLOR_WHITE);
-	//SSD1306_DrawFilledRectangle(118, 22, 10, 3, SSD1306_COLOR_WHITE);
-	//SSD1306_DrawFilledRectangle(118, 16, 10, 3, SSD1306_COLOR_WHITE);
-	//SSD1306_DrawFilledRectangle(118, 10, 10, 3, SSD1306_COLOR_WHITE);
-	//SSD1306_DrawFilledRectangle(120, 7, 5, 2, SSD1306_COLOR_WHITE);
-	//SSD1306_GotoXY(70,5);
-	//SSD1306_Puts("000Hz", &Font_7x10, SSD1306_COLOR_WHITE);
-	//SSD1306_GotoXY(70,21);
-	//SSD1306_Puts("00:00h", &Font_7x10, SSD1306_COLOR_WHITE);
-	//SSD1306_GotoXY(0,5);
-	//SSD1306_Puts("6.2v", &Font_16x26, SSD1306_COLOR_WHITE);
 	SSD1306_UpdateScreen();
 }
 void show_vbat( void)
@@ -654,7 +643,7 @@ void show_vbat( void)
 }
 void show_motor_duty (void)
 {
-	float datas = ((float)speed / 63.0 ) * 9.0 * 10.0;
+	float datas = (((float)speed / 63.0 ) * 90.0 )- 1.1;
 	char duty_data1[2] = {'0'};
 	char duty_data2[2] = {'0'};
 	duty_data1[0] = (uint8_t)datas / 10 + '0';
