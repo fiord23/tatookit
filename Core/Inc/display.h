@@ -7,6 +7,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "stdint.h"
+#include <stdbool.h>
 
 #define cs_low()                HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_RESET) //PA9 LOW
 #define cs_high()               HAL_GPIO_WritePin(GPIOA, DISPLAY_CS_Pin, GPIO_PIN_SET) //PA9 HIGH
@@ -116,4 +117,5 @@ void show_vbat(void);
 void show_motor_duty (void);
 void show_motor_speed (void);
 void show_time (void);
+void motor_show_direction (bool direction);
 #endif

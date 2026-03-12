@@ -1,5 +1,6 @@
 #include "motor.h"
 #include "stm32l4xx_hal_i2c.h"
+#include <math.h> 
 extern I2C_HandleTypeDef hi2c3;
 
 void motor_write(uint8_t reg, uint8_t data)
@@ -23,9 +24,10 @@ void motor_init(void)
   HAL_GPIO_WritePin(GPIOA, POWER_ON_OFF_Pin | EN_IN1_Pin, GPIO_PIN_RESET);
   HAL_Delay(10);
   motor_write(CONFIG4, 0x30);
-  motor_write(CONFIG0, 0xE1); // Motor enable
-  // motor_write(CONFIG0, 0x61); //Motor Disable
-  motor_write(REG_CTRL0, 21); // scale speed 32
+  //VREF EXT = 3.3V CONFIG 3
+  motor_write(CONFIG0, 0xE1); // Motor enable 1110 0001 STALL ENABLE
+  
+  motor_write(REG_CTRL0, 21); //x1 scale speed 32 x2 - scale speed 64
   motor_write(REG_CTRL2, 40);
 
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
@@ -34,14 +36,12 @@ void motor_init(void)
 
 void motor_speed_write(uint8_t data)
 {
-  if (data > MOTOR_SPEED_HIGH)
-  {
-    data = MOTOR_SPEED_HIGH;
-  }
-  if (data < MOTOR_SPEED_LOW)
-  {
-    data = MOTOR_SPEED_LOW;
-  }
+    if (data > MOTOR_SPEED_HIGH)
+        data = MOTOR_SPEED_HIGH;
+    if (data < MOTOR_SPEED_LOW)
+        data = MOTOR_SPEED_LOW;
 
-  motor_write(REG_CTRL2, data);
+    data = (uint8_t)roundf(data / 1.285f);  // вот тут правильно
+
+    motor_write(REG_CTRL2, data);
 }

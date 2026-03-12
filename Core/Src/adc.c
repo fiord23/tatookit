@@ -32,7 +32,7 @@ extern volatile uint16_t ADC_Data[];
 void adc_init(void)
 /*
 PA1 IN6 VBAT 10k - 10k
-PA6 IN11 MOTOR ... - 10k
+PA6 IN11 MOTOR ... - 5.1k
 PB0 IN15 POWER 180k - 39k
 */
 

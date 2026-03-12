@@ -44,7 +44,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MOTOR_SPEED_WAKEUP 53
+//<#define MOTOR_SPEED_WAKEUP 53
+#define MOTOR_SPEED_WAKEUP 68 // 0.1 step
 #define ADDR_FLASH_PAGE ((uint32_t)0x0803F800)
 
 /* USER CODE END PD */
@@ -57,7 +58,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t speed = 40;
+uint8_t speed = 55;
 uint8_t flag_motor = 0;
 volatile uint16_t ADC_Data[3] = {
     0,
@@ -75,6 +76,9 @@ float power_value;
 volatile uint32_t button_counter_plus = 0;
 volatile uint32_t button_counter_minus = 0;
 uint8_t cycles = 0;
+static uint32_t time_stall = 0;
+static uint8_t buttons_pressed = 0;
+static uint32_t buttons_time = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,7 +111,7 @@ int main(void)
   MX_GPIO_Init();
   CodeProtection_SetLevel(1);
   HAL_Delay(100);
-  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11)) //read power button
+  while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11)) // read power button
   {
     counter_first_start++;
     HAL_Delay(5);
@@ -116,8 +120,11 @@ int main(void)
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
   }
+  display_init();
+  HAL_Delay(50);
+  display_demo();
   HAL_Delay(700);
-  
+
   counter_first_start = 0;
   HAL_Delay(50);
   adc_init();
@@ -130,7 +137,7 @@ int main(void)
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
   display_power_high();
   dac_data_send(993);
-  display_init();
+  
   display_test();
   time_init();
   // show_motor_speed();
@@ -140,6 +147,7 @@ int main(void)
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
+
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -156,6 +164,7 @@ int main(void)
           speed++;
           if (speed > MOTOR_SPEED_HIGH)
             speed = MOTOR_SPEED_HIGH;
+
           motor_speed_write(speed);
           show_motor_duty();
           HAL_Delay(1);
@@ -180,7 +189,6 @@ int main(void)
             button_counter_minus = 0;
         }
       }
-
       show_vbat();
       show_time();
       show_motor_duty();
@@ -208,7 +216,36 @@ int main(void)
       //  show_vbat();
       SSD1306_UpdateScreen();
     }
+    if ((HAL_GetTick() - time_stall > 1000) && ((motor_read(RC_STATUS1) < 42)))
+    {
+      flag_motor = 0;
+      display_power_low();
+      motor_write(CONFIG0, 0x61);
+      time_active = 0;
+      time_stall = 0;
+    }
+    if ((!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) && (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)))
+    {
+      if (!buttons_pressed)
+      {
+        buttons_pressed = 1;
+        buttons_time = HAL_GetTick();
+      }
+      else
+      {
+        if (HAL_GetTick() - buttons_time >= 3000)
+        {
+          HAL_GPIO_TogglePin(GPIOA, PH_IN2_Pin);
+          buttons_pressed = 2; // уже обработано
+        }
+      }
+    }
+    else
+    {
+      buttons_pressed = 0;
+    }
 
+    motor_show_direction(HAL_GPIO_ReadPin(GPIOA, PH_IN2_Pin));
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -238,7 +275,7 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
 }
 void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
 {
-    static uint32_t last_time = 0;
+  static uint32_t last_time = 0;
 
   if (HAL_GetTick() - last_time < 100)
   {
@@ -248,18 +285,24 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
 
   last_time = HAL_GetTick();
   EXTI->PR1 = EXTI_PR1_PIF11; // PA11 BUTTON INT
+
   if (motor_init_flag == 0)
   {
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
     motor_init_flag = 1;
+    time_stall = HAL_GetTick();
   }
 
   if (flag_motor)
+  //
+
+  // if ((flag_motor) || ((motor_read(RC_STATUS1) < 2) && ((HAL_GetTick() - last_time_speed )> 1000)))
   {
     flag_motor = 0;
     display_power_low();
     motor_write(CONFIG0, 0x61);
     time_active = 0;
+    time_stall = 0;
   }
 
   else
@@ -274,6 +317,7 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
     else
     {
       motor_write(CONFIG0, 0xE1);
+
       time_active = 1;
       if (speed < MOTOR_SPEED_WAKEUP)
       {
@@ -283,10 +327,11 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
           ;
       }
       motor_speed_write(speed);
+      time_stall = HAL_GetTick();
       flag_motor = 1;
     }
   }
-  EXTI->PR1 = 0xFFFFFFFF;
+  // EXTI->PR1 = 0xFFFFFFFF;
 }
 void ADC1_IRQHandler(void)
 {

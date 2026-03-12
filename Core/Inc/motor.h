@@ -30,9 +30,12 @@
 #define RC_CTRL7        0x18
 #define RC_CTRL8        0x19
 
-#define MOTOR_SPEED_LOW         3
-#define MOTOR_SPEED_HIGH       63
-#define MOTOR_SPEED_DEFAULT    40
+//#define MOTOR_SPEED_LOW         3
+//#define MOTOR_SPEED_HIGH       63
+//#define MOTOR_SPEED_DEFAULT    40
+#define MOTOR_SPEED_LOW         25
+#define MOTOR_SPEED_HIGH       81
+#define MOTOR_SPEED_DEFAULT    51
 
 void motor_write(uint8_t reg, uint8_t data);
 void motor_init(void);
