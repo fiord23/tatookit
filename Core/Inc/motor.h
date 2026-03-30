@@ -2,6 +2,7 @@
 #define MOTOR_H
 #include "main.h"
 #include "stm32l4xx_hal_i2c.h"
+#include "stdint.h"
 #define MOTOR_I2C_ADDRESS    0x60
 
 /*REGISTERS*/
@@ -36,6 +37,8 @@
 #define MOTOR_SPEED_LOW         25
 #define MOTOR_SPEED_HIGH       81
 #define MOTOR_SPEED_DEFAULT    51
+
+#define MOTOR_SPEED_STOP    15
 
 void motor_write(uint8_t reg, uint8_t data);
 void motor_init(void);

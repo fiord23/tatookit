@@ -1,6 +1,7 @@
 #include "motor.h"
 #include "stm32l4xx_hal_i2c.h"
 #include <math.h> 
+#include "gpio.h"
 extern I2C_HandleTypeDef hi2c3;
 
 void motor_write(uint8_t reg, uint8_t data)
@@ -27,7 +28,7 @@ void motor_init(void)
   //VREF EXT = 3.3V CONFIG 3
   motor_write(CONFIG0, 0xE1); // Motor enable 1110 0001 STALL ENABLE
   
-  motor_write(REG_CTRL0, 21); //x1 scale speed 32 x2 - scale speed 64
+  motor_write(REG_CTRL0, 22); //x1 scale speed 32 x2 - scale speed 64
   motor_write(REG_CTRL2, 40);
 
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);

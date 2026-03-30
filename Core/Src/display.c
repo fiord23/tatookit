@@ -17,13 +17,14 @@ extern SPI_HandleTypeDef hspi1;
 extern uint8_t speed;
 extern uint16_t time;
 extern volatile uint16_t ADC_Data[];
+extern uint8_t sec_to_min;
 float vbat_value = 0.0;
 uint8_t hyst_status = 0;
 uint8_t databat = 0;
 
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
-static uint8_t pixelBuffer[SSD1306_BUFFEчR_SIZE] = {0};
+static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
 
 /* Private SSD1306 structure */
 typedef struct {
@@ -535,9 +536,6 @@ void display_demo (void)
 {
 
     unsigned char pic[]= 
-
-/*--  ������һ��ͼ��E:\��ʾ��ͼƬ\ER-OLED091-3.bmp  --*/
-/*--  ����x�߶�=128x32  --*/
 {
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
@@ -572,44 +570,79 @@ void display_demo (void)
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
+for (int i = 0; i < sizeof(pic); i++) {
+    pic[i] = ~pic[i];
+}
+	command(0xa6); //
     Display_Picture(pic);
-    HAL_Delay(1000);
-    command(0xa7);
-    HAL_Delay(1000);
-    command(0xa6);
+    HAL_Delay(300);
+    
+   // HAL_Delay(1000);
+  //  command(0xa6);
 
 }
 void display_test (void)
 {
+	command(0xa6);
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
 	SSD1306_UpdateScreen();
 }
 void show_vbat( void)
 {
-	
+/* 	4в-4палочки, 
+4-3.8-3п,
+ 3.8-3.6-2п,
+ 3.6 и ниже 1п. 
+Или если возможно после 3.4 мигает */
 	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
     if (vbat_value > 4.0)  
     	databat = 4;
 	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 4))
 		databat = 4;
+
 	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 3)) 
 		databat = 3;
-    else if ( (vbat_value > 3.7) && (vbat_value < 3.9) )
+    else if ( (vbat_value > 3.8) && (vbat_value < 3.9) )
         databat = 3;
-	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 3))
+	else if ((vbat_value > 3.7) && (vbat_value < 3.8) && (databat == 3))
 	 	databat = 3;
-	else if ((vbat_value > 3.6) && (vbat_value < 3.7) && (databat == 2))
+
+	else if ((vbat_value > 3.7) && (vbat_value < 3.8) && (databat == 2))
 		databat = 2;	
-    else if ( (vbat_value < 3.6) && (vbat_value > 3.2) )
+    else if ( (vbat_value > 3.6) && (vbat_value < 3.7) )
         databat = 2;
-	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 2))
+	else if ((vbat_value > 3.5) && (vbat_value < 3.6) && (databat == 2))
 		databat = 2;
-	else if ((vbat_value > 3.2) && (vbat_value < 3.3) && (databat == 1))
+
+	else if ((vbat_value > 3.5) && (vbat_value < 3.6) && (databat == 1))
+		databat = 1;	
+    else if ( (vbat_value > 3.4) && (vbat_value < 3.5) )
+        databat = 1;
+	else if ((vbat_value > 3.3) && (vbat_value < 3.4) && (databat == 1))
 		databat = 1;
-    else if (vbat_value < 3.2)  
-       databat = 1;
+
+	else if ((vbat_value > 3.3) && (vbat_value < 3.4) && (databat == 0))
+		databat = 0;
+    else if (vbat_value < 3.3)  
+       databat = 0;
 	switch (databat)
 	{
+
+	case 0:
+    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
+    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_BLACK);
+		if(sec_to_min % 2 == 0)
+		{
+			SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
+		}
+    	else
+		{
+			SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_BLACK);
+		}
+		break;
+
 	case 1:
     	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
     	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
@@ -676,11 +709,16 @@ void motor_show_direction (bool direction)
 void show_motor_speed (void)
 {
 	char speed_data[6] = {'0', '0', '0', 'H', 'z'};
-	uint32_t datam = motor_read(RC_STATUS1)*33; //rad*s
+	uint32_t datam = motor_read(RC_STATUS1)*33*2; //rad*s
 	
 	double freq = (double)datam / 62.831853;
 	uint16_t freq_int = (uint16_t)freq;
-	if (freq_int >= 100)
+	if (freq_int >= 200)
+	{
+		speed_data[0] = '2';
+		freq_int -= 200;
+	}
+	else if (freq_int >= 100)
 	{
 		speed_data[0] = '1';
 		freq_int -= 100;

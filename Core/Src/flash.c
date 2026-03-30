@@ -1,5 +1,10 @@
 #include "flash.h"
 #include "stm32l431xx.h"
+#include "motor.h"
+
+#define FLASH_USER_ADDR 0x0803F800
+extern uint8_t speed;
+
 void flash_rdp_level1(void)
 {
     __disable_irq();
@@ -72,14 +77,46 @@ HAL_StatusTypeDef CodeProtection_SetLevel(uint8_t Level)
     return ret;
 }
 
-  // __disable_irq();
-  // FLASH_PageErase(127, 1);
-  // __enable_irq();
+void Flash_Save(uint8_t value)
+{
+    uint64_t current = *(uint64_t *)FLASH_USER_ADDR;
 
-  // uint64_t dataf = speed;
-  // HAL_FLASH_Unlock();
-  // HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, ADDR_FLASH_PAGE, dataf);
-  // HAL_FLASH_Lock();
+    if ((uint8_t)(current & 0xFF) == value)
+        return; // уже записано
 
-  // uint8_t *flash_biases = (uint8_t *)(ADDR_FLASH_PAGE);
-  // flash_rdp_level1();
+    HAL_FLASH_Unlock();
+
+    FLASH_EraseInitTypeDef erase;
+    uint32_t pageError = 0;
+
+    erase.TypeErase = FLASH_TYPEERASE_PAGES;
+    erase.Page = (FLASH_USER_ADDR - 0x08000000) / 2048;
+    erase.NbPages = 1;
+
+    if (HAL_FLASHEx_Erase(&erase, &pageError) == HAL_OK)
+    {
+        uint64_t data64 = value;
+
+        HAL_FLASH_Program(
+            FLASH_TYPEPROGRAM_DOUBLEWORD,
+            FLASH_USER_ADDR,
+            data64);
+    }
+
+    HAL_FLASH_Lock();
+}
+
+void Flash_LoadOrInit(void)
+{
+    uint64_t flash_data = *(uint64_t *)FLASH_USER_ADDR;
+
+    if (flash_data == 0xFFFFFFFFFFFFFFFF)
+    {
+        speed = MOTOR_SPEED_DEFAULT;
+        Flash_Save(speed);
+    }
+    else
+    {
+        speed = (uint8_t)(flash_data & 0xFF);
+    }
+}
