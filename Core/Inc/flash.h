@@ -9,4 +9,6 @@ HAL_StatusTypeDef CodeProtection_SetLevel(uint8_t Level);
 
 void Flash_Save(uint8_t value);
 void Flash_LoadOrInit(void);
+void Flash_FW_LoadOrInit(void);
+void Flash_FW_Save(uint8_t value);
 #endif

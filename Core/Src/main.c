@@ -82,6 +82,9 @@ static uint8_t buttons_pressed = 0;
 static uint32_t buttons_time = 0;
 uint16_t motor_strart_nopress = 0;
 uint8_t ffirst_moment = 0;
+uint8_t fw_version = 0;
+uint8_t bug = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -129,22 +132,101 @@ int main(void)
   display_init();
   display_demo();
 
-
   SSD1306_Fill(SSD1306_COLOR_BLACK);
   SSD1306_UpdateScreen();
 
+  Flash_FW_LoadOrInit();
 
-  char version[4] = {'4', '.', '8'};
-  SSD1306_GotoXY(48, 8);
-  SSD1306_Puts(version, &Font_16x26, SSD1306_COLOR_WHITE);
+  void ShowVersion(void)
+  {
+    char version[4] = "0.0";
 
+    switch (fw_version)
+    {
+    case 0:
+      strcpy(version, "3.2");
+      break;
+    case 1:
+      strcpy(version, "3.5");
+      break;
+    case 2:
+      strcpy(version, "3.8");
+      break;
+    case 3:
+      strcpy(version, "4.2");
+      break;
+    case 4:
+      strcpy(version, "4.7");
+      break;
+    }
 
-  SSD1306_UpdateScreen();
+    SSD1306_GotoXY(48, 8);
+    SSD1306_Puts(version, &Font_16x26, SSD1306_COLOR_WHITE);
+    SSD1306_UpdateScreen();
+  }
+
+  ShowVersion();
+
+  uint32_t last_action = HAL_GetTick();
+  uint8_t changed = 0;
+
+  while (HAL_GetTick() - last_action < 700)
+  {
+    // "+"
+    if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6))
+    {
+      HAL_Delay(50);
+
+      if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6))
+      {
+        fw_version = (fw_version + 1) % 5;
+
+        last_action = HAL_GetTick();
+        changed = 1;
+
+        uint32_t t = HAL_GetTick();
+        while (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6))
+        {
+          if (HAL_GetTick() - t > 300)
+            break;
+        }
+
+        ShowVersion();
+      }
+    }
+
+    // "-"
+    if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1))
+    {
+      HAL_Delay(50);
+
+      if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1))
+      {
+        fw_version = (fw_version == 0) ? 4 : fw_version - 1;
+
+        last_action = HAL_GetTick();
+        changed = 1;
+
+        uint32_t t = HAL_GetTick();
+        while (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1))
+        {
+          if (HAL_GetTick() - t > 300)
+            break;
+        }
+
+        ShowVersion();
+      }
+    }
+  }
+
+  if (changed)
+  {
+    Flash_FW_Save(fw_version);
+  }
   HAL_Delay(700);
 
   counter_first_start = 0;
   HAL_Delay(50);
-  
 
   dac_init();
   MX_I2C3_Init();
@@ -160,7 +242,6 @@ int main(void)
   display_test();
   time_init();
 
-  
   // show_motor_speed();
   char speed_data_0[6] = {'0', '0', '0', 'H', 'z'};
   SSD1306_GotoXY(70, 8);
@@ -168,8 +249,6 @@ int main(void)
   show_vbat();
   SSD1306_UpdateScreen();
 
-  
-  
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
@@ -197,7 +276,8 @@ int main(void)
           flash_write_speed = true;
           show_motor_duty();
           HAL_Delay(1);
-          SSD1306_UpdateScreen();
+          if (bug == 0)
+            SSD1306_UpdateScreen();
           if (button_counter_plus > 120)
             button_counter_plus = 0;
         }
@@ -214,13 +294,12 @@ int main(void)
           flash_write_speed = true;
           show_motor_duty();
           HAL_Delay(1);
-          SSD1306_UpdateScreen();
+          if (bug == 0)
+            SSD1306_UpdateScreen();
           if (button_counter_minus > 120)
             button_counter_minus = 0;
         }
       }
-
-
 
       if (buttons_pressed == 0)
       {
@@ -233,86 +312,89 @@ int main(void)
         motor_speed_flag = 0;
       }
       show_vbat();
-    //  SSD1306_UpdateScreen();
-    }
-    
-    else
-    {
-      display_power_low();
-      SSD1306_Fill(SSD1306_COLOR_BLACK);
-      sleep_status = 1;
-      if (time_sleep > 29)
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
-    }
-      show_vbat();
+      // show_vbat();
       show_time();
-    HAL_Delay(100);
-    cycles++;
-    if (cycles % 10 == 0)
-    {
-      cycles = 0;
-     // show_vbat();
-      SSD1306_UpdateScreen();
-    }
-    if ((HAL_GetTick() - time_stall > 1000) && ((motor_read(RC_STATUS1) < MOTOR_SPEED_STOP))) // 42 for divider x1
-    {
-      flag_motor = 0;
-      display_power_low();
-      motor_write(CONFIG0, 0x61);
-      time_active = 0;
-      time_stall = 0;
-    }
-    if ((!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) && (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)))
-    {
-      if (buttons_pressed == 0)
+      HAL_Delay(100);
+      cycles++;
+      if (cycles % 10 == 0)
       {
-        // кнопки только что нажали
-        buttons_pressed = 1;
-        buttons_time = HAL_GetTick();
+        cycles = 0;
+        // show_vbat();
+        if (bug == 0)
+          SSD1306_UpdateScreen();
       }
-      else if (buttons_pressed == 1)
+      if ((HAL_GetTick() - time_stall > 1000) && ((motor_read(RC_STATUS1) < MOTOR_SPEED_STOP))) // 42 for divider x1
       {
-        // ждём 1 секунду
-        if (HAL_GetTick() - buttons_time >= 1000)
+        flag_motor = 0;
+        display_power_low();
+        motor_write(CONFIG0, 0x61);
+        time_active = 0;
+        time_stall = 0;
+      }
+      if ((!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) && (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)))
+      {
+        if (buttons_pressed == 0)
         {
-          HAL_GPIO_TogglePin(GPIOA, PH_IN2_Pin);
-          buttons_pressed = 2; // обработано, больше не выполняем
+          // кнопки только что нажали
+          buttons_pressed = 1;
+          buttons_time = HAL_GetTick();
         }
+        else if (buttons_pressed == 1)
+        {
+          // ждём 1 секунду
+          if (HAL_GetTick() - buttons_time >= 1000)
+          {
+            HAL_GPIO_TogglePin(GPIOA, PH_IN2_Pin);
+            buttons_pressed = 2; // обработано, больше не выполняем
+          }
+        }
+        // если buttons_pressed == 2 — ничего не делаем, ждём отпускания
       }
-      // если buttons_pressed == 2 — ничего не делаем, ждём отпускания
-    }
-    else
-    {
-      // кнопки отпущены — сбрасываем состояние
-      buttons_pressed = 0;
-    }
+      else
+      {
+        // кнопки отпущены — сбрасываем состояние
+        buttons_pressed = 0;
+      }
 
-    motor_show_direction(HAL_GPIO_ReadPin(GPIOA, PH_IN2_Pin));
-    show_vbat();
-    SSD1306_UpdateScreen();
-    if (flash_write_speed == true)
-    {
-      flash_write_speed = false;
-      Flash_Save(speed);
-    }
-    /* USER CODE END WHILE */
-    if(ffirst_moment==0)
-    {
+      motor_show_direction(HAL_GPIO_ReadPin(GPIOA, PH_IN2_Pin));
+      show_vbat();
+      if (bug == 0)
+        SSD1306_UpdateScreen();
+      if (flash_write_speed == true)
+      {
+        flash_write_speed = false;
+        Flash_Save(speed);
+      }
+      /* USER CODE END WHILE */
+      if (ffirst_moment == 0)
+      {
         dac_data_send(4000);
         HAL_Delay(50);
         dac_data_send(993);
         show_vbat();
-        ffirst_moment=1;
+        ffirst_moment = 1;
+      }
+
+      /* USER CODE BEGIN 3 */
     }
 
-    /* USER CODE BEGIN 3 */
+    else
+    {
+      display_power_low();
+      SSD1306_Fill(SSD1306_COLOR_BLACK);
+      SSD1306_UpdateScreen();
+      sleep_status = 1;
+      flag_motor = 0;
+      if (time_sleep > 29)
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+    }
   }
+
   /* USER CODE END 3 */
 }
 
 /* USER CODE BEGIN 4 */
 void EXTI1_IRQHandler(void) // PB1 BUTTON -
-
 {
   EXTI->PR1 = EXTI_PR1_PIF1;
   speed--;
@@ -322,6 +404,7 @@ void EXTI1_IRQHandler(void) // PB1 BUTTON -
   flash_write_speed = true;
   button_counter_minus = 0;
 }
+
 void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
 {
   EXTI->PR1 = EXTI_PR1_PIF6;
@@ -332,33 +415,32 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
   flash_write_speed = true;
   button_counter_plus = 0;
 }
+
 void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
 {
   static uint32_t last_time = 0;
 
-  if (HAL_GetTick() - last_time < 100)
-  {
-    EXTI->PR1 = EXTI_PR1_PIF11;
-    return;
-  }
+  // if (HAL_GetTick() - last_time < 100)
+  // {
+  //    EXTI->PR1 = EXTI_PR1_PIF11;
+  //   return;
+  // }
 
   last_time = HAL_GetTick();
   EXTI->PR1 = EXTI_PR1_PIF11; // PA11 BUTTON INT
 
-  if (motor_init_flag == 0)
+  if (motor_init_flag == 0) // First run
   {
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
     motor_init_flag = 1;
     time_stall = HAL_GetTick();
-    //dac_data_send(993);
+    // dac_data_send(993);
     dac_data_send(4000);
     dac_data_send(993);
+    bug = 0;
   }
 
-  if (flag_motor)
-  //
-
-  // if ((flag_motor) || ((motor_read(RC_STATUS1) < 2) && ((HAL_GetTick() - last_time_speed )> 1000)))
+  if (flag_motor == 1)
   {
     flag_motor = 0;
     display_power_low();
@@ -367,34 +449,40 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
     time_stall = 0;
   }
 
-  else
+  else if (flag_motor == 0)
   {
     display_power_high();
-    time_sleep = 0;
-    if (sleep_status)
+
+    if (sleep_status == 1)
     {
+      display_power_high();
       sleep_status = 0;
-      flag_motor = 0;
+      SSD1306_UpdateScreen();
+
+      time_sleep = 0; // ← ПЕРЕНЁС СЮДА
+      return;
     }
-    else
+
+    // запуск мотора
+    display_power_high();
+    motor_write(CONFIG0, 0xE1);
+    time_active = 1;
+
+    if (speed < MOTOR_SPEED_WAKEUP)
     {
-      motor_write(CONFIG0, 0xE1);
-
-      time_active = 1;
-      if (speed < MOTOR_SPEED_WAKEUP)
-      {
-
-        motor_speed_write(MOTOR_SPEED_WAKEUP);
-        for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay++)
-          ;
-      }
-      motor_speed_write(speed);
-      flash_write_speed = true;
-      time_stall = HAL_GetTick();
-      flag_motor = 1;
+      motor_speed_write(MOTOR_SPEED_WAKEUP);
+      for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay++)
+        ;
     }
+
+    motor_speed_write(speed);
+    flash_write_speed = true;
+    time_stall = HAL_GetTick();
+    flag_motor = 1;
+
+    time_sleep = 0; // ← и сюда (при запуске)
   }
-  // EXTI->PR1 = 0xFFFFFFFF;
+  EXTI->PR1 = 0xFFFFFFFF;
 }
 void ADC1_IRQHandler(void)
 {
@@ -421,43 +509,52 @@ void TIM7_IRQHandler(void)
       motor_speed_flag = 1;
     }
 
-    if (time_active) //motor is in run mode
+    if (time_active) // motor is in run mode
     {
       sec_to_min++;
-      if (sec_to_min > 59)
+      //  if (sec_to_min > 59)
+      if (sec_to_min > 5)
       {
         time++;
         sec_to_min = 0;
       }
     }
-    else  //time_active = 0, motor is in stop mode
+    else // time_active = 0, motor is in stop mode
     {
       sec_to_min++;
-      if (sec_to_min > 59)
+      if (sec_to_min > 5)
+      //    if (sec_to_min > 59)
       {
         time_sleep++;
         sec_to_min = 0;
       }
     }
   }
-  if(motor_init_flag == 0)
+  else // motor_init_flag = 0
   {
+
     motor_strart_nopress++;
     if (motor_strart_nopress > 900)
     {
-      display_power_low();
-      SSD1306_Fill(SSD1306_COLOR_BLACK); 
-      SSD1306_UpdateScreen(); //106
-      sleep_status = 1;
-      while (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_11)) // read power button
+      if (bug == 0)
       {
-        if (motor_strart_nopress > 1800)
+        display_power_low();
+        SSD1306_Fill(SSD1306_COLOR_BLACK);
+        SSD1306_UpdateScreen(); // 106
+        sleep_status = 1;
+        bug = 1;
+      }
+
+      if (motor_strart_nopress > 1800)
+      {
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
       }
-      motor_strart_nopress = 0;
+
+      // motor_strart_nopress = 0;
     }
 
-;  }
+    ;
+  }
 }
 /* USER CODE END 4 */
 void Error_Handler(void)
