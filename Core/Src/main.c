@@ -384,7 +384,8 @@ int main(void)
       SSD1306_Fill(SSD1306_COLOR_BLACK);
       SSD1306_UpdateScreen();
       sleep_status = 1;
-      flag_motor = 0;
+      flag_motor = 1;
+
       if (time_sleep > 29)
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
@@ -416,30 +417,32 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
   button_counter_plus = 0;
 }
 
-void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
+void EXTI15_10_IRQHandler(void)
 {
   static uint32_t last_time = 0;
 
-  // if (HAL_GetTick() - last_time < 100)
-  // {
-  //    EXTI->PR1 = EXTI_PR1_PIF11;
-  //   return;
-  // }
-
+  if (HAL_GetTick() - last_time < 150)
+  {
+    EXTI->PR1 = EXTI_PR1_PIF11;
+    return;
+  }
   last_time = HAL_GetTick();
-  EXTI->PR1 = EXTI_PR1_PIF11; // PA11 BUTTON INT
 
-  if (motor_init_flag == 0) // First run
+  EXTI->PR1 = EXTI_PR1_PIF11;
+
+  // Первый запуск питания
+  if (motor_init_flag == 0)
   {
     HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_SET);
     motor_init_flag = 1;
+    time_sleep = 0;
     time_stall = HAL_GetTick();
-    // dac_data_send(993);
     dac_data_send(4000);
     dac_data_send(993);
     bug = 0;
   }
 
+  // 1. Если мотор работает → выключаем
   if (flag_motor == 1)
   {
     flag_motor = 0;
@@ -447,42 +450,37 @@ void EXTI15_10_IRQHandler(void) // PA11 BUTTON ON/OFF
     motor_write(CONFIG0, 0x61);
     time_active = 0;
     time_stall = 0;
-  }
-
-  else if (flag_motor == 0)
-  {
-    display_power_high();
-
     if (sleep_status == 1)
     {
-      display_power_high();
+
+      // display_power_high();
       sleep_status = 0;
+      display_power_high();
       SSD1306_UpdateScreen();
-
-      time_sleep = 0; // ← ПЕРЕНЁС СЮДА
-      return;
+      time_sleep = 0;
+      // flag_motor = 0;
+      // return;
     }
-
-    // запуск мотора
-    display_power_high();
-    motor_write(CONFIG0, 0xE1);
-    time_active = 1;
-
-    if (speed < MOTOR_SPEED_WAKEUP)
-    {
-      motor_speed_write(MOTOR_SPEED_WAKEUP);
-      for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay++)
-        ;
-    }
-
-    motor_speed_write(speed);
-    flash_write_speed = true;
-    time_stall = HAL_GetTick();
-    flag_motor = 1;
-
-    time_sleep = 0; // ← и сюда (при запуске)
+    return;
   }
-  EXTI->PR1 = 0xFFFFFFFF;
+
+  // 3. Иначе → запускаем мотор
+  display_power_high();
+  motor_write(CONFIG0, 0xE1);
+  time_active = 1;
+
+  if (speed < MOTOR_SPEED_WAKEUP)
+  {
+    motor_speed_write(MOTOR_SPEED_WAKEUP);
+    for (volatile uint32_t mdelay = 0; mdelay < 2000000; mdelay++)
+      ;
+  }
+
+  motor_speed_write(speed);
+  flash_write_speed = true;
+  time_stall = HAL_GetTick();
+  flag_motor = 1;
+  time_sleep = 0;
 }
 void ADC1_IRQHandler(void)
 {
@@ -513,7 +511,7 @@ void TIM7_IRQHandler(void)
     {
       sec_to_min++;
       //  if (sec_to_min > 59)
-      if (sec_to_min > 5)
+      if (sec_to_min > 59)
       {
         time++;
         sec_to_min = 0;
@@ -522,7 +520,7 @@ void TIM7_IRQHandler(void)
     else // time_active = 0, motor is in stop mode
     {
       sec_to_min++;
-      if (sec_to_min > 5)
+      if (sec_to_min > 59)
       //    if (sec_to_min > 59)
       {
         time_sleep++;
@@ -536,13 +534,17 @@ void TIM7_IRQHandler(void)
     motor_strart_nopress++;
     if (motor_strart_nopress > 900)
     {
+      flag_motor = 1;
+      sleep_status = 1;
+      time_sleep = 16;
       if (bug == 0)
       {
-        display_power_low();
-        SSD1306_Fill(SSD1306_COLOR_BLACK);
-        SSD1306_UpdateScreen(); // 106
-        sleep_status = 1;
+    //    display_power_low();
+     //   SSD1306_Fill(SSD1306_COLOR_BLACK);
+     //   SSD1306_UpdateScreen(); // 106
+     //   sleep_status = 1;
         bug = 1;
+        
       }
 
       if (motor_strart_nopress > 1800)
