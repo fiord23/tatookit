@@ -575,7 +575,7 @@ for (int i = 0; i < sizeof(pic); i++) {
 }
 	command(0xa6); //
     Display_Picture(pic);
-    HAL_Delay(300);
+    HAL_Delay(700);
     
    // HAL_Delay(1000);
   //  command(0xa6);

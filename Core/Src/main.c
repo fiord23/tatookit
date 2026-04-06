@@ -84,7 +84,7 @@ uint16_t motor_strart_nopress = 0;
 uint8_t ffirst_moment = 0;
 uint8_t fw_version = 0;
 uint8_t bug = 0;
-
+char c_version_fw[4] = "0.0";
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,6 +94,31 @@ uint8_t bug = 0;
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void ShowVersion(void)
+{
+  switch (fw_version)
+  {
+  case 0:
+    strcpy(c_version_fw, "3.2");
+    break;
+  case 1:
+    strcpy(c_version_fw, "3.5");
+    break;
+  case 2:
+    strcpy(c_version_fw, "3.8");
+    break;
+  case 3:
+    strcpy(c_version_fw, "4.2");
+    break;
+  case 4:
+    strcpy(c_version_fw, "4.7");
+    break;
+  }
+
+  SSD1306_GotoXY(48, 8);
+  SSD1306_Puts(c_version_fw, &Font_16x26, SSD1306_COLOR_WHITE);
+  SSD1306_UpdateScreen();
+}
 /* USER CODE END 0 */
 
 /**
@@ -136,35 +161,6 @@ int main(void)
   SSD1306_UpdateScreen();
 
   Flash_FW_LoadOrInit();
-
-  void ShowVersion(void)
-  {
-    char version[4] = "0.0";
-
-    switch (fw_version)
-    {
-    case 0:
-      strcpy(version, "3.2");
-      break;
-    case 1:
-      strcpy(version, "3.5");
-      break;
-    case 2:
-      strcpy(version, "3.8");
-      break;
-    case 3:
-      strcpy(version, "4.2");
-      break;
-    case 4:
-      strcpy(version, "4.7");
-      break;
-    }
-
-    SSD1306_GotoXY(48, 8);
-    SSD1306_Puts(version, &Font_16x26, SSD1306_COLOR_WHITE);
-    SSD1306_UpdateScreen();
-  }
-
   ShowVersion();
 
   uint32_t last_action = HAL_GetTick();
@@ -219,11 +215,13 @@ int main(void)
     }
   }
 
-  if (changed)
-  {
-    Flash_FW_Save(fw_version);
-  }
-  HAL_Delay(700);
+  // if (changed)
+  // {
+  //   Flash_FW_Save(fw_version);
+  //}
+  Flash_FW_Save(fw_version);
+  Flash_FW_Save(fw_version);
+  HAL_Delay(200);
 
   counter_first_start = 0;
   HAL_Delay(50);
@@ -246,13 +244,21 @@ int main(void)
   char speed_data_0[6] = {'0', '0', '0', 'H', 'z'};
   SSD1306_GotoXY(70, 8);
   SSD1306_Puts(speed_data_0, &Font_7x10, SSD1306_COLOR_WHITE);
+
+  dac_data_send(993);
+  HAL_Delay(10);
+  dac_data_send(4000);
+  HAL_Delay(10);
+  dac_data_send(993);
+
+  HAL_Delay(10);
   show_vbat();
   SSD1306_UpdateScreen();
 
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-
+  Flash_FW_Save(fw_version);
   show_vbat();
   /* USER CODE END 2 */
   /* Infinite loop */
@@ -301,6 +307,18 @@ int main(void)
         }
       }
 
+      if ((HAL_GetTick() - time_stall > 1000) && ((motor_read(RC_STATUS1) < MOTOR_SPEED_STOP))) // 42 for divider x1
+      {
+        flag_motor = 0;
+        display_power_low();
+        motor_write(CONFIG0, 0x61);
+        display_power_low();
+        motor_write(CONFIG0, 0x61);
+        time_active = 0;
+        time_stall = 0;
+      }
+
+
       if (buttons_pressed == 0)
       {
         show_motor_duty();
@@ -323,14 +341,9 @@ int main(void)
         if (bug == 0)
           SSD1306_UpdateScreen();
       }
-      if ((HAL_GetTick() - time_stall > 1000) && ((motor_read(RC_STATUS1) < MOTOR_SPEED_STOP))) // 42 for divider x1
-      {
-        flag_motor = 0;
-        display_power_low();
-        motor_write(CONFIG0, 0x61);
-        time_active = 0;
-        time_stall = 0;
-      }
+
+
+
       if ((!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) && (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)))
       {
         if (buttons_pressed == 0)
@@ -539,12 +552,11 @@ void TIM7_IRQHandler(void)
       time_sleep = 16;
       if (bug == 0)
       {
-    //    display_power_low();
-     //   SSD1306_Fill(SSD1306_COLOR_BLACK);
-     //   SSD1306_UpdateScreen(); // 106
-     //   sleep_status = 1;
+        //    display_power_low();
+        //   SSD1306_Fill(SSD1306_COLOR_BLACK);
+        //   SSD1306_UpdateScreen(); // 106
+        //   sleep_status = 1;
         bug = 1;
-        
       }
 
       if (motor_strart_nopress > 1800)
