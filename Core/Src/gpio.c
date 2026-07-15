@@ -47,12 +47,14 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, PH_IN2_Pin | POWER_VOLTAGE_REMOTE_Pin | DISPLAY_CS_Pin | DISPLAY_DC_Pin | POWER_ON_OFF_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(NSLEEP_GPIO_Port, NSLEEP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(WRITE_PROTECT_EEPROM_PORT, WRITE_PROTECT_EEPROM, GPIO_PIN_RESET);
 
   HAL_GPIO_WritePin(GPIOA, PB_CLR_Pin | EN_IN1_Pin, GPIO_PIN_SET);
   /*Configure GPIO pins : PAPin PAPin PAPin PAPin
@@ -88,6 +90,14 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(NSLEEP_GPIO_Port, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = WRITE_PROTECT_EEPROM;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(WRITE_PROTECT_EEPROM_PORT, &GPIO_InitStruct);
+
+  
 }
 
 /* USER CODE BEGIN 2 */

@@ -51,32 +51,45 @@ PB0 IN15 POWER 180k - 39k
   DMA1_Channel1->CCR |= DMA_CCR_PL;
   DMA1_Channel1->CCR |= DMA_CCR_MINC; // memory increment
   NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  DMA1->IFCR = DMA_IFCR_CGIF1;
   DMA1_Channel1->CCR |= DMA_CCR_EN;
 
-  ADC1->CR &= ~ADC_CR_ADEN; // ADC off
-  while (ADC1->CR & ADC_CR_ADEN)
-    ;                            //
-  ADC1_COMMON->CCR |= 0xB << 18; // ADC Prescaler
+  if (ADC1->CR & ADC_CR_ADEN)
+  {
+    ADC1->CR |= ADC_CR_ADDIS;
+    while (ADC1->CR & ADC_CR_ADEN)
+      ;
+  } //
+  ADC1_COMMON->CCR &= ~(0xF << 18);
+  ADC1_COMMON->CCR |= (0xB << 18);
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
   // Настройка разрешения и режима работы
-  ADC1->CFGR |= ADC_CFGR_CONT | ADC_CFGR_DMAEN | ADC_CFGR_DMACFG;                          // Continious mode, DMA ON, DMA Circular mode
-  ADC1->SMPR2 |= 7 << 15;                                                                  // 640.5 ADC clock cycles
-  ADC1->SQR1 |= 2 << ADC_SQR1_L_Pos;                                                       // 3 conversions: VBAT ADC, POWER, MOTOR CURRENT
-  ADC1->SQR1 |= (6 << ADC_SQR1_SQ1_Pos | 11 << ADC_SQR1_SQ2_Pos | 15 << ADC_SQR1_SQ3_Pos); // Set channels
-
+  ADC1->CFGR |= ADC_CFGR_CONT | ADC_CFGR_DMAEN | ADC_CFGR_DMACFG; // Continious mode, DMA ON, DMA Circular mode
+  ADC1->SMPR2 &= ~(7 << 15);
+  ADC1->SMPR2 |= (7 << 15); // 640.5 ADC clock cycles
+  ADC1->SQR1 =
+      (2 << ADC_SQR1_L_Pos) | (6 << ADC_SQR1_SQ1_Pos) | (11 << ADC_SQR1_SQ2_Pos) | (15 << ADC_SQR1_SQ3_Pos);
   //
-  ADC1->IER |= ADC_IER_EOCIE; // enable interrupt bit
-  NVIC_EnableIRQ(ADC1_IRQn);
-  ADC1->ISR |= ADC_ISR_ADRDY;
+  //  ADC1->IER |= ADC_IER_EOCIE; // enable interrupt bit
+  //  NVIC_EnableIRQ(ADC1_IRQn);
+  NVIC_SetPriority(ADC1_2_IRQn, 2);
   ADC1->CR &= ~ADC_CR_DEEPPWD;
-  ADC1->CFGR |= ADC_CFGR_JQDIS;
 
-  // Enable ADC
-  ADC1->ISR |= ADC_ISR_ADRDY; // Clear the ADRDY bit in the ADC_ISR register by writing ‘1’
-  ADC1->CR |= ADC_CR_ADEN;    // Enable ADC
-  while (ADC1->ISR & ADC_ISR_ADRDY)
+  ADC1->CR |= ADC_CR_ADVREGEN;
+  HAL_Delay(1);
+
+  // calibration
+  ADC1->CR |= ADC_CR_ADCAL;
+  while (ADC1->CR & ADC_CR_ADCAL)
     ;
+
+  // enable ADC
   ADC1->ISR |= ADC_ISR_ADRDY;
+  ADC1->CR |= ADC_CR_ADEN;
+
+  while (!(ADC1->ISR & ADC_ISR_ADRDY))
+    ;
+
   ADC1->CR |= ADC_CR_ADVREGEN;
   HAL_Delay(10);
   ADC1->CR |= ADC_CR_ADSTART;

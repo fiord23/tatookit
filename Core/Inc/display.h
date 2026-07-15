@@ -90,6 +90,8 @@ typedef enum {
 
 void command (uint8_t command);
 void data (uint8_t data);
+void display_right_orientation (void);
+void display_left_orientation (void);
 void display_init (void);
 void Set_Page_Address(unsigned char add);
 void Set_Column_Address(unsigned char add);

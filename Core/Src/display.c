@@ -4,30 +4,66 @@
 #include "motor.h"
 #include "stdint.h"
 
-#define ADC_RES 			4095.0
-#define VBAT_DIV 			2.0
-#define VREF 				3.3
-#define HYSTERESIS 			0.1
-#define VBAT_LEVEL_HIGH 	4.0
-#define VBAT_LEVEL_MID 		3.7
-#define VBAT_LEVEL_LOW 		3.3
+#define ADC_RES 4095.0
+#define VBAT_DIV 2.0
+#define VREF 3.3
+#define HYSTERESIS 0.1
+#define VBAT_LEVEL_HIGH 4.0
+#define VBAT_LEVEL_MID 3.7
+#define VBAT_LEVEL_LOW 3.3
 
+#define SHIFT_X 8
+#define SHIFT_Y 8
+
+#define VBAT_5_X 119
+#define VBAT_5_Y 7
+#define VBAT_4_X 117
+#define VBAT_4_Y 10
+#define VBAT_3_X 117
+#define VBAT_3_Y 16
+#define VBAT_2_X 117
+#define VBAT_2_Y 22
+#define VBAT_1_X 117
+#define VBAT_1_Y 28
+
+#define MOTOR_DUTY_FIRST_SYMBOL_X 5
+#define MOTOR_DUTY_FIRST_SYMBOL_Y 9
+#define MOTOR_DUTY_SECOND_SYMBOL_X 37
+#define MOTOR_DUTY_SECOND_SYMBOL_Y 9
+#define MOTOR_DUTY_DOT_SYMBOL_X 21
+#define MOTOR_DUTY_DOT_SYMBOL_Y 9
+#define MOTOR_DUTY_V_SYMBOL_X 55
+#define MOTOR_DUTY_V_SYMBOL_Y 22
+
+#define MOTOR_DIRECTION_X 55
+#define MOTOR_DIRECTION_Y 9
+
+#define MOTOR_SPEED_X 70
+#define MOTOR_SPEED_Y 8
+
+#define TIME_X 70
+#define TIME_Y 24
+
+#define DISPLAY_ORIENTATION_RIGHT 1
+#define DISPLAY_ORIENTATION_LEFT 0
 
 extern SPI_HandleTypeDef hspi1;
 extern uint8_t speed;
 extern uint16_t time;
 extern volatile uint16_t ADC_Data[];
 extern uint8_t sec_to_min;
+extern bool motor_init_flag;
 float vbat_value = 0.0;
 uint8_t hyst_status = 0;
 uint8_t databat = 0;
-
+extern bool display_orientation;
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
 
 /* Private SSD1306 structure */
-typedef struct {
+typedef struct
+{
 	uint16_t CurrentX;
 	uint16_t CurrentY;
 	uint8_t Inverted;
@@ -35,393 +71,449 @@ typedef struct {
 } SSD1306_t;
 static SSD1306_t SSD1306;
 
-void command (uint8_t command)
+void command(uint8_t command)
 {
-    uint8_t tcommand = command;
-    cs_low();
-    display_command();
-    HAL_SPI_Transmit(&hspi1, &tcommand, 1, 100);
-    cs_high(); 
-
+	uint8_t tcommand = command;
+	cs_low();
+	display_command();
+	HAL_SPI_Transmit(&hspi1, &tcommand, 1, 100);
+	cs_high();
 }
-void data (uint8_t data)
+void data(uint8_t data)
 {
-    uint8_t tdata = data;
-    cs_low();
-    display_data();
-    HAL_SPI_Transmit(&hspi1, &tdata, 1, 100);
-    cs_high(); 
-    
-
+	uint8_t tdata = data;
+	cs_low();
+	display_data();
+	HAL_SPI_Transmit(&hspi1, &tdata, 1, 100);
+	cs_high();
 }
-void display_init (void)
+
+void display_right_orientation(void)
 {
-    //display_power_low();
-    cs_low();
-    display_reset_high();
-    HAL_Delay(20);
-    display_reset_low();
-    HAL_Delay(20);
-    display_reset_high();
-    HAL_Delay(20);
-    display_power_high();
-    HAL_Delay(100);
+	command(SETSEGREMAP);
+	command(COMSCANDEC);
+}
 
-    command(DISPLAYOFF); 
+void display_left_orientation(void)
+{
+	command(0xA0);
+	command(COMSCANINC);
+}
 
-    command(SETDISPLAYCLOCKDIV); // 0x80 - Clock divide ratio/osc. freq
-    command(0xF0);     
+void display_init(void)
+{
+	// display_power_low();
+	cs_low();
+	display_reset_high();
+	HAL_Delay(20);
+	display_reset_low();
+	HAL_Delay(20);
+	display_reset_high();
+	HAL_Delay(20);
+	display_power_high();
+	HAL_Delay(100);
 
-    command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
-    command(0x1F);                     // 0x1F
+	command(DISPLAYOFF);
 
-    command(SETDISPLAYOFFSET); // 0xD3 - Display offset
-    command(0x00);                          //No offset
+	command(SETDISPLAYCLOCKDIV); // 0x80 - Clock divide ratio/osc. freq
+	command(0xF0);
 
-    command(SETCHARGEPMP1); // 0x8D - Display offset
-    command(0x14);          //set(0x10) disable
+	command(SETMULTIPLEX); // 0xA8 - Multiplex ratio
+	command(0x1F);		   // 0x1F
 
-    command(SETSTARTLINE); // 0x40 - set start line address
+	command(SETDISPLAYOFFSET); // 0xD3 - Display offset
+	command(0x00);			   // No offset
 
-    command(RESETINVERT); // 0xA6 - set normal display
+	command(SETCHARGEPMP1); // 0x8D - Display offset
+	command(0x14);			// set(0x10) disable
 
-    command(RESETALLON); // 0xA4 - Disable Entire Display On
+	command(SETSTARTLINE); // 0x40 - set start line address
 
-    command(SETSEGREMAP); // 0xA1 - set segment re-map 128 to 0  
+	command(RESETINVERT); // 0xA6 - set normal display
 
-    command(COMSCANDEC); // 0xC8 - Set COM Output Scan Direction 64 to 0
+	command(RESETALLON); // 0xA4 - Disable Entire Display On
 
-    command(SETCOMPINS); // 0xDA - seg pins hardware config
-    command(0x42);                       // 0x12 -
+	display_right_orientation();
 
-    command(SETCONTRAST);    // 0x81 - set contrast control register
-    command(0x80);           //
+	command(SETCOMPINS); // 0xDA - seg pins hardware config
+	command(0x42);		 // 0x12 -
 
-    command(SETPHASELENGTH); // 0xD9 - set pre-charge period
-    command(0xF1);            
+	command(SETCONTRAST); // 0x81 - set contrast control register
+	command(0x80);		  //
 
-    command(SETVCOMDESELECT);   // 0xDB - set vcomh
-    command(0x40);                       // 0x30
+	command(SETPHASELENGTH); // 0xD9 - set pre-charge period
+	command(0xF1);
 
+	command(SETVCOMDESELECT); // 0xDB - set vcomh
+	command(0x40);			  // 0x30
 
-    command(DISPLAYON);         // 0xAF - Display on
+	command(DISPLAYON); // 0xAF - Display on
 
-      
+	/* Clear screen */
+	SSD1306_Fill(SSD1306_COLOR_WHITE);
 
-    	/* Clear screen */
-	  SSD1306_Fill(SSD1306_COLOR_WHITE);
-	
 	/* Update screen */
-	  SSD1306_UpdateScreen();
-	
+	SSD1306_UpdateScreen();
+
 	/* Set default values */
-	  SSD1306.CurrentX = 0;
-	  SSD1306.CurrentY = 0;
+	SSD1306.CurrentX = 0;
+	SSD1306.CurrentY = 0;
 
-    SSD1306.Initialized = 1;
-
+	SSD1306.Initialized = 1;
 }
-void SSD1306_UpdateScreen(void) {
-  unsigned char i,j=0;
-	for(i=0;i<0x04;i++)
+void SSD1306_UpdateScreen(void)
+{
+	unsigned char i, j = 0;
+	for (i = 0; i < 0x04; i++)
 	{
 		Set_Page_Address(i);
-  		Set_Column_Address(0x00);
-  		for(j=0;j<0x80;j++)
+		Set_Column_Address(0x00);
+		for (j = 0; j < 0x80; j++)
 		{
-		  data(pixelBuffer[i*0x80+j]);
+			data(pixelBuffer[i * 0x80 + j]);
 		}
 	}
 }
 void SSD1306_ClearScreen()
 {
-  for (uint16_t i = 0; i < sizeof(SSD1306_Buffer); i++)
-  {
-    pixelBuffer[i] = 0x00;
-  }
-  SSD1306_UpdateScreen();
-}
-void SSD1306_Fill(SSD1306_COLOR_t color) {
-	/* Set memory */
-  uint8_t i,j;
-  uint8_t fill;
-  if (color == SSD1306_COLOR_BLACK)
-  fill = 0x00;
-  else
-  fill = 0xFF;
-    for (uint16_t k = 0; k < SSD1306_BUFFER_SIZE; k++)
-  {
-    pixelBuffer[k] = fill;
-  }
-
-	for(i=0;i<0x04;i++)
+	for (uint16_t i = 0; i < sizeof(SSD1306_Buffer); i++)
 	{
-	Set_Page_Address(i);
-  Set_Column_Address(0x00);
-  for(j=0;j<0x80;j++)
-		{
-		  data(pixelBuffer[i*0x80+j]);
-		}
+		pixelBuffer[i] = 0x00;
+	}
+	SSD1306_UpdateScreen();
+}
+void SSD1306_Fill(SSD1306_COLOR_t color)
+{
+	/* Set memory */
+	uint8_t i, j;
+	uint8_t fill;
+	if (color == SSD1306_COLOR_BLACK)
+		fill = 0x00;
+	else
+		fill = 0xFF;
+	for (uint16_t k = 0; k < SSD1306_BUFFER_SIZE; k++)
+	{
+		pixelBuffer[k] = fill;
 	}
 
-
+	for (i = 0; i < 0x04; i++)
+	{
+		Set_Page_Address(i);
+		Set_Column_Address(0x00);
+		for (j = 0; j < 0x80; j++)
+		{
+			data(pixelBuffer[i * 0x80 + j]);
+		}
+	}
 }
-void SSD1306_ToggleInvert(void) {
+void SSD1306_ToggleInvert(void)
+{
 	uint16_t i;
-	
+
 	/* Toggle invert */
 	SSD1306.Inverted = !SSD1306.Inverted;
-	
+
 	/* Do memory toggle */
-	for (i = 0; i < sizeof(pixelBuffer); i++) {
+	for (i = 0; i < sizeof(pixelBuffer); i++)
+	{
 		pixelBuffer[i] = ~pixelBuffer[i];
 	}
 }
-void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color) {
+void SSD1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color)
+{
 	if (
 		x >= SSD1306_WIDTH ||
-		y >= SSD1306_HEIGHT
-	) {
+		y >= SSD1306_HEIGHT)
+	{
 		/* Error */
 		return;
 	}
-	
+
 	/* Check if pixels are inverted */
-	if (SSD1306.Inverted) {
+	if (SSD1306.Inverted)
+	{
 		color = (SSD1306_COLOR_t)!color;
 	}
-	
+
 	/* Set color */
-	if (color == SSD1306_COLOR_WHITE) {
+	if (color == SSD1306_COLOR_WHITE)
+	{
 		pixelBuffer[x + (y / 8) * SSD1306_WIDTH] |= 1 << (y % 8);
-	} else {
+	}
+	else
+	{
 		pixelBuffer[x + (y / 8) * SSD1306_WIDTH] &= ~(1 << (y % 8));
 	}
 }
-void SSD1306_GotoXY(uint16_t x, uint16_t y) {
+void SSD1306_GotoXY(uint16_t x, uint16_t y)
+{
 	/* Set write pointers */
 	SSD1306.CurrentX = x;
 	SSD1306.CurrentY = y;
 }
-char SSD1306_Putc(char ch, FontDef_t* Font, SSD1306_COLOR_t color) {
+char SSD1306_Putc(char ch, FontDef_t *Font, SSD1306_COLOR_t color)
+{
 	uint32_t i, b, j;
-	
+
 	/* Check available space in LCD */
-//	if (
+	//	if (
 	//	SSD1306_WIDTH <= (SSD1306.CurrentX + Font->FontWidth) ||
 	//	SSD1306_HEIGHT <= (SSD1306.CurrentY + Font->FontHeight)
 	//) {
-		/* Error */
+	/* Error */
 	//	return 0;
 	//}
-	
+
 	/* Go through font */
-	for (i = 0; i < Font->FontHeight; i++) {
+	for (i = 0; i < Font->FontHeight; i++)
+	{
 		b = Font->data[(ch - 32) * Font->FontHeight + i];
-		for (j = 0; j < Font->FontWidth; j++) {
-			if ((b << j) & 0x8000) {
-				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t) color);
-			} else {
+		for (j = 0; j < Font->FontWidth; j++)
+		{
+			if ((b << j) & 0x8000)
+			{
+				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t)color);
+			}
+			else
+			{
 				SSD1306_DrawPixel(SSD1306.CurrentX + j, (SSD1306.CurrentY + i), (SSD1306_COLOR_t)!color);
 			}
 		}
 	}
-	
+
 	/* Increase pointer */
 	SSD1306.CurrentX += Font->FontWidth;
-	
+
 	/* Return character written */
 	return ch;
 }
-char SSD1306_Puts(char* str, FontDef_t* Font, SSD1306_COLOR_t color) {
+char SSD1306_Puts(char *str, FontDef_t *Font, SSD1306_COLOR_t color)
+{
 	/* Write characters */
-	while (*str) {
+	while (*str)
+	{
 		/* Write character by character */
-		if (SSD1306_Putc(*str, Font, color) != *str) {
+		if (SSD1306_Putc(*str, Font, color) != *str)
+		{
 			/* Return error */
 			return *str;
 		}
-		
+
 		/* Increase string pointer */
 		str++;
 	}
-	
+
 	/* Everything OK, zero should be returned */
 	return *str;
 }
-void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD1306_COLOR_t c) {
-	int16_t dx, dy, sx, sy, err, e2, i, tmp; 
-	
+void SSD1306_DrawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, SSD1306_COLOR_t c)
+{
+	int16_t dx, dy, sx, sy, err, e2, i, tmp;
+
 	/* Check for overflow */
-	if (x0 >= SSD1306_WIDTH) {
+	if (x0 >= SSD1306_WIDTH)
+	{
 		x0 = SSD1306_WIDTH - 1;
 	}
-	if (x1 >= SSD1306_WIDTH) {
+	if (x1 >= SSD1306_WIDTH)
+	{
 		x1 = SSD1306_WIDTH - 1;
 	}
-	if (y0 >= SSD1306_HEIGHT) {
+	if (y0 >= SSD1306_HEIGHT)
+	{
 		y0 = SSD1306_HEIGHT - 1;
 	}
-	if (y1 >= SSD1306_HEIGHT) {
+	if (y1 >= SSD1306_HEIGHT)
+	{
 		y1 = SSD1306_HEIGHT - 1;
 	}
-	
-	dx = (x0 < x1) ? (x1 - x0) : (x0 - x1); 
-	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
-	sx = (x0 < x1) ? 1 : -1; 
-	sy = (y0 < y1) ? 1 : -1; 
-	err = ((dx > dy) ? dx : -dy) / 2; 
 
-	if (dx == 0) {
-		if (y1 < y0) {
+	dx = (x0 < x1) ? (x1 - x0) : (x0 - x1);
+	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1);
+	sx = (x0 < x1) ? 1 : -1;
+	sy = (y0 < y1) ? 1 : -1;
+	err = ((dx > dy) ? dx : -dy) / 2;
+
+	if (dx == 0)
+	{
+		if (y1 < y0)
+		{
 			tmp = y1;
 			y1 = y0;
 			y0 = tmp;
 		}
-		
-		if (x1 < x0) {
+
+		if (x1 < x0)
+		{
 			tmp = x1;
 			x1 = x0;
 			x0 = tmp;
 		}
-		
+
 		/* Vertical line */
-		for (i = y0; i <= y1; i++) {
+		for (i = y0; i <= y1; i++)
+		{
 			SSD1306_DrawPixel(x0, i, c);
 		}
-		
+
 		/* Return from function */
 		return;
 	}
-	
-	if (dy == 0) {
-		if (y1 < y0) {
+
+	if (dy == 0)
+	{
+		if (y1 < y0)
+		{
 			tmp = y1;
 			y1 = y0;
 			y0 = tmp;
 		}
-		
-		if (x1 < x0) {
+
+		if (x1 < x0)
+		{
 			tmp = x1;
 			x1 = x0;
 			x0 = tmp;
 		}
-		
+
 		/* Horizontal line */
-		for (i = x0; i <= x1; i++) {
+		for (i = x0; i <= x1; i++)
+		{
 			SSD1306_DrawPixel(i, y0, c);
 		}
-		
+
 		/* Return from function */
 		return;
 	}
-	
-	while (1) {
+
+	while (1)
+	{
 		SSD1306_DrawPixel(x0, y0, c);
-		if (x0 == x1 && y0 == y1) {
+		if (x0 == x1 && y0 == y1)
+		{
 			break;
 		}
-		e2 = err; 
-		if (e2 > -dx) {
+		e2 = err;
+		if (e2 > -dx)
+		{
 			err -= dy;
 			x0 += sx;
-		} 
-		if (e2 < dy) {
+		}
+		if (e2 < dy)
+		{
 			err += dx;
 			y0 += sy;
-		} 
+		}
 	}
 }
-void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
+void SSD1306_DrawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c)
+{
 	/* Check input parameters */
 	if (
 		x >= SSD1306_WIDTH ||
-		y >= SSD1306_HEIGHT
-	) {
+		y >= SSD1306_HEIGHT)
+	{
 		/* Return error */
 		return;
 	}
-	
+
 	/* Check width and height */
-	if ((x + w) >= SSD1306_WIDTH) {
+	if ((x + w) >= SSD1306_WIDTH)
+	{
 		w = SSD1306_WIDTH - x;
 	}
-	if ((y + h) >= SSD1306_HEIGHT) {
+	if ((y + h) >= SSD1306_HEIGHT)
+	{
 		h = SSD1306_HEIGHT - y;
 	}
-	
+
 	/* Draw 4 lines */
-	SSD1306_DrawLine(x, y, x + w, y, c);         /* Top line */
+	SSD1306_DrawLine(x, y, x + w, y, c);		 /* Top line */
 	SSD1306_DrawLine(x, y + h, x + w, y + h, c); /* Bottom line */
-	SSD1306_DrawLine(x, y, x, y + h, c);         /* Left line */
+	SSD1306_DrawLine(x, y, x, y + h, c);		 /* Left line */
 	SSD1306_DrawLine(x + w, y, x + w, y + h, c); /* Right line */
 }
-void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c) {
+void SSD1306_DrawFilledRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, SSD1306_COLOR_t c)
+{
 	uint8_t i;
-	
+
 	/* Check input parameters */
 	if (
 		x >= SSD1306_WIDTH ||
-		y >= SSD1306_HEIGHT
-	) {
+		y >= SSD1306_HEIGHT)
+	{
 		/* Return error */
 		return;
 	}
-	
+
 	/* Check width and height */
-	if ((x + w) >= SSD1306_WIDTH) {
+	if ((x + w) >= SSD1306_WIDTH)
+	{
 		w = SSD1306_WIDTH - x;
 	}
-	if ((y + h) >= SSD1306_HEIGHT) {
+	if ((y + h) >= SSD1306_HEIGHT)
+	{
 		h = SSD1306_HEIGHT - y;
 	}
-	
+
 	/* Draw lines */
-	for (i = 0; i <= h; i++) {
+	for (i = 0; i <= h; i++)
+	{
 		/* Draw lines */
 		SSD1306_DrawLine(x, y + i, x + w, y + i, c);
 	}
 }
-void SSD1306_DrawTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color) {
+void SSD1306_DrawTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color)
+{
 	/* Draw lines */
 	SSD1306_DrawLine(x1, y1, x2, y2, color);
 	SSD1306_DrawLine(x2, y2, x3, y3, color);
 	SSD1306_DrawLine(x3, y3, x1, y1, color);
 }
-void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color) {
-	int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 
-	yinc1 = 0, yinc2 = 0, den = 0, num = 0, numadd = 0, numpixels = 0, 
-	curpixel = 0;
-	
-	deltax = 0; //ABS(x2 - x1);
-	deltay = 0; //ABS(y2 - y1);
+void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t x3, uint16_t y3, SSD1306_COLOR_t color)
+{
+	int16_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0,
+			yinc1 = 0, yinc2 = 0, den = 0, num = 0, numadd = 0, numpixels = 0,
+			curpixel = 0;
+
+	deltax = 0; // ABS(x2 - x1);
+	deltay = 0; // ABS(y2 - y1);
 	x = x1;
 	y = y1;
 
-	if (x2 >= x1) {
+	if (x2 >= x1)
+	{
 		xinc1 = 1;
 		xinc2 = 1;
-	} else {
+	}
+	else
+	{
 		xinc1 = -1;
 		xinc2 = -1;
 	}
 
-	if (y2 >= y1) {
+	if (y2 >= y1)
+	{
 		yinc1 = 1;
 		yinc2 = 1;
-	} else {
+	}
+	else
+	{
 		yinc1 = -1;
 		yinc2 = -1;
 	}
 
-	if (deltax >= deltay){
+	if (deltax >= deltay)
+	{
 		xinc1 = 0;
 		yinc2 = 0;
 		den = deltax;
 		num = deltax / 2;
 		numadd = deltay;
 		numpixels = deltax;
-	} else {
+	}
+	else
+	{
 		xinc2 = 0;
 		yinc1 = 0;
 		den = deltay;
@@ -430,11 +522,13 @@ void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t 
 		numpixels = deltay;
 	}
 
-	for (curpixel = 0; curpixel <= numpixels; curpixel++) {
+	for (curpixel = 0; curpixel <= numpixels; curpixel++)
+	{
 		SSD1306_DrawLine(x, y, x3, y3, color);
 
 		num += numadd;
-		if (num >= den) {
+		if (num >= den)
+		{
 			num -= den;
 			x += xinc1;
 			y += yinc1;
@@ -443,274 +537,368 @@ void SSD1306_DrawFilledTriangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t 
 		y += yinc2;
 	}
 }
-void SSD1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
+void SSD1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c)
+{
 	int16_t f = 1 - r;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * r;
 	int16_t x = 0;
 	int16_t y = r;
 
-    SSD1306_DrawPixel(x0, y0 + r, c);
-    SSD1306_DrawPixel(x0, y0 - r, c);
-    SSD1306_DrawPixel(x0 + r, y0, c);
-    SSD1306_DrawPixel(x0 - r, y0, c);
+	SSD1306_DrawPixel(x0, y0 + r, c);
+	SSD1306_DrawPixel(x0, y0 - r, c);
+	SSD1306_DrawPixel(x0 + r, y0, c);
+	SSD1306_DrawPixel(x0 - r, y0, c);
 
-    while (x < y) {
-        if (f >= 0) {
-            y--;
-            ddF_y += 2;
-            f += ddF_y;
-        }
-        x++;
-        ddF_x += 2;
-        f += ddF_x;
+	while (x < y)
+	{
+		if (f >= 0)
+		{
+			y--;
+			ddF_y += 2;
+			f += ddF_y;
+		}
+		x++;
+		ddF_x += 2;
+		f += ddF_x;
 
-        SSD1306_DrawPixel(x0 + x, y0 + y, c);
-        SSD1306_DrawPixel(x0 - x, y0 + y, c);
-        SSD1306_DrawPixel(x0 + x, y0 - y, c);
-        SSD1306_DrawPixel(x0 - x, y0 - y, c);
+		SSD1306_DrawPixel(x0 + x, y0 + y, c);
+		SSD1306_DrawPixel(x0 - x, y0 + y, c);
+		SSD1306_DrawPixel(x0 + x, y0 - y, c);
+		SSD1306_DrawPixel(x0 - x, y0 - y, c);
 
-        SSD1306_DrawPixel(x0 + y, y0 + x, c);
-        SSD1306_DrawPixel(x0 - y, y0 + x, c);
-        SSD1306_DrawPixel(x0 + y, y0 - x, c);
-        SSD1306_DrawPixel(x0 - y, y0 - x, c);
-    }
+		SSD1306_DrawPixel(x0 + y, y0 + x, c);
+		SSD1306_DrawPixel(x0 - y, y0 + x, c);
+		SSD1306_DrawPixel(x0 + y, y0 - x, c);
+		SSD1306_DrawPixel(x0 - y, y0 - x, c);
+	}
 }
-void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
+void SSD1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c)
+{
 	int16_t f = 1 - r;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * r;
 	int16_t x = 0;
 	int16_t y = r;
 
-    SSD1306_DrawPixel(x0, y0 + r, c);
-    SSD1306_DrawPixel(x0, y0 - r, c);
-    SSD1306_DrawPixel(x0 + r, y0, c);
-    SSD1306_DrawPixel(x0 - r, y0, c);
-    SSD1306_DrawLine(x0 - r, y0, x0 + r, y0, c);
+	SSD1306_DrawPixel(x0, y0 + r, c);
+	SSD1306_DrawPixel(x0, y0 - r, c);
+	SSD1306_DrawPixel(x0 + r, y0, c);
+	SSD1306_DrawPixel(x0 - r, y0, c);
+	SSD1306_DrawLine(x0 - r, y0, x0 + r, y0, c);
 
-    while (x < y) {
-        if (f >= 0) {
-            y--;
-            ddF_y += 2;
-            f += ddF_y;
-        }
-        x++;
-        ddF_x += 2;
-        f += ddF_x;
+	while (x < y)
+	{
+		if (f >= 0)
+		{
+			y--;
+			ddF_y += 2;
+			f += ddF_y;
+		}
+		x++;
+		ddF_x += 2;
+		f += ddF_x;
 
-        SSD1306_DrawLine(x0 - x, y0 + y, x0 + x, y0 + y, c);
-        SSD1306_DrawLine(x0 + x, y0 - y, x0 - x, y0 - y, c);
+		SSD1306_DrawLine(x0 - x, y0 + y, x0 + x, y0 + y, c);
+		SSD1306_DrawLine(x0 + x, y0 - y, x0 - x, y0 - y, c);
 
-        SSD1306_DrawLine(x0 + y, y0 + x, x0 - y, y0 + x, c);
-        SSD1306_DrawLine(x0 + y, y0 - x, x0 - y, y0 - x, c);
-    }
+		SSD1306_DrawLine(x0 + y, y0 + x, x0 - y, y0 + x, c);
+		SSD1306_DrawLine(x0 + y, y0 - x, x0 - y, y0 - x, c);
+	}
 }
 void Set_Page_Address(unsigned char add)
 {
-  add=0xb0|add;
-  command(add);
+	add = 0xb0 | add;
+	command(add);
 	return;
 }
 void Set_Column_Address(unsigned char add)
 {
-  command((0x10|(add>>4)));
-	command((0x0f&add));
+	command((0x10 | (add >> 4)));
+	command((0x0f & add));
 	return;
 }
 void Display_Picture(unsigned char pic[])
 {
-  unsigned char i,j=0;
-	for(i=0;i<0x04;i++)
+	unsigned char i, j = 0;
+	for (i = 0; i < 0x04; i++)
 	{
-	Set_Page_Address(i);
-  Set_Column_Address(0x00);
-  for(j=0;j<0x80;j++)
+		Set_Page_Address(i);
+		Set_Column_Address(0x00);
+		for (j = 0; j < 0x80; j++)
 		{
-		  data(pic[i*0x80+j]);
+			data(pic[i * 0x80 + j]);
 		}
 	}
-  return;
+	return;
 }
-void display_demo (void)
+void display_demo(void)
 {
 
-    unsigned char pic[]= 
-{
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb, 0xf3, 0xf5, 0xf4, 0xf1, 
-  0xf3, 0xf3, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01, 0x00, 
-  0x80, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xc4, 
-  0xc4, 0x84, 0x80, 0x10, 0x39, 0xff, 0xff, 0xff, 0xe3, 0x81, 0x80, 0x18, 0x3c, 0x24, 0x24, 0x24, 
-  0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x3c, 0xff, 
-  0xff, 0xff, 0xff, 0xfc, 0xf8, 0xf8, 0xf1, 0xe3, 0xc7, 0x8f, 0x0f, 0x1f, 0x3f, 0x3f, 0x3f, 0x1f, 
-  0x8f, 0xc7, 0xe3, 0xe3, 0xf1, 0xf8, 0xfc, 0xff, 0xff, 0xff, 0xe3, 0x81, 0x80, 0x1c, 0x3c, 0x3c, 
-  0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x18, 0x81, 
-  0xc1, 0xe7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-  0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
-};
-for (int i = 0; i < sizeof(pic); i++) {
-    pic[i] = ~pic[i];
-}
+	unsigned char pic[] =
+		{
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfb, 0xf3, 0xf5, 0xf4, 0xf1,
+			0xf3, 0xf3, 0xf0, 0xf0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01, 0x00,
+			0x80, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xe4, 0xc4,
+			0xc4, 0x84, 0x80, 0x10, 0x39, 0xff, 0xff, 0xff, 0xe3, 0x81, 0x80, 0x18, 0x3c, 0x24, 0x24, 0x24,
+			0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x24, 0x3c, 0xff,
+			0xff, 0xff, 0xff, 0xfc, 0xf8, 0xf8, 0xf1, 0xe3, 0xc7, 0x8f, 0x0f, 0x1f, 0x3f, 0x3f, 0x3f, 0x1f,
+			0x8f, 0xc7, 0xe3, 0xe3, 0xf1, 0xf8, 0xfc, 0xff, 0xff, 0xff, 0xe3, 0x81, 0x80, 0x1c, 0x3c, 0x3c,
+			0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x3c, 0x18, 0x81,
+			0xc1, 0xe7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+	for (int i = 0; i < sizeof(pic); i++)
+	{
+		pic[i] = ~pic[i];
+	}
 	command(0xa6); //
-    Display_Picture(pic);
-    HAL_Delay(700);
-    
-   // HAL_Delay(1000);
-  //  command(0xa6);
+	Display_Picture(pic);
+	HAL_Delay(700);
 
+	// HAL_Delay(1000);
+	//  command(0xa6);
 }
-void display_test (void)
+void display_test(void)
 {
 	command(0xa6);
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
 	SSD1306_UpdateScreen();
 }
-void show_vbat( void)
+
+void show_vbat(void)
 {
-/* 	4в-4палочки, 
-4-3.8-3п,
- 3.8-3.6-2п,
- 3.6 и ниже 1п. 
-Или если возможно после 3.4 мигает */
+	/* 	4в-4палочки,
+	4-3.8-3п,
+	 3.8-3.6-2п,
+	 3.6 и ниже 1п.
+	Или если возможно после 3.4 мигает */
 	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
-    if (vbat_value > 4.0)  
-    	databat = 4;
+	if (vbat_value > 4.0)
+		databat = 4;
+		
 	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 4))
 		databat = 4;
 
-	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 3)) 
+	else if ((vbat_value > 3.9) && (vbat_value < 4.0) && (databat == 3))
 		databat = 3;
-    else if ( (vbat_value > 3.8) && (vbat_value < 3.9) )
-        databat = 3;
+	else if ((vbat_value > 3.8) && (vbat_value < 3.9))
+		databat = 3;
 	else if ((vbat_value > 3.7) && (vbat_value < 3.8) && (databat == 3))
-	 	databat = 3;
+		databat = 3;
+	
 
 	else if ((vbat_value > 3.7) && (vbat_value < 3.8) && (databat == 2))
-		databat = 2;	
-    else if ( (vbat_value > 3.6) && (vbat_value < 3.7) )
-        databat = 2;
+		databat = 2;
+	else if ((vbat_value > 3.6) && (vbat_value < 3.7))
+		databat = 2;
 	else if ((vbat_value > 3.5) && (vbat_value < 3.6) && (databat == 2))
 		databat = 2;
+	else if ((vbat_value > 3.6) && (vbat_value < 3.8) && (motor_init_flag == 0))
+		databat = 2;
+	
 
 	else if ((vbat_value > 3.5) && (vbat_value < 3.6) && (databat == 1))
-		databat = 1;	
-    else if ( (vbat_value > 3.4) && (vbat_value < 3.5) )
-        databat = 1;
+		databat = 1;
+	else if ((vbat_value > 3.4) && (vbat_value < 3.5))
+		databat = 1;
 	else if ((vbat_value > 3.3) && (vbat_value < 3.4) && (databat == 1))
 		databat = 1;
+	else if ((vbat_value > 3.3) && (vbat_value < 3.6) && (motor_init_flag == 0))
+		databat = 1;	
 
 	else if ((vbat_value > 3.3) && (vbat_value < 3.4) && (databat == 0))
 		databat = 0;
-    else if (vbat_value < 3.3)  
-       databat = 0;
-	switch (databat)
+	else if (vbat_value < 3.3)
+		databat = 0;
+
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
 	{
-
-	case 0:
-    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_BLACK);
-		if(sec_to_min % 2 == 0)
+		switch (databat)
 		{
-			SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
-		}
-    	else
-		{
-			SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_BLACK);
-		}
-		break;
+		case 0:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_BLACK);
+			if (sec_to_min % 2 == 0)
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			}
+			else
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_BLACK);
+			}
+			break;
 
-	case 1:
-    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
-		break;
-	case 2:
-    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
-		break;
-	case 3:
-    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_BLACK);
-    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
-		break;
-	case 4:
-    	SSD1306_DrawFilledRectangle(119, 7,  6,  2, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 10, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 16, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 22, 10, 3, SSD1306_COLOR_WHITE);
-    	SSD1306_DrawFilledRectangle(117, 28, 10, 3, SSD1306_COLOR_WHITE);
-		break;
-	default:
-		break;
+		case 1:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 2:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 3:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 4:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (databat)
+		{
+		case 0:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			if (sec_to_min % 2 == 0)
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			}
+			else
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			}
+			break;
+
+		case 1:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 2:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 3:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 4:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		default:
+			break;
+		}
 	}
 }
-void show_motor_duty (void)
+void show_motor_duty(void)
 {
-	//float datas = (((float)(speed) / 63.0 ) * 9.0 * 9.0 );
+	// float datas = (((float)(speed) / 63.0 ) * 9.0 * 9.0 );
 	float datas = (float)(speed);
 	char duty_data1[2] = {'0'};
 	char duty_data2[2] = {'0'};
 	duty_data1[0] = (uint8_t)datas / 10 + '0';
 	duty_data2[0] = (uint8_t)datas % 10 + '0';
-	SSD1306_GotoXY(5,9);
-	SSD1306_Puts(duty_data1, &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(37,9);
-	SSD1306_Puts(duty_data2, &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(21,9);
-	SSD1306_Putc('.', &Font_16x26, SSD1306_COLOR_WHITE);
-	SSD1306_GotoXY(55,22);
-	SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
-
-}
-void motor_show_direction (bool direction)
-{
-	SSD1306_GotoXY(55,9);
-	if (direction)
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
 	{
-		SSD1306_Putc('N', &Font_7x10, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_FIRST_SYMBOL_X, MOTOR_DUTY_FIRST_SYMBOL_Y);
+		SSD1306_Puts(duty_data1, &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_SECOND_SYMBOL_X, MOTOR_DUTY_SECOND_SYMBOL_Y);
+		SSD1306_Puts(duty_data2, &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_DOT_SYMBOL_X, MOTOR_DUTY_DOT_SYMBOL_Y);
+		SSD1306_Putc('.', &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_V_SYMBOL_X, MOTOR_DUTY_V_SYMBOL_Y);
+		SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
 	}
 	else
 	{
-		SSD1306_Putc('G', &Font_7x10, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_FIRST_SYMBOL_X - SHIFT_X, MOTOR_DUTY_FIRST_SYMBOL_Y - SHIFT_Y);
+		SSD1306_Puts(duty_data1, &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_SECOND_SYMBOL_X - SHIFT_X, MOTOR_DUTY_SECOND_SYMBOL_Y - SHIFT_Y);
+		SSD1306_Puts(duty_data2, &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_DOT_SYMBOL_X - SHIFT_X, MOTOR_DUTY_DOT_SYMBOL_Y - SHIFT_Y);
+		SSD1306_Putc('.', &Font_16x26, SSD1306_COLOR_WHITE);
+		SSD1306_GotoXY(MOTOR_DUTY_V_SYMBOL_X - SHIFT_X, MOTOR_DUTY_V_SYMBOL_Y - SHIFT_Y);
+		SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
 	}
-	
 }
-void show_motor_speed (void)
+void motor_show_direction(bool direction)
+{
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
+	{
+		SSD1306_GotoXY(MOTOR_DIRECTION_X, MOTOR_DIRECTION_Y);
+		if (direction)
+		{
+			SSD1306_Putc('N', &Font_7x10, SSD1306_COLOR_WHITE);
+		}
+		else
+		{
+			SSD1306_Putc('G', &Font_7x10, SSD1306_COLOR_WHITE);
+		}
+	}
+	else
+	{
+		SSD1306_GotoXY(MOTOR_DIRECTION_X - SHIFT_X, MOTOR_DIRECTION_Y - SHIFT_Y);
+		if (direction)
+		{
+			SSD1306_Putc('N', &Font_7x10, SSD1306_COLOR_WHITE);
+		}
+		else
+		{
+			SSD1306_Putc('G', &Font_7x10, SSD1306_COLOR_WHITE);
+		}
+	}
+}
+void show_motor_speed(void)
 {
 	char speed_data[6] = {'0', '0', '0', 'H', 'z'};
-	uint32_t datam = motor_read(RC_STATUS1)*33*2; //rad*s
-	
+	uint32_t datam = motor_read(RC_STATUS1) * 33 * 2; // rad*s
+
 	double freq = (double)datam / 62.831853;
 	uint16_t freq_int = (uint16_t)freq;
 	if (freq_int >= 200)
@@ -729,43 +917,59 @@ void show_motor_speed (void)
 	}
 	speed_data[1] = freq_int / 10 + '0';
 	speed_data[2] = freq_int % 10 + '0';
-	SSD1306_GotoXY(70, 8);
+	if (  (speed_data[0]=='0') && (speed_data[1]=='0') && (speed_data[2] < '2'))
+	{
+		speed_data[2] = '0';
+	}
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
+	{
+		SSD1306_GotoXY(MOTOR_SPEED_X, MOTOR_SPEED_Y);
+	}
+	else
+	{
+		SSD1306_GotoXY(MOTOR_SPEED_X - SHIFT_X, MOTOR_SPEED_Y - SHIFT_Y);
+	}
 	SSD1306_Puts(speed_data, &Font_7x10, SSD1306_COLOR_WHITE);
 }
-void show_time (void)
+void show_time(void)
 {
-	char data[6] = {'0', '0', ':',  '0','0', 'h'};
+	char data[6] = {'0', '0', ':', '0', '0', 'h'};
 	uint8_t sec_tmp = 0;
 	uint8_t min_tmp = 0;
-	sec_tmp = time%60;
-	min_tmp = time/60;
-	
-	data[4] = sec_tmp%10 + '0';
-	data[3] = sec_tmp/10 + '0';
+	sec_tmp = time % 60;
+	min_tmp = time / 60;
 
-	data[1] = min_tmp%10 + '0';
-	data[0] = min_tmp/10 + '0';
+	data[4] = sec_tmp % 10 + '0';
+	data[3] = sec_tmp / 10 + '0';
+
+	data[1] = min_tmp % 10 + '0';
+	data[0] = min_tmp / 10 + '0';
 
 	if (data[4] > '9')
-	 {
+	{
 		data[3] += 1;
 		data[4] = '0';
-	 }
-	 if (data[1] > '9')
-	 {
+	}
+	if (data[1] > '9')
+	{
 		data[0] += 1;
 		data[1] = '0';
-	 }
-	 if (data[0] > '9')
-	 {
+	}
+	if (data[0] > '9')
+	{
 		data[0] = '0';
 		data[1] = '0';
 		data[3] = '0';
 		data[4] = '0';
 		time = 0;
-	 }	
-	SSD1306_GotoXY(70,24);
-	//SSD1306_GotoXY(50,15);
+	}
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
+	{
+		SSD1306_GotoXY(TIME_X, TIME_Y);
+	}
+	else
+	{
+		SSD1306_GotoXY(TIME_X - SHIFT_X, TIME_Y - SHIFT_Y);
+	}
 	SSD1306_Puts(data, &Font_7x10, SSD1306_COLOR_WHITE);
-
 }

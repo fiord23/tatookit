@@ -34,7 +34,8 @@
 #include "flash.h"
 #include <stdbool.h>
 #include "stdint.h"
-
+#include "eeprom.h"
+#include "stm32l4xx_hal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +48,7 @@
 //<#define MOTOR_SPEED_WAKEUP 53
 #define MOTOR_SPEED_WAKEUP 68 // 0.1 step
 #define ADDR_FLASH_PAGE ((uint32_t)0x0803F800)
+
 
 /* USER CODE END PD */
 
@@ -69,7 +71,8 @@ bool sleep = 0;
 bool motor_init_flag = 0;
 bool sleep_status = 0;
 bool motor_speed_flag = 0;
-bool flash_write_speed = false;
+bool eeprom_write_speed = false;
+bool display_orientation = true; // if true = right
 uint16_t time_sleep = 0;
 uint8_t sec_to_min = 0;
 uint16_t counter_first_start = 0;
@@ -85,6 +88,15 @@ uint8_t ffirst_moment = 0;
 uint8_t fw_version = 0;
 uint8_t bug = 0;
 char c_version_fw[4] = "0.0";
+uint8_t data_eeprom_read[1] = {0};
+uint16_t mempage = 1;
+uint8_t eeprom_bytes = 1;
+uint8_t eeprom_test[1] = {0x77};
+static uint8_t comboCount = 0;
+static uint32_t lastPressTime = 0;
+static bool buttonsReleased = true;
+
+#define COMBO_TIMEOUT_MS 500
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,6 +106,7 @@ char c_version_fw[4] = "0.0";
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
 void ShowVersion(void)
 {
   switch (fw_version)
@@ -119,7 +132,61 @@ void ShowVersion(void)
   SSD1306_Puts(c_version_fw, &Font_16x26, SSD1306_COLOR_WHITE);
   SSD1306_UpdateScreen();
 }
+
+void Buttons_Process(void)
+{
+  uint32_t now = HAL_GetTick();
+
+  bool pressed =
+      (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) &&
+      (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1));
+
+  // ждём отпускания кнопок
+  if (!pressed)
+  {
+    buttonsReleased = true;
+    return;
+  }
+
+  // новое нажатие
+  if (pressed && buttonsReleased)
+  {
+    buttonsReleased = false;
+
+    // слишком большая пауза — начинаем заново
+    if ((now - lastPressTime) > COMBO_TIMEOUT_MS)
+    {
+      comboCount = 0;
+    }
+
+    lastPressTime = now;
+    comboCount++;
+
+    // 3 быстрых нажатия
+    if (comboCount >= 3)
+    {
+      comboCount = 0;
+
+      display_orientation = !display_orientation;
+
+      if (display_orientation)
+      {
+        display_right_orientation();
+        SSD1306_Fill(SSD1306_COLOR_BLACK);
+        SSD1306_UpdateScreen();
+      }
+      else
+      {
+        display_left_orientation();
+        SSD1306_Fill(SSD1306_COLOR_BLACK);
+        SSD1306_UpdateScreen();
+      }
+    }
+  }
+}
 /* USER CODE END 0 */
+
+
 
 /**
  * @brief  The application entry point.
@@ -151,7 +218,9 @@ int main(void)
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
   }
-  Flash_LoadOrInit();
+  //Flash_LoadOrInit();
+  MX_I2C3_Init();
+  eeprom_speed_init();
   MX_SPI1_Init();
   adc_init();
   display_init();
@@ -160,7 +229,7 @@ int main(void)
   SSD1306_Fill(SSD1306_COLOR_BLACK);
   SSD1306_UpdateScreen();
 
-  Flash_FW_LoadOrInit();
+  eeprom_fw_init();
   ShowVersion();
 
   uint32_t last_action = HAL_GetTick();
@@ -215,22 +284,20 @@ int main(void)
     }
   }
 
-  // if (changed)
-  // {
-  //   Flash_FW_Save(fw_version);
-  //}
-  Flash_FW_Save(fw_version);
-  Flash_FW_Save(fw_version);
+  eeprom_fw_save(fw_version);
   HAL_Delay(200);
 
   counter_first_start = 0;
   HAL_Delay(50);
 
   dac_init();
-  MX_I2C3_Init();
+  
 
   button_interrupt_init();
   HAL_Delay(50);
+
+
+
   motor_init();
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
   display_power_high();
@@ -240,11 +307,6 @@ int main(void)
   display_test();
   time_init();
 
-  // show_motor_speed();
-  char speed_data_0[6] = {'0', '0', '0', 'H', 'z'};
-  SSD1306_GotoXY(70, 8);
-  SSD1306_Puts(speed_data_0, &Font_7x10, SSD1306_COLOR_WHITE);
-
   dac_data_send(993);
   HAL_Delay(10);
   dac_data_send(4000);
@@ -253,12 +315,14 @@ int main(void)
 
   HAL_Delay(10);
   show_vbat();
+  show_motor_speed();
+  show_motor_duty();
   SSD1306_UpdateScreen();
 
   /* USER CODE END SysInit */
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  Flash_FW_Save(fw_version);
+  eeprom_fw_save(fw_version);
   show_vbat();
   /* USER CODE END 2 */
   /* Infinite loop */
@@ -279,7 +343,7 @@ int main(void)
             speed = MOTOR_SPEED_HIGH;
 
           motor_speed_write(speed);
-          flash_write_speed = true;
+          eeprom_write_speed = true;
           show_motor_duty();
           HAL_Delay(1);
           if (bug == 0)
@@ -297,7 +361,7 @@ int main(void)
           if (speed < MOTOR_SPEED_LOW)
             speed = MOTOR_SPEED_LOW;
           motor_speed_write(speed);
-          flash_write_speed = true;
+          eeprom_write_speed = true;
           show_motor_duty();
           HAL_Delay(1);
           if (bug == 0)
@@ -318,7 +382,7 @@ int main(void)
         time_stall = 0;
       }
 
-
+      Buttons_Process();
       if (buttons_pressed == 0)
       {
         show_motor_duty();
@@ -341,8 +405,6 @@ int main(void)
         if (bug == 0)
           SSD1306_UpdateScreen();
       }
-
-
 
       if ((!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6)) && (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1)))
       {
@@ -373,10 +435,10 @@ int main(void)
       show_vbat();
       if (bug == 0)
         SSD1306_UpdateScreen();
-      if (flash_write_speed == true)
+      if (eeprom_write_speed == true)
       {
-        flash_write_speed = false;
-        Flash_Save(speed);
+        eeprom_write_speed = false;
+        eeprom_speed_save(speed);
       }
       /* USER CODE END WHILE */
       if (ffirst_moment == 0)
@@ -415,7 +477,7 @@ void EXTI1_IRQHandler(void) // PB1 BUTTON -
   if (speed < MOTOR_SPEED_LOW)
     speed = MOTOR_SPEED_LOW;
   motor_speed_write(speed);
-  flash_write_speed = true;
+  eeprom_write_speed = true;
   button_counter_minus = 0;
 }
 
@@ -426,7 +488,7 @@ void EXTI9_5_IRQHandler(void) // PB6 BUTTON +
   if (speed > MOTOR_SPEED_HIGH)
     speed = MOTOR_SPEED_HIGH;
   motor_speed_write(speed);
-  flash_write_speed = true;
+  eeprom_write_speed = true;
   button_counter_plus = 0;
 }
 
@@ -490,7 +552,7 @@ void EXTI15_10_IRQHandler(void)
   }
 
   motor_speed_write(speed);
-  flash_write_speed = true;
+  eeprom_write_speed = true;
   time_stall = HAL_GetTick();
   flag_motor = 1;
   time_sleep = 0;

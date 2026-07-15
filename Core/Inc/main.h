@@ -91,6 +91,8 @@ void Error_Handler(void);
 #define BUTTON_2_GPIO_Port GPIOB
 #define NSLEEP_Pin GPIO_PIN_7
 #define NSLEEP_GPIO_Port GPIOB
+#define WRITE_PROTECT_EEPROM  GPIO_PIN_14
+#define WRITE_PROTECT_EEPROM_PORT  GPIOC
 
 /* USER CODE BEGIN Private defines */
 
