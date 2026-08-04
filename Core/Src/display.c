@@ -56,7 +56,7 @@ extern bool motor_init_flag;
 float vbat_value = 0.0;
 uint8_t hyst_status = 0;
 uint8_t databat = 0;
-extern bool display_orientation;
+extern uint8_t display_orientation;
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
@@ -686,7 +686,125 @@ void display_test(void)
 	SSD1306_Fill(SSD1306_COLOR_BLACK);
 	SSD1306_UpdateScreen();
 }
+void show_vbat_first(void)
+{
+	vbat_value = ((float)ADC_Data[0] * VREF * VBAT_DIV) / ADC_RES + 0.14;
+	if (vbat_value >= 4.0)
+		databat = 4;
+	else if ((vbat_value >= 3.8) && (vbat_value < 4.0))
+		databat = 3;
+	else if ((vbat_value >= 3.6) && (vbat_value < 3.8))
+		databat = 2;
+	else if ((vbat_value >= 3.4) && (vbat_value < 3.6))
+		databat = 2;
+	else if ((vbat_value >= 3.3) && (vbat_value < 3.4))
+		databat = 1;
+	else if ((vbat_value < 3.3))
+		databat = 0;		
+		
+	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
+	{
+		switch (databat)
+		{
+		case 0:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_BLACK);
+			if (sec_to_min % 2 == 0)
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			}
+			else
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_BLACK);
+			}
+			break;
 
+		case 1:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 2:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 3:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 4:
+			SSD1306_DrawFilledRectangle(VBAT_5_X, VBAT_5_Y, 6, 2, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_4_X, VBAT_4_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_3_X, VBAT_3_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X, VBAT_2_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X, VBAT_1_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (databat)
+		{
+		case 0:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			if (sec_to_min % 2 == 0)
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			}
+			else
+			{
+				SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			}
+			break;
+
+		case 1:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 2:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 3:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_BLACK);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		case 4:
+			SSD1306_DrawFilledRectangle(VBAT_5_X - SHIFT_X, VBAT_5_Y - SHIFT_Y, 6, 2, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_4_X - SHIFT_X, VBAT_4_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_3_X - SHIFT_X, VBAT_3_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_2_X - SHIFT_X, VBAT_2_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			SSD1306_DrawFilledRectangle(VBAT_1_X - SHIFT_X, VBAT_1_Y - SHIFT_Y, 10, 3, SSD1306_COLOR_WHITE);
+			break;
+		default:
+			break;
+		}
+	}
+}
 void show_vbat(void)
 {
 	/* 	4в-4палочки,
@@ -867,7 +985,7 @@ void show_motor_duty(void)
 		SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
 	}
 }
-void motor_show_direction(bool direction)
+void motor_show_direction(uint8_t direction)
 {
 	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
 	{
@@ -917,7 +1035,7 @@ void show_motor_speed(void)
 	}
 	speed_data[1] = freq_int / 10 + '0';
 	speed_data[2] = freq_int % 10 + '0';
-	if (  (speed_data[0]=='0') && (speed_data[1]=='0') && (speed_data[2] < '2'))
+	if (  (speed_data[0]==' ') && (speed_data[1]=='0') && (speed_data[2] < '2'))
 	{
 		speed_data[2] = '0';
 	}

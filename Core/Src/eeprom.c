@@ -6,6 +6,8 @@
 extern I2C_HandleTypeDef hi2c3;
 extern uint8_t speed;
 extern uint8_t fw_version;
+extern uint8_t motor_direction;
+extern uint8_t display_orientation;
 uint8_t data_buff[AT24CXX_PAGE_BYTE];
 
 /*------------------------------------Проверка наличия микросхемы памяти EEPROM на шине i2c-------------------------------------------------*/
@@ -158,7 +160,7 @@ uint16_t AT24Cxx_read(uint16_t addMem_read, uint8_t *data_read, uint16_t size_re
 	}
 }
 /*------------------------------------Функция чтения из памяти массива данных(uint8_t)------------------------------------------------------*/
-
+/*SPEED SAVE LOAD*/
 
 void eeprom_speed_init(void)
 {
@@ -183,6 +185,8 @@ void eeprom_speed_save(uint8_t value)
 	AT24Cxx_write(EEPROM_PAGE_SPEED, &value, 1);
 }
 
+
+/*FIRMWARE VERSION SAVE LOAD*/
 void eeprom_fw_init(void)
 {
 	uint8_t fw_reg[1] = {0};
@@ -204,4 +208,51 @@ void eeprom_fw_save(uint8_t value)
 	AT24Cxx_write(EEPROM_PAGE_FW, &value, 1);
 }
 
+
+
+/* MOTOR DIRECTION SAVE LOAD*/
+void motor_direction_init(void)
+{
+	uint8_t fw_reg[1] = {0};
+	 AT24Cxx_read(MOTOR_DIRECTION_PAGE, fw_reg, 1);
+
+    if (fw_reg[0] == 0xFF)
+    {
+        motor_direction = 0;
+        AT24Cxx_write(MOTOR_DIRECTION_PAGE, &motor_direction, 1);
+    }
+    else
+    {
+        motor_direction = fw_reg[0];
+    }
+}
+
+void motor_direction_save(uint8_t value)
+{
+	AT24Cxx_write(MOTOR_DIRECTION_PAGE, &value, 1);
+}
+
+
+/* Display orientation SAVE LOAD*/
+void display_orientation_init(void)
+{
+	uint8_t fw_reg[1] = {0};
+	
+	 AT24Cxx_read(DISPLAY_ORIENTATION_PAGE, fw_reg, 1);
+
+    if (fw_reg[0] == 0xFF)
+    {
+        display_orientation = 0;
+        AT24Cxx_write(DISPLAY_ORIENTATION_PAGE, &display_orientation, 1);
+    }
+    else
+    {
+        display_orientation = fw_reg[0];
+    }
+}
+
+void display_orientation_save(uint8_t value)
+{
+	AT24Cxx_write(DISPLAY_ORIENTATION_PAGE, &value, 1);
+}
 

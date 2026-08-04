@@ -49,7 +49,6 @@
 #define MOTOR_SPEED_WAKEUP 68 // 0.1 step
 #define ADDR_FLASH_PAGE ((uint32_t)0x0803F800)
 
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -72,7 +71,7 @@ bool motor_init_flag = 0;
 bool sleep_status = 0;
 bool motor_speed_flag = 0;
 bool eeprom_write_speed = false;
-bool display_orientation = true; // if true = right
+uint8_t display_orientation = true; // if true = right
 uint16_t time_sleep = 0;
 uint8_t sec_to_min = 0;
 uint16_t counter_first_start = 0;
@@ -92,6 +91,8 @@ uint8_t data_eeprom_read[1] = {0};
 uint16_t mempage = 1;
 uint8_t eeprom_bytes = 1;
 uint8_t eeprom_test[1] = {0x77};
+uint8_t motor_direction = 0;
+
 static uint8_t comboCount = 0;
 static uint32_t lastPressTime = 0;
 static bool buttonsReleased = true;
@@ -168,25 +169,25 @@ void Buttons_Process(void)
       comboCount = 0;
 
       display_orientation = !display_orientation;
-
+      display_orientation_save(display_orientation);
       if (display_orientation)
       {
         display_right_orientation();
         SSD1306_Fill(SSD1306_COLOR_BLACK);
+        show_motor_speed();
         SSD1306_UpdateScreen();
       }
       else
       {
         display_left_orientation();
         SSD1306_Fill(SSD1306_COLOR_BLACK);
+        show_motor_speed();
         SSD1306_UpdateScreen();
       }
     }
   }
 }
 /* USER CODE END 0 */
-
-
 
 /**
  * @brief  The application entry point.
@@ -218,7 +219,7 @@ int main(void)
       HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     }
   }
-  //Flash_LoadOrInit();
+  // Flash_LoadOrInit();
   MX_I2C3_Init();
   eeprom_speed_init();
   MX_SPI1_Init();
@@ -226,8 +227,22 @@ int main(void)
   display_init();
   display_demo();
 
-  SSD1306_Fill(SSD1306_COLOR_BLACK);
-  SSD1306_UpdateScreen();
+ // SSD1306_Fill(SSD1306_COLOR_BLACK);
+  //SSD1306_UpdateScreen();
+
+  display_orientation_init();
+  if (display_orientation)
+  {
+    display_right_orientation();
+    SSD1306_Fill(SSD1306_COLOR_BLACK);
+    SSD1306_UpdateScreen();
+  }
+  else
+  {
+    display_left_orientation();
+    SSD1306_Fill(SSD1306_COLOR_BLACK);
+    SSD1306_UpdateScreen();
+  }
 
   eeprom_fw_init();
   ShowVersion();
@@ -291,12 +306,9 @@ int main(void)
   HAL_Delay(50);
 
   dac_init();
-  
 
   button_interrupt_init();
   HAL_Delay(50);
-
-
 
   motor_init();
   HAL_GPIO_WritePin(GPIOA, EN_IN1_Pin, GPIO_PIN_RESET);
@@ -307,12 +319,16 @@ int main(void)
   display_test();
   time_init();
 
+  motor_direction_init();
+  motor_show_direction(motor_direction);
+  motor_direction_save(motor_direction);
   dac_data_send(993);
   HAL_Delay(10);
   dac_data_send(4000);
   HAL_Delay(10);
   dac_data_send(993);
-
+  HAL_Delay(10);
+  show_vbat_first();
   HAL_Delay(10);
   show_vbat();
   show_motor_speed();
@@ -420,6 +436,13 @@ int main(void)
           if (HAL_GetTick() - buttons_time >= 1000)
           {
             HAL_GPIO_TogglePin(GPIOA, PH_IN2_Pin);
+            if (motor_direction == 0)
+            {
+              motor_direction = 1;
+            }
+            else if(motor_direction == 1);
+            motor_direction = 0;
+            motor_direction_save(motor_direction);
             buttons_pressed = 2; // обработано, больше не выполняем
           }
         }
