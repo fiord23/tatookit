@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "motor.h"
 #include "stdint.h"
+#include "eeprom.h"
 
 #define ADC_RES 4095.0
 #define VBAT_DIV 2.0
@@ -57,6 +58,7 @@ float vbat_value = 0.0;
 uint8_t hyst_status = 0;
 uint8_t databat = 0;
 extern uint8_t display_orientation;
+extern volatile uint8_t motor_direction;
 /* SSD1306 data buffer */
 static uint8_t SSD1306_Buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8] = {0};
 static uint8_t pixelBuffer[SSD1306_BUFFER_SIZE] = {0};
@@ -985,12 +987,12 @@ void show_motor_duty(void)
 		SSD1306_Putc('V', &Font_7x10, SSD1306_COLOR_WHITE);
 	}
 }
-void motor_show_direction(uint8_t direction)
+void motor_show_direction(void)
 {
 	if (display_orientation == DISPLAY_ORIENTATION_RIGHT)
 	{
 		SSD1306_GotoXY(MOTOR_DIRECTION_X, MOTOR_DIRECTION_Y);
-		if (direction)
+		if (motor_direction)
 		{
 			SSD1306_Putc('N', &Font_7x10, SSD1306_COLOR_WHITE);
 		}
@@ -999,10 +1001,11 @@ void motor_show_direction(uint8_t direction)
 			SSD1306_Putc('G', &Font_7x10, SSD1306_COLOR_WHITE);
 		}
 	}
+	
 	else
 	{
 		SSD1306_GotoXY(MOTOR_DIRECTION_X - SHIFT_X, MOTOR_DIRECTION_Y - SHIFT_Y);
-		if (direction)
+		if (motor_direction)
 		{
 			SSD1306_Putc('N', &Font_7x10, SSD1306_COLOR_WHITE);
 		}
@@ -1011,6 +1014,7 @@ void motor_show_direction(uint8_t direction)
 			SSD1306_Putc('G', &Font_7x10, SSD1306_COLOR_WHITE);
 		}
 	}
+	motor_direction_save(motor_direction);
 }
 void show_motor_speed(void)
 {

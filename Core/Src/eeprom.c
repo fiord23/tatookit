@@ -6,7 +6,7 @@
 extern I2C_HandleTypeDef hi2c3;
 extern uint8_t speed;
 extern uint8_t fw_version;
-extern uint8_t motor_direction;
+extern volatile uint8_t motor_direction;
 extern uint8_t display_orientation;
 uint8_t data_buff[AT24CXX_PAGE_BYTE];
 
@@ -213,17 +213,17 @@ void eeprom_fw_save(uint8_t value)
 /* MOTOR DIRECTION SAVE LOAD*/
 void motor_direction_init(void)
 {
-	uint8_t fw_reg[1] = {0};
-	 AT24Cxx_read(MOTOR_DIRECTION_PAGE, fw_reg, 1);
+	uint8_t reg[1] = {0};
+	 AT24Cxx_read(MOTOR_DIRECTION_PAGE, reg, 1);
 
-    if (fw_reg[0] == 0xFF)
+    if (reg[0] == 0xFF)
     {
         motor_direction = 0;
         AT24Cxx_write(MOTOR_DIRECTION_PAGE, &motor_direction, 1);
     }
     else
     {
-        motor_direction = fw_reg[0];
+        motor_direction = reg[0];
     }
 }
 

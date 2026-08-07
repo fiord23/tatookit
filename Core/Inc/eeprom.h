@@ -19,7 +19,7 @@ extern I2C_HandleTypeDef AT24CXX_I2C;
 
 #define EEPROM_PAGE_SPEED 1
 #define EEPROM_PAGE_FW 2
-#define MOTOR_DIRECTION_PAGE 3
+#define MOTOR_DIRECTION_PAGE 5
 #define DISPLAY_ORIENTATION_PAGE 4
 
 /*-----------------------Указываем тип памяти(нужное раcкомментировать)--------------------------------*/

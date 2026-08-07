@@ -120,5 +120,5 @@ void show_vbat(void);
 void show_motor_duty (void);
 void show_motor_speed (void);
 void show_time (void);
-void motor_show_direction (uint8_t direction);
+void motor_show_direction (void);
 #endif

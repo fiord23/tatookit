@@ -71,7 +71,7 @@ bool motor_init_flag = 0;
 bool sleep_status = 0;
 bool motor_speed_flag = 0;
 bool eeprom_write_speed = false;
-uint8_t display_orientation = true; // if true = right
+uint8_t display_orientation = 0; // if true = right
 uint16_t time_sleep = 0;
 uint8_t sec_to_min = 0;
 uint16_t counter_first_start = 0;
@@ -91,7 +91,7 @@ uint8_t data_eeprom_read[1] = {0};
 uint16_t mempage = 1;
 uint8_t eeprom_bytes = 1;
 uint8_t eeprom_test[1] = {0x77};
-uint8_t motor_direction = 0;
+volatile uint8_t motor_direction = 0;
 
 static uint8_t comboCount = 0;
 static uint32_t lastPressTime = 0;
@@ -320,8 +320,9 @@ int main(void)
   time_init();
 
   motor_direction_init();
-  motor_show_direction(motor_direction);
-  motor_direction_save(motor_direction);
+  motor_show_direction();
+  SSD1306_UpdateScreen();
+
   dac_data_send(993);
   HAL_Delay(10);
   dac_data_send(4000);
@@ -437,11 +438,10 @@ int main(void)
           {
             HAL_GPIO_TogglePin(GPIOA, PH_IN2_Pin);
             if (motor_direction == 0)
-            {
               motor_direction = 1;
-            }
-            else if(motor_direction == 1);
-            motor_direction = 0;
+            else 
+              motor_direction = 0;
+
             motor_direction_save(motor_direction);
             buttons_pressed = 2; // обработано, больше не выполняем
           }
@@ -454,7 +454,7 @@ int main(void)
         buttons_pressed = 0;
       }
 
-      motor_show_direction(HAL_GPIO_ReadPin(GPIOA, PH_IN2_Pin));
+      motor_show_direction();
       show_vbat();
       if (bug == 0)
         SSD1306_UpdateScreen();
