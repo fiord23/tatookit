@@ -128,8 +128,10 @@ void ShowVersion(void)
     strcpy(c_version_fw, "4.7");
     break;
   }
-
-  SSD1306_GotoXY(48, 8);
+  if (display_orientation == 0) 
+    SSD1306_GotoXY(40, 3); //shift 8 and 5 
+  else
+    SSD1306_GotoXY(48, 8);
   SSD1306_Puts(c_version_fw, &Font_16x26, SSD1306_COLOR_WHITE);
   SSD1306_UpdateScreen();
 }
@@ -225,7 +227,10 @@ int main(void)
   MX_SPI1_Init();
   adc_init();
   display_init();
-  display_demo();
+
+
+
+  
 
  // SSD1306_Fill(SSD1306_COLOR_BLACK);
   //SSD1306_UpdateScreen();
@@ -244,6 +249,8 @@ int main(void)
     SSD1306_UpdateScreen();
   }
 
+
+  display_demo();
   eeprom_fw_init();
   ShowVersion();
 
@@ -318,10 +325,12 @@ int main(void)
   HAL_Delay(50);
   display_test();
   time_init();
-
   motor_direction_init();
   motor_show_direction();
   SSD1306_UpdateScreen();
+  if (motor_direction == 1)
+  HAL_GPIO_WritePin(GPIOA, PH_IN2_Pin, GPIO_PIN_SET);
+            
 
   dac_data_send(993);
   HAL_Delay(10);
@@ -411,14 +420,12 @@ int main(void)
         motor_speed_flag = 0;
       }
       show_vbat();
-      // show_vbat();
       show_time();
       HAL_Delay(100);
       cycles++;
       if (cycles % 10 == 0)
       {
         cycles = 0;
-        // show_vbat();
         if (bug == 0)
           SSD1306_UpdateScreen();
       }
